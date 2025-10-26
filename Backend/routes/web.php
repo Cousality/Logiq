@@ -20,5 +20,5 @@ Route::get ('/login', function () {
     return view('Frontend.login');
 });
 Route::get ('/home', function () {
-    return view('/Frontend\home.html');
+    return view('Frontend.home');
 });
