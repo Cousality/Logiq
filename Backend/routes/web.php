@@ -22,3 +22,6 @@ Route::get ('/login', function () {
 Route::get ('/home', function () {
     return view('Frontend.home');
 });
+Route::get ('/basket', function () {
+    return view('Frontend.basket');
+});
