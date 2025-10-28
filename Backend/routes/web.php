@@ -22,3 +22,9 @@ Route::get ('/login', function () {
 Route::get ('/home', function () {
     return view('Frontend.home');
 });
+Route::get ('/signup', function () {
+    return view('Frontend.signup');
+});
+Route::get ('/forgot', function () {
+    return view('Frontend.forgot');
+});
