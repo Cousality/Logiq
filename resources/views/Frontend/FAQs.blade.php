@@ -10,79 +10,86 @@
             background-color: rgba(76, 32, 32, 1);
             margin: 0;
             padding: 0;
-            font-family: 'Inria Serif';
+            font-family: 'Inria Serif', serif;
+            color: white;
+        }
+
+        h1 {
+            font-size: 60px;
+            text-align: center;
+            margin-top: 40px;
         }
 
         .faq-container {
             max-width: 900px;
-            margin: 50px auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #310E0E;
-            font-size: 40px;
-            margin-bottom: 20px;
+            margin: 0 auto;
+            padding: 20px 40px;
         }
 
         .faq-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            overflow: hidden;
+            background: white;
+            color: #310E0E;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
         }
 
         .faq-question {
-            width: 100%;
-            text-align: left;
-            background: #f2f2f2;
-            padding: 15px;
-            font-size: 18px;
             font-weight: bold;
+            font-size: 22px;
             cursor: pointer;
-            border: none;
+            display: flex;
+            justify-content: space-between;
         }
 
         .faq-answer {
-            padding: 15px;
+            margin-top: 10px;
             display: none;
+            font-size: 18px;
+        }
+
+        /* Submit Question Form */
+        .form-section {
             background: white;
-            border-top: 1px solid #ddd;
-            font-size: 16px;
-        }
-
-        .submit-box {
+            color: #310E0E;
+            padding: 25px;
+            border-radius: 12px;
             margin-top: 40px;
-            padding: 20px;
-            background: #f7f7f7;
-            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
         }
 
-        .submit-box input, .submit-box textarea {
+        .form-section h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-section input,
+        .form-section textarea {
             width: 100%;
             padding: 10px;
+            font-size: 18px;
             margin-top: 10px;
-            border-radius: 6px;
+            border-radius: 8px;
             border: 1px solid #bbb;
-            font-size: 16px;
+            font-family: 'Inria Serif', serif;
         }
 
-        .submit-btn {
+        .form-section button {
             margin-top: 15px;
+            width: 100%;
+            padding: 12px;
             background: #310E0E;
             color: white;
-            padding: 12px 20px;
+            font-size: 20px;
             border: none;
+            border-radius: 10px;
             cursor: pointer;
-            border-radius: 6px;
-            font-size: 16px;
         }
 
-        .submit-btn:hover {
-            background: #562323;
+        .form-section button:hover {
+            background: #4A1818;
         }
     </style>
 
@@ -96,98 +103,94 @@
 
 <body>
 
-    <div class="faq-container">
+    {{-- NAVBAR --}}
+    @include('Frontend.components.navbar')
+
+    <main>
 
         <h1>Frequently Asked Questions</h1>
 
-        <!-- FAQ LIST -->
-        <!-- Each FAQ item adapted to match the About Us structure -->
+        <div class="faq-container">
 
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq1')">How do I place an order on LogIQ?</button>
-            <div class="faq-answer" id="faq1">
-                You can browse our puzzles, add items to your basket, and proceed to checkout where you’ll enter delivery and payment details.
+            {{-- FAQ ITEMS --}}
+            @php
+                $faqs = [
+                    [
+                        'q' => 'How do I place an order on LogIQ?',
+                        'a' => 'Browse our puzzles, add items to your basket, and proceed to checkout where you enter delivery and payment details.'
+                    ],
+                    [
+                        'q' => 'Do I need an account to make a purchase?',
+                        'a' => 'No, you can checkout as a guest. An account allows order tracking and wishlist saving.'
+                    ],
+                    [
+                        'q' => 'What payment methods do you accept?',
+                        'a' => 'We offer secure payments through PayPal, Visa, Mastercard, Apple Pay, and Google Pay.'
+                    ],
+                    [
+                        'q' => 'How long does delivery take?',
+                        'a' => 'Most orders arrive within 3–5 working days, depending on your location.'
+                    ],
+                    [
+                        'q' => 'Can I return or exchange an item?',
+                        'a' => 'Yes — items can be returned within 14 days in unused condition.'
+                    ],
+                    [
+                        'q' => 'What if an item arrives damaged?',
+                        'a' => 'Contact us immediately and we will replace it at no extra cost.'
+                    ],
+                    [
+                        'q' => 'Do you offer international shipping?',
+                        'a' => 'Currently we ship within the UK only.'
+                    ],
+                    [
+                        'q' => 'How can I contact customer support?',
+                        'a' => 'Through the contact form or by emailing support.'
+                    ],
+                    [
+                        'q' => 'Are your puzzles suitable for all ages?',
+                        'a' => 'Yes — we offer beginner, intermediate, and advanced puzzles for all ages.'
+                    ],
+                    [
+                        'q' => 'Do you restock sold-out puzzles?',
+                        'a' => 'Yes — restocks occur regularly. Add items to your wishlist for notifications.'
+                    ],
+                ];
+            @endphp
+
+            @foreach($faqs as $i => $faq)
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('faq{{ $i }}')">
+                        {{ $faq['q'] }}
+                        <span>+</span>
+                    </div>
+                    <div id="faq{{ $i }}" class="faq-answer">
+                        {{ $faq['a'] }}
+                    </div>
+                </div>
+            @endforeach
+
+            {{-- Submit Question Form --}}
+            <div class="form-section">
+                <h2>Still need help?</h2>
+                <p>If your question wasn’t answered above, submit your own below.</p>
+
+                <form onsubmit="alert('Your question has been received (demo).'); return false;">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+
+                    <textarea rows="4" placeholder="Your Question" required></textarea>
+
+                    <button type="submit">Submit Question</button>
+                </form>
             </div>
+
         </div>
 
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq2')">Do I need an account to make a purchase?</button>
-            <div class="faq-answer" id="faq2">
-                No — you can checkout as a guest. However, creating an account allows you to track past orders and save your wishlist.
-            </div>
-        </div>
+    </main>
 
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq3')">What payment methods do you accept?</button>
-            <div class="faq-answer" id="faq3">
-                We support secure payments via PayPal, Visa, Mastercard, Apple Pay, and Google Pay.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq4')">How long does delivery take?</button>
-            <div class="faq-answer" id="faq4">
-                Delivery times vary by location, but most orders arrive within 3–5 working days.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq5')">Can I return or exchange an item?</button>
-            <div class="faq-answer" id="faq5">
-                Items can be returned within 14 days if they are unused and in original condition.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq6')">What if my item arrives damaged?</button>
-            <div class="faq-answer" id="faq6">
-                Contact us immediately and we will replace the item at no additional cost.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq7')">Do you offer international shipping?</button>
-            <div class="faq-answer" id="faq7">
-                Currently we ship within the UK only, but international options may be added later.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq8')">Are your puzzles suitable for all ages?</button>
-            <div class="faq-answer" id="faq8">
-                Yes — we stock puzzles for beginners, children, adults, and advanced puzzlers.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq9')">Do you restock sold-out puzzles?</button>
-            <div class="faq-answer" id="faq9">
-                Yes — popular items are regularly restocked. You can add them to your wishlist for alerts.
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <button class="faq-question" onclick="toggleFAQ('faq10')">What should I do if I'm stuck on a puzzle?</button>
-            <div class="faq-answer" id="faq10">
-                Some puzzles include hints or solution guides. If yours doesn’t, contact us and we may provide additional help.
-            </div>
-        </div>
-
-        <!-- SUBMIT A QUESTION SECTION -->
-
-        <div class="submit-box">
-            <h2>Still need help?</h2>
-            <p>Submit a question and our team will get back to you.</p>
-
-            <form onsubmit="alert('Your question has been submitted!'); return false;">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <textarea placeholder="Your Question" rows="4" required></textarea>
-                <button class="submit-btn" type="submit">Submit</button>
-            </form>
-        </div>
-
-    </div>
+    {{-- FOOTER --}}
+    @include('Frontend.components.footer')
 
 </body>
 </html>

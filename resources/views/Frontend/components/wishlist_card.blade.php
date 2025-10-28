@@ -2,7 +2,7 @@
     <div class="wishlist-card">
         <div class="product-image">
             @if ($item->product->productImage)
-                <img src="{{ asset('storage/' . $item->product->productImage) }}" alt="{{ $item->product->productName }}">
+                <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}" style="height: 100%; width: 100%;">
             @else
                 Product Image
             @endif

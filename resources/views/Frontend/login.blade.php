@@ -17,8 +17,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px);
             background-color: #4A1F1F;
+            padding: 40px 0;
         }
 
 
@@ -85,7 +85,7 @@
             color: #555;
         }
 
-        input {
+        .form-group input {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -154,6 +154,14 @@
                     <label>Password</label>
                     <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
+                @if ($errors->has('credentials'))
+    <div class="error-message" style="
+        color: #b30000;
+        font-weight: 600;">
+        {{ $errors->first('credentials') }}
+    </div>
+@endif
+
 
                 <button type="submit" class="btn">Sign In</button>
                 <p class="signup">Not a member? <a href="/register">Sign up now</a></p>

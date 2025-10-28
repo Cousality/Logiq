@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Security</title>
+    <title>Login & Security - LOGIQ</title>
     
     <style>
          body {
@@ -20,21 +20,44 @@
             text-align: center;
         }
 
-        .address-wrapper {
+        h2 {
+            font-family: 'Inria Serif';
+            font-size: 40px;
+            color: #310E0E;
+            margin: 0 0 10px 0;
+        }
+        
+        .dashboard-layout {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0px 0px 30px;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        .address-container {
-            background: rgb(255, 255, 255);
-           display: flex;
-            padding: 40px;
+        .dashboard-content {
+            flex: 1;
+        }
+
+        .page-header {
+            background: white;
             border-radius: 15px;
-            width: 400px;
-            text-align: center;
-    
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+        .login_security_container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
     </style>
@@ -43,31 +66,16 @@
 
 <body>
     @include('Frontend.components.navbar')
+<main>
+<div class="dashboard-layout">
+        @include('Frontend.components.dashboard_sidebar')
 
-    <main>
-        <div>
-            <h1>Login & Security</h1>
-        </div>
-        
-        <div id="add_address">
-            <h1 id="your_address">Your Address</h1>
-            
-            <div class="address-wrapper">
-                <div class="address-container">
-                    <form method="POST">
-                        <div class="form-group">
-                            <label>Country/Region</label>
-                            <select name="Country/Region" required>
-                                <option value="England">England</option>
-                                <option value="Wales">Wales</option>
-                                <option value="Scotland">Scotland</option>
-                                <option value="Northen-ireland">Northern Ireland</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
+        <div class="dashboard-content">
+            <div class="page-header">
+                <h2 class="page-title">Login & Security</h2>
+                <p class="page-subtitle">Manage you name, email, phone number and password</p>
             </div>
-
+       
     </main>
 
 @include('Frontend.components.footer')

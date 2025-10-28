@@ -232,7 +232,7 @@
                         <div class="basket-card">
                             <div class="product-image">
                                 @if (!empty($item->product->productImage))
-                                    <img src="{{ asset('storage/' . $item->product->productImage) }}"
+                                    <img src="{{ $item->product->productImage }}"
                                          alt="{{ $item->product->productName }}"
                                          style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
@@ -315,7 +315,8 @@
             </div>
         @else
             <div class="empty-basket">
-                <p>Your basket is empty.</p>
+                <p>Your basket is empty :( </p>
+                <p>Go add some products!</p>
                 <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
             </div>
         @endif

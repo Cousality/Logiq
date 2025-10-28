@@ -32,9 +32,6 @@ class BasketController extends Controller
         return view('Frontend.basket', compact('basketItems'));
     }
 
-    /**
-     * Add product to basket.
-     */
     public function add(Request $request)
     {
         $request->validate([
@@ -45,7 +42,6 @@ class BasketController extends Controller
         $user = auth()->user();
         $quantity = $request->input('quantity', 1);
 
-        // Find or create user's basket
         $basket = Basket::firstOrCreate(
             [
                 'userID' => $user->userID,
@@ -58,7 +54,6 @@ class BasketController extends Controller
 
         $product = Product::findOrFail($request->productID);
 
-        // Find existing line or create new
         $item = BasketItem::firstOrNew([
             'orderID' => $basket->orderID,
             'productID' => $product->productID,
@@ -68,14 +63,9 @@ class BasketController extends Controller
         $item->priceAtTime = $product->productPrice;
         $item->save();
 
-        return redirect()
-            ->route('basket.index')
-            ->with('success', 'Item added to basket.');
+        return redirect()->route('store.index');
     }
 
-    /**
-     * Update quantity.
-     */
     public function update(Request $request, BasketItem $item)
     {
         $request->validate([
@@ -90,9 +80,6 @@ class BasketController extends Controller
             ->with('success', 'Basket updated.');
     }
 
-    /**
-     * Remove item.
-     */
     public function remove(BasketItem $item)
     {
         $item->delete();

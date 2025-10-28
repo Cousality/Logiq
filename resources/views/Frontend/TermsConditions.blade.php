@@ -42,7 +42,7 @@
             
         }
 
-        p {
+        .terms-section p {
             font-family: 'inria Serif';
             font-size: 20px;
             color: rgba(255, 255, 255, 100);
@@ -70,7 +70,7 @@
     <section id="Terms_conditions">
             <h1>Terms & Conditions</h1>
         
-        <div class="terms_conditions">
+        <div class="terms-section">
             <p>Welcome to LogIQ.
             By accessing or using our website, services, or applications, you agree to be bound by these Terms and Conditions.
             Please read them carefully before using our services.</p>
@@ -78,14 +78,14 @@
            
         </div>
         
-        <div class="eligibility">
+        <div class="terms-section">
             <h2>Eligibility</h2>
             <p>You must be at least 13 years old to use our services.
                 By using our platform, you confirm that you meet these requirements.</p>
             
         </div>
         
-        <div class="use of services">
+        <div class="terms-section">
             <h2>Use of Services</h2>
             <ul class="lists">
                 <li>You agree to use our services only for lawful purposes</li>
@@ -95,7 +95,7 @@
             </ul>
         </div>
         
-        <div class="intellectual property">
+        <div class="terms-section">
            
             <p>All content, trademarks, logos, and designs on our platform are owned by LogIQ, unless otherwise stated.
                  You may not copy, reproduce, or distribute our content without prior written consent.</p>
@@ -108,7 +108,7 @@
             </ul>
         </div>
         
-        <div class="payment">
+        <div class="terms-section">
             <h2>Payments & Subscriptions</h2>
         
             
@@ -125,7 +125,7 @@
             Any disputes will be subject to the exclusive jurisdiction of the courts in that region.</p>
         </div> 
         
-        <div class="changes to terms">
+        <div class="terms-section">
             <h2>Changes to Terms</h2>
             <p>We may update these Terms and Conditions from time to time. The latest version will always be available on our website.
                 Continued use of our services after changes means you accept the updated terms.
@@ -133,9 +133,9 @@
            
         </div>
         
-        <div class="contact us">
+        <div class="terms-section">
             <h2>Contact Us</h2>
-            <p>If you have any questions about Terms & Conditions, please <a class="links" href="contact_us">contact us</a>.</p>
+            <p>If you have any questions about Terms & Conditions, please <a class="links" href="customer_service">contact us</a>.</p>
             
              <p>Last Updated: 19/11/2025</p>
         </div>

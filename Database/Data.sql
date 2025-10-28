@@ -1,0 +1,30 @@
+INSERT INTO products (productName, productSlug, productCategory, productDifficulty, productPrice, productDescription, productImage, productQuantity, productStatus) VALUES
+    ('3x3 Rubik''s Cube', '3x3-rubiks-cube', 'Twist', 'medium', 7.99, 'A classic puzzling favourite with smooth turns and durable construction. The staple for every puzzle collection and a must-have for anyone who enjoys developing technique.', '/Images/3x3_rubiks_cube.png', 5, 'active'),
+    ('2x2 Rubik''s Cube', '2x2-rubiks-cube', 'Twist','easy', 6.50, 'Compact, fast and easy to pick up. Perfect for building skills or enjoying quick, casual solves.', '/Images/2x2_rubiks_cube.png', 5, 'active'),
+    ('5x5 Rubik''s Cube', '5x5-rubiks-cube', 'Twist','hard', 9.99, 'A step up in difficulty offering deeper strategy and more layers to master, compared to smaller cubes. Perfect for hobbyists ready for a more advanced challenge.', '/Images/5x5_rubiks_cube.png', 5, 'active'),
+    ('Pyraminx', 'pyraminx', 'Twist','medium', 5.99, 'A pyramid-shaped puzzle that is unique with fast, intuitive moves. Great for solvers who like something that breaks the standard cube mold.', '/Images/pyraminx.png', 5, 'active'),
+    ('Speedcube', 'speedcube', 'Twist','medium', 7.99, 'Built for serious solvers chasing personal bests. It has quick, stable turning and an anti-pop design.', '/Images/speedcube.png', 5, 'active'),
+
+    ('1000 Piece Eiffel Tower Jigsaw Puzzle', 'eiffel-tower-jigsaw', 'Jigsaw', 'hard', 9.99, 'A detailed scene of the Eiffel Tower. This 1000 piece jigsaw is perfect for experienced puzzle fans or for an enjoyable group activity. ', '/Images/eiffel_tower.png', 5, 'active'),
+    ('500 Piece London Eye Jigsaw Puzzle', 'london-eye-jigsaw', 'Jigsaw','medium', 7.99, 'A scenic London Eye view that offers a satisfying mid-level challenge, while also balancing relaxation.', '/Images/london_eye.png', 5, 'active'),
+    ('500 Piece Big Ben Jigsaw Puzzle', 'big-ben-jigsaw', 'Jigsaw','medium', 8.99, 'A classic image of Big Ben surrounded by the city atmosphere. The colours make the puzzle engaging without being overwhelming. ', '/Images/big_ben.png', 5, 'active'),
+    ('100 Piece Statue of Liberty Puzzle', 'statue-of-liberty-jigsaw', 'Jigsaw','easy', 5.99, 'A beginner-friendly puzzle showing the Statue of Liberty and its colourful surroundings.', '/Images/statueLiberty.png', 5, 'active'),
+    ('100 Piece Sphinx and Pyramid Jigsaw', 'sphinx-pyramid-jigsaw', 'Jigsaw','easy', 5.99, 'Features Egypt''s iconic ancient landmarks in a warm desert setting. This 100 piece puzzle is perfect for new puzzlers because of its straightforward shapes and colours.', '/Images/sphinx_pyramid.png', 5, 'active'),
+
+    ('100 Sudoku Puzzles', 'sudoku-word-number', 'Word&Number', 'hard', 9.99, 'A puzzle book containing a collection of challenging Sudoku grids designed to help expand problem-solving skills.', '/Images/sudoku.png', 5, 'active'),
+    ('40 Crossword Puzzles', 'crossword-word-number', 'Word&Number','medium', 7.50, 'A book of classic crossword challenged covering a range of themes and vocabulary.', '/Images/crossword.png', 5, 'active'),
+    ('Scrabble', 'scrabble-word-number', 'Word&Number','medium', 8.50, 'A classic competitive word-building board game focused on strategy, vocabulary and smarter tile placement.', '/Images/scrabble.png', 5, 'active'),
+    ('20 Word Search Puzzles', 'word-search-word-number', 'Word&Number','easy', 5.99, 'A compact set of themed word searches that are designed for quick, relaxed puzzle sessions.', '/Images/word_search.png', 5, 'active'),
+    ('80 Nonogram Puzzles', 'nonogram-word-number', 'Word&Number','medium', 8.99, 'A grid-based logic puzzle perfect for anyone who enjoys visual logic challenges and a steady problem-solving puzzle experience.', '/Images/nonogram.png', 5, 'active'),
+
+    ('Cluedo Board Game', 'cluedo-board-game', 'boardGames', 'medium', 7.50, 'A group detective game, a perfect way to get together. This is a puzzle that requires observation and smart questioning.', '/Images/cluedo.png', 5, 'active'),
+    ('Ludo Board Game', 'ludo-board-game', 'boardGames', 'easy', 6.00, 'A game based on smart movement decisions. Players must get all their pieces around the board based on dice rolls, aiming to reach home first.', '/Images/ludo.png', 5, 'active'),
+    ('Monopoly Board Game', 'monopoly-board-game', 'boardGames','medium', 8.99, 'A property management game where players buy locations and try to push rivals into bankruptcy.', '/Images/monopoly.png', 5, 'active'),
+    ('Chess Board Game', 'chess-board-game', 'boardGames','hard', 6.99, 'A timeless two-player strategy game centred on planning, tactics and outthinking your opponent.', '/Images/chess.png', 5, 'active'),
+    ('Checkers Board Game', 'checkers-board-game', 'boardGames','hard', 7.99, 'A simple, tactical board game where players jump and capture pieces to dominate the board.', '/Images/checkers.png', 5, 'active'),
+
+    ('Wooden Burr Puzzle', 'wooden-burr-puzzle', 'HandheldBrainTeasers', 'hard', 8.99, 'A wooden 3D interlocking puzzle that challenges players to assemble the pieces in the right order.', '/Images/burr_puzzle.png', 5, 'active'),
+    ('Soma Cube', 'soma-cube', 'HandheldBrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
+    ('Snake Twist Puzzle', 'snake-twist-puzzle', 'HandheldBrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
+    ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'HandheldBrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
+    ('Metal Disentanglement Puzzle', 'metal-disentanglement-puzzle', 'HandheldBrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');

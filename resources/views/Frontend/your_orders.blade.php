@@ -151,6 +151,7 @@
 
         .order-items {
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
             margin-bottom: 15px;
         }
@@ -275,64 +276,73 @@
                             onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'exchanges']) }}'">Exchanges</button>
                 </div>
 
-                @foreach($orders as $order)
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div class="order-info">
-                                <div class="order-info-item">
-                                    ORDER PLACED
-                                    <span>{{ $order->orderDate->format('d M Y') }}</span>
-                                </div>
-                                <div class="order-info-item">
-                                    TOTAL
-                                    <span>£{{ number_format($order->totalAmount, 2) }}</span>
-                                </div>
-                                <div class="order-info-item">
-                                    ORDER ID
-                                    <span>#{{ str_pad($order->orderID, 6, '0', STR_PAD_LEFT) }}</span>
-                                </div>
-                            </div>
-                            <span class="order-status {{ $order->orderStatus }}">{{ ucfirst($order->orderStatus) }}</span>
-                        </div>
-
-                        <div class="order-items">
-                            @foreach($order->orderItems as $item)
-                                <div class="order-item">
-                                    <div class="item-image">
-                                        @if($item->product && $item->product->productImage)
-                                            <img src="{{ asset($item->product->productImage) }}" 
-                                                 alt="{{ $item->product->productName }}" 
-                                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-                                        @else
-                                            Product Image
-                                        @endif
-                                    </div>
-                                    <div class="item-details">
-                                        <div class="item-name">{{ $item->product->productName }}</div>
-                                        <div class="item-meta">Quantity: {{ $item->quantity }} | £{{ number_format($item->priceAtTime, 2) }}</div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="order-actions">
-                            @if($order->orderStatus != 'cancelled' && $order->orderStatus != 'delivered')
-                                <button class="action-button primary">Track Order</button>
-                            @endif
-                            <button class="action-button">View Details</button>
-                            @if($order->orderStatus == 'delivered')
-                                <button class="action-button">Request Exchange</button>
-                            @endif
-                            @if($order->orderStatus == 'pending' || $order->orderStatus == 'processing')
-                                <button class="action-button">Cancel Order</button>
-                            @endif
-                        </div>
-                    </div>
-                @endforeach
+                @forelse($orders as $order)
+    <div class="order-card">
+        <div class="order-header">
+            <div class="order-info">
+                <div class="order-info-item">
+                    ORDER PLACED
+                    <span>{{ $order->orderDate->format('d M Y') }}</span>
+                </div>
+                <div class="order-info-item">
+                    TOTAL
+                    <span>£{{ number_format($order->totalAmount, 2) }}</span>
+                </div>
+                <div class="order-info-item">
+                    ORDER ID
+                    <span>#{{ str_pad($order->orderID, 6, '0', STR_PAD_LEFT) }}</span>
+                </div>
             </div>
-        </main>
+            <span class="order-status {{ $order->orderStatus }}">
+                {{ ucfirst($order->orderStatus) }}
+            </span>
+        </div>
+
+        <div class="order-items">
+            @foreach($order->orderItems as $item)
+                <div class="order-item">
+                    <div class="item-image">
+                        @if($item->product && $item->product->productImage)
+                            <img src="{{ asset($item->product->productImage) }}"
+                                 alt="{{ $item->product->productName }}"
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                        @else
+                            Product Image
+                        @endif
+                    </div>
+                    <div class="item-details">
+                        <div class="item-name">{{ $item->product->productName }}</div>
+                        <div class="item-meta">Quantity: {{ $item->quantity }} | £{{ number_format($item->priceAtTime, 2) }}</div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="order-actions">
+            @if($order->orderStatus != 'cancelled' && $order->orderStatus != 'delivered')
+                <button class="action-button primary">Track Order</button>
+            @endif
+
+            <button class="action-button">View Details</button>
+
+            @if($order->orderStatus == 'delivered')
+                <button class="action-button">Request Exchange</button>
+            @endif
+
+            @if($order->orderStatus == 'pending' || $order->orderStatus == 'processing')
+                <button class="action-button">Cancel Order</button>
+            @endif
+        </div>
     </div>
 
+@empty
+    {{-- EMPTY STATE MESSAGE --}}
+    <div class="empty-orders" style="text-align:center; padding: 50px 0; color:#777;">
+        <h3>No orders found :(</h3>
+        <p>There are no orders in this category yet.</p>
+        <p> What are you doing here? Go order!</p>
+    </div>
+@endforelse
     @include('Frontend.components.footer')
 </body>
 

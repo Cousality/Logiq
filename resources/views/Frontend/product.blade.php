@@ -9,6 +9,17 @@
             background-color: #4A1F1F;
         }
 
+        .product-name {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4em;
+            min-height: 2.8em;
+            margin-bottom: 0.5rem;
+        }
+
         .product-container {
             max-width: 1200px;
             margin: 40px auto;
@@ -65,6 +76,7 @@
             font-size: 28px;
             color: #4A1F1F;
             font-weight: 600;
+            margin-top: auto;
         }
 
         .product-description {
@@ -79,7 +91,14 @@
             margin-top: 20px;
         }
 
-        .btn-add-to-cart {
+        .product-card-buttons {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .add-to-basket {
             flex: 1;
             padding: 15px 30px;
             background-color: #310E0E;
@@ -91,12 +110,13 @@
             transition: background-color 0.3s;
         }
 
-        .btn-add-to-cart:hover {
+        .add-to-basket:hover {
             background-color: #4A1F1F;
         }
 
-        .btn-wishlist {
-            padding: 15px 30px;
+        .add-to-wishlist {
+            flex: 1;
+            padding: 13px 30px;
             background-color: transparent;
             color: #310E0E;
             border: 2px solid #310E0E;
@@ -106,7 +126,7 @@
             transition: all 0.3s;
         }
 
-        .btn-wishlist:hover {
+        .add-to-wishlist:hover {
             background-color: #310E0E;
             color: white;
         }
@@ -141,39 +161,63 @@
     <div class="product-container">
         <div class="product-image-container">
             <div class="product-image">
-                Product Image
+                @if ($product->productImage)
+                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}"
+                        style="height: 100%; width: 100%;">
+                @else
+                    Product Image
+                @endif
             </div>
         </div>
 
         <div class="product-info-container">
             <div class="product-details-section">
-                <h1 class="product-title">PlaceHolder Product Title</h1>
+                <h1 class="product-title">{{ $product->productName }}</h1>
 
-                <div class="product-price">£ Place holder</div>
+                <div class="product-price">£{{ number_format($product->productPrice, 2) }}</div>
 
                 <div class="product-description">
-                    <p>Placeholdder product description</p>
+                    <p>{{ $product->productDescription }}</p>
                 </div>
 
                 <div class="product-actions">
-                    <button class="btn-add-to-cart">Add to Cart</button>
-                    <button class="btn-wishlist">Wishlist</button>
+                    <form action="{{ route('basket.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+                        @csrf
+                        <input type="hidden" name="productID" value="{{ $product->productID }}">
+
+                        <button type="submit" class="add-to-basket">
+                            Add to Basket
+                        </button>
+                    </form>
+                    <form action="{{ route('wishlist.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+                        @csrf
+                        <input type="hidden" name="productID" value="{{ $product->productID }}">
+
+                        <button type="submit" class="add-to-wishlist">
+                            Wishlist
+                        </button>
+                    </form>
                 </div>
 
-                <div class="product-info">
-                    <div class="info-row">
-                        <span class="info-label">ID:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Availability:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Category:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
+                <div class="info-row">
+                    <span class="info-label">Availability:</span>
+                    <span class="info-value">
+                        @if ($product->productQuantity > 0)
+                            <span class="badge badge-success">In Stock ({{ $product->productQuantity }})</span>
+                        @else
+                            <span class="badge badge-danger">Out of Stock</span>
+                        @endif
+                    </span>
                 </div>
+                <div class="info-row">
+                    <span class="info-label">Category:</span>
+                    <span class="info-value">{{ ucfirst($product->productCategory) }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Difficulty:</span>
+                    <span class="info-value">{{ ucfirst($product->productDifficulty) }}</span>
+                </div>
+
             </div>
         </div>
     </div>
