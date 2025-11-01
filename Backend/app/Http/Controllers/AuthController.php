@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-class RegisterController extends Controller
+class AuthController extends Controller
 {
     public function showRegisterForm()
     {
@@ -33,5 +33,29 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
+    }
+
+    public function showLoginForm()
+    {
+        return view('Frontend.login');
+    }
+
+    public function login(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+
+        if (Auth::attempt($validated)){
+            $request->session()->regenerate();
+            
+            return redirect()->route('home');
+        }
+
+        throw ValidationException::withMessages([
+            'credentials' => 'Incorrect credentials'
+        ]);
     }
 }

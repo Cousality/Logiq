@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login - LOGIQ</title>
     <style>
         * {
@@ -129,7 +130,8 @@
             <a href="#" class="google">Google</a>
         </div>
 
-        <form method="POST" action="">
+         <form method="POST" action="{{ route('login.submit') }}">
+            @csrf
             <div class="form-group">
                 <label>Username</label>
                 <a href="#" class="forgot">Forgot?</a>
