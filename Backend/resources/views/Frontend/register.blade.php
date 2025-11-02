@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - LOGIQ</title>
+    <title>Register - LOGIQ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,7 +15,7 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            background-color: #4A1F1F; /* LOGIQ dark maroon */
+            background-color: #4A1F1F;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -83,6 +83,12 @@
             font-size: 14px;
         }
 
+        .error {
+            color: #e74c3c;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
         .forgot {
             font-size: 13px;
             color: #4A1F1F;
@@ -116,35 +122,88 @@
             text-decoration: none;
             font-weight: 500;
         }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
 
     <div class="login-container">
         <div class="logo">
-            <img src="Images\logo.png" alt="LOGIQ Logo">
+            <img src="{{ asset('Images/logo.png') }}" alt="LOGIQ Logo">
         </div>
-        <h2>Sign In With</h2>
-        <div class="social-buttons">
-            <a href="#" class="facebook">Facebook</a>
-            <a href="#" class="google">Google</a>
-        </div>
+        <h2>Register</h2>
 
-         <form method="POST" action="{{ route('login.submit') }}">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul style="margin: 0; padding-left: 20px;">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+      
+        <form method="POST" action="{{ route('register.submit') }}">
             @csrf
+            
             <div class="form-group">
-                <label>Username</label>
-                <a href="#" class="forgot">Forgot?</a>
-                <input type="text" name="email" placeholder="Enter your email" required>
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" required>
+                @error('email')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>First name</label>
+                <input type="text" name="fname" placeholder="Enter your first name" value="{{ old('fname') }}" required>
+                @error('fname')
+                    <div class="error">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Last name</label>
+                <input type="text" name="lname" placeholder="Enter your last name" value="{{ old('lname') }}" required>
+                @error('lname')
+                    <div class="error">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Enter your password" required>
+                @error('password')
+                    <div class="error">{{ $message }}</div>
+                @enderror
             </div>
 
-            <button type="submit" class="btn">Sign In</button>
-            <p class="signup">Not a member? <a href="#">Sign up now</a></p>
+            <button type="submit" class="btn">Register</button>
+            
         </form>
     </div>
 
