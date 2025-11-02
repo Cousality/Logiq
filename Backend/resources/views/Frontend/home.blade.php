@@ -17,14 +17,6 @@
       font-size: 20px;
     }
 
-    .white_text {
-      color: rgb(255);
-    }
-
-    .burgundy_text {
-      color: rgb(148, 74, 74, 100)
-    }
-
     .logo img {
       width: 250px;
     }
