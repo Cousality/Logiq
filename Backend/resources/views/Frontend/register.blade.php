@@ -11,16 +11,7 @@
             font-family: "Poppins", sans-serif;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background-color: #4A1F1F;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
+       
         .login-container {
             background: #fff;
             padding: 40px;
@@ -144,7 +135,7 @@
     </style>
 </head>
 <body>
-
+    @include('Frontend.components.navbar')
     <div class="login-container">
         <div class="logo">
             <img src="{{ asset('Images/logo.png') }}" alt="LOGIQ Logo">
