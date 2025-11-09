@@ -27,4 +27,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', function () {
     return view('Frontend.home');
 })->name('home');
+Route::get('/store', function () {
+    return view('Frontend.store');
+})->name('store');
+
 
