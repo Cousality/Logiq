@@ -36,7 +36,33 @@
 
         .icon:hover {
             background: rgba(255, 255, 255, 1);
-            }
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 1;
+            background-color: rgba(49, 14, 14, 1);
+            min-width: 160px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 12px 12px;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(76, 32, 32, 1);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
 
     </style>
     <header id="main-header">
@@ -46,7 +72,17 @@
         
         <nav>
             <a class="icon" href="search"><img src="Images\search_icon.png" alt="search"></a>
-            <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
+             <div class="dropdown">
+                <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
+                <div class="dropdown-content">
+                    <a href="profile">Profile</a>
+                    <form action="{{ route('logout') }}" method = "POST">
+                        @csrf
+                        <button class="btn">logout</button>
+                    </form>
+                    
+                </div>
+            </div>
             <a class="icon" href="favourites"><img src="Images\favourites_icon.png" alt="favourites"></a>
             <a class="icon" href="basket"><img src="Images\basket_icon.png" alt="basket"></a>
         </nav>

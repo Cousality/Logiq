@@ -16,6 +16,7 @@ CREATE TABLE products (
     productCategory VARCHAR(100) NOT NULL,
     productPrice DECIMAL(10, 2) NOT NULL,
     productDescription TEXT NOT NULL,
+    proudctImage VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_category (productCategory),
