@@ -125,7 +125,7 @@
             @csrf
             <div class="form-group">
                 <label>Username</label>
-                <a href="#" class="forgot">Forgot?</a>
+                <a href="/forgot-password" class="forgot">Forgot?</a>
                 <input type="text" name="email" placeholder="Enter your email" required>
             </div>
 

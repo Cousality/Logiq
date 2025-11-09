@@ -27,3 +27,10 @@ Route::get('/', function () {
     return view('Frontend.home');
 })->name('home');
 
+Route::get('/forgot-password', function () {
+    return view('Frontend.forgot_password');
+});
+
+Route::post('/send-reset-link', function () {
+    return back()->with('message', 'Reset link sent (demo)');
+});
