@@ -1,12 +1,153 @@
- <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>logIQ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - LOGIQ</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #4A1F1F; /* LOGIQ dark maroon */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signup-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            width: 380px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 25px;
+        }
+
+        .logo img {
+            width: 120px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .social-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .social-buttons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48%;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .facebook { background: #3b5998; }
+        .google { background: #db4437; }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: #4A1F1F;
+            color: #fff;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #3b1919;
+        }
+
+        .login {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login a {
+            color: #4A1F1F;
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
 
-<h1>This is a beding</h1>
-<p>This is a paragraph.</p>
+    <div class="signup-container">
+        <div class="logo">
+            <img src="Images\logo.png" alt="LOGIQ Logo">
+        </div>
+        <h2>Create Account</h2>
+        <div class="social-buttons">
+            <a href="#" class="facebook">Facebook</a>
+            <a href="#" class="google">Google</a>
+        </div>
+
+        <form method="POST" action="">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="fullname" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a password" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password" placeholder="Confirm your password" required>
+            </div>
+
+            <button type="submit" class="btn">Sign Up</button>
+            <p class="login">Already a member? <a href="index.html">Sign in now</a></p>
+        </form>
+    </div>
 
 </body>
-</html> 
+</html>
