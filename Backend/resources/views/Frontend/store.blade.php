@@ -87,4 +87,5 @@
             </aside>
     </div>
 </body>
+@include('Frontend.components.footer')
 </html>
