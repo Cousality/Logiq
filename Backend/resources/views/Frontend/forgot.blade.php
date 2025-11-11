@@ -112,7 +112,7 @@
             </div>
 
             <button type="submit" class="btn">Send Reset Link</button>
-            <p class="back-to-login">Remember your password? <a href="index.html">Sign in now</a></p>
+            <p class="back-to-login">Remember your password? <a href="login">Sign in now</a></p>
         </form>
     </div>
 

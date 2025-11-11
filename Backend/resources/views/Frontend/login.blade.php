@@ -132,7 +132,7 @@
         <form method="POST" action="">
             <div class="form-group">
                 <label>Username</label>
-                <a href="#" class="forgot">Forgot?</a>
+                <a href="forgot" class="forgot">Forgot?</a>
                 <input type="text" name="email" placeholder="Enter your email" required>
             </div>
 
@@ -142,7 +142,7 @@
             </div>
 
             <button type="submit" class="btn">Sign In</button>
-            <p class="signup">Not a member? <a href="#">Sign up now</a></p>
+            <p class="signup">Not a member? <a href="signup">Sign up now</a></p>
         </form>
     </div>
 
