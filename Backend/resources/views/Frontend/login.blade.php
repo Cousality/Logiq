@@ -146,7 +146,7 @@
                 </div>
 
                 <button type="submit" class="btn">Sign In</button>
-                <p class="signup">Not a member? <a href="#">Sign up now</a></p>
+                <p class="signup">Not a member? <a href="/register">Sign up now</a></p>
             </form>
         </div>
     </div>    
