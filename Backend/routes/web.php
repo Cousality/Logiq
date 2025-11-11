@@ -39,3 +39,6 @@ Route::get('/forgot-password', function () {
 Route::post('/send-reset-link', function () {
     return back()->with('message', 'Reset link sent (demo)');
 });
+Route::get ('/basket', function () {
+    return view('Frontend.basket');
+});
