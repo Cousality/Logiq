@@ -42,3 +42,6 @@ Route::post('/send-reset-link', function () {
 Route::get ('/basket', function () {
     return view('Frontend.basket');
 });
+Route::get ('/wishlist', function () {
+    return view('Frontend.wishlist');
+});
