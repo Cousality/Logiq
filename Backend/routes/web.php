@@ -43,7 +43,7 @@ Route::post('/send-reset-link', function () {
 Route::get('/test', function () {
     return view('test');
 });
-Route::get('/aboutus', function () {
-    return view('Frontend.aboutus');
-})->name('aboutus');
+Route::get('/about_us', function () {
+    return view('Frontend.about_us');
+})->name('about_us');
 
