@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,20 +18,19 @@ use App\Http\Controllers\AuthController;
 Route::get ('/welcome', function () {
     return view('welcome');
 }); 
-
+#Authentication 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/login', [AuthController::class, 'showloginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+#Store Controller
+Route::get('/store', [StoreController::class, 'index'])->name('store.index');
+
 Route::get('/', function () {
     return view('Frontend.home');
 })->name('home');
-Route::get('/store', function () {
-    return view('Frontend.store');
-})->name('store');
-
 
 Route::get('/forgot-password', function () {
     return view('Frontend.forgot_password');
@@ -43,9 +43,6 @@ Route::get ('/basket', function () {
     return view('Frontend.basket');
 });
 
-Route::get('/test', function () {
-    return view('test');
-});
 Route::get('/about_us', function () {
     return view('Frontend.about_us');
 })->name('about_us');

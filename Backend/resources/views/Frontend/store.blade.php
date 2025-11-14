@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <style>
         .content-wrapper {
@@ -8,16 +9,18 @@
             max-width: 1400px;
             margin: 0 auto;
         }
+
         .sidebar {
             flex: 0 0 200px;
             background: white;
             padding: 1.5rem;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             height: fit-content;
-        }       
+        }
+
         .sidebar h2 {
-            color: #32174d;
+            color: #310E0E;
             margin-top: 0;
             margin-bottom: 1rem;
             font-size: 1.2rem;
@@ -39,53 +42,131 @@
         .filter-option input[type="checkbox"] {
             cursor: pointer;
         }
+
+        .products-container {
+            flex: 1;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #310E0E;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-basket {
+            width: 100%;
+            padding: 0.75rem;
+            background: #310E0E;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .add-to-basket:hover {
+            background: #562323;
+        }
     </style>
 </head>
-<body>
-@include('Frontend.components.navbar')
 
- <div class="content-wrapper">
-            <aside class="sidebar">
-                <h2>Filter by Category</h2>
-                <div class="filter-options">
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="Twist">
-                        Twist Puzzle
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="Jigsaw">
-                        Jigsaws
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="WordandNumber">
-                        Word and Number
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="Board">
-                        Board Games
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="BrainTeaser">
-                        Handheld Brain Teasers
-                    </label>
-                </div>
-                <h2>Filter by Difficulty</h2>
-                <div class="filter-options">
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="Twist">
-                        Easy
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="Jigsaw">
-                        Medium
-                    </label>
-                    <label class="filter-option">
-                        <input type="checkbox" name="puzzle" value="WordandNumber">
-                        Hard
-                    </label>
-                </div>
-            </aside>
+<body>
+    @include('Frontend.components.navbar')
+
+    <div class="content-wrapper">
+        <aside class="sidebar">
+            <h2>Filter by Category</h2>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="Twist">
+                    Twist Puzzle
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="Jigsaw">
+                    Jigsaws
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="WordandNumber">
+                    Word and Number
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="Board">
+                    Board Games
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="BrainTeaser">
+                    Handheld Brain Teasers
+                </label>
+            </div>
+            <h2>Filter by Difficulty</h2>
+            <div class="filter-options">
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="Twist">
+                    Easy
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="Jigsaw">
+                    Medium
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="puzzle" value="WordandNumber">
+                    Hard
+                </label>
+            </div>
+        </aside>
+
+        <div class="products-container">
+            <div class="products-grid">
+                @include('Frontend.components.product_card')
+            </div>
+        </div>
     </div>
+
+
 </body>
 @include('Frontend.components.footer')
+
 </html>

@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->foreign(['userID'], 'reviews_ibfk_1')->references(['userID'])->on('users')->onDelete('CASCADE');
             $table->foreign(['productID'], 'reviews_ibfk_2')->references(['productID'])->on('products')->onDelete('CASCADE');
+            $table->foreign(['userID'], 'reviews_ibfk_1')->references(['userID'])->on('users')->onDelete('CASCADE');
         });
     }
 
@@ -27,8 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->dropForeign('reviews_ibfk_1');
             $table->dropForeign('reviews_ibfk_2');
+            $table->dropForeign('reviews_ibfk_1');
         });
     }
 };

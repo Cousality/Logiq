@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('orderItemID', true);
             $table->integer('orderID')->index('idx_order');
             $table->integer('productID')->index('idx_product');
-            $table->unsignedInteger('quantity');
+            $table->integer('quantity');
             $table->decimal('priceAtTime');
             $table->timestamp('created_at')->useCurrent();
         });

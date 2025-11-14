@@ -76,6 +76,8 @@
                 <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
                 <div class="dropdown-content">
                     <a href="profile">Profile</a>
+                    <a href="profile">Account Details</a>
+                    <a href="profile">Your Orders</a>
                     <form action="{{ route('logout') }}" method = "POST">
                         @csrf
                         <button class="btn">logout</button>
