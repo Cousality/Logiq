@@ -39,3 +39,11 @@ Route::get('/forgot-password', function () {
 Route::post('/send-reset-link', function () {
     return back()->with('message', 'Reset link sent (demo)');
 });
+
+Route::get('/test', function () {
+    return view('test');
+});
+Route::get('/aboutus', function () {
+    return view('Frontend.aboutus');
+})->name('aboutus');
+
