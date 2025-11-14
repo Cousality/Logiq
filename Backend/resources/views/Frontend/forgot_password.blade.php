@@ -11,18 +11,18 @@
             font-family: "Poppins", sans-serif;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background-color: #4A1F1F;
+
+
+        .forgot-wrapper {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: calc(100vh - 100px); 
+            background-color: #4A1F1F; 
         }
 
         .forgot-container {
+            align-items: center;
             margin-top: 80px;
             background: #fff;
             padding: 40px;
@@ -86,10 +86,13 @@
             font-weight: 500;
         }
     </style>
+
 </head>
 <body>
     @include('Frontend.components.navbar')
 
+    <main>
+    <div class="forgot-wrapper">
     <div class="forgot-container">
         <div class="logo">
             <img src="Images/logo.png" alt="LOGIQ Logo">
@@ -106,5 +109,9 @@
 
         <a href="/login" class="back">Back to Login</a>
     </div>
+    </div>
+    </main>
+    @include('Frontend.components.footer')
+
 </body>
 </html>

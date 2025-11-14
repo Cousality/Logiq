@@ -12,6 +12,16 @@
         }
 
         
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 100px); 
+            background-color: #4A1F1F; 
+        }
+
+
+        
         .login-container {
             background: #fff;
             padding: 40px;
@@ -111,33 +121,35 @@
 </head>
 <body>
     @include('Frontend.components.navbar')
-    <div class="login-container">
-        <div class="logo">
-            <img src="Images\logo.png" alt="LOGIQ Logo">
-        </div>
-        <h2>Sign In With</h2>
-        <div class="social-buttons">
-            <a href="#" class="facebook">Facebook</a>
-            <a href="#" class="google">Google</a>
-        </div>
-
-         <form method="POST" action="{{ route('login.submit') }}">
-            @csrf
-            <div class="form-group">
-                <label>Username</label>
-                <a href="/forgot-password" class="forgot">Forgot?</a>
-                <input type="text" name="email" placeholder="Enter your email" required>
+    <div class="login-wrapper">    
+        <div class="login-container">
+            <div class="logo">
+                <img src="Images\logo.png" alt="LOGIQ Logo">
+            </div>
+            <h2>Sign In With</h2>
+            <div class="social-buttons">
+                <a href="#" class="facebook">Facebook</a>
+                <a href="#" class="google">Google</a>
             </div>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" name="password" placeholder="Enter your password" required>
-            </div>
+            <form method="POST" action="{{ route('login.submit') }}">
+                @csrf
+                <div class="form-group">
+                    <label>Username</label>
+                    <a href="/forgot-password" class="forgot">Forgot?</a>
+                    <input type="text" name="email" placeholder="Enter your email" required>
+                </div>
 
-            <button type="submit" class="btn">Sign In</button>
-            <p class="signup">Not a member? <a href="#">Sign up now</a></p>
-        </form>
-    </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
 
+                <button type="submit" class="btn">Sign In</button>
+                <p class="signup">Not a member? <a href="/register">Sign up now</a></p>
+            </form>
+        </div>
+    </div>    
 </body>
+@include('Frontend.components.footer')
 </html>

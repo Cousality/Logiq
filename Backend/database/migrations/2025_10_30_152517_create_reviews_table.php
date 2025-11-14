@@ -17,14 +17,14 @@ return new class extends Migration
             $table->integer('reviewID', true);
             $table->integer('userID')->index('idx_user_review');
             $table->integer('productID');
-            $table->integer('rating');
+            $table->unsignedTinyInteger('rating');
             $table->string('reviewTitle', 100)->nullable();
             $table->text('reviewText')->nullable();
-            $table->timestamp('reviewDate')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
 
             $table->index(['productID', 'rating'], 'idx_product_rating');
+            $table->check('rating >= 1 AND rating <= 5');
         });
     }
 
