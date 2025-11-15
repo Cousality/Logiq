@@ -3,12 +3,28 @@ CREATE TABLE users (
     firstName VARCHAR(50) NOT NULL,
     lastName VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    phone VARCHAR(17),
     password VARCHAR(255) NOT NULL,
     admin BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE addresses (
+    addressID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT NOT NULL,
+    recipientFirstName VARCHAR(50) NOT NULL,
+    recipientLastName VARCHAR(50) NOT NULL,
+    phone VARCHAR(20),  
+    addressLine1 VARCHAR(255) NOT NULL,
+    addressLine2 VARCHAR(255),
+    city VARCHAR(100) NOT NULL,
+    postCode VARCHAR(20) NOT NULL,
+    isDefault BOOLEAN NOT NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
+    INDEX idx_user_address (userID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE products (
     productID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -33,9 +49,10 @@ CREATE TABLE orders (
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     orderStatus ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'pending',
     totalAmount DECIMAL(10, 2) NOT NULL,
-    shippingAddress TEXT NOT NULL,
+    addressID TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (addressID) REFERENCES addresses(addressID) ON DELETE SET NULL,
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
     INDEX idx_user_order (userID),
     INDEX idx_order_status (orderStatus)
