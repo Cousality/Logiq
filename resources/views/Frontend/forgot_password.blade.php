@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +18,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px); 
-            background-color: #4A1F1F; 
+            height: calc(100vh - 100px);
+            background-color: #4A1F1F;
         }
 
         .forgot-container {
@@ -28,7 +29,7 @@
             padding: 40px;
             border-radius: 15px;
             width: 380px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
@@ -88,30 +89,32 @@
     </style>
 
 </head>
+
 <body>
     @include('Frontend.components.navbar')
 
     <main>
-    <div class="forgot-wrapper">
-    <div class="forgot-container">
-        <div class="logo">
-            <img src="Images/logo.png" alt="LOGIQ Logo">
+        <div class="forgot-wrapper">
+            <div class="forgot-container">
+                <div class="logo">
+                    <img src="Images/logo.png" alt="LOGIQ Logo">
+                </div>
+
+                <h2>Forgot Password?</h2>
+                <p>Enter your email address to receive a password reset link.</p>
+
+                <form method="POST" action="#">
+                    @csrf
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                    <button type="submit" class="btn">Send Reset Link</button>
+                </form>
+
+                <a href="/login" class="back">Back to Login</a>
+            </div>
         </div>
-
-        <h2>Forgot Password?</h2>
-        <p>Enter your email address to receive a password reset link.</p>
-
-        <form method="POST" action="#">
-            @csrf
-            <input type="email" name="email" placeholder="Enter your email" required>
-            <button type="submit" class="btn">Send Reset Link</button>
-        </form>
-
-        <a href="/login" class="back">Back to Login</a>
-    </div>
-    </div>
     </main>
     @include('Frontend.components.footer')
 
 </body>
+
 </html>

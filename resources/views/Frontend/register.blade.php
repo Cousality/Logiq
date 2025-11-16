@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,17 +16,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px); 
-            background-color: #4A1F1F; 
+            height: calc(100vh - 100px);
+            background-color: #4A1F1F;
         }
 
-       
+
         .login-container {
             background: #fff;
             padding: 40px;
             border-radius: 15px;
             width: 380px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
@@ -60,8 +61,13 @@
             font-weight: 500;
         }
 
-        .facebook { background: #3b5998; }
-        .google { background: #db4437; }
+        .facebook {
+            background: #3b5998;
+        }
+
+        .google {
+            background: #db4437;
+        }
 
         .form-group {
             text-align: left;
@@ -142,6 +148,7 @@
         }
     </style>
 </head>
+
 <body>
     @include('Frontend.components.navbar')
     <div class = "login-wrapper">
@@ -151,28 +158,29 @@
             </div>
             <h2>Register</h2>
 
-            @if(session('success'))
+            @if (session('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
                 </div>
             @endif
 
-            @if($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul style="margin: 0; padding-left: 20px;">
-                        @foreach($errors->all() as $error)
+                        @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
-        
+
             <form method="POST" action="{{ route('register.submit') }}">
                 @csrf
-                
+
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}" required>
+                    <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}"
+                        required>
                     @error('email')
                         <div class="error">{{ $message }}</div>
                     @enderror
@@ -180,7 +188,8 @@
 
                 <div class="form-group">
                     <label>First name</label>
-                    <input type="text" name="fname" placeholder="Enter your first name" value="{{ old('fname') }}" required>
+                    <input type="text" name="fname" placeholder="Enter your first name" value="{{ old('fname') }}"
+                        required>
                     @error('fname')
                         <div class="error">{{ $message }}</div>
                     @enderror
@@ -188,7 +197,8 @@
 
                 <div class="form-group">
                     <label>Last name</label>
-                    <input type="text" name="lname" placeholder="Enter your last name" value="{{ old('lname') }}" required>
+                    <input type="text" name="lname" placeholder="Enter your last name" value="{{ old('lname') }}"
+                        required>
                     @error('lname')
                         <div class="error">{{ $message }}</div>
                     @enderror
@@ -203,10 +213,11 @@
                 </div>
 
                 <button type="submit" class="btn">Register</button>
-                
+
             </form>
         </div>
     </div>
 </body>
 @include('Frontend.components.footer')
+
 </html>

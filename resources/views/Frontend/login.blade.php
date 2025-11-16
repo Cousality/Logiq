@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,23 +12,23 @@
             font-family: "Poppins", sans-serif;
         }
 
-        
+
         .login-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px); 
-            background-color: #4A1F1F; 
+            height: calc(100vh - 100px);
+            background-color: #4A1F1F;
         }
 
 
-        
+
         .login-container {
             background: #fff;
             padding: 40px;
             border-radius: 15px;
             width: 380px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
 
@@ -62,8 +63,13 @@
             font-weight: 500;
         }
 
-        .facebook { background: #3b5998; }
-        .google { background: #db4437; }
+        .facebook {
+            background: #3b5998;
+        }
+
+        .google {
+            background: #db4437;
+        }
 
         .form-group {
             text-align: left;
@@ -119,9 +125,10 @@
         }
     </style>
 </head>
+
 <body>
     @include('Frontend.components.navbar')
-    <div class="login-wrapper">    
+    <div class="login-wrapper">
         <div class="login-container">
             <div class="logo">
                 <img src="Images\logo.png" alt="LOGIQ Logo">
@@ -149,7 +156,8 @@
                 <p class="signup">Not a member? <a href="/register">Sign up now</a></p>
             </form>
         </div>
-    </div>    
+    </div>
 </body>
 @include('Frontend.components.footer')
+
 </html>

@@ -58,12 +58,16 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.2s;
+            transition: 0.2s;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card.hidden {
+            display: none;
         }
 
         .product-image {
@@ -110,6 +114,17 @@
         .add-to-basket:hover {
             background: #562323;
         }
+
+        .db-error-message {
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 
@@ -121,50 +136,58 @@
             <h2>Filter by Category</h2>
             <div class="filter-options">
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="Twist">
+                    <input type="checkbox" class="category-filter" value="Twist">
                     Twist Puzzle
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="Jigsaw">
+                    <input type="checkbox" class="category-filter" value="Jigsaw">
                     Jigsaws
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="WordandNumber">
-                    Word and Number
+                    <input type="checkbox" class="category-filter" value="Word&Number">
+                    Word & Number
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="Board">
+                    <input type="checkbox" class="category-filter" value="BoardGames">
                     Board Games
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="BrainTeaser">
+                    <input type="checkbox" class="category-filter" value="HandheldBrainTeaser">
                     Handheld Brain Teasers
                 </label>
             </div>
             <h2>Filter by Difficulty</h2>
             <div class="filter-options">
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="Twist">
+                    <input type="checkbox" class="difficulty-filter" value="easy">
                     Easy
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="Jigsaw">
+                    <input type="checkbox" class="difficulty-filter" value="medium">
                     Medium
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" name="puzzle" value="WordandNumber">
+                    <input type="checkbox" class="difficulty-filter" value="hard">
                     Hard
                 </label>
             </div>
         </aside>
 
         <div class="products-container">
-            <div class="products-grid">
-                @include('Frontend.components.product_card')
-            </div>
+            @if (!empty($dbError))
+                <div class="db-error-message">
+                    <h2>Cannot Connect to Database</h2>
+                    <p>We're experiencing technical difficulties connecting to our product database.</p>
+                </div>
+            @else
+                <div class="products-grid">
+                    @include('Frontend.components.product_card')
+                </div>
+            @endif
         </div>
     </div>
 
+    <script src="{{ asset('js/storeFilter.js') }}"></script>
 
 </body>
 @include('Frontend.components.footer')
