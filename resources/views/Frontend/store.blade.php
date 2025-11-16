@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .content-wrapper {
             display: flex;
@@ -115,6 +116,24 @@
             background: #562323;
         }
 
+        .add-to-wishlist {
+            width: 100%;
+            padding: 0.75rem;
+            background: #310E0E;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .add-to-wishlist:hover {
+            background: #562323;
+        }
+
         .db-error-message {
             color: white;
         }
@@ -188,6 +207,7 @@
     </div>
 
     <script src="{{ asset('js/storeFilter.js') }}"></script>
+    <script src="{{ asset('js/wishlist.js') }}"></script>
 
 </body>
 @include('Frontend.components.footer')
