@@ -12,6 +12,7 @@
             <div class="product-name">{{ $product->productName }}</div>
             <div class="product-price">£{{ number_format($product->productPrice, 2) }}</div>
             <button class="add-to-basket" data-product-id="{{ $product->productID }}">Add to Basket</button>
+            <button class="add-to-wishlist" data-product-id="{{ $product->productID }}">Add to Wishlist</button>
         </div>
     </div>
 @endforeach
