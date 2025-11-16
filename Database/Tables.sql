@@ -49,7 +49,7 @@ CREATE TABLE orders (
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     orderStatus ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'pending',
     totalAmount DECIMAL(10, 2) NOT NULL,
-    addressID TEXT NOT NULL,
+    addressID INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (addressID) REFERENCES addresses(addressID) ON DELETE SET NULL,
