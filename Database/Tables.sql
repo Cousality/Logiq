@@ -86,3 +86,15 @@ CREATE TABLE reviews (
     INDEX idx_product_rating (productID, rating),
     INDEX idx_user_review (userID)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE wishlists (
+    wishlistID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    userID INT(11) NOT NULL,
+    productID INT(11) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
+    FOREIGN KEY (productID) REFERENCES products(productID) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_product (userID, productID),
+    INDEX idx_user_wishlist (userID),
+    INDEX idx_product_wishlist (productID)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
