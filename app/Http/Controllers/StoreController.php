@@ -13,18 +13,15 @@ class StoreController extends Controller
     {
         try {
             DB::connection()->getPdo();
-            $query = Product::where('productStatus', 'active');
-
-            // Handle search query
             $searchQuery = $request->input('query');
-            if ($searchQuery) {
-                $query->where(function($q) use ($searchQuery) {
-                    $q->where('productName', 'LIKE', "%{$searchQuery}%")
-                      ->orWhere('productDescription', 'LIKE', "%{$searchQuery}%");
-                });
-            }
 
-            $products = $query->orderBy('productName')->get();
+            if ($searchQuery) {
+                $products = $this->fuzzySearch($searchQuery);
+            } else {
+                $products = Product::where('productStatus', 'active')
+                    ->orderBy('productName')
+                    ->get();
+            }
 
             return view('Frontend.store', compact('products', 'searchQuery'));
         } catch(Exception $e) {
@@ -34,5 +31,43 @@ class StoreController extends Controller
 
             return view('Frontend.store', compact('products', 'dbError', 'searchQuery'));
         }
+    }
+
+    private function fuzzySearch($searchQuery)
+    {
+        $allProducts = Product::where('productStatus', 'active')->get();
+        $results = [];
+        $search = strtolower(trim($searchQuery));
+        
+        foreach ($allProducts as $product) {
+            $score = 0;
+            $name = strtolower($product->productName);
+            $desc = strtolower($product->productDescription ?? '');
+            
+            // Check for matches
+            if (str_contains($name, $search)) {
+                $score += 100;
+            }
+            if (str_contains($desc, $search)) {
+                $score += 50;
+            }
+            
+            // Check similarity for typos
+            $words = explode(' ', $name);
+            foreach ($words as $word) {
+                similar_text($search, $word, $percent);
+                if ($percent > 70) {
+                    $score += $percent;
+                }
+            }
+            
+            if ($score > 0) {
+                $results[] = ['product' => $product, 'score' => $score];
+            }
+        }
+        
+        usort($results, fn($a, $b) => $b['score'] <=> $a['score']);
+        
+        return collect(array_map(fn($item) => $item['product'], $results));
     }
 }
