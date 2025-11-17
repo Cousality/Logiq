@@ -144,11 +144,23 @@
             color: #666;
             font-size: 1.1rem;
         }
+
+        .search-info {
+            color: white;
+            padding: 1rem 0;
+            font-size: 1.1rem;
+        }
     </style>
 </head>
 
 <body>
     @include('Frontend.components.navbar')
+
+    @if(isset($searchQuery) && $searchQuery)
+        <div class="search-info" style="padding-left: 2rem;">
+            Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
+        </div>
+    @endif
 
     <div class="content-wrapper">
         <aside class="sidebar">
