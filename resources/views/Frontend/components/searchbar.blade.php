@@ -55,6 +55,6 @@
         </button>
     </form>
 </div>
->>>>>>> search-functionality
-    </form>
+
+</form>
 </div>

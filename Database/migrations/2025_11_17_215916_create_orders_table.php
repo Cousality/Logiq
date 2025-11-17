@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('orderDate')->useCurrent();
             $table->enum('orderStatus', ['pending', 'processing', 'shipped', 'delivered', 'cancelled'])->default('pending')->index('idx_order_status');
             $table->decimal('totalAmount', 10);
-            $table->text('shippingAddress');
+            $table->integer('addressID')->nullable()->index('addressID');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });

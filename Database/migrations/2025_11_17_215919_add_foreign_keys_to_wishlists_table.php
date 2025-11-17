@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('wishlists', function (Blueprint $table) {
-            $table->foreign(['userID'], 'wishlists_ibfk_1')->references(['userID'])->on('users')->onUpdate('no action')->onDelete('cascade');
-            $table->foreign(['productID'], 'wishlists_ibfk_2')->references(['productID'])->on('products')->onUpdate('no action')->onDelete('cascade');
+            $table->foreign(['userID'], 'wishlists_ibfk_1')->references(['userID'])->on('users')->onDelete('CASCADE');
+            $table->foreign(['productID'], 'wishlists_ibfk_2')->references(['productID'])->on('products')->onDelete('CASCADE');
         });
     }
 
