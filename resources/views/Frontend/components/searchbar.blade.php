@@ -13,22 +13,31 @@
     }
 
     .search-bar button {
-        padding: 8px;
+        padding: 4px;
         background: transparent;
         border: none;
         cursor: pointer;
     }
 
     .search-bar button img {
-        width: 30px;
+        width: 50px;
+        display: block;
     }
 </style>
 
 <div class="search-bar">
     <form action="{{ route('search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search products..." required>
-        <button type="submit">
-            <img src="Images/search_icon.png" alt="Search">
-        </button>
+        <table>
+            <tr>
+                <td>
+                    <input type="text" name="query" placeholder="Search products..." required>
+                </td>
+                <td>
+                    <button type="submit">
+                        <img src="/Images/search_icon.png" alt="Search">
+                    </button>
+                </td>
+            </tr>
+        </table>
     </form>
 </div>
