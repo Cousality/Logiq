@@ -29,6 +29,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 #Store Controller
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 
+#Search
+Route::get('/search', [StoreController::class, 'index'])->name('search');
+
 #Wishlist Controller
 Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
