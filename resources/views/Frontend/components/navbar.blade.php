@@ -21,7 +21,7 @@
             flex-wrap:wrap;
             flex-direction: row;
             flex: 1;
-            justify-content: right;
+            justify-content: space-between;
             align-items: center;
         }
         nav a {
@@ -71,22 +71,26 @@
         </div>
         
         <nav>
-            <a class="icon" href="search"><img src="Images\search_icon.png" alt="search"></a>
-             <div class="dropdown">
-                <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
-                <div class="dropdown-content">
-                    <a href="profile">Profile</a>
-                    <a href="profile">Account Details</a>
-                    <a href="profile">Your Orders</a>
-                    <form action="{{ route('logout') }}" method = "POST">
-                        @csrf
-                        <button class="btn">logout</button>
-                    </form>
-                    
-                </div>
+            <div style="flex: 1; display: flex; justify-content: center;">
+                @include('Frontend.components.searchbar')
             </div>
-            <a class="icon" href="favourites"><img src="Images\favourites_icon.png" alt="favourites"></a>
-            <a class="icon" href="basket"><img src="Images\basket_icon.png" alt="basket"></a>
+            <div style="display: flex; align-items: center; gap: 0;">
+                <div class="dropdown">
+                    <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
+                    <div class="dropdown-content">
+                        <a href="profile">Profile</a>
+                        <a href="profile">Account Details</a>
+                        <a href="profile">Your Orders</a>
+                        <form action="{{ route('logout') }}" method = "POST">
+                            @csrf
+                            <button class="btn">logout</button>
+                        </form>
+                        
+                    </div>
+                </div>
+                <a class="icon" href="favourites"><img src="Images\favourites_icon.png" alt="favourites"></a>
+                <a class="icon" href="basket"><img src="Images\basket_icon.png" alt="basket"></a>
+            </div>
         </nav>
     </header>
 </html>
