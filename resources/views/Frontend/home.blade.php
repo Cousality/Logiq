@@ -29,28 +29,6 @@
             padding: 0;
         }
 
-        .search-container input[type=text] {
-            float: left;
-            padding: 8px;
-            margin-top: 20px;
-            margin-left: 20px;
-            width: 50%;
-            font-size: 15px;
-        }
-
-        .search-container img {
-            width: 40px;
-        }
-
-        .search-container button {
-            padding: 0px;
-            margin-top: 20px;
-            margin-left: ;
-            background: rgba(76, 32, 32, 1);
-            border: none;
-            cursor: pointer;
-        }
-
         #category_images {
             display: flex;
             flex-wrap: wrap;
@@ -75,11 +53,6 @@
     @include('Frontend.components.navbar')
 
     <main>
-        <div class="search-container">
-            <input type="text" placeholder="Search..." name="search">
-            <button type="submit"><img src="Images\search_icon.png" alt="search"></button>
-        </div>
-
         <h1>Explore our Categories!</h1>
 
         <section id="category_images">
