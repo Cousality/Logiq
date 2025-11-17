@@ -56,3 +56,6 @@ Route::get('/about_us', function () {
     return view('Frontend.about_us');
 })->name('about_us');
 
+Route::get('/privacy_policy', function () {
+    return view('Frontend.privacy_policy');
+});

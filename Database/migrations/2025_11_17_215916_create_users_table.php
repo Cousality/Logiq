@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('firstName', 50);
             $table->string('lastName', 50);
             $table->string('email', 100)->unique('email');
-            $table->string('phone', 17)->nullable();
             $table->string('password');
             $table->boolean('admin')->default(false);
             $table->timestamp('created_at')->useCurrent();

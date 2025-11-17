@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreign(['userID'], 'orders_ibfk_1')->references(['userID'])->on('users')->onDelete('CASCADE');
+            $table->foreign(['addressID'], 'orders_ibfk_1')->references(['addressID'])->on('addresses')->onDelete('SET NULL');
+            $table->foreign(['userID'], 'orders_ibfk_2')->references(['userID'])->on('users')->onDelete('CASCADE');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropForeign('orders_ibfk_1');
+            $table->dropForeign('orders_ibfk_2');
         });
     }
 };
