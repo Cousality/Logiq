@@ -14,7 +14,7 @@
       flex-wrap: wrap;
       flex-direction: row;
       justify-content: flex-start;
-      gap: 60px;
+      gap: 30px;
     }
 
     .list {
@@ -56,6 +56,16 @@
 <footer id="logiqFooter">
   <div id="footerColumns">
 
+      <div>
+      <ul class="list">
+        <li><h4>Account</h4></li>
+        <li><a class="footerLinks" href="OrderHistory">Order History</a></li>
+        <li><a class="footerLinks" href="Addresses">Addresses</a></li>
+        <li><a class="footerLinks" href="Wishlist">Wishlist</a></li>
+        <li><a class="footerLinks" href="Basket">Basket</a></li>
+      </ul>
+    </div>
+    
     <div>
       <ul class="list">
         <li><h4>Quick Links</h4></li>
@@ -73,15 +83,7 @@
         <li><a class="footerLinks" href="Return_policy">Return Policy</a></li>
       </ul>
     </div>
-    <div>
-      <ul class="list">
-        <li><h4>Account</h4></li>
-        <li><a class="footerLinks" href="OrderHistory">Order History</a></li>
-        <li><a class="footerLinks" href="Addresses">Addresses</a></li>
-        <li><a class="footerLinks" href="Wishlist">Wishlist</a></li>
-        <li><a class="footerLinks" href="Basket">Basket</a></li>
-      </ul>
-    </div>
+
   </div>
   
   <section id="logoCopyright">
