@@ -4,6 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\CheckoutController;
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -63,3 +69,23 @@ Route::get('/privacy_policy', function () {
 Route::get ('/dashboard', function () {
     return view('Frontend.dashboard');
 })-> name('dashboard'); 
+
+
+Route::get ('/return_policy', function () {
+    return view('Frontend.return_policy');
+});
+
+
+
+Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+
+Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
+
+Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
+
+Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
+
+
+
+
+

@@ -98,3 +98,8 @@ CREATE TABLE wishlists (
     INDEX idx_user_wishlist (userID),
     INDEX idx_product_wishlist (productID)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+ALTER TABLE orders
+MODIFY orderStatus ENUM('cart', 'pending', 'processing', 'shipped', 'delivered', 'cancelled')
+    NOT NULL DEFAULT 'cart';
