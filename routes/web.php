@@ -63,3 +63,7 @@ Route::get('/privacy_policy', function () {
 Route::get ('/dashboard', function () {
     return view('Frontend.dashboard');
 })-> name('dashboard'); 
+
+Route::get('/login&security', function () {
+    return view('Frontend.login&security');
+});
