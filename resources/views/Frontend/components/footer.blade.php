@@ -80,7 +80,7 @@
         <li><h4>Policies</h4></li>
         <li><a class="footerLinks" href="privacy_policy">Privacy Policy</a></li>
         <li><a class="footerLinks" href="TermsConditions">Terms & Conditions</a></li>
-        <li><a class="footerLinks" href="Return_policy">Return Policy</a></li>
+        <li><a class="footerLinks" href="return_policy">Return Policy</a></li>
       </ul>
     </div>
 
