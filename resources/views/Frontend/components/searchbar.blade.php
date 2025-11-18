@@ -43,7 +43,6 @@
         width: 20px;
         height: 20px;
         display: block;
-        filter: invert(1);
     }
 </style>
 

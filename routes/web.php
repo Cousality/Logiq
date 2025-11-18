@@ -59,3 +59,7 @@ Route::get('/about_us', function () {
 Route::get('/privacy_policy', function () {
     return view('Frontend.privacy_policy');
 });
+
+Route::get('/return_policy', function () {
+    return view('Frontend.return_policy');
+});
