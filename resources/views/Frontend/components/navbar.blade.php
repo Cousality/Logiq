@@ -88,7 +88,7 @@
                         
                     </div>
                 </div>
-                <a class="icon" href="favourites"><img src="Images\favourites_icon.png" alt="favourites"></a>
+                <a class="icon" href="wishlist"><img src="Images\favourites_icon.png" alt="wishlist"></a>
                 <a class="icon" href="basket"><img src="Images\basket_icon.png" alt="basket"></a>
             </div>
         </nav>

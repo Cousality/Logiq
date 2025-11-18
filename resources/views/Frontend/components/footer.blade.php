@@ -59,10 +59,10 @@
       <div>
       <ul class="list">
         <li><h4>Account</h4></li>
-        <li><a class="footerLinks" href="OrderHistory">Order History</a></li>
-        <li><a class="footerLinks" href="Addresses">Addresses</a></li>
-        <li><a class="footerLinks" href="Wishlist">Wishlist</a></li>
-        <li><a class="footerLinks" href="Basket">Basket</a></li>
+        <li><a class="footerLinks" href="orderHistory">Order History</a></li>
+        <li><a class="footerLinks" href="Addresses">addresses</a></li>
+        <li><a class="footerLinks" href="wishlist">wishlist</a></li>
+        <li><a class="footerLinks" href="basket">Basket</a></li>
       </ul>
     </div>
     
