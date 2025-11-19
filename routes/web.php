@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,3 +68,18 @@ Route::get ('/dashboard', function () {
 Route::get('/login&security', function () {
     return view('Frontend.login&security');
 });
+
+#Dashboard Routes
+Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
+
+Route::get('/profile', function () {
+    return view('Frontend.profile');
+})->name('dashboard.profile');
+
+Route::get('/manage-addresses', function () {
+    return view('Frontend.manage_addresses');
+})->name('dashboard.addresses');
+
+Route::get('/notifications', function () {
+    return view('Frontend.notifications');
+})->name('dashboard.notifications');
