@@ -90,7 +90,7 @@
 <aside class="dashboard-sidebar">
     <div class="sidebar-user-section">
         <p class="sidebar-greeting">Hello,</p>
-        <p class="sidebar-username">{{ auth()->check() ? auth()->user()->name : 'User' }}</p>
+        <p class="sidebar-username">{{ auth()->check() ? auth()->user()->firstName : 'User' }}</p>
     </div>
 
     <nav class="sidebar-menu">
@@ -98,10 +98,10 @@
             <h3 class="sidebar-section-title">Account Settings</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="login&security" class="sidebar-menu-link">Login & Security</a>
+                    <a href="{{ route('login.security') }}" class="sidebar-menu-link">Login & Security</a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="login&security#your_address" class="sidebar-menu-link">Your Address</a>
+                    <a href="{{ route('login.security') }}#your_address" class="sidebar-menu-link">Your Address</a>
                 </li>
             </ul>
         </div>
@@ -114,18 +114,6 @@
                 </li>
                 <li class="sidebar-menu-item">
                     <a href="{{ route('wishlist.index') }}" class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}">My Wishlist</a>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a href="#" class="sidebar-menu-link">My Puzzles</a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="sidebar-section">
-            <h3 class="sidebar-section-title">Support</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-                <li class="sidebar-menu-item">
-                    <a href="#" class="sidebar-menu-link">Customer Service</a>
                 </li>
             </ul>
         </div>
