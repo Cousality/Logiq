@@ -61,25 +61,13 @@ Route::get('/privacy_policy', function () {
     return view('Frontend.privacy_policy');
 });
 
-Route::get ('/dashboard', function () {
+#Dashboard Routes
+Route::get('/dashboard', function () {
     return view('Frontend.dashboard');
-})-> name('dashboard'); 
+})->name('dashboard'); 
+
+Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 
 Route::get('/login&security', function () {
     return view('Frontend.login&security');
-});
-
-#Dashboard Routes
-Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
-
-Route::get('/profile', function () {
-    return view('Frontend.profile');
-})->name('dashboard.profile');
-
-Route::get('/manage-addresses', function () {
-    return view('Frontend.manage_addresses');
-})->name('dashboard.addresses');
-
-Route::get('/notifications', function () {
-    return view('Frontend.notifications');
-})->name('dashboard.notifications');
+})->name('login.security');
