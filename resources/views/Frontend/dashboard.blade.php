@@ -54,34 +54,33 @@
     @include('Frontend.components.navbar')
 
 <main>
-    
     <div>
-        <h1> Hello, {{ auth()->check() ? auth()->user()->name : 'User' }} </h1>
+        <h1> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }} </h1>
     </div>
     
     <section class="dashboard-containers">
         <div class="dashboard-card">
-            <a href="your_orders"><img src="Images\your_orders.png" alt="Your Orders"></a>
+            <a href="/your_orders"><img src="Images\your_orders.png" alt="Your Orders"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="login&security"><img src="Images\login&security.png" alt="Login & Security"></a>
+            <a href="/login_security"><img src="Images\login&security.png" alt="Login & Security"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="login&security#your_address"><img src="Images\your_address.png" alt="Your Address"></a>
+            <a href="/login_security#your_address"><img src="Images\your_address.png" alt="Your Address"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="wishlist"><img src="Images\wishlist.png" alt="Wishlist"></a>
+            <a href="/wishlist"><img src="Images\wishlist.png" alt="Wishlist"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="customer_service"><img src="Images\customer_service.png" alt="Customer Service"></a>
+            <a href="#"><img src="Images\customer_service.png" alt="Customer Service"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="my_puzzles"><img src="Images\my_puzzles.png" alt="My Puzzles"></a>
+            <a href="#"><img src="Images\my_puzzles.png" alt="My Puzzles"></a>
         </div>
     </section>
     
