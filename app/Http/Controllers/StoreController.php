@@ -38,12 +38,12 @@ class StoreController extends Controller
         $allProducts = Product::where('productStatus', 'active')->get();
         $results = [];
         $search = strtolower(trim($searchQuery));
-        
+
         foreach ($allProducts as $product) {
             $score = 0;
             $name = strtolower($product->productName);
             $desc = strtolower($product->productDescription ?? '');
-            
+
             // Check for matches
             if (str_contains($name, $search)) {
                 $score += 100;
@@ -51,7 +51,7 @@ class StoreController extends Controller
             if (str_contains($desc, $search)) {
                 $score += 50;
             }
-            
+
             // Check similarity for typos
             $words = explode(' ', $name);
             foreach ($words as $word) {
@@ -60,14 +60,14 @@ class StoreController extends Controller
                     $score += $percent;
                 }
             }
-            
+
             if ($score > 0) {
                 $results[] = ['product' => $product, 'score' => $score];
             }
         }
-        
-        usort($results, fn($a, $b) => $b['score'] <=> $a['score']);
-        
-        return collect(array_map(fn($item) => $item['product'], $results));
+
+        usort($results, fn ($a, $b) => $b['score'] <=> $a['score']);
+
+        return collect(array_map(fn ($item) => $item['product'], $results));
     }
 }
