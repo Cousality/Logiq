@@ -27,17 +27,22 @@
         }
 
         .dashboard-containers {
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: row;
-            flex: 1;
-            justify-content: center;
-            gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 30px;
             padding: 0px 10% 50px;
         }
 
+        .dashboard-card {
+            width: 100%;
+        }
+
         .dashboard-card img {
-            width: 300px;; 
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
          
@@ -51,7 +56,7 @@
 <main>
     
     <div>
-        <h1> Hello, 'user' </h1>
+        <h1> Hello, {{ auth()->check() ? auth()->user()->name : 'User' }} </h1>
     </div>
     
     <section class="dashboard-containers">
@@ -68,7 +73,7 @@
         </div>
         
         <div class="dashboard-card">
-            <a href="exchange&returns"><img src="Images\exchange&returns.png" alt="Exchange & Returns"></a>
+            <a href="wishlist"><img src="Images\wishlist.png" alt="Wishlist"></a>
         </div>
         
         <div class="dashboard-card">
