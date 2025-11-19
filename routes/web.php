@@ -53,9 +53,9 @@ Route::get ('/basket', function () {
     return view('Frontend.basket');
 });
 
-Route::get('/about_us', function () {
+Route::get('/About_us', function () {
     return view('Frontend.about_us');
-})->name('about_us');
+})->name('About_us');
 
 Route::get('/privacy_policy', function () {
     return view('Frontend.privacy_policy');
