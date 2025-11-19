@@ -7,22 +7,55 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Wishlist</title>
     <style>
-        .content-wrapper {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        body {
+            background-color: rgba(76, 32, 32, 1);
+            margin: 0;
+            padding: 0;
         }
 
-        h1 {
-            color: white;
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard-content {
+            flex: 1;
+        }
+
+        .page-header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
             font-family: 'Inria Serif';
-            text-align: center;
-            margin-bottom: 2rem;
+            font-size: 40px;
+            color: #310E0E;
+            margin: 0 0 10px 0;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .wishlist-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .wishlist-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1.5rem;
         }
 
@@ -105,13 +138,22 @@
         .empty-wishlist {
             text-align: center;
             padding: 3rem;
-            color: white;
-            font-size: 1.2rem;
+            color: #666;
         }
 
         .empty-wishlist a {
-            color: #fff;
+            color: #310E0E;
             text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
         }
     </style>
 </head>
@@ -119,24 +161,33 @@
 <body>
     @include('Frontend.components.navbar')
 
-    <div class="content-wrapper">
-        <h1>My Wishlist</h1>
+    <div class="dashboard-layout">
+        @include('Frontend.components.dashboard_sidebar')
 
-        @if (!empty($wishlistItems) && count($wishlistItems) > 0)
-            <div class="wishlist-grid">
-                @include('Frontend.components.wishlist_card')
+        <main class="dashboard-content">
+            <div class="page-header">
+                <h1 class="page-title">My Wishlist</h1>
+                <p class="page-subtitle">View and manage your saved items</p>
             </div>
-        @else
-            <div class="empty-wishlist">
-                <p>Your wishlist is empty.</p>
-                <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
+
+            <div class="wishlist-container">
+                @if (!empty($wishlistItems) && count($wishlistItems) > 0)
+                    <div class="wishlist-grid">
+                        @include('Frontend.components.wishlist_card')
+                    </div>
+                @else
+                    <div class="empty-wishlist">
+                        <p>Your wishlist is empty.</p>
+                        <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
+                    </div>
+                @endif
             </div>
-        @endif
+        </main>
     </div>
 
     <script src="{{ asset('js/wishlistPage.js') }}"></script>
 
+    @include('Frontend.components.footer')
 </body>
-@include('Frontend.components.footer')
 
 </html>
