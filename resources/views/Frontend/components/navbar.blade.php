@@ -78,7 +78,7 @@
                 <div class="dropdown">
                     <a class="icon" href="login"><img src="Images\login_icon.png" alt="login"></a>
                     <div class="dropdown-content">
-                        <a href="profile">Profile</a>
+                        <a href="dashboard">Profile</a>
                         <a href="profile">Account Details</a>
                         <a href="profile">Your Orders</a>
                         <form action="{{ route('logout') }}" method = "POST">
@@ -88,7 +88,7 @@
                         
                     </div>
                 </div>
-                <a class="icon" href="favourites"><img src="Images\favourites_icon.png" alt="favourites"></a>
+                <a class="icon" href="wishlist"><img src="Images\favourites_icon.png" alt="wishlist"></a>
                 <a class="icon" href="basket"><img src="Images\basket_icon.png" alt="basket"></a>
             </div>
         </nav>
