@@ -1,10 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\OrderController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,26 +18,30 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-Route::get ('/welcome', function () {
+Route::get('/welcome', function () {
     return view('welcome');
-}); 
-#Authentication 
+});
+//Authentication
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 Route::get('/login', [AuthController::class, 'showloginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-#Store Controller
+//Store Controller
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 
-#Search
+//Search
 Route::get('/search', [StoreController::class, 'index'])->name('search');
 
-#Wishlist Controller
+//Wishlist Controller
 Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
 Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
+
+Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 
 Route::get('/', function () {
     return view('Frontend.home');
@@ -49,7 +54,7 @@ Route::get('/forgot-password', function () {
 Route::post('/send-reset-link', function () {
     return back()->with('message', 'Reset link sent (demo)');
 });
-Route::get ('/basket', function () {
+Route::get('/basket', function () {
     return view('Frontend.basket');
 });
 
@@ -61,12 +66,10 @@ Route::get('/privacy_policy', function () {
     return view('Frontend.privacy_policy');
 });
 
-#Dashboard Routes
+//Dashboard Routes
 Route::get('/dashboard', function () {
     return view('Frontend.dashboard');
-})->name('dashboard'); 
-
-Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
+})->name('dashboard');
 
 Route::get('/login&security', function () {
     return view('Frontend.login&security');

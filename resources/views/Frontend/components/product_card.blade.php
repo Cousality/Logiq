@@ -1,5 +1,5 @@
 @foreach ($products as $product)
-    <a href="{{ route('product.show', $product->productID) }}" class="product-card-link">
+    <a href="{{ route('product.index', $product->productID) }}" class="product-card-link">
         <div class="product-card" data-category="{{ $product->productCategory }}"
             data-difficulty="{{ $product->productDifficulty }}">
             <div class="product-image">

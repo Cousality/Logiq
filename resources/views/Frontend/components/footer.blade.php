@@ -77,7 +77,7 @@
                 <li>
                     <h4>Quick Links</h4>
                 </li>
-                <li><a class="footerLinks" href="About_us">About Us</a></li>
+                <li><a class="footerLinks" href="about_us">About Us</a></li>
                 <li><a class="footerLinks" href="Contact">Contact</a></li>
                 <li><a class="footerLinks" href="FAQs">FAQs</a>
                 <li>
@@ -104,7 +104,7 @@
         </div>
 
         <div class="footerLogo">
-            <a href="/"><img src="Images\darker_logo.png" alt="LOGIQ Logo"></a>
+            <a href="/"><img src="{{ asset('Images/darker_logo.png') }}" alt="LOGIQ Logo"></a>
         </div>
     </section>
 
