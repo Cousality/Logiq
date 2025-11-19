@@ -71,6 +71,10 @@ Route::get('/dashboard', function () {
     return view('Frontend.dashboard');
 })->name('dashboard');
 
+Route::get('/admin_dashboard', function () {
+    return view('Frontend.admin_dashboard');
+})->name('admin.dashboard');
+
 Route::get('/login_security', function () {
     return view('Frontend.login_security');
 })->name('login.security');

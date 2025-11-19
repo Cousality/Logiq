@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Admin Dashboard</title>
     <style>
 
         body {
@@ -55,32 +55,32 @@
 
 <main>
     <div>
-        <h1> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }} </h1>
+        <h1> Hello, Admin </h1>
     </div>
     
     <section class="dashboard-containers">
         <div class="dashboard-card">
-            <a href="/your_orders"><img src="Images\your_orders.png" alt="Your Orders"></a>
+            <a href="#"><img src="Images\order_management.png" alt="Order Management"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="/login_security"><img src="Images\login_security.png" alt="Login & Security"></a>
+            <a href="#"><img src="Images\user_management.png" alt="User Management"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="/login_security#your_address"><img src="Images\your_address.png" alt="Your Address"></a>
+            <a href="#"><img src="Images\inventory_management.png" alt="Inventory Management"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="/wishlist"><img src="Images\wishlist.png" alt="Wishlist"></a>
+            <a href="#"><img src="Images\analytics_reports.png" alt="Analytics & Reports"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="#"><img src="Images\customer_service.png" alt="Customer Service"></a>
+            <a href="#"><img src="Images\admin_customerService.png" alt="Admin Customer Service"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="#"><img src="Images\my_puzzles.png" alt="My Puzzles"></a>
+            <a href="#"><img src="Images\login_security.png" alt="Login & Security"></a>
         </div>
     </section>
     
