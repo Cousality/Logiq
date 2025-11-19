@@ -50,7 +50,7 @@
     <form action="{{ route('search') }}" method="GET">
         <input type="text" name="query" placeholder="Search..." required>
         <button type="submit">
-            <img src="Images/search_icon.png" alt="Search">
+            <img src="{{ asset('Images/search_icon.png') }}" alt="Search">
         </button>
     </form>
 </div>
