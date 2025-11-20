@@ -5,6 +5,12 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\BasketController;
+use App\Http\Controllers\CheckoutController;
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,4 +92,24 @@ Route::get('/login_security', function () {
 Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
 })->name('return_policy');
+
+
+
+Route::get ('/return_policy', function () {
+    return view('Frontend.return_policy');
+});
+
+
+
+Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+
+Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
+
+Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
+
+Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
+
+
+
+
 
