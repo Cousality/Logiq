@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
+    // sends user to login if not signed in
     public function __construct()
     {
         $this->middleware('auth');
@@ -38,7 +39,7 @@ class BasketController extends Controller
     {
         $request->validate([
             'productID' => 'required|integer|exists:products,productID',
-            'quantity'  => 'nullable|integer|min:1',
+            'quantity' => 'nullable|integer|min:1',
         ]);
 
         $user = auth()->user();
@@ -47,7 +48,7 @@ class BasketController extends Controller
         // Find or create user's basket
         $basket = Basket::firstOrCreate(
             [
-                'userID'      => $user->userID,
+                'userID' => $user->userID,
                 'orderStatus' => 'cart',
             ],
             [
@@ -59,11 +60,11 @@ class BasketController extends Controller
 
         // Find existing line or create new
         $item = BasketItem::firstOrNew([
-            'orderID'   => $basket->orderID,
+            'orderID' => $basket->orderID,
             'productID' => $product->productID,
         ]);
 
-        $item->quantity    = ($item->exists ? $item->quantity : 0) + $quantity;
+        $item->quantity = ($item->exists ? $item->quantity : 0) + $quantity;
         $item->priceAtTime = $product->productPrice;
         $item->save();
 

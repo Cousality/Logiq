@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    // sends user to login if not signed in
     public function __construct()
     {
         $this->middleware('auth');
