@@ -87,6 +87,6 @@ Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
 })->name('return_policy');
 
-Route::get('/FACs', function () {
-    return view('Frontend.FACs');
-})->name('FACs');
+Route::get('/FAQs', function () {
+    return view('Frontend.FAQs');
+})->name('FAQs');
