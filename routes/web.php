@@ -66,6 +66,10 @@ Route::get('/privacy_policy', function () {
     return view('Frontend.privacy_policy');
 });
 
+Route::get('/TermsConditions', function () {
+    return view('Frontend.TermsConditions');
+});
+
 //Dashboard Routes
 Route::get('/dashboard', function () {
     return view('Frontend.dashboard');
@@ -82,3 +86,4 @@ Route::get('/login_security', function () {
 Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
 })->name('return_policy');
+
