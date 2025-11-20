@@ -47,7 +47,7 @@ CREATE TABLE orders (
     orderID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userID INT(11) NOT NULL,
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    orderStatus ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'pending',
+    orderStatus ENUM('cart', 'pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'cart',
     totalAmount DECIMAL(10, 2) NOT NULL,
     addressID INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -100,6 +100,3 @@ CREATE TABLE wishlists (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
-ALTER TABLE orders
-MODIFY orderStatus ENUM('cart', 'pending', 'processing', 'shipped', 'delivered', 'cancelled')
-    NOT NULL DEFAULT 'cart';
