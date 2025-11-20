@@ -1,6 +1,4 @@
-@extends('Frontend.layouts.master')
 
-@section('content')
 <div class="bg-gray-100 py-10">
 
     <div class="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
