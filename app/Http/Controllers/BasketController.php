@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Show basket page.
      */
@@ -61,10 +66,6 @@ class BasketController extends Controller
         $item->quantity    = ($item->exists ? $item->quantity : 0) + $quantity;
         $item->priceAtTime = $product->productPrice;
         $item->save();
-
-        // (optional) recalc totalAmount:
-        // $basket->totalAmount = $basket->items()->sum(\DB::raw('quantity * priceAtTime'));
-        // $basket->save();
 
         return redirect()
             ->route('basket.index')
