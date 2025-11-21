@@ -68,7 +68,7 @@
         </div>
         
         <div class="dashboard-card">
-            <a href="/login_security#your_address"><img src="Images\your_address.png" alt="Your Address"></a>
+            <a href="/your_address"><img src="Images\your_address.png" alt="Your Address"></a>
         </div>
         
         <div class="dashboard-card">

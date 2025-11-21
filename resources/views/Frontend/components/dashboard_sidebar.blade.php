@@ -98,10 +98,10 @@
             <h3 class="sidebar-section-title">Account Settings</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('login.security') }}" class="sidebar-menu-link">Login & Security</a>
+                    <a href="{{ route('loginSecurity') }}" class="sidebar-menu-link {{ request()->routeIs('loginSecurity') ? 'active' : '' }}">Login & Security</a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('login.security') }}#your_address" class="sidebar-menu-link">Your Address</a>
+                    <a href="{{ route('yourAddress') }}" class="sidebar-menu-link {{ request()->routeIs('yourAddress') ? 'active' : '' }}">Your Address</a>
                 </li>
             </ul>
         </div>

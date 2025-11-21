@@ -93,7 +93,11 @@ Route::get('/admin_dashboard', function () {
 
 Route::get('/login_security', function () {
     return view('Frontend.login_security');
-})->name('login.security');
+})->name('loginSecurity');
+
+Route::get('/your_address', function () {
+    return view('Frontend.your_address');
+})->name('yourAddress');
 
 Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
