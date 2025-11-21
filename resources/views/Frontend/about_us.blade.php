@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - LOGIQ</title>
+    <title>FAQ - LOGIQ</title>
 
     <style>
         body {
@@ -20,42 +20,85 @@
             margin-top: 40px;
         }
 
-        .about-section {
+        .faq-container {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px 40px;
-            font-size: 20px;
-            line-height: 1.6;
         }
 
-        .team-section {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px 40px;
-        }
-
-        .team-section h2 {
-            font-size: 35px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px;
-        }
-
-        .team-card {
+        .faq-item {
             background: white;
             color: #310E0E;
             padding: 20px;
             border-radius: 12px;
-            text-align: center;
+            margin-bottom: 20px;
             font-size: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+        }
+
+        .faq-question {
+            font-weight: bold;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            margin-top: 10px;
+            display: none;
+            font-size: 18px;
+        }
+
+        /* Submit Question Form */
+        .form-section {
+            background: white;
+            color: #310E0E;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 40px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+        }
+
+        .form-section h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .form-section input,
+        .form-section textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #bbb;
+            font-family: 'Inria Serif', serif;
+        }
+
+        .form-section button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: #310E0E;
+            color: white;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .form-section button:hover {
+            background: #4A1818;
         }
     </style>
+
+    <script>
+        function toggleFAQ(id) {
+            const answer = document.getElementById(id);
+            answer.style.display = answer.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </head>
 
 <body>
@@ -65,81 +108,84 @@
 
     <main>
 
-        <h1>About Us</h1>
+        <h1>Frequently Asked Questions</h1>
 
-        <!-- Description / Project Purpose -->
-        <section class="about-section">
-            <p>
-                LogIQ is designed as a fully functional e-commerce platform created for puzzle enthusiasts of all ages. 
-                Our goal is to provide a responsive and user-friendly space where customers can browse and filter products, 
-                submit queries, place orders, and track their previous purchases—all in one seamless experience.
-            </p>
-        </section>
+        <div class="faq-container">
 
-        <!-- Our Team -->
-        <section class="team-section">
-            <h2>Our Team</h2>
+            {{-- FAQ ITEMS --}}
+            @php
+                $faqs = [
+                    [
+                        'q' => 'How do I place an order on LogIQ?',
+                        'a' => 'Browse our puzzles, add items to your basket, and proceed to checkout where you enter delivery and payment details.'
+                    ],
+                    [
+                        'q' => 'Do I need an account to make a purchase?',
+                        'a' => 'No, you can checkout as a guest. An account allows order tracking and wishlist saving.'
+                    ],
+                    [
+                        'q' => 'What payment methods do you accept?',
+                        'a' => 'We offer secure payments through PayPal, Visa, Mastercard, Apple Pay, and Google Pay.'
+                    ],
+                    [
+                        'q' => 'How long does delivery take?',
+                        'a' => 'Most orders arrive within 3–5 working days, depending on your location.'
+                    ],
+                    [
+                        'q' => 'Can I return or exchange an item?',
+                        'a' => 'Yes — items can be returned within 14 days in unused condition.'
+                    ],
+                    [
+                        'q' => 'What if an item arrives damaged?',
+                        'a' => 'Contact us immediately and we will replace it at no extra cost.'
+                    ],
+                    [
+                        'q' => 'Do you offer international shipping?',
+                        'a' => 'Currently we ship within the UK only.'
+                    ],
+                    [
+                        'q' => 'How can I contact customer support?',
+                        'a' => 'Through the contact form or by emailing support.'
+                    ],
+                    [
+                        'q' => 'Are your puzzles suitable for all ages?',
+                        'a' => 'Yes — we offer beginner, intermediate, and advanced puzzles for all ages.'
+                    ],
+                    [
+                        'q' => 'Do you restock sold-out puzzles?',
+                        'a' => 'Yes — restocks occur regularly. Add items to your wishlist for notifications.'
+                    ],
+                ];
+            @endphp
 
-            <div class="team-grid">
+            @foreach($faqs as $i => $faq)
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ('faq{{ $i }}')">
+                        {{ $faq['q'] }}
+                        <span>+</span>
+                    </div>
+                    <div id="faq{{ $i }}" class="faq-answer">
+                        {{ $faq['a'] }}
+                    </div>
+                </div>
+            @endforeach
 
-                <div class="team-card">Haaris Ibrahim — 240373645</div>
-                <div class="team-card">Cole Bailey — 230107571</div>
+            {{-- Submit Question Form --}}
+            <div class="form-section">
+                <h2>Still need help?</h2>
+                <p>If your question wasn’t answered above, submit your own below.</p>
 
-                <div class="team-card">Benedict Okonkwo — 240367541</div>
-                <div class="team-card">Abderrahmane Laoubi — 230159972</div>
+                <form onsubmit="alert('Your question has been received (demo).'); return false;">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
 
-                <div class="team-card">Jadhushaya Nithiyananthan — 240120980</div>
-                <div class="team-card">Iman Abbas El Ber — 240090339</div>
+                    <textarea rows="4" placeholder="Your Question" required></textarea>
 
-                <div class="team-card">Ian Weng — 240171959</div>
-                <div class="team-card">Ibrahim Shah — 240278797</div>
-
+                    <button type="submit">Submit Question</button>
+                </form>
             </div>
-        </section>
 
-        <!-- Our Values -->
-        <section class="team-section">
-            <h2>Our Values</h2>
-
-            <div class="team-grid">
-
-                <div class="team-card">
-                    <strong>Curiosity</strong><br>
-                    We encourage exploration, creativity, and a love for learning through problem-solving.
-                </div>
-
-                <div class="team-card">
-                    <strong>Quality</strong><br>
-                    We deliver reliable, well-crafted products and features that meet the highest standards.
-                </div>
-
-                <div class="team-card">
-                    <strong>Accessibility</strong><br>
-                    Our platform is designed for all ages, ensuring an intuitive and inclusive experience.
-                </div>
-
-                <div class="team-card">
-                    <strong>Innovation</strong><br>
-                    We continuously improve LogIQ with new ideas that enhance the puzzle-shopping experience.
-                </div>
-
-                <div class="team-card">
-                    <strong>Community</strong><br>
-                    We value puzzle lovers everywhere and aim to create a warm, supportive environment.
-                </div>
-
-                <div class="team-card">
-                    <strong>Integrity</strong><br>
-                    We operate with transparency, respect, and fairness across all interactions.
-                </div>
-
-                <div class="team-card">
-                    <strong>Dedication</strong><br>
-                    Our team works with passion and commitment to deliver the best possible experience.
-                </div>
-
-            </div>
-        </section>
+        </div>
 
     </main>
 
