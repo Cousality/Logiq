@@ -20,7 +20,6 @@
             align-items: flex-start;
         }
 
-        /* Image Container - Separate Card */
         .product-image-container {
             background-color: white;
             border-radius: 8px;
@@ -158,7 +157,7 @@
 
                 <div class="product-actions">
                     <button class="btn-add-to-cart">Add to Cart</button>
-                    <button class="btn-wishlist">♡ Wishlist</button>
+                    <button class="btn-wishlist">Wishlist</button>
                 </div>
 
                 <div class="product-info">

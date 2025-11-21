@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - LOGIQ</title>
+    <title>Account - LOGIQ</title>
     <style>
         * {
             box-sizing: border-box;
@@ -26,8 +26,8 @@
         .login-container {
             background: #fff;
             padding: 40px;
-            border-radius: 15px;
-            width: 380px;
+            border-radius: 20px;
+            width: 400px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
@@ -45,10 +45,16 @@
             color: #333;
         }
 
+        .google {
+            background: #ffffff
+        }
+
         .social-buttons {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            align-content: center;
+            justify-content: center;
         }
 
         .social-buttons a {
@@ -58,17 +64,15 @@
             width: 48%;
             padding: 10px;
             border-radius: 5px;
-            color: #fff;
+            color: black;
             text-decoration: none;
             font-weight: 500;
         }
 
-        .facebook {
-            background: #3b5998;
-        }
-
         .google {
             background: #db4437;
+            border: 2px solid black;
+
         }
 
         .form-group {
@@ -135,7 +139,6 @@
             </div>
             <h2>Sign In With</h2>
             <div class="social-buttons">
-                <a href="#" class="facebook">Facebook</a>
                 <a href="#" class="google">Google</a>
             </div>
 

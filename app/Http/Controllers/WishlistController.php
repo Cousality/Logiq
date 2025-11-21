@@ -8,16 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    // sends user to login if not signed in
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /* Add product to wishlist */
     public function add(Request $request)
     {
         $request->validate([
-            'productID' => 'required|integer|exists:products,productID'
+            'productID' => 'required|integer|exists:products,productID',
         ]);
 
         Wishlist::create([
             'userID' => Auth::id(),
-            'productID' => $request->productID
+            'productID' => $request->productID,
         ]);
 
         return response()->json(['success' => true]);
@@ -27,7 +33,7 @@ class WishlistController extends Controller
     public function remove(Request $request)
     {
         $request->validate([
-            'productID' => 'required|integer|exists:products,productID'
+            'productID' => 'required|integer|exists:products,productID',
         ]);
 
         Wishlist::where('userID', Auth::id())
@@ -41,6 +47,7 @@ class WishlistController extends Controller
     public function index()
     {
         $wishlistItems = Wishlist::where('userID', Auth::id())->with('product')->get();
+
         return view('Frontend.wishlist', compact('wishlistItems'));
     }
 }
