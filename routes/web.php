@@ -7,8 +7,13 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\NewPasswordController;
+use App\Http\Controllers\PasswordResetLinkController;
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -58,13 +63,18 @@ Route::get('/', function () {
     return view('Frontend.home');
 })->name('home');
 
-Route::get('/forgot-password', function () {
-    return view('Frontend.forgot_password');
-});
+ Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+        ->name('password.request');
 
-Route::post('/send-reset-link', function () {
-    return back()->with('message', 'Reset link sent (demo)');
-});
+    Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->name('password.email');
+
+    Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+        ->name('password.reset');
+
+   
+    Route::post('/reset-password', [NewPasswordController::class, 'store'])
+        ->name('password.update');
 
 Route::get('/About_us', function () {
     return view('Frontend.about_us');
@@ -95,6 +105,18 @@ Route::get('/login_security', function () {
     return view('Frontend.login_security');
 })->name('login.security');
 
+
 Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
 })->name('return_policy');
+
+
+
+
+Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google.redirect');
+
+
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback'])->name('auth.google.callback');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
+

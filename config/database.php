@@ -148,4 +148,9 @@ return [
 
     ],
 
+  define('HOST', 'smtp.gmail.com'),
+define('USERNAME', 'benedict102811@gmail.com'),
+define('PASSWORD', 'qqbj clwv cnru oofq'),
+define('DOMAIN', 'http://localhost/reset-password.php'),
+
 ];

@@ -139,7 +139,7 @@
             </div>
             <h2>Sign In With</h2>
             <div class="social-buttons">
-                <a href="#" class="google">Google</a>
+                <a href="{{ route('auth.google.redirect') }}" class="google">Google</a>
             </div>
 
             <form method="POST" action="{{ route('login.submit') }}">
