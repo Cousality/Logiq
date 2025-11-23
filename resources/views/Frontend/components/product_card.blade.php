@@ -4,7 +4,7 @@
             data-difficulty="{{ $product->productDifficulty }}">
             <div class="product-image">
                 @if ($product->productImage)
-                    <img src="{{ asset('storage/' . $product->productImage) }}" alt="{{ $product->productName }}">
+                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}" style="height: 100%; width: 100%;">
                 @else
                     Product Image
                 @endif
