@@ -117,5 +117,30 @@
                 </li>
             </ul>
         </div>
+
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">My Puzzles</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('mypuzzles') }}" 
+                        class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
+                        My Puzzles
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h3 class="sidebar-section-title">Support</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('customer_service') }}" 
+                    class="sidebar-menu-link {{ request()->routeIs('customer_service') ? 'active' : '' }}">
+                    Customer Service
+                </a>
+                </li>
+            </ul>
+        </div>
+
     </nav>
 </aside>
