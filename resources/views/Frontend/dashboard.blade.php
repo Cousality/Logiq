@@ -76,11 +76,11 @@
         </div>
         
         <div class="dashboard-card">
-            <a href="#"><img src="Images\customer_service.png" alt="Customer Service"></a>
+            <a href="/customer_service"><img src="Images\customer_service.png" alt="Customer Service"></a>
         </div>
         
         <div class="dashboard-card">
-            <a href="#"><img src="Images\my_puzzles.png" alt="My Puzzles"></a>
+            <a href="/my_puzzles"><img src="Images\my_puzzles.png" alt="My Puzzles"></a>
         </div>
     </section>
     
