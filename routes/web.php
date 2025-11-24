@@ -78,6 +78,10 @@ Route::get('/TermsConditions', function () {
     return view('Frontend.TermsConditions');
 });
 
+Route::get('/return_policy', function () {
+    return view('Frontend.return_policy');
+})->name('return_policy');
+
 Route::get('/FAQs', function () {
     return view('Frontend.FAQs');
 });
@@ -99,6 +103,10 @@ Route::get('/your_address', function () {
     return view('Frontend.your_address');
 })->name('yourAddress');
 
-Route::get('/return_policy', function () {
-    return view('Frontend.return_policy');
-})->name('return_policy');
+Route::get('/customer_service', function () {
+    return view('Frontend.customer_service');
+})->name('customer_service');
+
+Route::get('/my_puzzles', function () {
+    return view('Frontend.my_puzzles');
+})->name('mypuzzles');
