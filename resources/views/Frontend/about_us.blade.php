@@ -124,7 +124,7 @@
                 </div>
 
                 <div class="team-card">
-                    <strong>Community</strong><br>
+                    <strong>Inclusion</strong><br>
                     We value puzzle lovers everywhere and aim to create a warm, supportive environment.
                 </div>
 
@@ -137,6 +137,12 @@
                     <strong>Dedication</strong><br>
                     Our team works with passion and commitment to deliver the best possible experience.
                 </div>
+
+                  <div class="team-card">
+                    <strong>Sustanability</strong><br>
+                    Our team cares deeply about the enviourment so we try out best to keep our products and packaging eco-friendly.
+                </div>
+
 
             </div>
         </section>
