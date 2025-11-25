@@ -154,6 +154,14 @@
                     <label>Password</label>
                     <input type="password" name="password" placeholder="Enter your password" required>
                 </div>
+                @if ($errors->has('credentials'))
+    <div class="error-message" style="
+        color: #b30000;
+        font-weight: 600;">
+        {{ $errors->first('credentials') }}
+    </div>
+@endif
+
 
                 <button type="submit" class="btn">Sign In</button>
                 <p class="signup">Not a member? <a href="/register">Sign up now</a></p>
