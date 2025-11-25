@@ -42,7 +42,7 @@
             
         }
 
-        p {
+        .terms-section p {
             font-family: 'inria Serif';
             font-size: 20px;
             color: rgba(255, 255, 255, 100);
