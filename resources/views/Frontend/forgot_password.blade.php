@@ -102,6 +102,11 @@
 
                 <h2>Forgot Password?</h2>
                 <p>Enter your email address to receive a password reset link.</p>
+                @if (session('status'))
+    <p style="color: brown; font-weight: bold;">
+        {{ session('status') }}
+    </p>
+@endif
 
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
