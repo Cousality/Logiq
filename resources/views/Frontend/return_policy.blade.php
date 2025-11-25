@@ -40,7 +40,7 @@
             font-weight: bolder;
         }
 
-        .return-section p {
+        p {
             font-family: 'inria Serif';
             font-size: 20px;
             color: rgba(255, 255, 255, 100);
