@@ -78,7 +78,7 @@
                     <h4>Quick Links</h4>
                 </li>
                 <li><a class="footerLinks" href="about_us">About Us</a></li>
-                <li><a class="footerLinks" href="Contact">Contact</a></li>
+                <li><a class="footerLinks" href="customer_service">Customer Service</a></li>
                 <li><a class="footerLinks" href="FAQs">FAQs</a>
                 <li>
             </ul>
