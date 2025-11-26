@@ -65,8 +65,9 @@
                 <li>
                     <h4>Account</h4>
                 </li>
-                <li><a class="footerLinks" href="orderHistory">Order History</a></li>
-                <li><a class="footerLinks" href="Addresses">Addresses</a></li>
+                <li><a class="footerLinks" href="your_orders">Your Orders</a></li>
+                <li><a class="footerLinks" href="your_address">Your Address</a></li>
+                <li><a class="footerLinks" href="my_puzzles">My Puzzles</a></li>
                 <li><a class="footerLinks" href="wishlist">Wishlist</a></li>
                 <li><a class="footerLinks" href="basket">Basket</a></li>
             </ul>
