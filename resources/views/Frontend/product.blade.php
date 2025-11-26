@@ -9,6 +9,17 @@
             background-color: #4A1F1F;
         }
 
+        .product-name {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4em;
+            min-height: 2.8em;
+            margin-bottom: 0.5rem;
+        }
+
         .product-container {
             max-width: 1200px;
             margin: 40px auto;
@@ -65,6 +76,7 @@
             font-size: 28px;
             color: #4A1F1F;
             font-weight: 600;
+            margin-top: auto;
         }
 
         .product-description {
@@ -77,6 +89,13 @@
             display: flex;
             gap: 15px;
             margin-top: 20px;
+        }
+
+        .product-card-buttons {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .btn-add-to-cart {
@@ -156,7 +175,7 @@
                 </div>
 
                 <div class="product-actions">
-                    <button class="btn-add-to-cart">Add to Cart</button>
+                    <button class="btn-add-to-cart">Add to Basket</button>
                     <button class="btn-wishlist">Wishlist</button>
                 </div>
 

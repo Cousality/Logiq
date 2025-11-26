@@ -22,16 +22,23 @@
             <form action="{{ route('basket.add') }}" method="POST" style="margin-bottom: 0.5rem;">
                 @csrf
                 <input type="hidden" name="productID" value="{{ $product->productID }}">
-                <input type="hidden" name="quantity" value="1">
 
                 <button type="submit" class="add-to-basket">
                     Add to Basket
                 </button>
             </form>
+            <form action="{{ route('wishlist.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+                @csrf
+                <input type="hidden" name="productID" value="{{ $product->productID }}">
+
+                <button type="submit" class="add-to-basket">
+                    Add to Wishlist
+                </button>
+            </form>
 
 
+            <!-- <button class="add-to-wishlist" data-product-id="{{ $product->productID }}">Add to Wishlist</button> -->
 
-            <button class="add-to-wishlist" data-product-id="{{ $product->productID }}">Add to Wishlist</button>
         </div>
     </div>
 @endforeach
