@@ -82,7 +82,7 @@
                 <div class="dropdown-content">
                     <a href="dashboard">Profile</a>
                     <a href="profile">Account Details</a>
-                    <a href="profile">Your Orders</a>
+                    <a href="your_orders">Your Orders</a>
                     <form action="{{ route('logout') }}" method = "POST">
                         @csrf
                         <button class="btn">logout</button>
