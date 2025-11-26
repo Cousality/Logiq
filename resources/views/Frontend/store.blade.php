@@ -150,13 +150,25 @@
             padding: 1rem 0;
             font-size: 1.1rem;
         }
+
+        .product-card.hidden {
+            display: none;
+        }
+
+        .product-card-link:has(.product-card.hidden) {
+            display: none;
+        }
+
+        .product-card-buttons {
+            padding: 1rem;
+        }
     </style>
 </head>
 
 <body>
     @include('Frontend.components.navbar')
 
-    @if(isset($searchQuery) && $searchQuery)
+    @if (isset($searchQuery) && $searchQuery)
         <div class="search-info" style="padding-left: 2rem;">
             Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
         </div>
@@ -183,7 +195,7 @@
                     Board Games
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="HandheldBrainTeaser">
+                    <input type="checkbox" class="category-filter" value="HandheldBrainTeasers">
                     Handheld Brain Teasers
                 </label>
             </div>

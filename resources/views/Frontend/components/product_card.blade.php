@@ -1,18 +1,25 @@
 @foreach ($products as $product)
-    <a href="{{ route('product.index', $product->productSlug) }}" class="product-card-link">
-        <div class="product-card" data-category="{{ $product->productCategory }}"
-            data-difficulty="{{ $product->productDifficulty }}">
+    <div class="product-card" data-category="{{ $product->productCategory }}"
+        data-difficulty="{{ $product->productDifficulty }}">
+        <a href="{{ route('product.index', $product->productSlug) }}" class="product-card-link">
             <div class="product-image">
                 @if ($product->productImage)
-                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}" style="height: 100%; width: 100%;">
+                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}"
+                        style="height: 100%; width: 100%;">
                 @else
                     Product Image
                 @endif
             </div>
+
             <div class="product-info">
                 <div class="product-name">{{ $product->productName }}</div>
                 <div class="product-price">£{{ number_format($product->productPrice, 2) }}</div>
-             <form action="{{ route('basket.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+
+            </div>
+
+        </a>
+        <div class = "product-card-buttons">
+            <form action="{{ route('basket.add') }}" method="POST" style="margin-bottom: 0.5rem;">
                 @csrf
                 <input type="hidden" name="productID" value="{{ $product->productID }}">
                 <input type="hidden" name="quantity" value="1">
@@ -24,8 +31,7 @@
 
 
 
-                <button class="add-to-wishlist" data-product-id="{{ $product->productID }}">Add to Wishlist</button>
-            </div>
+            <button class="add-to-wishlist" data-product-id="{{ $product->productID }}">Add to Wishlist</button>
         </div>
-    </a>
+    </div>
 @endforeach
