@@ -2,6 +2,8 @@
     .search-bar {
         display: flex;
         align-items: center;
+        width: 100%;
+        justify-content: center;
     }
 
     .search-bar form {
@@ -14,7 +16,7 @@
 
     .search-bar input {
         padding: 8px 15px;
-        width: 400px;
+        width: 100%;
         font-size: 15px;
         border: none;
         background: white;

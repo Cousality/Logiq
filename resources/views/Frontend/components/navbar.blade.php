@@ -66,6 +66,17 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+
+    .search-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-wrapper form {
+        width: 100%;
+        max-width: 500px;
+    }
 </style>
 <header id="main-header">
     <div class="logo">
@@ -73,7 +84,7 @@
     </div>
 
     <nav>
-        <div style="flex: 1; display: flex; justify-content: center;">
+        <div class="search-wrapper">
             @include('Frontend.components.searchbar')
         </div>
         <div style="display: flex; align-items: center; gap: 0;">
