@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const difficultyFilters = document.querySelectorAll(".difficulty-filter");
     const productCards = document.querySelectorAll(".product-card");
     const noResultsMsg = document.querySelector(".no-results");
+
     // add event listener for each filter
     categoryFilters.forEach((filter) => {
         filter.addEventListener("change", filterProducts);
