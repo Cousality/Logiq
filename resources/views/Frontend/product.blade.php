@@ -160,18 +160,23 @@
     <div class="product-container">
         <div class="product-image-container">
             <div class="product-image">
-                Product Image
+                @if ($product->productImage)
+                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}"
+                        style="height: 100%; width: 100%;">
+                @else
+                    Product Image
+                @endif
             </div>
         </div>
 
         <div class="product-info-container">
             <div class="product-details-section">
-                <h1 class="product-title">PlaceHolder Product Title</h1>
+                <h1 class="product-title">{{ $product->productName }}</h1>
 
-                <div class="product-price">£ Place holder</div>
+                <div class="product-price">£{{ number_format($product->productPrice, 2) }}</div>
 
                 <div class="product-description">
-                    <p>Placeholdder product description</p>
+                    <p>{{ $product->productDescription }}</p>
                 </div>
 
                 <div class="product-actions">
@@ -179,20 +184,25 @@
                     <button class="btn-wishlist">Wishlist</button>
                 </div>
 
-                <div class="product-info">
-                    <div class="info-row">
-                        <span class="info-label">ID:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Availability:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">Category:</span>
-                        <span class="info-value">Placeholder</span>
-                    </div>
+                <div class="info-row">
+                    <span class="info-label">Availability:</span>
+                    <span class="info-value">
+                        @if ($product->productQuantity > 0)
+                            <span class="badge badge-success">In Stock ({{ $product->productQuantity }})</span>
+                        @else
+                            <span class="badge badge-danger">Out of Stock</span>
+                        @endif
+                    </span>
                 </div>
+                <div class="info-row">
+                    <span class="info-label">Category:</span>
+                    <span class="info-value">{{ ucfirst($product->productCategory) }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Difficulty:</span>
+                    <span class="info-value">{{ ucfirst($product->productDifficulty) }}</span>
+                </div>
+
             </div>
         </div>
     </div>
