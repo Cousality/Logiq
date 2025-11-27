@@ -98,7 +98,7 @@
             gap: 0.5rem;
         }
 
-        .btn-add-to-cart {
+        .add-to-basket {
             flex: 1;
             padding: 15px 30px;
             background-color: #310E0E;
@@ -110,12 +110,13 @@
             transition: background-color 0.3s;
         }
 
-        .btn-add-to-cart:hover {
+        .add-to-basket:hover {
             background-color: #4A1F1F;
         }
 
-        .btn-wishlist {
-            padding: 15px 30px;
+        .add-to-wishlist {
+            flex: 1;
+            padding: 13px 30px;
             background-color: transparent;
             color: #310E0E;
             border: 2px solid #310E0E;
@@ -125,7 +126,7 @@
             transition: all 0.3s;
         }
 
-        .btn-wishlist:hover {
+        .add-to-wishlist:hover {
             background-color: #310E0E;
             color: white;
         }
@@ -180,8 +181,22 @@
                 </div>
 
                 <div class="product-actions">
-                    <button class="btn-add-to-cart">Add to Basket</button>
-                    <button class="btn-wishlist">Wishlist</button>
+                    <form action="{{ route('basket.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+                        @csrf
+                        <input type="hidden" name="productID" value="{{ $product->productID }}">
+
+                        <button type="submit" class="add-to-basket">
+                            Add to Basket
+                        </button>
+                    </form>
+                    <form action="{{ route('wishlist.add') }}" method="POST" style="margin-bottom: 0.5rem;">
+                        @csrf
+                        <input type="hidden" name="productID" value="{{ $product->productID }}">
+
+                        <button type="submit" class="add-to-wishlist">
+                            Wishlist
+                        </button>
+                    </form>
                 </div>
 
                 <div class="info-row">
