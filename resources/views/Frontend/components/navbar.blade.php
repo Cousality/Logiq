@@ -92,7 +92,13 @@
                 <a class="icon" href="{{ route('login') }}"><img src="{{ asset('Images/login_icon.png') }}"
                         alt="login"></a>
                 <div class="dropdown-content">
-                    <a href="{{ route('dashboard') }}">Profile</a>
+                    @if (Auth::check() && Auth::user()->admin == 1)
+                        <a href="{{ route('admin.dashboard') }}">Profile</a>
+                    @elseif (Auth::check() && Auth::user()->admin == 0)
+                        <a href="{{ route('dashboard') }}">Profile</a>
+                    @else
+                        <a href="{{ route('login') }}">Profile</a>
+                    @endif
                     <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                     <form action="{{ route('logout') }}" method = "POST">
                         @csrf
