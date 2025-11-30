@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
         filter.addEventListener("change", filterProducts);
     });
 
+    // Apply initial filtering if any checkboxes are pre-checked
+    filterProducts();
+
     function filterProducts() {
         const selectedCategories = Array.from(categoryFilters)
             .filter((checkbox) => checkbox.checked)

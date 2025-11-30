@@ -57,31 +57,31 @@
 
         <section id="category_images">
             <div class="text_with_image">
-                <a href="store"><img src="Images\twist_puzzles.png" alt="Twist Puzzles"></a>
+                <a href="{{ route('store.index', ['category' => 'Twist']) }}"><img src="Images\twist_puzzles.png" alt="Twist Puzzles"></a>
                 <!--Image Reference: https://unsplash.com/photos/3x3-rubiks-cube-toy-inI8GnmS190 -->
                 <h3>Twist Puzzle</h3>
             </div>
 
             <div class="text_with_image">
-                <a href="store"><img src= "Images\jigsaws.png" alt="Jigsaws"></a>
+                <a href="{{ route('store.index', ['category' => 'Jigsaw']) }}"><img src= "Images\jigsaws.png" alt="Jigsaws"></a>
                 <!--Image Reference: https://unsplash.com/photos/a-close-up-of-a-puzzle-on-a-table-FliC0KecSw0 -->
                 <h3>Jigsaws</h3>
             </div>
 
             <div class="text_with_image">
-                <a href="store"><img src= "Images\word_and_number.png" alt="Word and Number"></a>
+                <a href="{{ route('store.index', ['category' => 'Word&Number']) }}"><img src= "Images\word_and_number.png" alt="Word and Number"></a>
                 <!--Image Reference: https://unsplash.com/photos/yellow-and-blue-lego-blocks-LI03w3L-PxU -->
                 <h3>Word and Number</h3>
             </div>
 
             <div class="text_with_image">
-                <a href="store"><img src= "Images\board_games.png" alt="Board Games"></a>
+                <a href="{{ route('store.index', ['category' => 'BoardGames']) }}"><img src= "Images\board_games.png" alt="Board Games"></a>
                 <!--Image Reference: https://unsplash.com/photos/a-close-up-of-a-chess-board-with-pieces-on-it-vh-5LuWlZ_4 -->
                 <h3>Board Games</h3>
             </div>
 
             <div class="text_with_image">
-                <a href="store"><img src= "Images\handheld_brainTeasers.png" alt="Handheld Brain Teasers"></a>
+                <a href="{{ route('store.index', ['category' => 'HandheldBrainTeasers']) }}"><img src= "Images\handheld_brainTeasers.png" alt="Handheld Brain Teasers"></a>
                 <!--Image Reference: https://unsplash.com/photos/a-small-metal-object-sitting-on-top-of-a-table-PFBWQDuWEWs -->
                 <h3>Handheld Brain Teasers</h3>
             </div>

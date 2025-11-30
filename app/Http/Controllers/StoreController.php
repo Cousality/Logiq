@@ -14,6 +14,7 @@ class StoreController extends Controller
         try {
             DB::connection()->getPdo();
             $searchQuery = $request->input('query');
+            $categoryFilter = $request->input('category');
 
             if ($searchQuery) {
                 $products = $this->fuzzySearch($searchQuery);
@@ -23,13 +24,14 @@ class StoreController extends Controller
                     ->get();
             }
 
-            return view('Frontend.store', compact('products', 'searchQuery'));
+            return view('Frontend.store', compact('products', 'searchQuery', 'categoryFilter'));
         } catch(Exception $e) {
             $products = [];
             $dbError = true;
             $searchQuery = $request->input('query');
+            $categoryFilter = $request->input('category');
 
-            return view('Frontend.store', compact('products', 'dbError', 'searchQuery'));
+            return view('Frontend.store', compact('products', 'dbError', 'searchQuery', 'categoryFilter'));
         }
     }
 

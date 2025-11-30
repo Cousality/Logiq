@@ -180,23 +180,23 @@
             <h2>Filter by Category</h2>
             <div class="filter-options">
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Twist">
+                    <input type="checkbox" class="category-filter" value="Twist" {{ isset($categoryFilter) && $categoryFilter === 'Twist' ? 'checked' : '' }}>
                     Twist Puzzle
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Jigsaw">
+                    <input type="checkbox" class="category-filter" value="Jigsaw" {{ isset($categoryFilter) && $categoryFilter === 'Jigsaw' ? 'checked' : '' }}>
                     Jigsaws
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Word&Number">
+                    <input type="checkbox" class="category-filter" value="Word&Number" {{ isset($categoryFilter) && $categoryFilter === 'Word&Number' ? 'checked' : '' }}>
                     Word & Number
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="BoardGames">
+                    <input type="checkbox" class="category-filter" value="BoardGames" {{ isset($categoryFilter) && $categoryFilter === 'BoardGames' ? 'checked' : '' }}>
                     Board Games
                 </label>
                 <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="HandheldBrainTeasers">
+                    <input type="checkbox" class="category-filter" value="HandheldBrainTeasers" {{ isset($categoryFilter) && $categoryFilter === 'HandheldBrainTeasers' ? 'checked' : '' }}>
                     Handheld Brain Teasers
                 </label>
             </div>
