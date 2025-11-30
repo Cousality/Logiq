@@ -222,6 +222,7 @@
 <body>
     @include('Frontend.components.navbar')
 
+    <main>
     <div class="content-wrapper">
         <h1>My Basket</h1>
 
@@ -323,8 +324,9 @@
 
     {{-- basket.js is optional; you can remove this if you like --}}
     {{-- <script src="{{ asset('js/basket.js') }}"></script> --}}
+    </main>
 
+    @include('Frontend.components.footer')
 </body>
-@include('Frontend.components.footer')
 
 </html>

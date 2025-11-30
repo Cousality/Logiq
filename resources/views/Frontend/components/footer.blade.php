@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    main {
+        flex: 1;
+    }
+
     #logiqFooter {
         display: flex;
         flex-direction: column;
@@ -7,6 +18,7 @@
         background-color: rgba(49, 14, 14, 100);
         padding: 20px;
         margin: 0;
+        margin-top: auto;
     }
 
     #footerColumns {

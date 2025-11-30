@@ -151,6 +151,7 @@
 
 <body>
     @include('Frontend.components.navbar')
+    <main>
     <div class = "login-wrapper">
         <div class="login-container">
             <div class="logo">
@@ -217,7 +218,9 @@
             </form>
         </div>
     </div>
+    </main>
+
+    @include('Frontend.components.footer')
 </body>
-@include('Frontend.components.footer')
 
 </html>

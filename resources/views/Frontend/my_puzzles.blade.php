@@ -90,7 +90,9 @@
                 <p class="page-subtitle">View and edit reviewed and rated orders</p>
             </div>
 
-
+        </div>
+    </div>
+</main>
 
 @include('Frontend.components.footer')
 

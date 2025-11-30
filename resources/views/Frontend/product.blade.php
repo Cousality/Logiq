@@ -158,6 +158,7 @@
 <body>
     @include('Frontend.components.navbar')
 
+    <main>
     <div class="product-container">
         <div class="product-image-container">
             <div class="product-image">
@@ -221,6 +222,7 @@
             </div>
         </div>
     </div>
+    </main>
 
     @include('Frontend.components.footer')
 </body>

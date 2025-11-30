@@ -168,6 +168,7 @@
 <body>
     @include('Frontend.components.navbar')
 
+    <main>
     @if (isset($searchQuery) && $searchQuery)
         <div class="search-info" style="padding-left: 2rem;">
             Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
@@ -232,8 +233,9 @@
 
     <script src="{{ asset('js/storeFilter.js') }}"></script>
     <script src="{{ asset('js/wishlist.js') }}"></script>
+    </main>
 
+    @include('Frontend.components.footer')
 </body>
-@include('Frontend.components.footer')
 
 </html>

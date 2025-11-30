@@ -7,6 +7,7 @@
 <body>
     @include('Frontend.components.navbar')
 
+    <main>
     <div style="max-width: 800px; margin: 2rem auto; color: white;">
         <h1>Checkout</h1>
         <p>This is the checkout page.</p>
@@ -14,6 +15,7 @@
             Back to Basket
         </a></p>
     </div>
+    </main>
 
     @include('Frontend.components.footer')
 </body>
