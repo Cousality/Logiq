@@ -67,7 +67,7 @@
             margin-bottom: 15px;
         }
 
-        .form-group input, 
+        .form-group input,
         .form-group textarea,
         .form-group select {
             padding: 10px;
@@ -102,70 +102,60 @@
 
 <body>
 
-@include('Frontend.components.navbar')
+    @include('Frontend.components.navbar')
 
-<main>
-    <div class="dashboard-layout">
+    <main>
+        <div class="dashboard-layout">
 
-        @include('Frontend.components.dashboard_sidebar')
+            @include('Frontend.components.dashboard_sidebar')
 
-        <div class="dashboard-content">
+            <div class="dashboard-content">
 
-            <div class="page-header">
-                <h2>Customer Service</h2>
-                <p class="page-subtitle">Submit a request or contact us for help</p>
-            </div>
+                <div class="page-header">
+                    <h2>Customer Service</h2>
+                    <p class="page-subtitle">Submit a request or contact us for help</p>
+                </div>
 
-            <div class="service-container">
-                <h3>Contact Support</h3>
+                <div class="service-container">
+                    <h3>Contact Support</h3>
 
-                <form method="POST">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>Order Number (Optional):</label>
+                            <input type="text" name="orderNumber">
+                        </div>
 
-                    <div class="form-group">
-                        <label>Full Name:</label>
-                        <input type="text" name="name" required>
-                    </div>
+                        <div class="form-group">
+                            <label>Issue Category:</label>
+                            <select name="issueCategory" required>
+                                <option value="">Select an option</option>
+                                <option value="delivery">Delivery Issue</option>
+                                <option value="refund">Refund / Return</option>
+                                <option value="account">Account Issue</option>
+                                <option value="payment">Payment Problem</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Email Address:</label>
-                        <input type="email" name="email" required>
-                    </div>
+                        <div class="form-group">
+                            <label>Your Message:</label>
+                            <textarea name="message" required></textarea>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Order Number (Optional):</label>
-                        <input type="text" name="orderNumber">
-                    </div>
+                        <div class="submit-btn">
+                            <button type="submit">Submit Request</button>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Issue Category:</label>
-                        <select name="issueCategory" required>
-                            <option value="">Select an option</option>
-                            <option value="delivery">Delivery Issue</option>
-                            <option value="refund">Refund / Return</option>
-                            <option value="account">Account Issue</option>
-                            <option value="payment">Payment Problem</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                    </form>
 
-                    <div class="form-group">
-                        <label>Your Message:</label>
-                        <textarea name="message" required></textarea>
-                    </div>
-
-                    <div class="submit-btn">
-                        <button type="submit">Submit Request</button>
-                    </div>
-
-                </form>
+                </div>
 
             </div>
-
         </div>
-    </div>
-</main>
+    </main>
 
-@include('Frontend.components.footer')
+    @include('Frontend.components.footer')
 
 </body>
+
 </html>
