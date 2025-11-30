@@ -3,7 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
-use app\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
@@ -104,9 +104,9 @@ Route::get('/your_address', function () {
     return view('Frontend.your_address');
 })->name('yourAddress');
 
-Route::get('/customer_service', function () {
-    return view('Frontend.customer_service');
-})->name('customer_service');
+//Route::get('/customer_service', function () {
+//    return view('Frontend.customer_service');
+//})->name('customer_service');
 
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
