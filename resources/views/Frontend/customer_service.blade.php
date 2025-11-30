@@ -119,27 +119,34 @@
                 <div class="service-container">
                     <h3>Contact Support</h3>
 
-                    <form method="POST">
+                    <form method="POST" action="{{ route('customer_service.add') }}">
+                        @csrf
+
                         <div class="form-group">
                             <label>Order Number (Optional):</label>
-                            <input type="text" name="orderNumber">
+                            <input type="text" name="orderNumber" value="{{ old('orderNumber') }}">
                         </div>
 
                         <div class="form-group">
                             <label>Issue Category:</label>
                             <select name="issueCategory" required>
                                 <option value="">Select an option</option>
-                                <option value="delivery">Delivery Issue</option>
-                                <option value="refund">Refund / Return</option>
-                                <option value="account">Account Issue</option>
-                                <option value="payment">Payment Problem</option>
-                                <option value="other">Other</option>
+                                <option value="delivery" {{ old('issueCategory') == 'delivery' ? 'selected' : '' }}>
+                                    Delivery Issue</option>
+                                <option value="refund" {{ old('issueCategory') == 'refund' ? 'selected' : '' }}>Refund /
+                                    Return</option>
+                                <option value="account" {{ old('issueCategory') == 'account' ? 'selected' : '' }}>
+                                    Account Issue</option>
+                                <option value="payment" {{ old('issueCategory') == 'payment' ? 'selected' : '' }}>
+                                    Payment Problem</option>
+                                <option value="other" {{ old('issueCategory') == 'other' ? 'selected' : '' }}>Other
+                                </option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Your Message:</label>
-                            <textarea name="message" required></textarea>
+                            <textarea name="message" required>{{ old('message') }}</textarea>
                         </div>
 
                         <div class="submit-btn">
@@ -147,6 +154,7 @@
                         </div>
 
                     </form>
+
 
                 </div>
 

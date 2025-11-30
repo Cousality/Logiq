@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
+use app\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
@@ -110,3 +111,9 @@ Route::get('/customer_service', function () {
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
 })->name('mypuzzles');
+
+// Customer Service
+Route::middleware(['auth'])->group(function () {
+    Route::get('/customer_service', [ContactController::class, 'index'])->name('customer_service');
+    Route::post('/customer_service', [ContactController::class, 'add'])->name('customer_service.add');
+});
