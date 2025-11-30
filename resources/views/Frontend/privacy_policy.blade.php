@@ -22,6 +22,8 @@
             padding-left: 80px;
             padding-right: 80px;
             padding-bottom: 20px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         h1 {
@@ -129,7 +131,7 @@
             <p>You have the right to access your information, correct inaccuracies and ask us to
                  delete your data.</p>
             <p>If you have any questions or wish to report a privacy concern,
-                 please <a class="links" href="contact_us">contact us</a>.</p>
+                 please <a class="links" href="customer_service">contact us</a>.</p>
         </div>
         
         <div class="policy-section">

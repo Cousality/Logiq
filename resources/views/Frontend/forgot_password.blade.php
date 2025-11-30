@@ -18,13 +18,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px);
             background-color: #4A1F1F;
+            padding: 40px 0; 
         }
 
         .forgot-container {
-            align-items: center;
-            margin-top: 80px;
             background: #fff;
             padding: 40px;
             border-radius: 15px;
@@ -46,13 +44,13 @@
             color: #333;
         }
 
-        p {
+        .forgot-container p {
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
         }
 
-        input {
+        .forgot-container input {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
