@@ -71,11 +71,57 @@
         flex: 1;
         display: flex;
         justify-content: center;
+        min-width: 0;
     }
 
     .search-wrapper form {
         width: 100%;
         max-width: 500px;
+    }
+
+    @media (max-width: 768px) {
+        #main-header {
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .logo {
+            text-align: center;
+            width: 100%;
+        }
+
+        .logo img {
+            width: 180px;
+        }
+
+        nav {
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .search-wrapper form {
+            max-width: 100%;
+        }
+
+        .icon img {
+            width: 60px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .logo img {
+            width: 150px;
+        }
+
+        .icon img {
+            width: 50px;
+        }
     }
 </style>
 <header id="main-header">

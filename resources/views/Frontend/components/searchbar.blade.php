@@ -4,6 +4,7 @@
         align-items: center;
         width: 100%;
         justify-content: center;
+        max-width: 100%;
     }
 
     .search-bar form {
@@ -12,6 +13,7 @@
         border-radius: 8px;
         overflow: hidden;
         border: 2px solid rgba(0, 0, 0, 0.3);
+        max-width: 100%;
     }
 
     .search-bar input {
@@ -22,6 +24,7 @@
         background: white;
         outline: none;
         flex: 1;
+        min-width: 0;
     }
 
     .search-bar button {
@@ -46,11 +49,27 @@
         height: 20px;
         display: block;
     }
+
+    @media (max-width: 360px) {
+        .search-bar input {
+            font-size: 14px;
+            padding: 6px 10px;
+        }
+
+        .search-bar button {
+            padding: 6px 10px;
+        }
+
+        .search-bar button img {
+            width: 18px;
+            height: 18px;
+        }
+    }
 </style>
 
 <div class="search-bar">
     <form action="{{ route('search') }}" method="GET">
-        <input type="text" name="query" placeholder="Search..." required>
+        <input type="text" name="query" placeholder="Search...">
         <button type="submit">
             <img src="{{ asset('Images/search_icon.png') }}" alt="Search">
         </button>
