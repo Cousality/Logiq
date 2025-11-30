@@ -39,25 +39,55 @@ class StoreController extends Controller
         $results = [];
         $search = strtolower(trim($searchQuery));
 
+        // Tweakable config
+        $exactWeight   = 60;
+        $fuzzyWeight   = 40;
+        $similarityMin = 70;
+
         foreach ($allProducts as $product) {
             $score = 0;
-            $name = strtolower($product->productName);
-            $desc = strtolower($product->productDescription ?? '');
+            $name       = strtolower($product->productName);
+            $desc       = strtolower($product->productDescription ?? '');
+            $category   = strtolower($product->productCategory ?? '');
+            $difficulty = strtolower($product->productDifficulty ?? '');
 
-            // Check for matches
+            // Exact substring matches
             if (str_contains($name, $search)) {
-                $score += 100;
+                $score += $exactWeight;
             }
-            if (str_contains($desc, $search)) {
-                $score += 50;
+            if ($desc && str_contains($desc, $search)) {
+                $score += $exactWeight;
+            }
+            if ($category && str_contains($category, $search)) {
+                $score += $exactWeight;
+            }
+            if ($difficulty && str_contains($difficulty, $search)) {
+                $score += $exactWeight;
             }
 
-            // Check similarity for typos
-            $words = explode(' ', $name);
-            foreach ($words as $word) {
-                similar_text($search, $word, $percent);
-                if ($percent > 70) {
-                    $score += $percent;
+            // Fuzzy matches
+            $fieldsToCheck = [
+                $name,
+                $category,
+                $difficulty,
+            ];
+
+            foreach ($fieldsToCheck as $field) {
+                if (!$field) continue;
+
+                // Option 1: whole field
+                similar_text($search, $field, $percent);
+                if ($percent >= $similarityMin) {
+                    $score += $fuzzyWeight * ($percent / 100); // scale by similarity
+                }
+
+                // Option 2: word-by-word in the field
+                $words = explode(' ', $field);
+                foreach ($words as $word) {
+                    similar_text($search, $word, $percentWord);
+                    if ($percentWord >= $similarityMin) {
+                        $score += $fuzzyWeight * ($percentWord / 100);
+                    }
                 }
             }
 
