@@ -2,17 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Basket;
+use App\Models\BasketItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
-        // TODO: replace with real basket data
-        $cartItems = [];
-        $subtotal  = 0;
-        $shipping  = 0;
-        $total     = $subtotal + $shipping;
+        $user = auth()->user();
+
+        $basket = Basket::with(['items.product'])
+            ->where('userID', $user->userID)
+            ->where('orderStatus', 'cart')
+            ->first();
+
+        $basketItems = $basket ? $basket->items : collect();
+
+        $subtotal = $basketItems->sum(function ($item) {
+            return $item->product->productPrice * $item->quantity;
+        });
+
+        $shipping = 0;
+        $total    = $subtotal + $shipping;
+
+        $cartItems = $basketItems;
 
         return view('Frontend.checkout', compact('cartItems', 'subtotal', 'shipping', 'total'));
     }
@@ -35,8 +55,39 @@ class CheckoutController extends Controller
             'agree_terms'    => 'accepted',
         ]);
 
-        // Dummy payment logic – always "success"
-        // Need to create order, move basket items, update stock, clear basket.
+        $user = auth()->user();
+
+        DB::transaction(function () use ($user) {
+            $basket = Basket::with(['items.product'])
+                ->where('userID', $user->userID)
+                ->where('orderStatus', 'cart')
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            $items = $basket->items;
+
+            if ($items->isEmpty()) {
+                abort(400, 'Basket is empty');
+            }
+
+            $subtotal = $items->sum(function ($item) {
+                return $item->product->productPrice * $item->quantity;
+            });
+
+            $shipping = 0;
+            $total    = $subtotal + $shipping;
+
+            $basket->totalAmount = $total;
+            $basket->orderStatus = 'pending';
+            $basket->orderDate   = now();
+            $basket->save();
+
+            foreach ($items as $item) {
+                if ($item->product) {
+                    $item->product->decrement('productQuantity', $item->quantity);
+                }
+            }
+        });
 
         return redirect()
             ->route('dashboard.orders')
