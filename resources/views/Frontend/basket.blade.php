@@ -315,7 +315,8 @@
             </div>
         @else
             <div class="empty-basket">
-                <p>Your basket is empty.</p>
+                <p>Your basket is empty :( </p>
+                <p>Go add some products!</p>
                 <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
             </div>
         @endif
