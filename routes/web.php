@@ -76,7 +76,7 @@ Route::get('/privacy_policy', function () {
 
 Route::get('/TermsConditions', function () {
     return view('Frontend.TermsConditions');
-});
+})->name('terms');
 
 Route::get('/return_policy', function () {
     return view('Frontend.return_policy');
@@ -110,3 +110,7 @@ Route::get('/customer_service', function () {
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
 })->name('mypuzzles');
+
+//Checkout Controller
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
