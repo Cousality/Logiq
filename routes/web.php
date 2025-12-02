@@ -8,9 +8,6 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
-
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-
 use Illuminate\Support\Facades\Route;
 
 /*
