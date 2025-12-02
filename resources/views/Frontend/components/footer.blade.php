@@ -65,8 +65,9 @@
                 <li>
                     <h4>Account</h4>
                 </li>
-                <li><a class="footerLinks" href="orderHistory">Order History</a></li>
-                <li><a class="footerLinks" href="Addresses">Addresses</a></li>
+                <li><a class="footerLinks" href="your_orders">Your Orders</a></li>
+                <li><a class="footerLinks" href="your_address">Your Address</a></li>
+                <li><a class="footerLinks" href="my_puzzles">My Puzzles</a></li>
                 <li><a class="footerLinks" href="wishlist">Wishlist</a></li>
                 <li><a class="footerLinks" href="basket">Basket</a></li>
             </ul>
@@ -78,7 +79,7 @@
                     <h4>Quick Links</h4>
                 </li>
                 <li><a class="footerLinks" href="about_us">About Us</a></li>
-                <li><a class="footerLinks" href="Contact">Contact</a></li>
+                <li><a class="footerLinks" href="customer_service">Customer Service</a></li>
                 <li><a class="footerLinks" href="FAQs">FAQs</a>
                 <li>
             </ul>
@@ -99,7 +100,7 @@
 
     <section id="logoCopyright">
         <div id="footerCopyright">
-            <p>&copy; LogIQ | All Rights Reserved | Secure payments via PayPal, Visa, MasteCard, Apple Pay, Google Pay
+            <p>&copy; LogIQ | All Rights Reserved | Secure payments via PayPal, Visa, Mastercard, Apple Pay, Google Pay
             </p>
         </div>
 

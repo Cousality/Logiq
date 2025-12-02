@@ -16,8 +16,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 100px);
             background-color: #4A1F1F;
+            padding: 40px 0; 
         }
 
 
@@ -79,7 +79,7 @@
             color: #555;
         }
 
-        input {
+        .form-group input {
             width: 100%;
             padding: 10px;
             margin-top: 5px;

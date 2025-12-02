@@ -21,12 +21,21 @@ class WishlistController extends Controller
             'productID' => 'required|integer|exists:products,productID',
         ]);
 
+        // Checking that product isn't in the wishlist
+        $exists = Wishlist::where('userID', Auth::id())
+            ->where('productID', $request->productID)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->route('store.index')->with('info', 'Product is already in your wishlist.');
+        }
+
         Wishlist::create([
             'userID' => Auth::id(),
             'productID' => $request->productID,
         ]);
 
-        return response()->json(['success' => true]);
+        return redirect()->route('store.index')->with('success', 'Product added to wishlist.');
     }
 
     /* Remove product from wishlist */

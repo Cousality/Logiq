@@ -135,7 +135,7 @@
         
         <div class="terms-section">
             <h2>Contact Us</h2>
-            <p>If you have any questions about Terms & Conditions, please <a class="links" href="contact_us">contact us</a>.</p>
+            <p>If you have any questions about Terms & Conditions, please <a class="links" href="customer_service">contact us</a>.</p>
             
              <p>Last Updated: 19/11/2025</p>
         </div>

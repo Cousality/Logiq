@@ -98,10 +98,14 @@
             <h3 class="sidebar-section-title">Account Settings</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('loginSecurity') }}" class="sidebar-menu-link {{ request()->routeIs('loginSecurity') ? 'active' : '' }}">Login & Security</a>
+                    <a href="{{ route('loginSecurity') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('loginSecurity') ? 'active' : '' }}">Login &
+                        Security</a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('yourAddress') }}" class="sidebar-menu-link {{ request()->routeIs('yourAddress') ? 'active' : '' }}">Your Address</a>
+                    <a href="{{ route('yourAddress') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('yourAddress') ? 'active' : '' }}">Your
+                        Address</a>
                 </li>
             </ul>
         </div>
@@ -110,10 +114,19 @@
             <h3 class="sidebar-section-title">Orders & Activity</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('dashboard.orders') }}" class="sidebar-menu-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}">Your Orders</a>
+                    <a href="{{ route('dashboard.orders') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}"> Your
+                        Orders </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('wishlist.index') }}" class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}">My Wishlist</a>
+                    <a href="{{ route('wishlist.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}"> My
+                        Wishlist </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('basket.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('basket.index') ? 'active' : '' }}"> My Basket
+                    </a>
                 </li>
             </ul>
         </div>
@@ -122,7 +135,7 @@
             <h3 class="sidebar-section-title">My Puzzles</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('mypuzzles') }}" 
+                    <a href="{{ route('mypuzzles') }}"
                         class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
                         My Puzzles
                     </a>
@@ -134,10 +147,10 @@
             <h3 class="sidebar-section-title">Support</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('customer_service') }}" 
-                    class="sidebar-menu-link {{ request()->routeIs('customer_service') ? 'active' : '' }}">
-                    Customer Service
-                </a>
+                    <a href="{{ route('customer_service') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('customer_service') ? 'active' : '' }}">
+                        Customer Service
+                    </a>
                 </li>
             </ul>
         </div>

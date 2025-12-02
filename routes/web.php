@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
@@ -103,13 +104,25 @@ Route::get('/your_address', function () {
     return view('Frontend.your_address');
 })->name('yourAddress');
 
-Route::get('/customer_service', function () {
-    return view('Frontend.customer_service');
-})->name('customer_service');
+//Route::get('/customer_service', function () {
+//    return view('Frontend.customer_service');
+//})->name('customer_service');
 
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
 })->name('mypuzzles');
+
+// Customer Service
+Route::middleware(['auth'])->group(function () {
+    Route::get('/customer_service', [ContactController::class, 'index'])->name('customer_service');
+    Route::post('/customer_service', [ContactController::class, 'add'])->name('customer_service.add');
+    Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
+    Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+});
+
+//Route::get('/admin_customer_service', function () {
+//    return view('Frontend.admin_customer_service');
+//})->name('admin_customer_service');
 
 //Checkout Controller
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');

@@ -232,7 +232,7 @@
                         <div class="basket-card">
                             <div class="product-image">
                                 @if (!empty($item->product->productImage))
-                                    <img src="{{ asset('storage/' . $item->product->productImage) }}"
+                                    <img src="{{ $item->product->productImage }}"
                                          alt="{{ $item->product->productName }}"
                                          style="width: 100%; height: 100%; object-fit: cover;">
                                 @else

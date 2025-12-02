@@ -66,23 +66,40 @@
     .dropdown:hover .dropdown-content {
         display: block;
     }
+
+    .search-wrapper {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .search-wrapper form {
+        width: 100%;
+        max-width: 500px;
+    }
 </style>
 <header id="main-header">
     <div class="logo">
-        <a href="/"><img src="{{ asset('Images/darker_logo.png') }}" alt="LOGIQ Logo"></a>
+        <a href="{{ route('home') }}"><img src="{{ asset('Images/darker_logo.png') }}" alt="LOGIQ Logo"></a>
     </div>
 
     <nav>
-        <div style="flex: 1; display: flex; justify-content: center;">
+        <div class="search-wrapper">
             @include('Frontend.components.searchbar')
         </div>
         <div style="display: flex; align-items: center; gap: 0;">
             <div class="dropdown">
-                <a class="icon" href="login"><img src="{{ asset('Images/login_icon.png') }}" alt="login"></a>
+                <a class="icon" href="{{ route('login') }}"><img src="{{ asset('Images/login_icon.png') }}"
+                        alt="login"></a>
                 <div class="dropdown-content">
-                    <a href="dashboard">Profile</a>
-                    <a href="profile">Account Details</a>
-                    <a href="profile">Your Orders</a>
+                    @if (Auth::check() && Auth::user()->admin == 1)
+                        <a href="{{ route('admin.dashboard') }}">Profile</a>
+                    @elseif (Auth::check() && Auth::user()->admin == 0)
+                        <a href="{{ route('dashboard') }}">Profile</a>
+                    @else
+                        <a href="{{ route('login') }}">Profile</a>
+                    @endif
+                    <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                     <form action="{{ route('logout') }}" method = "POST">
                         @csrf
                         <button class="btn">logout</button>
@@ -90,8 +107,10 @@
 
                 </div>
             </div>
-            <a class="icon" href="wishlist"><img src="{{ asset('Images/favourites_icon.png') }}" alt="wishlist"></a>
-            <a class="icon" href="basket"><img src="{{ asset('Images/basket_icon.png') }}" alt="basket"></a>
+            <a class="icon" href="{{ route('wishlist.index') }}"><img src="{{ asset('Images/favourites_icon.png') }}"
+                    alt="wishlist"></a>
+            <a class="icon" href="{{ route('basket.index') }}"><img src="{{ asset('Images/basket_icon.png') }}"
+                    alt="basket"></a>
         </div>
     </nav>
 </header>
