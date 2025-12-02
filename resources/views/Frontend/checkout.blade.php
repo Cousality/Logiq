@@ -284,11 +284,9 @@
                 <div class="step-pill">3. Confirmation</div>
             </div>
 
-            {{-- FORM POSTS TO A PAYMENT ROUTE --}}
             <form action="{{ route('checkout.store') }}" method="POST">
                 @csrf
 
-                {{-- DELIVERY DETAILS --}}
                 <div class="section">
                     <div class="section-header">
                         <h2 class="section-title">Delivery details</h2>
@@ -352,7 +350,6 @@
                     </div>
                 </div>
 
-                {{-- PAYMENT DETAILS --}}
                 <div class="section">
                     <div class="section-header">
                         <h2 class="section-title">Payment</h2>
@@ -415,7 +412,6 @@
                     </p>
                 </div>
 
-                {{-- REVIEW & CONFIRM --}}
                 <div class="section">
                     <div class="section-header">
                         <h2 class="section-title">Review &amp; confirm</h2>
