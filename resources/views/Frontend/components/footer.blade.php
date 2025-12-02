@@ -100,7 +100,7 @@
 
     <section id="logoCopyright">
         <div id="footerCopyright">
-            <p>&copy; LogIQ | All Rights Reserved | Secure payments via PayPal, Visa, MasteCard, Apple Pay, Google Pay
+            <p>&copy; LogIQ | All Rights Reserved | Secure payments via PayPal, Visa, Mastercard, Apple Pay, Google Pay
             </p>
         </div>
 
