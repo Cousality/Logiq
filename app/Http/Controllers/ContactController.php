@@ -13,6 +13,38 @@ class ContactController extends Controller
         return view('Frontend.customer_service');
     }
 
+    public function adminIndex()
+    {
+        $tickets = DB::table('contact')
+            ->join('users', 'contact.userID', '=', 'users.userID')
+            ->select(
+                'contact.supportNum',
+                'contact.userID',
+                'contact.problemCategory',
+                'contact.problemDescription',
+                'contact.created_at',
+                'contact.updated_at',
+                'users.firstName',
+                'users.lastName',
+                'users.email'
+            )
+            ->orderBy('contact.created_at', 'desc')
+            ->get();
+
+        return view('Frontend.admin_customer_service', compact('tickets'));
+    }
+
+    public function resolve($supportNum)
+    {
+        try {
+            DB::table('contact')->where('supportNum', $supportNum)->delete();
+
+            return redirect()->back()->with('success', 'Ticket resolved successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to resolve ticket.');
+        }
+    }
+
     public function add(Request $request)
     {
         $validated = $request->validate([

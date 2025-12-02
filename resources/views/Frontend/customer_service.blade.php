@@ -113,7 +113,7 @@
 
                 <div class="page-header">
                     <h2>Customer Service</h2>
-                    <p class="page-subtitle">Submit a request or contact us for help</p>
+                    <p class="page-subtitle">Respond to customer</p>
                 </div>
 
                 <div class="service-container">
