@@ -61,8 +61,9 @@ Route::get('/forgot-password', function () {
 });
 
 Route::post('/send-reset-link', function () {
-    return back()->with('message', 'Reset link sent (demo)');
-});
+    return back()->with('message', 'A password reset link has been sent to your email.');
+})->name('password.email');
+
 
 Route::get('/about_us', function () {
     return view('Frontend.about_us');

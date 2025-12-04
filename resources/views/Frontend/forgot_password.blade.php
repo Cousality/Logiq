@@ -6,20 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Forgot Password - LOGIQ</title>
+
     <style>
         * {
             box-sizing: border-box;
             font-family: "Poppins", sans-serif;
         }
 
-
-
         .forgot-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             background-color: #4A1F1F;
-            padding: 40px 0; 
+            padding: 40px 0;
         }
 
         .forgot-container {
@@ -84,6 +83,12 @@
             text-decoration: none;
             font-weight: 500;
         }
+
+        .success-message {
+            color: green;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
     </style>
 
 </head>
@@ -94,6 +99,7 @@
     <main>
         <div class="forgot-wrapper">
             <div class="forgot-container">
+
                 <div class="logo">
                     <img src="Images/logo.png" alt="LOGIQ Logo">
                 </div>
@@ -101,7 +107,13 @@
                 <h2>Forgot Password?</h2>
                 <p>Enter your email address to receive a password reset link.</p>
 
-                <form method="POST" action="#">
+                {{-- SUCCESS MESSAGE --}}
+                @if(session('message'))
+                    <p class="success-message">{{ session('message') }}</p>
+                @endif
+
+                {{-- FORM --}}
+                <form method="POST" action="{{ url('/send-reset-link') }}">
                     @csrf
                     <input type="email" name="email" placeholder="Enter your email" required>
                     <button type="submit" class="btn">Send Reset Link</button>
@@ -111,8 +123,8 @@
             </div>
         </div>
     </main>
-    @include('Frontend.components.footer')
 
+    @include('Frontend.components.footer')
 </body>
 
 </html>
