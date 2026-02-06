@@ -1,114 +1,94 @@
-<!DOCTYPE html>
 <style>
-    #logiqFooter {
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        background-color: rgba(49, 14, 14, 100);
-        padding: 20px;
-        margin: 0;
-    }
+/* FOOTER */
+      footer {
+        background: linear-gradient(
+          135deg,
+          var(--red-pastel-1),
+          var(--red-pastel-2)
+        );
+        padding: 4rem 5% 2rem 5%;
+        margin-top: 4rem;
+      }
 
-    #footerColumns {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: flex-start;
-        gap: 30px;
-    }
+      .footer-content {
+        color: var(--text-light);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 0 auto 3rem auto;
+      }
 
-    .list {
-        display: flex;
-        flex-direction: column;
-        list-style-type: none;
-        color: rgba(255, 255, 255, 100);
-        font-size: 20px;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        margin: 0;
-    }
+      .footer-column h4 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid var(--text-light);
+        padding-bottom: 0.5rem;
+        display: inline-block;
+      }
 
-    .footerLinks {
+      .footer-column ul {
+        list-style: none;
+      }
+
+      .footer-column ul li {
+        margin-bottom: 0.5rem;
+      }
+
+      .footer-column a {
+        color: var(--text-light);
         text-decoration: none;
-        color: rgba(255, 255, 255, 100);
-    }
+        transition: transform 0.2s;
+        display: inline-block;
+      }
 
-    .footerLinks:hover {
-        text-decoration: underline;
-    }
+      .footer-column a:hover {
+        transform: translateX(5px);
+      }
 
-    #logoCopyright {
+      .footer-bottom {
+        color: var(--text-light);
+        border-top: 2px solid var(--text-light);
+        padding-top: 2rem;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        flex-wrap: wrap;
-    }
-
-    .footerLogo img {
-        padding: 0px;
-        width: 250px;
-    }
-
-    #footerCopyright {
-        width: 50%;
-        background-color: rgba(49, 14, 14, 100);
-        color: white;
-        font-size: 80%;
-    }
-</style>
-
-<footer id="logiqFooter">
-    <div id="footerColumns">
-
-        <div>
-            <ul class="list">
-                <li>
-                    <h4>Account</h4>
-                </li>
-                <li><a class="footerLinks" href="your_orders">Your Orders</a></li>
-                <li><a class="footerLinks" href="your_address">Your Address</a></li>
-                <li><a class="footerLinks" href="my_puzzles">My Puzzles</a></li>
-                <li><a class="footerLinks" href="wishlist">Wishlist</a></li>
-                <li><a class="footerLinks" href="basket">Basket</a></li>
-            </ul>
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+    </style>
+<footer>
+      <div class="footer-content">
+        <div class="footer-column">
+          <h4>Account</h4>
+          <ul>
+            <li><a class="footerLinks" href="your_orders">Your Orders</a></li>
+            <li><a class="footerLinks" href="your_address">Your Address</a></li>
+            <li><a class="footerLinks" href="my_puzzles">My Puzzles</a></li>
+            <li><a class="footerLinks" href="wishlist">Wishlist</a></li>
+            <li><a class="footerLinks" href="basket">Basket</a></li>
+          </ul>
         </div>
-
-        <div>
-            <ul class="list">
-                <li>
-                    <h4>Quick Links</h4>
-                </li>
-                <li><a class="footerLinks" href="about_us">About Us</a></li>
-                <li><a class="footerLinks" href="customer_service">Customer Service</a></li>
-                <li><a class="footerLinks" href="FAQs">FAQs</a>
-                <li>
-            </ul>
+        <div class="footer-column">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a class="footerLinks" href="about_us">About Us</a></li>
+            <li><a class="footerLinks" href="customer_service">Customer Service</a></li>
+            <li><a class="footerLinks" href="FAQs">FAQs</a>
+          </ul>
         </div>
-
-        <div>
-            <ul class="list">
-                <li>
-                    <h4>Policies</h4>
-                </li>
-                <li><a class="footerLinks" href="privacy_policy">Privacy Policy</a></li>
-                <li><a class="footerLinks" href="TermsConditions">Terms & Conditions</a></li>
-                <li><a class="footerLinks" href="return_policy">Return Policy</a></li>
-            </ul>
+        <div class="footer-column">
+          <h4>Policies</h4>
+          <ul>
+            <li><a class="footerLinks" href="privacy_policy">Privacy Policy</a></li>
+            <li><a class="footerLinks" href="TermsConditions">Terms & Conditions</a></li>
+            <li><a class="footerLinks" href="return_policy">Return Policy</a></li>
+          </ul>
         </div>
-
-    </div>
-
-    <section id="logoCopyright">
-        <div id="footerCopyright">
-            <p>&copy; LogIQ | All Rights Reserved | Secure payments via PayPal, Visa, Mastercard, Apple Pay, Google Pay
-            </p>
-        </div>
-
-        <div class="footerLogo">
-            <a href="/"><img src="{{ asset('Images/darker_logo.png') }}" alt="LOGIQ Logo"></a>
-        </div>
-    </section>
-
-</footer>
-
-</html>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 LOGIQ. All puzzles reserved.</p>
+      </div>
+    </footer>
