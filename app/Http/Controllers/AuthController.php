@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('Frontend.Auth.register');
+        return view('Frontend.register');
     }
 
     public function register(Request $request)
@@ -39,7 +39,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('Frontend.Auth.login');
+        return view('Frontend.login');
     }
 
     public function login(Request $request)

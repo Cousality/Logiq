@@ -57,12 +57,13 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/forgot-password', function () {
-    return view('Frontend.Auth.forgot_password');
+    return view('Frontend.forgot_password');
 });
 
 Route::post('/send-reset-link', function () {
     return back()->with('message', 'A password reset link has been sent to your email.');
 })->name('password.email');
+
 
 Route::get('/about_us', function () {
     return view('Frontend.about_us');
