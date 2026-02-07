@@ -126,7 +126,7 @@
         @else
             <a href="{{ route('login') }}">Profile</a>
         @endif
-        <a href="#">Store</a>
+        <a href="{{ route('store.index') }}">Store</a>
         <a href="#">Cart (0)</a>
 
         <button id="dark-mode-toggle">THEME</button>
