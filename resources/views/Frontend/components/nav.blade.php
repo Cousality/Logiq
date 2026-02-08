@@ -77,6 +77,17 @@
         font-size: 0.9rem;
     }
 
+    .nav-btn {
+        background: var(--text);
+        color: var(--bg-primary);
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: bold;
+        margin-left: 1rem;
+    }
+
     #dark-mode-toggle {
         background: var(--text);
         color: var(--bg-primary);
@@ -130,8 +141,19 @@
         @endif
         <a href="{{ route('store.index') }}">Store</a>
         <a href="{{ route('basket.index') }}">Basket (0)</a>
+        @auth
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="nav-btn">LOGOUT</button>
+            </form>
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}">Login</a>
+        @endguest
 
         <button id="dark-mode-toggle">THEME</button>
+
     </div>
 </nav>
 
