@@ -160,7 +160,7 @@
             <h1>Don't Solve A Problem.<br />Be The Problem.</h1>
             <p>Puzzles go BRR</p>
             <br />
-            <a href="#" class="cta-button">Browse Store</a>
+            <a href="{{ route('store.index') }}" class="cta-button">Browse Store</a>
         </div>
         <div class="puzzle-card">
             <div class="puzzle-badge">DAILY LOGIQ #1</div>

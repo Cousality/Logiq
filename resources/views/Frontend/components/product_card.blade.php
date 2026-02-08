@@ -91,7 +91,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
-            S overflow: hidden;
+            overflow: hidden;
         }
 
         .card-meta {
@@ -120,7 +120,7 @@
             width: 100%;
         }
 
-        .btn-brutalist {
+        .btn-style {
             width: 100%;
             padding: 0.8rem;
             font-family: 'Courier New', monospace;
@@ -205,7 +205,7 @@
             <form action="{{ route('basket.add') }}" method="POST" class="w-full">
                 @csrf
                 <input type="hidden" name="productID" value="{{ $product->productID }}">
-                <button type="submit" class="btn-brutalist btn-primary">
+                <button type="submit" class="btn-style btn-primary">
                     ADD TO BASKET
                 </button>
             </form>
@@ -213,7 +213,7 @@
                 <form action="{{ route('wishlist.add') }}" method="POST" class="w-full">
                     @csrf
                     <input type="hidden" name="productID" value="{{ $product->productID }}">
-                    <button type="submit" class="btn-brutalist btn-secondary">
+                    <button type="submit" class="btn-style btn-secondary">
                         ADD TO WISHLIST
                     </button>
                 </form>

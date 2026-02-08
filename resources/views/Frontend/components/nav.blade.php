@@ -129,7 +129,7 @@
             <a href="{{ route('login') }}">Profile</a>
         @endif
         <a href="{{ route('store.index') }}">Store</a>
-        <a href="{{ route('basket.index') }}">Cart (0)</a>
+        <a href="{{ route('basket.index') }}">Basket (0)</a>
 
         <button id="dark-mode-toggle">THEME</button>
     </div>
