@@ -132,7 +132,6 @@
         @endif
     </header>
 
-    <!-- Filters -->
     <div class="filters">
         <div class="filter-group">
             <button class="filter-btn active category-filter" data-filter="all">ALL</button>
@@ -195,7 +194,6 @@
         // Category button filters
         categoryFilterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Update active state
                 categoryFilterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
@@ -229,7 +227,6 @@
                 }
             });
 
-            // Show/hide no results message
             if (noResults) {
                 noResults.style.display = visibleCount === 0 ? 'block' : 'none';
             }

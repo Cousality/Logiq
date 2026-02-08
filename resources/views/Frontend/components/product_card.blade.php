@@ -91,7 +91,7 @@
             display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
-            overflow: hidden;
+            S overflow: hidden;
         }
 
         .card-meta {
@@ -132,6 +132,10 @@
             font-size: 0.9rem;
         }
 
+        .btn-wishlist {
+            background: var(--bg-primary);
+        }
+
         .btn-primary {
             background: var(--text);
             color: var(--bg-primary);
@@ -151,7 +155,6 @@
             background: var(--bg-secondary);
         }
 
-        /* Badge Fix */
         .difficulty-badge {
             position: absolute;
             top: 0;
@@ -169,13 +172,11 @@
     <div class="product-card" data-category="{{ $product->productCategory }}"
         data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}">
 
-        {{-- Difficulty Badge --}}
         <div class="difficulty-badge {{ strtolower($product->productDifficulty) }}">
             {{ strtoupper($product->productDifficulty) }}
         </div>
 
         <a href="{{ route('product.index', $product->productSlug) }}" class="card-link-wrapper">
-            {{-- Image Area --}}
             <div class="card-image-container">
                 @if ($product->productImage)
                     <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}">
@@ -184,7 +185,6 @@
                 @endif
             </div>
 
-            {{-- Content Area --}}
             <div class="card-content">
                 <div class="card-header">
                     <h3 class="card-title">{{ $product->productName }}</h3>
@@ -201,7 +201,6 @@
             </div>
         </a>
 
-        {{-- Action Buttons (Sticky Footer) --}}
         <div class="card-actions">
             <form action="{{ route('basket.add') }}" method="POST" class="w-full">
                 @csrf
@@ -210,14 +209,16 @@
                     ADD TO BASKET
                 </button>
             </form>
+            <div class= "btn-wishlist">
+                <form action="{{ route('wishlist.add') }}" method="POST" class="w-full">
+                    @csrf
+                    <input type="hidden" name="productID" value="{{ $product->productID }}">
+                    <button type="submit" class="btn-brutalist btn-secondary">
+                        ADD TO WISHLIST
+                    </button>
+                </form>
+            </div>
 
-            <form action="{{ route('wishlist.add') }}" method="POST" class="w-full">
-                @csrf
-                <input type="hidden" name="productID" value="{{ $product->productID }}">
-                <button type="submit" class="btn-brutalist btn-secondary">
-                    ADD TO WISHLIST
-                </button>
-            </form>
         </div>
     </div>
 @endforeach
