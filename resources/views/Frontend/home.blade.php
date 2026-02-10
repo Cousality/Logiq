@@ -1,56 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LOGIQ</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-        h1 {
-            font-family: 'inria Serif';
-            font-size: 60px;
-            color: rgba(255, 255, 255, 100);
+        /* HERO SECTION */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 70vh;
+            padding: 0 5%;
+            gap: 2rem;
+            align-items: center;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 50%,
+                    var(--red-pastel-1) 50%);
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--text);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* PUZZLE CARD */
+        .puzzle-card {
+            background: var(--white);
+            padding: 2rem;
+            border: 2px solid var(--text);
+        }
+
+        .puzzle-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .puzzle-options button {
+            color: var(--text);
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: var(--bg-primary);
+            border: 1px solid var(--text);
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .puzzle-options button:hover {
+            background: var(--bg-secondary);
+        }
+
+        /* PRODUCT GRID */
+        .products {
+            padding: 5rem 5%;
+        }
+
+        .section-title {
             text-align: center;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        h3 {
-            font-family: 'inria Serif';
-            font-size: 20px;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
-        h4 {
-            color: rgba(255, 255, 255, 100);
-            font-size: 25px;
+        .product-card {
+            background: var(--white);
+            border: 1px solid var(--red-pastel-2);
+            transition: 0.3s;
         }
 
-        body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
+        .product-card:hover {
+            box-shadow: 5px 5px 0px var(--text);
         }
 
-        #category_images {
+        .product-image {
+            height: 200px;
+            background-color: var(--red-pastel-1);
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
             justify-content: center;
+            font-size: 3rem;
         }
 
-        .text_with_image {
-            text-align: center;
-            width: 30%;
-            color: white;
+        .product-info {
+            padding: 1.5rem;
         }
 
-        #category_images img {
-            width: 55%;
+        .price {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        #feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            min-height: 1.6em;
+        }
+
+
+        /* MOBILE FIXES */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                background: var(--bg-primary);
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
         }
     </style>
-
 </head>
 
 <body>
+    @include('Frontend.components.nav')
 
-<<<<<<< HEAD
     <header class="hero">
         <div class="hero-text">
             <h1>Don't Solve A Problem.<br />Be The Problem.</h1>
@@ -69,49 +173,53 @@
             <div id="feedback"></div>
         </div>
     </header>
-=======
-    @include('Frontend.components.navbar')
->>>>>>> main
 
-    <main>
-        <h1>Explore our Categories!</h1>
-
-        <section id="category_images">
-            <div class="text_with_image">
-                <a href="store"><img src="Images\twist_puzzles.png" alt="Twist Puzzles"></a>
-                <!--Image Reference: https://unsplash.com/photos/3x3-rubiks-cube-toy-inI8GnmS190 -->
-                <h3>Twist Puzzle</h3>
+    <section class="products">
+        <h2 class="section-title">Categories</h2>
+        <div class="grid">
+            <div class="product-card">
+                <div class="product-image">Placeholder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 9/10</p>
+                    <span class="price">$00</span>
+                </div>
             </div>
-
-            <div class="text_with_image">
-                <a href="store"><img src= "Images\jigsaws.png" alt="Jigsaws"></a>
-                <!--Image Reference: https://unsplash.com/photos/a-close-up-of-a-puzzle-on-a-table-FliC0KecSw0 -->
-                <h3>Jigsaws</h3>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>Cryptex Cylinder</h3>
+                    <p>Difficulty: 7/10</p>
+                    <span class="price">$00</span>
+                </div>
             </div>
-
-            <div class="text_with_image">
-                <a href="store"><img src= "Images\word_and_number.png" alt="Word and Number"></a>
-                <!--Image Reference: https://unsplash.com/photos/yellow-and-blue-lego-blocks-LI03w3L-PxU -->
-                <h3>Word and Number</h3>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <div class="text_with_image">
-                <a href="store"><img src= "Images\board_games.png" alt="Board Games"></a>
-                <!--Image Reference: https://unsplash.com/photos/a-close-up-of-a-chess-board-with-pieces-on-it-vh-5LuWlZ_4 -->
-                <h3>Board Games</h3>
-            </div>
-
-            <div class="text_with_image">
-                <a href="store"><img src= "Images\handheld_brainTeasers.png" alt="Handheld Brain Teasers"></a>
-                <!--Image Reference: https://unsplash.com/photos/a-small-metal-object-sitting-on-top-of-a-table-PFBWQDuWEWs -->
-                <h3>Handheld Brain Teasers</h3>
-            </div>
-        </section>
-
-    </main>
 
     @include('Frontend.components.footer')
-
+    <script>
+        function checkAnswer(val) {
+            const feedback = document.getElementById("feedback");
+            const btns = document.querySelectorAll(".puzzle-options button");
+            if (val === 12) {
+                feedback.style.color = "green";
+                feedback.textContent = "Correct. Logic sound.";
+                btns.forEach((btn) => (btn.disabled = true));
+            } else {
+                feedback.style.color = "#4A2C2A";
+                feedback.textContent = "Incorrect. Think sequentially.";
+            }
+        }
+    </script>
 </body>
 
 </html>
