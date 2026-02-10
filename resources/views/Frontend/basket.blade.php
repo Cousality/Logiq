@@ -1,331 +1,513 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>My Basket</title>
+    <title>Basket - LOGIQ</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-      
-        .content-wrapper {
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* BASKET HEADER */
+        .basket-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
         }
 
-        h1 {
-            color: white;
-            font-family: 'Inria Serif';
-            text-align: center;
-            margin-bottom: 2rem;
+        .basket-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
         }
 
-        .basket-layout {
+        .basket-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        /* MAIN CONTAINER */
+        .basket-container {
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 2rem;
-            align-items: flex-start;
+            padding: 3rem 5%;
+            margin-bottom: 5rem;
         }
 
-        .basket-grid {
+        /* BASKET ITEMS */
+        .basket-items {
+            background: var(--white);
+            border: 2px solid var(--text);
+        }
+
+        .basket-item {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            grid-template-columns: 120px 1fr auto;
+            gap: 1.5rem;
+            padding: 2rem;
+            border-bottom: 1px solid var(--text);
+            align-items: center;
+            transition: opacity 0.3s;
         }
 
-        .basket-card {
-            display: grid;
-            grid-template-columns: 120px 1fr 140px;
-            gap: 1rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            padding: 1rem;
-            transition: 0.2s;
+        .basket-item:last-child {
+            border-bottom: none;
         }
 
-        .basket-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 100px;
-            background: #e0e0e0;
+        .item-image {
+            width: 120px;
+            height: 120px;
+            background: var(--red-pastel-1);
+            border: 2px solid var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
+            font-size: 2rem;
+            color: var(--text-light);
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
             font-size: 0.9rem;
+            opacity: 0.8;
         }
 
-        .product-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .product-name {
-            font-size: 1rem;
+        .item-price {
+            font-size: 1.3rem;
             font-weight: bold;
-            color: #310E0E;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
 
-        .product-price {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 0.5rem;
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
-        .product-meta {
-            font-size: 0.85rem;
-            color: #777;
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            background: var(--bg-primary);
+            border: 1px solid var(--text);
+            color: var(--text);
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
         }
 
-        .basket-actions {
+        .qty-btn:hover:not(:disabled) {
+            background: var(--text);
+            color: var(--bg-primary);
+        }
+
+        .qty-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .qty-display {
+            min-width: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .item-actions {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            gap: 1rem;
             align-items: flex-end;
         }
 
-        .quantity-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .quantity-wrapper input[type="number"] {
-            width: 70px;
-            padding: 0.25rem 0.5rem;
-        }
-
-        .line-subtotal {
+        .item-total {
+            font-size: 1.5rem;
             font-weight: bold;
-            margin-bottom: 0.5rem;
         }
 
-        .remove-from-basket {
-            padding: 0.4rem 0.75rem;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
+        .remove-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--text);
+            color: var(--text);
             cursor: pointer;
-            font-size: 0.85rem;
+            font-family: inherit;
             font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .remove-from-basket:hover {
-            background: #c82333;
-        }
-
-        .update-basket {
-            padding: 0.4rem 0.75rem;
-            background: #310E0E;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            text-transform: uppercase;
             font-size: 0.85rem;
-            font-weight: bold;
-            transition: 0.2s;
+            transition: all 0.2s;
         }
 
-        .update-basket:hover {
-            background: #562323;
+        .remove-btn:hover {
+            background: var(--red-pastel-1);
+            color: var(--text-light);
+            border-color: var(--red-pastel-1);
         }
 
-        .basket-summary {
-            background: #fff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: var(--bg-secondary);
+            border: 2px solid var(--text);
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
         }
 
-        .basket-summary h2 {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-            color: #310E0E;
+        .summary-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--text);
         }
 
-        .summary-row.total {
+        .summary-row:last-of-type {
+            border-bottom: 2px solid var(--text);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--text);
+            color: var(--white);
+            border: none;
+            font-family: inherit;
             font-weight: bold;
             font-size: 1.1rem;
-            margin-top: 0.75rem;
-            border-top: 1px solid #ddd;
-            padding-top: 0.75rem;
-        }
-
-        .checkout-button {
-            margin-top: 1.5rem;
-            width: 100%;
-            padding: 0.75rem;
-            background: #310E0E;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            text-transform: uppercase;
             cursor: pointer;
-            font-size: 1rem;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .checkout-btn:hover {
+            background: var(--red-pastel-1);
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: transparent;
+            border: 1px solid var(--text);
+            color: var(--text);
+            text-decoration: none;
             font-weight: bold;
-            transition: 0.2s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            letter-spacing: 1px;
         }
 
-        .checkout-button:hover {
-            background: #562323;
+        .continue-shopping:hover {
+            background: var(--white);
         }
 
+        /* PROMO CODE */
+        .promo-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--text);
+        }
+
+        .promo-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .promo-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--text);
+            background: var(--white);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .promo-input button {
+            padding: 0.8rem 1.5rem;
+            background: var(--text);
+            color: var(--white);
+            border: none;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .promo-input button:hover {
+            background: var(--red-pastel-1);
+        }
+
+
+        /* EMPTY BASKET */
         .empty-basket {
             text-align: center;
-            padding: 3rem;
-            color: white;
+            padding: 5rem 2rem;
+            background: var(--white);
+            border: 2px solid var(--text);
+            margin: 3rem 5%;
+        }
+
+        .empty-basket h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .empty-basket p {
             font-size: 1.2rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
         }
 
-        .empty-basket a {
-            color: #fff;
-            text-decoration: underline;
+        .empty-basket .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--text);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+            text-transform: uppercase;
         }
 
-        @media (max-width: 900px) {
-            .basket-layout {
+        .empty-basket .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .basket-title {
+                font-size: 2.5rem;
+            }
+
+            .basket-header {
+                background: var(--bg-primary);
+            }
+
+            .basket-container {
                 grid-template-columns: 1fr;
             }
-        }
 
-        @media (max-width: 700px) {
-            .basket-card {
-                grid-template-columns: 1fr;
+            .basket-item {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
             }
 
-            .basket-actions {
-                align-items: flex-start;
+            .item-image {
+                width: 80px;
+                height: 80px;
+                font-size: 1.5rem;
+            }
+
+            .item-actions {
+                grid-column: 1 / -1;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 1rem;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .quantity-controls {
+                margin-top: 0.5rem;
             }
         }
     </style>
 </head>
 
 <body>
-    @include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
-    <div class="content-wrapper">
-        <h1>My Basket</h1>
-
+    <header class="basket-header">
+        <h1 class="basket-title">YOUR BASKET.</h1>
         @if (!empty($basketItems) && count($basketItems) > 0)
-            <div class="basket-layout">
-                <div class="basket-grid">
-                    @foreach ($basketItems as $item)
-                        <div class="basket-card">
-                            <div class="product-image">
-                                @if (!empty($item->product->productImage))
-                                    <img src="{{ $item->product->productImage }}"
-                                         alt="{{ $item->product->productName }}"
-                                         style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    <span>No image</span>
-                                @endif
+            <p class="basket-subtitle">
+                {{ $basketItems->sum('quantity') }} item{{ $basketItems->sum('quantity') !== 1 ? 's' : '' }} ready for
+                checkout
+            </p>
+        @else
+            <p class="basket-subtitle">Your basket is empty</p>
+        @endif
+    </header>
+
+    @if (!empty($basketItems) && count($basketItems) > 0)
+        <div class="basket-container">
+            <!-- BASKET ITEMS -->
+            <div class="basket-items">
+                @foreach ($basketItems as $item)
+                    <div class="basket-item" data-id="{{ $item->orderItemID }}"
+                        data-price="{{ $item->product->productPrice }}">
+                        <div class="item-image">
+                            @if (!empty($item->product->productImage))
+                                <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
+                            @else
+                                <span>🧩</span>
+                            @endif
+                        </div>
+                        <div class="item-details">
+                            <h3>{{ $item->product->productName }}</h3>
+                            <div class="item-meta">
+                                <span>Category: {{ $item->product->productCategory }}</span>
+                                <span>Difficulty: {{ $item->product->productDifficulty }}</span>
                             </div>
-
-                            <div class="product-info">
-                                <div>
-                                    <div class="product-name">
-                                        {{ $item->product->productName }}
-                                    </div>
-                                    <div class="product-price">
-                                        £{{ number_format($item->product->productPrice, 2) }}
-                                    </div>
-                                    <div class="product-meta">
-                                        Category: {{ $item->product->productCategory }}<br>
-                                        Difficulty: {{ $item->product->productDifficulty }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="basket-actions">
-                                <div>
-                                    <form action="{{ route('basket.update', $item->orderItemID) }}" method="POST" class="quantity-wrapper">
-                                        @csrf
-                                        @method('PUT')
-                                        <label for="quantity-{{ $item->orderItemID }}">Qty:</label>
-                                        <input
-                                            id="quantity-{{ $item->orderItemID }}"
-                                            type="number"
-                                            name="quantity"
-                                            min="1"
-                                            value="{{ $item->quantity }}"
-                                        >
-                                        <button type="submit" class="update-basket">Update</button>
-                                    </form>
-
-                                    <div class="line-subtotal">
-                                        Subtotal:
-                                        £{{ number_format($item->product->productPrice * $item->quantity, 2) }}
-                                    </div>
-                                </div>
-
-                                <form action="{{ route('basket.remove', $item->orderItemID) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="remove-from-basket">
-                                        Remove
-                                    </button>
-                                </form>
+                            <div class="item-price">£{{ number_format($item->product->productPrice, 2) }}</div>
+                            <div class="quantity-controls">
+                                <button class="qty-btn"
+                                    onclick="updateQuantity({{ $item->orderItemID }}, -1)">-</button>
+                                <span class="qty-display"
+                                    id="qty-{{ $item->orderItemID }}">{{ $item->quantity }}</span>
+                                <button class="qty-btn"
+                                    onclick="updateQuantity({{ $item->orderItemID }}, 1)">+</button>
                             </div>
                         </div>
-                    @endforeach
+                        <div class="item-actions">
+                            <div class="item-total" id="total-{{ $item->orderItemID }}">
+                                £{{ number_format($item->product->productPrice * $item->quantity, 2) }}
+                            </div>
+                            <form action="{{ route('basket.remove', $item->orderItemID) }}" method="POST"
+                                style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="remove-btn">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- ORDER SUMMARY -->
+            <div class="order-summary">
+                <h2 class="summary-title">Order Summary</h2>
+
+                <div class="summary-row">
+                    <span>Items ({{ $basketItems->sum('quantity') }})</span>
+                    <span
+                        id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
                 </div>
 
-                <div class="basket-summary">
-                    <h2>Order Summary</h2>
+                <div class="summary-row">
+                    <span>Total</span>
+                    <span
+                        id="grand-total">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
+                </div>
 
-                    <div class="summary-row">
-                        <span>Items ({{ $basketItems->sum('quantity') }})</span>
-                        <span>
-                            £{{ number_format($basketItems->sum(fn ($item) => $item->product->productPrice * $item->quantity), 2) }}
-                        </span>
+                <form action="{{ route('checkout.index') }}" method="GET">
+                    <button type="submit" class="checkout-btn">
+                        Proceed to Checkout
+                    </button>
+                </form>
+
+                <a href="{{ route('store.index') }}" class="continue-shopping">
+                    Continue Shopping
+                </a>
+
+                <div class="promo-section">
+                    <strong>Have a promo code?</strong>
+                    <div class="promo-input">
+                        <input type="text" id="promo-code" placeholder="Enter code" />
+                        <button onclick="applyPromo()">Apply</button>
                     </div>
-
-                    <div class="summary-row total">
-                        <span>Total</span>
-                        <span>
-                            £{{ number_format($basketItems->sum(fn ($item) => $item->product->productPrice * $item->quantity), 2) }}
-                        </span>
-                    </div>
-
-                    <form action="{{ route('checkout.index') }}" method="GET">
-                        <button type="submit" class="checkout-button">
-                            Proceed to Checkout
-                        </button>
-                    </form>
                 </div>
             </div>
-        @else
-            <div class="empty-basket">
-                <p>Your basket is empty :( </p>
-                <p>Go add some products!</p>
-                <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
-            </div>
-        @endif
-    </div>
+        </div>
+    @else
+        <div class="empty-basket">
+            <h2>Your Basket is Empty.</h2>
+            <p>Time to add some brain-bending puzzles!</p>
+            <a href="{{ route('store.index') }}" class="cta-button">Browse Store</a>
+        </div>
+    @endif
 
-    {{-- basket.js is optional; you can remove this if you like --}}
-    {{-- <script src="{{ asset('js/basket.js') }}"></script> --}}
+    @include('Frontend.components.footer')
 
+    <script>
+        // Update quantity - UI only, no server calls
+        function updateQuantity(itemId, change) {
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
+            const price = parseFloat(item.dataset.price);
+
+            let currentQty = parseInt(qtyDisplay.textContent);
+            let newQty = currentQty + change;
+
+            if (newQty < 1) newQty = 1;
+            if (newQty > 99) newQty = 99;
+
+            // Update display
+            qtyDisplay.textContent = newQty;
+
+            const itemTotal = (price * newQty).toFixed(2);
+            document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
+
+            // Update summary
+            updateSummaryDisplay();
+        }
+
+        // Update order summary display (client-side calculation)
+        function updateSummaryDisplay() {
+            const items = document.querySelectorAll('.basket-item');
+            let subtotal = 0;
+            let itemCount = 0;
+
+            items.forEach(item => {
+                const itemId = item.dataset.id;
+                const price = parseFloat(item.dataset.price);
+                const qty = parseInt(document.getElementById(`qty-${itemId}`).textContent);
+                subtotal += price * qty;
+                itemCount += qty;
+            });
+
+            const total = subtotal;
+
+            document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
+            document.getElementById('grand-total').textContent = `£${total.toFixed(2)}`;
+
+            // Update header count
+            const subtitle = document.querySelector('.basket-subtitle');
+            if (subtitle) {
+                subtitle.textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''} ready for checkout`;
+            }
+        }
+    </script>
 </body>
-@include('Frontend.components.footer')
 
 </html>

@@ -57,28 +57,27 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/forgot-password', function () {
-    return view('Frontend.forgot_password');
+    return view('Frontend.Auth.forgot_password');
 });
 
 Route::post('/send-reset-link', function () {
     return back()->with('message', 'A password reset link has been sent to your email.');
 })->name('password.email');
 
-
 Route::get('/about_us', function () {
     return view('Frontend.about_us');
 })->name('about_us');
 
 Route::get('/privacy_policy', function () {
-    return view('Frontend.privacy_policy');
+    return view('Frontend.text.privacy_policy');
 });
 
 Route::get('/TermsConditions', function () {
-    return view('Frontend.TermsConditions');
+    return view('Frontend.text.TermsConditions');
 })->name('terms');
 
 Route::get('/return_policy', function () {
-    return view('Frontend.return_policy');
+    return view('Frontend.text.return_policy');
 })->name('return_policy');
 
 Route::get('/FAQs', function () {

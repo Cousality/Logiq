@@ -1,239 +1,257 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Store - LOGIQ</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-        .content-wrapper {
-            display: flex;
-            gap: 2rem;
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* STORE HEADER */
+        .store-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
         }
 
-        .sidebar {
-            flex: 0 0 200px;
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            height: fit-content;
-        }
-
-        .sidebar h2 {
-            color: #310E0E;
-            margin-top: 0;
+        .store-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
             margin-bottom: 1rem;
-            font-size: 1.2rem;
         }
 
-        .filter-options {
+        .store-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .store-products {
+            padding: 2rem 5%;
+            margin-bottom: 5rem;
+        }
+
+        /* FILTERS */
+        .filters {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 5%;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--text);
+            flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .filter-option {
+        .filter-group {
             display: flex;
+            gap: 1rem;
             align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
         }
 
-        .filter-option input[type="checkbox"] {
-            cursor: pointer;
-        }
-
-        .products-container {
-            flex: 1;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: 0.2s;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        .product-card.hidden {
-            display: none;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            background: #e0e0e0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .product-info {
-            padding: 1rem;
-        }
-
-        .product-name {
-            font-size: 1rem;
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--text);
+            color: var(--text);
+            font-family: inherit;
             font-weight: bold;
-            color: #310E0E;
-            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
         }
 
-        .product-price {
-            font-size: 1.1rem;
-            color: #333;
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--text);
+            color: var(--bg-primary);
+        }
+
+        select.filter-btn {
+            padding: 0.5rem 1rem;
+        }
+
+
+
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .empty-state h3 {
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
-        .add-to-basket {
-            width: 100%;
-            padding: 0.75rem;
-            background: #310E0E;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: bold;
-            transition: 0.2s;
-        }
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            .store-title {
+                font-size: 2.5rem;
+            }
 
-        .add-to-basket:hover {
-            background: #562323;
-        }
+            .store-header {
+                background: var(--bg-primary);
+            }
 
-        .add-to-wishlist {
-            width: 100%;
-            padding: 0.75rem;
-            background: #310E0E;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: bold;
-            transition: 0.2s;
-            margin-top: 0.5rem;
-        }
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
 
-        .add-to-wishlist:hover {
-            background: #562323;
-        }
+            .filter-group {
+                flex-wrap: wrap;
+            }
 
-        .db-error-message {
-            color: white;
-        }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
 
-        .no-results {
-            text-align: center;
-            padding: 3rem;
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .search-info {
-            color: white;
-            padding: 1rem 0;
-            font-size: 1.1rem;
-        }
-
-        .product-card.hidden {
-            display: none;
-        }
-
-        .product-card-link:has(.product-card.hidden) {
-            display: none;
-        }
-
-        .product-card-buttons {
-            padding: 1rem;
+            .featured-banner {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    @include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
-    @if (isset($searchQuery) && $searchQuery)
-        <div class="search-info" style="padding-left: 2rem;">
-            Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
+    <header class="store-header">
+        <h1 class="store-title">THE STORE.</h1>
+        @if (isset($searchQuery) && $searchQuery)
+            <p style="margin-top: 1rem; font-size: 1rem; opacity: 0.9;">
+                Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
+            </p>
+        @endif
+    </header>
+
+    <div class="filters">
+        <div class="filter-group">
+            <button class="filter-btn active category-filter" data-filter="all">ALL</button>
+            <button class="filter-btn category-filter" data-filter="Twist">TWIST PUZZLE</button>
+            <button class="filter-btn category-filter" data-filter="Jigsaw">JIGSAWS</button>
+            <button class="filter-btn category-filter" data-filter="Word&Number">WORD & NUMBER</button>
+            <button class="filter-btn category-filter" data-filter="BoardGames">BOARD GAMES</button>
+            <button class="filter-btn category-filter" data-filter="HandheldBrainTeasers">HANDHELD</button>
         </div>
-    @endif
-
-    <div class="content-wrapper">
-        <aside class="sidebar">
-            <h2>Filter by Category</h2>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Twist">
-                    Twist Puzzle
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Jigsaw">
-                    Jigsaws
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="Word&Number">
-                    Word & Number
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="BoardGames">
-                    Board Games
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="category-filter" value="HandheldBrainTeasers">
-                    Handheld Brain Teasers
-                </label>
-            </div>
-            <h2>Filter by Difficulty</h2>
-            <div class="filter-options">
-                <label class="filter-option">
-                    <input type="checkbox" class="difficulty-filter" value="easy">
-                    Easy
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="difficulty-filter" value="medium">
-                    Medium
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" class="difficulty-filter" value="hard">
-                    Hard
-                </label>
-            </div>
-        </aside>
-
-        <div class="products-container">
-            @if (!empty($dbError))
-                <div class="db-error-message">
-                    <h2>Cannot Connect to Database</h2>
-                    <p>We're experiencing technical difficulties connecting to our product database.</p>
-                </div>
-            @else
-                <div class="products-grid">
-                    @include('Frontend.components.product_card')
-                </div>
-            @endif
+        <div class="filter-group">
+            <select class="filter-btn" id="difficulty-filter">
+                <option value="all">ALL DIFFICULTIES</option>
+                <option value="easy">EASY</option>
+                <option value="medium">MEDIUM</option>
+                <option value="hard">HARD</option>
+            </select>
+            <select class="filter-btn" id="sort-by">
+                <option value="featured">FEATURED</option>
+                <option value="price-low">PRICE: LOW TO HIGH</option>
+                <option value="price-high">PRICE: HIGH TO LOW</option>
+            </select>
         </div>
     </div>
+
+    <!-- Products Grid -->
+    <section class="store-products">
+        @if (!empty($dbError))
+            <div class="db-error-message"
+                style="text-align: center; padding: 3rem; background: var(--red-pastel-1); color: var(--text-light); border: 2px solid var(--text); margin: 0 5%;">
+                <h2 style="margin-bottom: 1rem; font-size: 2rem;">Cannot Connect to Database</h2>
+                <p>We're experiencing technical difficulties connecting to our product database.</p>
+            </div>
+        @else
+            <div class="products-grid">
+                @include('Frontend.components.product_card')
+            </div>
+
+            <div class="no-results" style="display: none; text-align: center; padding: 3rem; font-size: 1.2rem;">
+                No products match your current filters.
+            </div>
+        @endif
+    </section>
+
+    @include('Frontend.components.footer')
 
     <script src="{{ asset('js/storeFilter.js') }}"></script>
     <script src="{{ asset('js/wishlist.js') }}"></script>
 
+    <script>
+        // Category filter functionality
+        const categoryFilterBtns = document.querySelectorAll('.category-filter');
+        const productCards = document.querySelectorAll('.product-card');
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        const sortBy = document.getElementById('sort-by');
+        const noResults = document.querySelector('.no-results');
+
+        let activeCategory = 'all';
+        let activeDifficulty = 'all';
+
+        // Category button filters
+        categoryFilterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryFilterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                activeCategory = btn.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        // Difficulty filter
+        difficultyFilter.addEventListener('change', (e) => {
+            activeDifficulty = e.target.value;
+            applyFilters();
+        });
+
+        // Apply all filters
+        function applyFilters() {
+            let visibleCount = 0;
+
+            productCards.forEach(card => {
+                const category = card.dataset.category;
+                const difficulty = card.dataset.difficulty;
+
+                let showCategory = activeCategory === 'all' || category === activeCategory;
+                let showDifficulty = activeDifficulty === 'all' || difficulty === activeDifficulty;
+
+                if (showCategory && showDifficulty) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        // Sort functionality
+        if (sortBy) {
+            sortBy.addEventListener('change', (e) => {
+                const sortValue = e.target.value;
+                const grid = document.querySelector('.products-grid');
+                const cards = Array.from(productCards);
+
+                cards.sort((a, b) => {
+                    if (sortValue === 'price-low') {
+                        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+                    } else if (sortValue === 'price-high') {
+                        return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+                    }
+                    return 0;
+                });
+
+                cards.forEach(card => grid.appendChild(card));
+            });
+        }
+    </script>
 </body>
-@include('Frontend.components.footer')
 
 </html>

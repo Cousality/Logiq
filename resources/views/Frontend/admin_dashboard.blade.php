@@ -5,18 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-        body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
+        .dashboard-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
         }
 
-        h1 {
-            font-family: 'inria Serif';
-            font-size: 60px;
-            color: rgba(255, 255, 255, 100);
-            text-align: center;
+        .dashboard-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
         }
 
         h2 {
@@ -43,17 +50,29 @@
             height: auto;
             display: block;
         }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2.5rem;
+            }
+
+            .dashboard-header {
+                background: var(--bg-primary);
+            }
+}
     </style>
 
 </head>
 
 <body>
-    @include('Frontend.components.navbar')
+     @include('Frontend.components.nav')
 
     <main>
-        <div>
-            <h1> Hello, Admin </h1>
-        </div>
+        <header class="dashboard-header">
+                <h1 class="dashboard-title"> Hello, Admin</h1>
+        </header>
 
         <section class="dashboard-containers">
             <div class="dashboard-card">

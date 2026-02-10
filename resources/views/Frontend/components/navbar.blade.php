@@ -84,9 +84,7 @@
     </div>
 
     <nav>
-        <div class="search-wrapper">
-            @include('Frontend.components.searchbar')
-        </div>
+
         <div style="display: flex; align-items: center; gap: 0;">
             <div class="dropdown">
                 <a class="icon" href="{{ route('login') }}"><img src="{{ asset('Images/login_icon.png') }}"
