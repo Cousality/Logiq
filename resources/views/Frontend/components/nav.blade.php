@@ -64,6 +64,10 @@
         align-items: center;
     }
 
+    .icon img {
+        width: 20px;
+    }
+
     .nav-links {
         flex-shrink: 0;
     }
@@ -132,12 +136,16 @@
     </div>
 
     <div class="nav-links">
+        <div class="icon">
         @if (Auth::check() && Auth::user()->admin == 1)
-            <a href="{{ route('admin.dashboard') }}">Profile</a>
+            <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('Images/login_icon.png') }}"
+                        alt="login"></a>
         @elseif (Auth::check() && Auth::user()->admin == 0)
-            <a href="{{ route('dashboard') }}">Profile</a>
+            <a href="{{ route('dashboard') }}"><img src="{{ asset('Images/login_icon.png') }}"
+                        alt="login"></a>
         @else
-            <a href="{{ route('login') }}">Profile</a>
+            <a href="{{ route('login') }}"><img src="{{ asset('Images/login_icon.png') }}"
+                        alt="login"></a>
         @endif
         <a href="{{ route('store.index') }}">Store</a>
         <a href="{{ route('basket.index') }}">Basket (0)</a>
@@ -153,7 +161,7 @@
         @endguest
 
         <button id="dark-mode-toggle">THEME</button>
-
+</div>
     </div>
 </nav>
 
