@@ -380,7 +380,7 @@
                             @if (!empty($item->product->productImage))
                                 <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
                             @else
-                                <span>🧩</span>
+                                <span>empty</span>
                             @endif
                         </div>
                         <div class="item-details">
