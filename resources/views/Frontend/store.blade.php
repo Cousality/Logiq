@@ -129,6 +129,8 @@
             <p style="margin-top: 1rem; font-size: 1rem; opacity: 0.9;">
                 Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
             </p>
+        @else
+            <p> Logic Puzzles & More </p>
         @endif
     </header>
 
