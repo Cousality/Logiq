@@ -206,35 +206,6 @@
             letter-spacing: 0.5px;
         }
 
-        .team-bio {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: var(--text);
-            flex-grow: 1;
-        }
-
-        /* MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
-            main h1 {
-                font-size: 2.5rem;
-                padding: 3rem 5% 1.5rem;
-            }
-
-            .section-header h2 {
-                font-size: 2rem;
-            }
-
-            .team-card {
-                min-width: 280px;
-                max-width: 280px;
-                min-height: auto;
-            }
-
-            .values-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         /* CTA SECTION */
         .cta-section {
             padding: 6rem 5%;
@@ -284,6 +255,35 @@
             background-color: transparent;
             color: var(--text-light);
             border-color: var(--text-light);
+        }
+
+        .team-bio {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text);
+            flex-grow: 1;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 768px) {
+            main h1 {
+                font-size: 2.5rem;
+                padding: 3rem 5% 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .team-card {
+                min-width: 280px;
+                max-width: 280px;
+                min-height: auto;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
