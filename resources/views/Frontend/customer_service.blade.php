@@ -5,14 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Service - LOGIQ</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
     <style>
-        body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
-        }
-
         .page-header h2 {
             font-family: 'Inria Serif';
             font-size: 40px;
@@ -102,7 +97,7 @@
 
 <body>
 
-    @include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
     <main>
         <div class="dashboard-layout">

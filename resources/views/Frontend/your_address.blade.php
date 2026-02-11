@@ -5,14 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Address - LOGIQ</title>
-    
-    <style>
-         body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
-        }
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
+    <style>
         .page-header h2 {
             font-family: 'Inria Serif';
             font-size: 40px;
@@ -26,7 +21,7 @@
             color: rgba(49, 14, 14, 1);
             margin: 0 0 10px 0;
         }
-        
+
         .dashboard-layout {
             display: flex;
             gap: 30px;
@@ -67,7 +62,8 @@
             margin-bottom: 15px;
         }
 
-        .form-group input, .form-group select {
+        .form-group input,
+        .form-group select {
             padding: 10px;
             width: 500px;
             border: 1px solid rgba(115, 115, 115, 1);
@@ -89,81 +85,81 @@
         button:hover {
             background: rgba(49, 14, 14, 0.9);
         }
-
     </style>
 
 </head>
+
 <body>
-    @include('Frontend.components.navbar')
-    
+    @include('Frontend.components.nav')
+
     <main>
         <div class="dashboard-layout">
-        @include('Frontend.components.dashboard_sidebar')
-        
-        <div class="dashboard-content">
-            
-            <div class="page-header">
-                <h2>Your Address</h2>
-                <p class="page-subtitle">Add edit or remove an address</p>
-            </div>
-            
-            <div class="add-address">
-                <h3>Add Address</h3>
-                <form method="POST">
-                    <div class="form-group">
-                        <label>Full Name:</label>
-                        <input type="text" name="name" required>
-                    </div>
+            @include('Frontend.components.dashboard_sidebar')
 
-                    <div class="form-group">
-                        <label>Email Address:</label>
-                        <input type="email" name="email" required>
-                    </div>
+            <div class="dashboard-content">
 
-                    <div class="form-group">
-                        <label>Phone Number:</label>
-                        <input type="tel" name="number" required>
-                    </div>
+                <div class="page-header">
+                    <h2>Your Address</h2>
+                    <p class="page-subtitle">Add edit or remove an address</p>
+                </div>
 
-                    <div class="form-group">
-                        <label>First Line Address:</label>
-                        <input type="text" name="addressLine1" required>
-                    </div>
+                <div class="add-address">
+                    <h3>Add Address</h3>
+                    <form method="POST">
+                        <div class="form-group">
+                            <label>Full Name:</label>
+                            <input type="text" name="name" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Second Line Address:</label>
-                        <input type="text" name="addressLine2">
-                    </div>
+                        <div class="form-group">
+                            <label>Email Address:</label>
+                            <input type="email" name="email" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Postcode:</label>
-                        <input type="text" name="postcode" required>
-                    </div>
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="tel" name="number" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Town/City</label>
-                        <input type="text" name="townCity" required>
-                    </div>
+                        <div class="form-group">
+                            <label>First Line Address:</label>
+                            <input type="text" name="addressLine1" required>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Country/Region</label>
+                        <div class="form-group">
+                            <label>Second Line Address:</label>
+                            <input type="text" name="addressLine2">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Postcode:</label>
+                            <input type="text" name="postcode" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Town/City</label>
+                            <input type="text" name="townCity" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Country/Region</label>
                             <select name="Country/Region" required>
                                 <option value="England">England</option>
                                 <option value="Wales">Wales</option>
                                 <option value="Scotland">Scotland</option>
                                 <option value="Northen-ireland">Northern Ireland</option>
                             </select>
-                    </div>
+                        </div>
 
-                    <div class="address-button">
-                        <button type="submit" >Add</button>
-                    </div>
-                </form>
+                        <div class="address-button">
+                            <button type="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        </div>
     </main>
-    
+
     @include('Frontend.components.footer')
 </body>
 

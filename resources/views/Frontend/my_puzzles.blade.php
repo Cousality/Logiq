@@ -5,15 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Puzzles - LOGIQ</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
     <style>
-        body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
-            font-family: Inria Serif, serif;
-        }
-
         .dashboard-layout {
             display: flex;
             gap: 30px;
@@ -31,12 +25,12 @@
             border-radius: 15px;
             padding: 30px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .page-header h2 {
             font-size: 40px;
-            color: rgba(49,14,14,1);
+            color: rgba(49, 14, 14, 1);
             margin: 0;
         }
 
@@ -45,13 +39,13 @@
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .category-block h3 {
             font-size: 28px;
             margin-bottom: 15px;
-            color: rgba(49,14,14,1);
+            color: rgba(49, 14, 14, 1);
         }
 
         .puzzle-list {
@@ -76,23 +70,24 @@
 
 <body>
 
-@include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
-<main>
-    <div class="dashboard-layout">
+    <main>
+        <div class="dashboard-layout">
 
-        @include('Frontend.components.dashboard_sidebar')
+            @include('Frontend.components.dashboard_sidebar')
 
-        <div class="dashboard-content">
+            <div class="dashboard-content">
 
-            <div class="page-header">
-                <h2>My Puzzles</h2>
-                <p class="page-subtitle">View and edit reviewed and rated orders</p>
-            </div>
+                <div class="page-header">
+                    <h2>My Puzzles</h2>
+                    <p class="page-subtitle">View and edit reviewed and rated orders</p>
+                </div>
 
 
 
-@include('Frontend.components.footer')
+                @include('Frontend.components.footer')
 
 </body>
+
 </html>

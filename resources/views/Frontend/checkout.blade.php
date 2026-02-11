@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Checkout - LOGIQ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: rgba(76, 32, 32, 1);
-            font-family: 'inria Serif';
-        }
-
         .checkout-wrapper {
             max-width: 1200px;
             margin: 30px auto 60px;
@@ -26,7 +21,7 @@
             background: #fff;
             border-radius: 16px;
             padding: 24px 24px 32px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
         .checkout-summary {
@@ -34,7 +29,7 @@
             background: #fff;
             border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
             align-self: flex-start;
         }
 
@@ -137,7 +132,7 @@
         input:focus,
         select:focus {
             border-color: #310E0E;
-            box-shadow: 0 0 0 1px rgba(49,14,14,0.15);
+            box-shadow: 0 0 0 1px rgba(49, 14, 14, 0.15);
         }
 
         .radio-group {
@@ -268,8 +263,9 @@
         }
     </style>
 </head>
+
 <body>
-    @include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
     <div class="checkout-wrapper">
 
@@ -297,55 +293,52 @@
                         <div class="form-row-full">
                             <label for="full_name">Full name</label>
                             <input id="full_name" name="full_name" type="text"
-                                   value="{{ old('full_name', auth()->user()->name ?? '') }}"
-                                   required>
+                                value="{{ old('full_name', auth()->user()->name ?? '') }}" required>
                         </div>
 
                         <div class="form-row-full">
                             <label for="email">Email address</label>
                             <input id="email" name="email" type="email"
-                                   value="{{ old('email', auth()->user()->email ?? '') }}"
-                                   required>
+                                value="{{ old('email', auth()->user()->email ?? '') }}" required>
                         </div>
 
                         <div class="form-row-full">
                             <label for="address_line1">Address line 1</label>
                             <input id="address_line1" name="address_line1" type="text"
-                                   value="{{ old('address_line1') }}" required>
+                                value="{{ old('address_line1') }}" required>
                         </div>
 
                         <div class="form-row-full">
                             <label for="address_line2">Address line 2 (optional)</label>
                             <input id="address_line2" name="address_line2" type="text"
-                                   value="{{ old('address_line2') }}">
+                                value="{{ old('address_line2') }}">
                         </div>
 
                         <div>
                             <label for="city">Town / City</label>
-                            <input id="city" name="city" type="text"
-                                   value="{{ old('city') }}" required>
+                            <input id="city" name="city" type="text" value="{{ old('city') }}" required>
                         </div>
 
                         <div>
                             <label for="postcode">Postcode</label>
-                            <input id="postcode" name="postcode" type="text"
-                                   value="{{ old('postcode') }}" required>
+                            <input id="postcode" name="postcode" type="text" value="{{ old('postcode') }}" required>
                         </div>
 
                         <div>
                             <label for="country">Country</label>
                             <select id="country" name="country" required>
                                 <option value="">Select country</option>
-                                <option value="UK" {{ old('country') == 'UK' ? 'selected' : '' }}>United Kingdom</option>
+                                <option value="UK" {{ old('country') == 'UK' ? 'selected' : '' }}>United Kingdom
+                                </option>
                                 <option value="IE" {{ old('country') == 'IE' ? 'selected' : '' }}>Ireland</option>
-                                <option value="EU" {{ old('country') == 'EU' ? 'selected' : '' }}>Europe (EU)</option>
+                                <option value="EU" {{ old('country') == 'EU' ? 'selected' : '' }}>Europe (EU)
+                                </option>
                             </select>
                         </div>
 
                         <div>
                             <label for="phone">Phone number (optional)</label>
-                            <input id="phone" name="phone" type="tel"
-                                   value="{{ old('phone') }}">
+                            <input id="phone" name="phone" type="tel" value="{{ old('phone') }}">
                         </div>
                     </div>
                 </div>
@@ -359,12 +352,12 @@
                     <div class="radio-group">
                         <label class="radio-option">
                             <input type="radio" name="payment_method" value="card"
-                                   {{ old('payment_method', 'card') == 'card' ? 'checked' : '' }}>
+                                {{ old('payment_method', 'card') == 'card' ? 'checked' : '' }}>
                             <span>Card</span>
                         </label>
                         <label class="radio-option">
                             <input type="radio" name="payment_method" value="paypal"
-                                   {{ old('payment_method') == 'paypal' ? 'checked' : '' }}>
+                                {{ old('payment_method') == 'paypal' ? 'checked' : '' }}>
                             <span>PayPal</span>
                         </label>
                     </div>
@@ -372,43 +365,39 @@
                     <div class="form-grid" style="margin-top: 14px;">
                         <div class="form-row-full">
                             <label for="card_name">Name on card</label>
-                            <input id="card_name" name="card_name" type="text"
-                                   value="{{ old('card_name') }}" required>
+                            <input id="card_name" name="card_name" type="text" value="{{ old('card_name') }}"
+                                required>
                         </div>
 
                         <div class="form-row-full">
                             <label for="card_number">Card number</label>
-                            <input id="card_number" name="card_number" type="text"
-                                   maxlength="19" placeholder="4242 4242 4242 4242"
-                                   value="{{ old('card_number') }}" required>
+                            <input id="card_number" name="card_number" type="text" maxlength="19"
+                                placeholder="4242 4242 4242 4242" value="{{ old('card_number') }}" required>
                         </div>
 
                         <div>
                             <label for="expiry_month">Expiry month</label>
-                            <input id="expiry_month" name="expiry_month" type="text"
-                                   maxlength="2" placeholder="MM"
-                                   value="{{ old('expiry_month') }}" required>
+                            <input id="expiry_month" name="expiry_month" type="text" maxlength="2"
+                                placeholder="MM" value="{{ old('expiry_month') }}" required>
                         </div>
 
                         <div>
                             <label for="expiry_year">Expiry year</label>
-                            <input id="expiry_year" name="expiry_year" type="text"
-                                   maxlength="2" placeholder="YY"
-                                   value="{{ old('expiry_year') }}" required>
+                            <input id="expiry_year" name="expiry_year" type="text" maxlength="2"
+                                placeholder="YY" value="{{ old('expiry_year') }}" required>
                         </div>
 
                         <div>
                             <label for="cvv">CVV</label>
-                            <input id="cvv" name="cvv" type="text"
-                                   maxlength="4" placeholder="123"
-                                   value="{{ old('cvv') }}" required>
+                            <input id="cvv" name="cvv" type="text" maxlength="4" placeholder="123"
+                                value="{{ old('cvv') }}" required>
                         </div>
 
                         <div></div>
                     </div>
 
                     <p class="summary-note" style="margin-top:10px;">
-                         Ahh money money money money money - Mr Krabs.
+                        Ahh money money money money money - Mr Krabs.
                     </p>
                 </div>
 
@@ -452,7 +441,7 @@
                             </div>
                         </div>
                         <div>
-                            £{{ number_format($item->priceAtTime ?? $item->product->productPrice ?? 0, 2) }}
+                            £{{ number_format($item->priceAtTime ?? ($item->product->productPrice ?? 0), 2) }}
                         </div>
                     </div>
                 @empty
@@ -463,7 +452,7 @@
             @php
                 $subtotal = $subtotal ?? 0;
                 $shipping = $shipping ?? 0;
-                $total    = $total    ?? ($subtotal + $shipping);
+                $total = $total ?? $subtotal + $shipping;
             @endphp
 
             <div class="summary-totals">
@@ -474,7 +463,7 @@
                 <div class="summary-row">
                     <span>Shipping</span>
                     <span>
-                        @if($shipping == 0)
+                        @if ($shipping == 0)
                             Free
                         @else
                             £{{ number_format($shipping, 2) }}
@@ -495,4 +484,5 @@
 
     @include('Frontend.components.footer')
 </body>
+
 </html>

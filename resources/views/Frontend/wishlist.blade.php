@@ -6,13 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Wishlist</title>
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-        body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
-        }
-
         .dashboard-layout {
             display: flex;
             gap: 30px;
@@ -159,7 +154,7 @@
 </head>
 
 <body>
-    @include('Frontend.components.navbar')
+    @include('Frontend.components.nav')
 
     <div class="dashboard-layout">
         @include('Frontend.components.dashboard_sidebar')

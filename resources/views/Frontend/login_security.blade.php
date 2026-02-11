@@ -5,14 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Security - LOGIQ</title>
-    
-    <style>
-         body {
-            background-color: rgba(76, 32, 32, 1);
-            margin: 0;
-            padding: 0;
-        }
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
+    <style>
         h1 {
             font-family: 'inria Serif';
             font-size: 40px;
@@ -26,7 +21,7 @@
             color: #310E0E;
             margin: 0 0 10px 0;
         }
-        
+
         .dashboard-layout {
             display: flex;
             gap: 30px;
@@ -52,6 +47,7 @@
             font-size: 14px;
             margin: 0;
         }
+
         .login_security_container {
             background: white;
             border-radius: 15px;
@@ -59,26 +55,25 @@
             margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
     </style>
 
 </head>
 
 <body>
-    @include('Frontend.components.navbar')
-<main>
-<div class="dashboard-layout">
-        @include('Frontend.components.dashboard_sidebar')
+    @include('Frontend.components.nav')
+    <main>
+        <div class="dashboard-layout">
+            @include('Frontend.components.dashboard_sidebar')
 
-        <div class="dashboard-content">
-            <div class="page-header">
-                <h2 class="page-title">Login & Security</h2>
-                <p class="page-subtitle">Manage you name, email, phone number and password</p>
-            </div>
-       
+            <div class="dashboard-content">
+                <div class="page-header">
+                    <h2 class="page-title">Login & Security</h2>
+                    <p class="page-subtitle">Manage you name, email, phone number and password</p>
+                </div>
+
     </main>
 
-@include('Frontend.components.footer')
+    @include('Frontend.components.footer')
 </body>
 
 </html
