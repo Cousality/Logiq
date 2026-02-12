@@ -1,54 +1,76 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const categoryFilters = document.querySelectorAll(".category-filter");
-    const difficultyFilters = document.querySelectorAll(".difficulty-filter");
-    const productCards = document.querySelectorAll(".product-card");
-    const noResultsMsg = document.querySelector(".no-results");
+// Category filter functionality
+const categoryFilterBtns = document.querySelectorAll(".category-filter");
+const productCards = document.querySelectorAll(".product-card");
+const difficultyFilter = document.getElementById("difficulty-filter");
+const sortBy = document.getElementById("sort-by");
+const noResults = document.querySelector(".no-results");
 
-    // add event listener for each filter
-    categoryFilters.forEach((filter) => {
-        filter.addEventListener("change", filterProducts);
+let activeCategory = "all";
+let activeDifficulty = "all";
+
+// Category button filters
+categoryFilterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        categoryFilterBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        activeCategory = btn.dataset.filter;
+        applyFilters();
+    });
+});
+
+// Difficulty filter
+difficultyFilter.addEventListener("change", (e) => {
+    activeDifficulty = e.target.value;
+    applyFilters();
+});
+
+// Apply all filters
+function applyFilters() {
+    let visibleCount = 0;
+
+    productCards.forEach((card) => {
+        const category = card.dataset.category;
+        const difficulty = card.dataset.difficulty;
+
+        let showCategory =
+            activeCategory === "all" || category === activeCategory;
+        let showDifficulty =
+            activeDifficulty === "all" || difficulty === activeDifficulty;
+
+        if (showCategory && showDifficulty) {
+            card.style.display = "block";
+            visibleCount++;
+        } else {
+            card.style.display = "none";
+        }
     });
 
-    difficultyFilters.forEach((filter) => {
-        filter.addEventListener("change", filterProducts);
-    });
+    if (noResults) {
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+}
 
-    function filterProducts() {
-        const selectedCategories = Array.from(categoryFilters)
-            .filter((checkbox) => checkbox.checked)
-            .map((checkbox) => checkbox.value);
+// Sort functionality
+if (sortBy) {
+    sortBy.addEventListener("change", (e) => {
+        const sortValue = e.target.value;
+        const grid = document.querySelector(".products-grid");
+        const cards = Array.from(productCards);
 
-        const selectedDifficulties = Array.from(difficultyFilters)
-            .filter((checkbox) => checkbox.checked)
-            .map((checkbox) => checkbox.value);
-
-        let visibleCount = 0;
-
-        productCards.forEach((card) => {
-            const productCategory = card.dataset.category;
-            const productDifficulty = card.dataset.difficulty;
-
-            const categoryMatch =
-                selectedCategories.length === 0 ||
-                selectedCategories.includes(productCategory);
-
-            const difficultyMatch =
-                selectedDifficulties.length === 0 ||
-                selectedDifficulties.includes(productDifficulty);
-
-            if (categoryMatch && difficultyMatch) {
-                card.classList.remove("hidden");
-                visibleCount++;
-            } else {
-                card.classList.add("hidden");
+        cards.sort((a, b) => {
+            if (sortValue === "price-low") {
+                return (
+                    parseFloat(a.dataset.price) - parseFloat(b.dataset.price)
+                );
+            } else if (sortValue === "price-high") {
+                return (
+                    parseFloat(b.dataset.price) - parseFloat(a.dataset.price)
+                );
             }
+            return 0;
         });
 
-        // Show/hide no results message
-        if (visibleCount === 0) {
-            noResultsMsg.style.display = "block";
-        } else {
-            noResultsMsg.style.display = "none";
-        }
-    }
-});
+        cards.forEach((card) => grid.appendChild(card));
+    });
+}

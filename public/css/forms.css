@@ -1,0 +1,53 @@
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--red-pastel-1);
+    background: var(--white);
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: var(--text);
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: var(--red-pastel-1);
+}

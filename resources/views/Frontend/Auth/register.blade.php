@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Register - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
     <style>
         .register-wrapper {
             min-height: 80vh;
@@ -59,36 +60,6 @@
             margin: 0;
             padding-left: 20px;
             text-align: left;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-primary);
-            border: 1px solid var(--text);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--red-pastel-1);
-            background: var(--white);
-            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
         }
 
         .error {
@@ -195,8 +166,25 @@
 
                 <div class="form-group">
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="••••••••" required>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="password" placeholder="••••••••" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('password')">Show</button>
+                    </div>
                     @error('password')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" name="password_confirmation" id="password_confirmation"
+                            placeholder="••••••••" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('password_confirmation')">Show</button>
+                    </div>
+                    @error('password_confirmation')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
@@ -209,6 +197,7 @@
             </form>
         </div>
     </div>
+    <script src="{{ asset('js/togglePassword.js') }}"></script>
 </body>
 
 </html>

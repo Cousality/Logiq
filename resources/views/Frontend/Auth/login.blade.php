@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Account - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
     <style>
-        /* add Sign in through google */
         .login-wrapper {
             min-height: 80vh;
             display: flex;
@@ -36,36 +36,6 @@
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: -1px;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-primary);
-            border: 1px solid var(--text);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-            transition: 0.2s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--red-pastel-1);
-            background: var(--white);
-            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
         }
 
         .forgot {
@@ -156,7 +126,11 @@
                 <div class="form-group">
                     <a href="/forgot-password" class="forgot">Forgot Password?</a>
                     <label>Password</label>
-                    <input type="password" name="password" placeholder="••••••••" required>
+                    <div class="password-wrapper">
+                        <input type="password" name="password" id="password" placeholder="••••••••" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('password')">Show</button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-login">LOGIN</button>
@@ -167,6 +141,10 @@
             </form>
         </div>
     </div>
+
+    <script src="{{ asset('js/togglePassword.js') }}"></script>
+
 </body>
+
 
 </html>

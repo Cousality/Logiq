@@ -7,7 +7,6 @@
     <title>User Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
-     
         .dashboard-header {
             padding: 4rem 5%;
             background: linear-gradient(135deg,
@@ -62,7 +61,7 @@
             .dashboard-header {
                 background: var(--bg-primary);
             }
-}
+        }
     </style>
 
 </head>
@@ -71,10 +70,10 @@
     @include('Frontend.components.nav')
 
     <main>
-        
-            <header class="dashboard-header">
-                <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
-            </header>
+
+        <header class="dashboard-header">
+            <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
+        </header>
 
         <section class="dashboard-containers">
             <div class="dashboard-card">
@@ -107,5 +106,6 @@
     @include('Frontend.components.footer')
 
 </body>
+
 
 </html>

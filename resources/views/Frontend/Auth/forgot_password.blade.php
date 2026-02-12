@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Forgot Password - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
     <style>
         .forgot-wrapper {
             min-height: 80vh;
@@ -49,14 +50,30 @@
             border: 1px solid var(--text);
         }
 
-        .forgot-container form {
-            margin-bottom: 1.5rem;
+        .forgot-container .btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--text);
+            color: var(--white);
+            border: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition:
+                transform 0.2s,
+                background-color 0.2s;
         }
+
+        .forgot-container .btn:hover {
+            transform: translateY(-3px);
+            background-color: var(--red-pastel-2);
+        }
+
 
         .forgot-container input[type="email"] {
             width: 100%;
             padding: 12px;
-            background: var(--bg-primary);
             border: 1px solid var(--text);
             color: var(--text);
             font-family: inherit;
@@ -121,12 +138,13 @@
                 @if (session('message'))
                     <p class="success-message">{{ session('message') }}</p>
                 @endif
-
-                <form method="POST" action="{{ url('/send-reset-link') }}">
-                    @csrf
-                    <input type="email" name="email" placeholder="Enter your email" required>
-                    <button type="submit" class="btn">Send Reset Link</button>
-                </form>
+                <div class="form-group">
+                    <form method="POST" action="{{ url('/send-reset-link') }}">
+                        @csrf
+                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn">Send Reset Link</button>
+                    </form>
+                </div>
 
                 <a href="/login" class="back">Back to Login</a>
             </div>
