@@ -198,6 +198,32 @@
         </div>
     </div>
     <script src="{{ asset('js/togglePassword.js') }}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("password_confirmation");
+            const form = document.querySelector("form");
+
+            function validatePassword() {
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity("Passwords do not match");
+                } else {
+                    confirmPassword.setCustomValidity("");
+                }
+            }
+
+            password.onchange = validatePassword;
+            confirmPassword.onkeyup = validatePassword;
+
+            // Final check on submit to prevent bypassing
+            form.addEventListener('submit', function(event) {
+                if (password.value !== confirmPassword.value) {
+                    event.preventDefault();
+                    alert("Passwords do not match!");
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
