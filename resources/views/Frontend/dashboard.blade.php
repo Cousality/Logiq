@@ -7,6 +7,7 @@
     <title>User Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
+     
         .dashboard-header {
             padding: 4rem 5%;
             background: linear-gradient(135deg,
@@ -84,7 +85,11 @@
             .dashboard-header {
                 background: var(--bg-primary);
             }
-        }
+
+            .dashboard-containers {
+                grid-template-columns: repeat(2, 1fr);
+            }
+}
     </style>
 
 </head>
@@ -93,50 +98,53 @@
     @include('Frontend.components.nav')
 
     <main>
+        
+            <header class="dashboard-header">
+                <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
+            </header>
+            
+            <section class="dashboard-containers">
+                <div class="dashboard-card">
+                    <a href="/your_orders" class="card-link-wrapper">
+                        <h3 class= "card-title">Your Orders</h3>
+                        <h3 class="card-description">View, manage and check status of past orders.</h3>
+                    </a>
+                </div>
 
-        <header class="dashboard-header">
-            <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
-        </header>
+                <div class="dashboard-card">
+                    <a href="/login_security" class="card-link-wrapper">
+                        <h3 class= "card-title">Login & Security</h3>
+                        <h3 class="card-description">Manage name, email, phone number and password.</h3>
+                    </a>
+                </div>
 
-        <section class="dashboard-containers">
-            <div class="dashboard-card">
-                <a href="/your_orders"><img src="Images\your_orders.png" alt="Your Orders"></a>
-            </div>
+                <div class="dashboard-card">
+                    <a href="/your_address" class="card-link-wrapper">
+                        <h3 class= "card-title">Your Address</h3>
+                        <h3 class="card-description">Add, edit or remove an address.</h3>
+                    </a>
+                </div>
 
-            <div class="dashboard-card">
-                <a href="/login_security" class="card-link-wrapper">
-                    <h3 class= "card-title">Login & Security</h3>
-                    <h3 class="card-description">Manage name, email, phone number and password.</h3>
-                </a>
-            </div>
+                <div class="dashboard-card">
+                    <a href="/wishlist" class="card-link-wrapper">
+                        <h3 class= "card-title">Wishlist</h3>
+                        <h3 class="card-description">View and manage saved products.</h3>
+                    </a>
+                </div>
 
-            <div class="dashboard-card">
-                <a href="/your_address" class="card-link-wrapper">
-                    <h3 class= "card-title">Your Address</h3>
-                    <h3 class="card-description">Add, edit or remove an address.</h3>
-                </a>
-            </div>
+                <div class="dashboard-card">
+                    <a href="/customer_service" class="card-link-wrapper">
+                        <h3 class= "card-title">Customer Service</h3>
+                        <h3 class="card-description">Use the contact form to contact us.</h3>
+                    </a>
+                </div>
 
-            <div class="dashboard-card">
-                <a href="/wishlist" class="card-link-wrapper">
-                    <h3 class= "card-title">Wishlist</h3>
-                    <h3 class="card-description">View and manage saved products.</h3>
-                </a>
-            </div>
-
-            <div class="dashboard-card">
-                <a href="/customer_service" class="card-link-wrapper">
-                    <h3 class= "card-title">Customer Service</h3>
-                    <h3 class="card-description">Use the contact form to contact us.</h3>
-                </a>
-            </div>
-
-            <div class="dashboard-card">
-                <a href="/my_puzzles" class="card-link-wrapper">
-                    <h3 class= "card-title">My Puzzles</h3>
-                    <h3 class="card-description">View and edit reviewed and rated orders.</h3>
-                </a>
-            </div>
+                <div class="dashboard-card">
+                    <a href="/my_puzzles" class="card-link-wrapper">
+                        <h3 class= "card-title">My Puzzles</h3>
+                        <h3 class="card-description">View and edit reviewed and rated orders.</h3>
+                    </a>
+                </div>
         </section>
 
     </main>
@@ -144,6 +152,5 @@
     @include('Frontend.components.footer')
 
 </body>
-
 
 </html>
