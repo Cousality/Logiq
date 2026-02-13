@@ -22,9 +22,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
+//Home Controller
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/puzzle/check', [HomeController::class, 'validatePuzzle'])->name('puzzle.check');
+
 //Authentication
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
@@ -52,9 +54,6 @@ Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('bask
 Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/puzzle/check', [HomeController::class, 'validatePuzzle'])->name('puzzle.check');
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
