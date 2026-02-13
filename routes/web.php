@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
@@ -52,9 +53,8 @@ Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name(
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 
-Route::get('/', function () {
-    return view('Frontend.home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::post('/puzzle/check', [HomeController::class, 'validatePuzzle'])->name('puzzle.check');
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');

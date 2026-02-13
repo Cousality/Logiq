@@ -157,21 +157,27 @@
 
     <header class="hero">
         <div class="hero-text">
-            <h1>Don't Solve A Problem.<br />Be The Problem.</h1>
-            <p>Puzzles go BRR</p>
+            <h1>Don't Be The Problem.<br />Solve The Problem.</h1>
+            <p>Puzzles go BRR.</p>
             <br />
             <a href="{{ route('store.index') }}" class="cta-button">Browse Store</a>
         </div>
         <div class="puzzle-card">
-            <div class="puzzle-badge">DAILY LOGIQ #1</div>
-            <div class="puzzle-question">Sequence: 2, 4, 6, 8, 10, ?</div>
-            <div class="puzzle-options">
-                <button onclick="checkAnswer(12)">12</button>
-                <button onclick="checkAnswer(14)">14</button>
-                <button onclick="checkAnswer(16)">16</button>
+            <div class="puzzle-badge">DAILY LOGIQ</div>
+
+            <div class="puzzle-question">Sequence: {{ $puzzle['sequence_string'] }}</div>
+
+            <div class="puzzle-options" id="puzzle-options-container">
+                @foreach ($puzzle['options'] as $option)
+                    <button class="option-btn" data-value="{{ $option }}">
+                        {{ $option }}
+                    </button>
+                @endforeach
             </div>
+
             <div id="feedback"></div>
         </div>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </header>
 
     <section class="products">
@@ -207,17 +213,48 @@
 
     @include('Frontend.components.footer')
     <script>
-        function checkAnswer(val) {
+        document.querySelectorAll('.option-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const answer = this.getAttribute('data-value');
+                submitAnswer(answer);
+            });
+        });
+
+        function submitAnswer(val) {
             const feedback = document.getElementById("feedback");
-            const btns = document.querySelectorAll(".puzzle-options button");
-            if (val === 12) {
-                feedback.style.color = "green";
-                feedback.textContent = "Correct. Logic sound.";
-                btns.forEach((btn) => (btn.disabled = true));
-            } else {
-                feedback.style.color = "#4A2C2A";
-                feedback.textContent = "Incorrect. Think sequentially.";
-            }
+            const btns = document.querySelectorAll(".option-btn");
+
+            // Disable buttons Temp
+            btns.forEach(btn => btn.disabled = true);
+            feedback.textContent = "Analyzing...";
+            feedback.style.color = "var(--text)";
+
+            fetch("{{ route('puzzle.check') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        answer: val
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    feedback.style.color = data.color;
+                    feedback.textContent = data.message;
+
+                    if (data.status === 'error') {
+                        setTimeout(() => {
+                            btns.forEach(btn => btn.disabled = false);
+                            feedback.textContent = "";
+                        }, 2000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    feedback.textContent = "System Error.";
+                });
         }
     </script>
 </body>
