@@ -130,7 +130,7 @@
                 Showing results for: "{{ $searchQuery }}" ({{ count($products) }} found)
             </p>
         @else
-            <p> Logic Puzzles & More </p>
+            <p> Logic Puzzles & More. </p>
         @endif
     </header>
 
