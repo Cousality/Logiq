@@ -63,13 +63,34 @@
         display: flex;
         align-items: center;
     }
+    
+    .nav-icon {
+        width: 50px;           
+        height: 50px;
+        display: flex;         
+        align-items: center;  
+        justify-content: center;
+        background-size: contain;
+        cursor: pointer;
+    }
 
-    .icon img {
-        width: 20px;
+    .store-icon {
+        background-image: var(--icon-store); 
+    }
+
+    .login-icon {
+        background-image: var(--icon-login); 
+    }
+
+    .basket-icon {
+        background-image: var(--icon-basket);
     }
 
     .nav-links {
+        display: flex;
+        align-items: center;
         flex-shrink: 0;
+        gap: 10px;
     }
 
     .nav-links a {
@@ -79,6 +100,7 @@
         font-weight: 600;
         text-transform: uppercase;
         font-size: 0.9rem;
+        margin-left: 0px;
     }
 
     .nav-btn {
@@ -136,19 +158,20 @@
     </div>
 
     <div class="nav-links">
-        <div class="icon">
+        <a href="{{ route('store.index') }}" class="nav-icon store-icon" 
+                        alt="store"></a>
         @if (Auth::check() && Auth::user()->admin == 1)
-            <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('Images/login_icon.png') }}"
+            <a href="{{ route('admin.dashboard') }}" class= "nav-icon login-icon"
                         alt="login"></a>
         @elseif (Auth::check() && Auth::user()->admin == 0)
-            <a href="{{ route('dashboard') }}"><img src="{{ asset('Images/login_icon.png') }}"
+            <a href="{{ route('dashboard') }}" class="nav-icon login-icon"
                         alt="login"></a>
         @else
-            <a href="{{ route('login') }}"><img src="{{ asset('Images/login_icon.png') }}"
+            <a href="{{ route('login') }}" class="nav-icon login-icon"
                         alt="login"></a>
         @endif
-        <a href="{{ route('store.index') }}">Store</a>
-        <a href="{{ route('basket.index') }}">Basket (0)</a>
+        <a href="{{ route('basket.index') }}" class="nav-icon basket-icon" 
+                        alt="basket"></a>
         @auth
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
@@ -157,11 +180,10 @@
         @endauth
 
         @guest
-            <a href="{{ route('login') }}">Login</a>
+            <a href="{{ route('login') }}">LOGIN</a>
         @endguest
 
         <button id="dark-mode-toggle">THEME</button>
-</div>
     </div>
 </nav>
 

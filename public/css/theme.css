@@ -7,6 +7,9 @@
     --text-light: #faedcd;
     --white: #ffffff;
     --transition: 0.3s ease;
+    --icon-store: url("/Images/store_icon.png");
+    --icon-login: url("/Images/login_icon.png");
+    --icon-basket: url("/Images/basket_icon.png");
 }
 
 body.dark-mode {
@@ -14,6 +17,9 @@ body.dark-mode {
     --bg-secondary: #1a1a1a;
     --text: #e0e0e0;
     --white: #1e1e1e;
+    --icon-store: url("/Images/store_dark.png");
+    --icon-login: url("/Images/login_dark.png");
+    --icon-basket: url("/Images/basket_dark.png");
 }
 * {
     box-sizing: border-box;
