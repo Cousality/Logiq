@@ -84,13 +84,6 @@ Route::get('/FAQs', function () {
 });
 
 //Dashboard Routes
-Route::get('/dashboard', function () {
-    return view('Frontend.dashboard');
-})->name('dashboard');
-
-Route::get('/admin_dashboard', function () {
-    return view('Frontend.admin_dashboard');
-})->name('admin.dashboard');
 
 Route::get('/login_security', function () {
     return view('Frontend.login_security');
@@ -114,6 +107,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/customer_service', [ContactController::class, 'add'])->name('customer_service.add');
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+    Route::get('/dashboard', function () {
+        return view('Frontend.dashboard');
+    })->name('dashboard');
+
+    Route::get('/admin_dashboard', function () {
+        return view('Frontend.admin_dashboard');
+    })->name('admin.dashboard');
 });
 
 //Route::get('/admin_customer_service', function () {
