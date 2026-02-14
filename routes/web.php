@@ -123,3 +123,7 @@ Route::middleware(['auth'])->group(function () {
 //Checkout Controller
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+
+Route::fallback(function () {
+    return view('errors.404');
+});
