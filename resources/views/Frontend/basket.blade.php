@@ -409,6 +409,19 @@
                                 @method('DELETE')
                                 <button type="submit" class="remove-btn">Remove</button>
                             </form>
+                            <form action="{{ route('basket.update', $item->orderItemID) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+
+                                <input type="hidden" 
+                                    name="quantity" 
+                                id="input-qty-{{ $item->orderItemID }}" 
+                                value="{{ $item->quantity }}">
+
+                                <button type="submit" class="remove-btn">
+                                Update
+                                     </button>
+                                    </form>
                         </div>
                     </div>
                 @endforeach
@@ -463,6 +476,7 @@
         // Update quantity - UI only, no server calls
         function updateQuantity(itemId, change) {
             const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            const hiddenInput = document.getElementById(`input-qty-${itemId}`);
             const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
             const price = parseFloat(item.dataset.price);
 
@@ -474,6 +488,9 @@
 
             // Update display
             qtyDisplay.textContent = newQty;
+            hiddenInput.value = newQty;
+            
+
 
             const itemTotal = (price * newQty).toFixed(2);
             document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
