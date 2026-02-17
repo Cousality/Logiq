@@ -170,22 +170,17 @@
             <a href="{{ route('login') }}" class="nav-icon login-icon"
                         alt="login"></a>
         @endif
-        <div class="basket-wrapper">
+   <div class="basket-wrapper">
     <a href="{{ route('basket.index') }}" 
        class="nav-icon basket-icon"
        alt="basket">
     </a>
 
-    @if(isset($basketCount) && $basketCount > 0)
-        <span class="basket-badge">
+    @if(($basketCount ?? 0) > 0)
+        <span class="basket-badge" id="basket-count">
             {{ $basketCount }}
         </span>
     @endif
-    @if(($basketCount ?? 0) > 0)
-    <span class="basket-badge">
-        {{ $basketCount }}
-    </span>
-@endif
 </div>
         @auth
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">

@@ -67,18 +67,25 @@ class BasketController extends Controller
     }
 
     public function update(Request $request, BasketItem $item)
-    {
-        $request->validate([
-            'quantity' => 'required|integer|min:1',
-        ]);
+{
+    $request->validate([
+        'quantity' => 'required|integer|min:1',
+    ]);
 
-        $item->quantity = $request->quantity;
-        $item->save();
+    $item->quantity = $request->quantity;
+    $item->save();
 
-        return redirect()
-            ->route('basket.index')
-            ->with('success', 'Basket updated.');
-    }
+    $basket = Basket::where('userID', auth()->user()->userID)
+        ->where('orderStatus', 'cart')
+        ->first();
+
+    $basketCount = $basket ? $basket->items()->sum('quantity') : 0;
+
+    return response()->json([
+        'success' => true,
+        'basketCount' => $basketCount
+    ]);
+}
 
     public function remove(BasketItem $item)
     {

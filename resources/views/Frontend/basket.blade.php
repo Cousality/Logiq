@@ -392,11 +392,11 @@
                             <div class="item-price">£{{ number_format($item->product->productPrice, 2) }}</div>
                             <div class="quantity-controls">
                                 <button class="qty-btn"
-                                    onclick="updateQuantity({{ $item->orderItemID }}, -1)">-</button>
+                                    onclick="changeQuantity({{ $item->orderItemID }}, -1)">-</button>
                                 <span class="qty-display"
                                     id="qty-{{ $item->orderItemID }}">{{ $item->quantity }}</span>
                                 <button class="qty-btn"
-                                    onclick="updateQuantity({{ $item->orderItemID }}, 1)">+</button>
+                                    onclick="changeQuantity({{ $item->orderItemID }}, 1)">+</button>
                             </div>
                         </div>
                         <div class="item-actions">
@@ -409,19 +409,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="remove-btn">Remove</button>
                             </form>
-                            <form action="{{ route('basket.update', $item->orderItemID) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-
-                                <input type="hidden" 
-                                    name="quantity" 
-                                id="input-qty-{{ $item->orderItemID }}" 
-                                value="{{ $item->quantity }}">
-
-                                <button type="submit" class="remove-btn">
-                                Update
-                                     </button>
-                                    </form>
+                            
                         </div>
                     </div>
                 @endforeach
@@ -473,31 +461,53 @@
     @include('Frontend.components.footer')
 
     <script>
-        // Update quantity - UI only, no server calls
-        function updateQuantity(itemId, change) {
-            const qtyDisplay = document.getElementById(`qty-${itemId}`);
-            const hiddenInput = document.getElementById(`input-qty-${itemId}`);
+       
+       function changeQuantity(itemId, change) {
+
+    const qtyDisplay = document.getElementById(`qty-${itemId}`);
+    let currentQty = parseInt(qtyDisplay.textContent);
+    let newQty = currentQty + change;
+
+    if (newQty < 1) newQty = 1;
+    if (newQty > 99) newQty = 99;
+
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch(`/basket/${itemId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+        },
+        body: JSON.stringify({
+            quantity: newQty
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.success) {
+
+            // ✅ Update quantity on screen
+            qtyDisplay.textContent = newQty;
+
+            // ✅ Update item total
             const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
             const price = parseFloat(item.dataset.price);
-
-            let currentQty = parseInt(qtyDisplay.textContent);
-            let newQty = currentQty + change;
-
-            if (newQty < 1) newQty = 1;
-            if (newQty > 99) newQty = 99;
-
-            // Update display
-            qtyDisplay.textContent = newQty;
-            hiddenInput.value = newQty;
-            
-
-
             const itemTotal = (price * newQty).toFixed(2);
             document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
 
-            // Update summary
+            // ✅ Update badge
+            const badge = document.getElementById('basket-count');
+            if (badge && data.basketCount > 0) {
+                badge.textContent = data.basketCount;
+            }
+
             updateSummaryDisplay();
         }
+    })
+    .catch(error => console.error(error));
+}
 
         // Update order summary display (client-side calculation)
         function updateSummaryDisplay() {
