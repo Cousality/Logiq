@@ -35,3 +35,8 @@ body {
         background-color var(--transition),
         color var(--transition);
 }
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--red-pastel-1) var(--bg-secondary);
+}

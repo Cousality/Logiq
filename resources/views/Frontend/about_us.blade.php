@@ -145,11 +145,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .team-grid {
-            scrollbar-width: thin;
-            scrollbar-color: var(--text) var(--bg-primary);
-        }
-
         .team-card {
             background: var(--white);
             border: 2px solid var(--text);
