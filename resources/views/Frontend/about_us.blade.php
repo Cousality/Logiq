@@ -440,7 +440,8 @@
                 obsession.</p>
             <div class="cta-buttons">
                 <a href="{{ route('store.index') }}" class="cta-button">Explore Puzzles</a>
-                <a href="#" class="cta-button secondary">Get In Touch</a>
+                <a href="{{ route('customer_service') }}" class="cta-button secondary"> Get In Touch</a>
+
             </div>
         </section>
     </main>
