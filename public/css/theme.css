@@ -35,3 +35,23 @@ body {
         background-color var(--transition),
         color var(--transition);
 }
+
+.basket-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.basket-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: red;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 4px 7px;
+    border-radius: 50%;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1;
+}
