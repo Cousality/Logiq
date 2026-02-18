@@ -135,9 +135,9 @@
                 <h2>Forgot Password?</h2>
                 <p>Enter your email address to receive a password reset link.</p>
 
-                @if (session('message'))
-                    <p class="success-message">{{ session('message') }}</p>
-                @endif
+               @if (session('success'))
+    <p class="success-message">{{ session('success') }}</p>
+@endif
                 <div class="form-group">
                     <form method="POST" action="{{ url('/send-reset-link') }}">
                         @csrf

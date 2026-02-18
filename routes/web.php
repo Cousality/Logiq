@@ -10,6 +10,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,14 +56,57 @@ Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('bask
 Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
+// forget password controller
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
 });
 
-Route::post('/send-reset-link', function () {
-    return back()->with('message', 'A password reset link has been sent to your email.');
+Route::post('/send-reset-link', function (Request $request) {
+
+    $request->validate([
+        'email' => 'required|email'
+    ]);
+
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+
+    if ($status === Password::RESET_LINK_SENT) {
+        return back()->with('success', 'A password reset link has been sent to your email.');
+    }
+
+    return back()->withErrors([
+        'email' => 'We could not find a user with that email address.'
+    ]);
+
 })->name('password.email');
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('Frontend.Auth.reset_password', ['token' => $token]);
+})->name('password.reset');
+
+Route::post('/reset-password', function (Request $request) {
+
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:8|confirmed',
+    ]);
+
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+        ? redirect()->route('login')->with('message', 'Password reset successfully!')
+        : back()->withErrors(['email' => __($status)]);
+
+})->name('password.store');
 
 Route::get('/about_us', function () {
     return view('Frontend.about_us');
