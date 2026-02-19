@@ -6,74 +6,224 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Security - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
-
     <style>
-        h1 {
-            font-family: 'inria Serif';
-            font-size: 40px;
-            color: rgba(255, 255, 255, 100);
-            text-align: center;
+        /* Header styling reused from dashboard for consistency */
+        .dashboard-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
         }
 
-        h2 {
-            font-family: 'Inria Serif';
-            font-size: 40px;
-            color: #310E0E;
-            margin: 0 0 10px 0;
+        .dashboard-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
         }
 
-        .dashboard-layout {
-            display: flex;
-            gap: 30px;
-            max-width: 1400px;
+        /* Settings specific layout */
+        .settings-container {
+            max-width: 800px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 50px 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
 
-        .dashboard-content {
-            flex: 1;
+        .settings-card {
+            background: var(--white);
+            border: 2px solid var(--text);
+            padding: 2rem;
+            transition: 0.3s;
         }
 
-        .page-header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .settings-card:hover {
+            box-shadow: 6px 6px 0px var(--text);
         }
 
-        .page-subtitle {
-            color: #666;
-            font-size: 14px;
-            margin: 0;
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--text);
+            padding-bottom: 0.5rem;
         }
 
-        .login_security_container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-primary);
+            border: 1px solid var(--text);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-width: 2px;
+            background: var(--bg-secondary);
+        }
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+            border: 2px solid var(--text);
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--bg-primary);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: var(--red-pastel-1);
+            color: var(--white);
+            border-color: var(--red-pastel-1);
+        }
+
+        .btn-danger:hover {
+            background: var(--white);
+            color: var(--red-pastel-1);
+            transform: translateY(-2px);
+        }
+
+        .warning-text {
+            color: var(--red-pastel-1);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2.5rem;
+            }
+
+            .dashboard-header {
+                background: var(--bg-primary);
+            }
+
+            .grid-2-col {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
         }
     </style>
-
 </head>
 
 <body>
     @include('Frontend.components.nav')
-    <main>
-        <div class="dashboard-layout">
-            @include('Frontend.components.dashboard_sidebar')
 
-            <div class="dashboard-content">
-                <div class="page-header">
-                    <h2 class="page-title">Login & Security</h2>
-                    <p class="page-subtitle">Manage you name, email, phone number and password</p>
+    <header class="dashboard-header">
+        <h1 class="dashboard-title">Login & Security</h1>
+        <p>Manage your account credentials and profile information.</p>
+    </header>
+
+    <main class="settings-container">
+
+        <div style="margin-bottom: -20px;">
+            <a href="/dashboard" class="btn">
+                <span>←</span> Back to Dashboard
+            </a>
+        </div>
+        <section class="settings-card">
+            <h2 class="section-title">Profile Information</h2>
+            <form action="#" method="POST">
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" class="form-control" value="John"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" class="form-control" value="Doe"
+                            required>
+                    </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-control" value="user@example.com"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </section>
+
+        <section class="settings-card">
+            <h2 class="section-title">Change Password</h2>
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="current_password">Current Password</label>
+                    <input type="password" id="current_password" name="current_password" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_password">New Password</label>
+                    <input type="password" id="new_password" name="new_password" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="new_password_confirmation">Confirm New Password</label>
+                    <input type="password" id="new_password_confirmation" name="new_password_confirmation"
+                        class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Password</button>
+            </form>
+        </section>
+
+        <section class="settings-card" style="border-color: var(--red-pastel-1);">
+            <h2 class="section-title" style="border-bottom-color: var(--red-pastel-1); color: var(--red-pastel-1);">
+                Danger Zone</h2>
+            <p class="warning-text">WARNING: Deleting your account is permanent. All orders, puzzle progress, and
+                settings will be permanently erased.</p>
+
+            <form action="#" method="POST"
+                onsubmit="return confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.');">
+                <button type="submit" class="btn btn-danger">Delete Account</button>
+            </form>
+        </section>
 
     </main>
 
     @include('Frontend.components.footer')
 </body>
 
-</html
+</html>
