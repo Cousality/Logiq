@@ -409,7 +409,7 @@
                                 @method('DELETE')
                                 <button type="submit" class="remove-btn">Remove</button>
                             </form>
-                            
+
                         </div>
                     </div>
                 @endforeach
@@ -420,7 +420,7 @@
                 <h2 class="summary-title">Order Summary</h2>
 
                 <div class="summary-row">
-                    <span>Items ({{ $basketItems->sum('quantity') }})</span>
+                    <span>Items</span>
                     <span
                         id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
                 </div>
@@ -461,53 +461,52 @@
     @include('Frontend.components.footer')
 
     <script>
-       
-       function changeQuantity(itemId, change) {
+        function changeQuantity(itemId, change) {
 
-    const qtyDisplay = document.getElementById(`qty-${itemId}`);
-    let currentQty = parseInt(qtyDisplay.textContent);
-    let newQty = currentQty + change;
+            const qtyDisplay = document.getElementById(`qty-${itemId}`);
+            let currentQty = parseInt(qtyDisplay.textContent);
+            let newQty = currentQty + change;
 
-    if (newQty < 1) newQty = 1;
-    if (newQty > 99) newQty = 99;
+            if (newQty < 1) newQty = 1;
+            if (newQty > 99) newQty = 99;
 
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    fetch(`/basket/${itemId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token
-        },
-        body: JSON.stringify({
-            quantity: newQty
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
+            fetch(`/basket/${itemId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({
+                        quantity: newQty
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
 
-        if (data.success) {
+                    if (data.success) {
 
-            // ✅ Update quantity on screen
-            qtyDisplay.textContent = newQty;
+                        // Update quantity on screen
+                        qtyDisplay.textContent = newQty;
 
-            // ✅ Update item total
-            const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
-            const price = parseFloat(item.dataset.price);
-            const itemTotal = (price * newQty).toFixed(2);
-            document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
+                        // Update item total
+                        const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
+                        const price = parseFloat(item.dataset.price);
+                        const itemTotal = (price * newQty).toFixed(2);
+                        document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
 
-            // ✅ Update badge
-            const badge = document.getElementById('basket-count');
-            if (badge && data.basketCount > 0) {
-                badge.textContent = data.basketCount;
-            }
+                        // Update badge
+                        const badge = document.getElementById('basket-count');
+                        if (badge && data.basketCount > 0) {
+                            badge.textContent = data.basketCount;
+                        }
 
-            updateSummaryDisplay();
+                        updateSummaryDisplay();
+                    }
+                })
+                .catch(error => console.error(error));
         }
-    })
-    .catch(error => console.error(error));
-}
 
         // Update order summary display (client-side calculation)
         function updateSummaryDisplay() {
@@ -534,6 +533,11 @@
                 subtitle.textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''} ready for checkout`;
             }
         }
+    function applyPromo() {
+        const promoCode = document.getElementById('promo-code').value.trim();
+        alert(`Promo code "${promoCode}" applied! (This is a demo, no actual discount will be applied)`);
+    }
+           
     </script>
 </body>
 
