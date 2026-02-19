@@ -1,6 +1,6 @@
 # LOGIQ
 
-LOGIQ is a web-based puzzle e-commernce store that delivers daily brain teasers and pattern-recognition challenges in a clean, minimal interface.The main use is as a virtual store for all kinds of puzzles. The application is built to demonstrate full-stack web development using Laravel, with a focus on structured MVC architecture, database integration and responsive UI design.
+LOGIQ is a web-based puzzle e-commerce store that delivers daily brain teasers and pattern-recognition challenges in a clean, minimal interface.The main use is as a virtual store for all kinds of puzzles. The application is built to demonstrate full-stack web development using Laravel, with a focus on structured MVC architecture, database integration and responsive UI design.
 
 The project was developed as a team-based software engineering exercise, with emphasis on maintainable code and a polished user experience.
 
