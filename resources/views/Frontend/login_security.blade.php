@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Security - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
+
     <style>
-        /* Header styling reused from dashboard for consistency */
+        /* HEADER */
         .dashboard-header {
             padding: 4rem 5%;
             background: linear-gradient(135deg,
@@ -22,7 +24,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Settings specific layout */
+        /* SETTINGS */
         .settings-container {
             max-width: 800px;
             margin: 0 auto;
@@ -51,34 +53,6 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Forms */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            background: var(--bg-primary);
-            border: 1px solid var(--text);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1rem;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-width: 2px;
-            background: var(--bg-secondary);
-        }
 
         .grid-2-col {
             display: grid;
@@ -86,7 +60,7 @@
             gap: 1.5rem;
         }
 
-        /* Buttons */
+        /* BUTTONS */
         .btn {
             display: inline-block;
             padding: 12px 24px;
@@ -115,6 +89,21 @@
             border-color: var(--red-pastel-1);
         }
 
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .back-nav {
+            margin-bottom: 10px;
+        }
+
         .btn-danger:hover {
             background: var(--white);
             color: var(--red-pastel-1);
@@ -127,7 +116,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Mobile adjustments */
+        /* MOBILE FIXES */
         @media (max-width: 768px) {
             .dashboard-title {
                 font-size: 2.5rem;
@@ -153,12 +142,10 @@
         <p>Manage your account credentials and profile information.</p>
     </header>
 
-    <main class="settings-container">
 
-        <div style="margin-bottom: -20px;">
-            <a href="/dashboard" class="btn">
-                <span>←</span> Back to Dashboard
-            </a>
+    <main class="settings-container">
+        <div class="back-nav">
+            <a href="{{ route('dashboard') }}" class="btn btn-secondary"> <- Back to Dashboard</a>
         </div>
         <section class="settings-card">
             <h2 class="section-title">Profile Information</h2>
@@ -166,20 +153,17 @@
                 <div class="grid-2-col">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control" value="John"
-                            required>
+                        <input type="text" id="first_name" name="first_name" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control" value="Doe"
-                            required>
+                        <input type="text" id="last_name" name="last_name" class="form-control">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control" value="user@example.com"
-                        required>
+                    <input type="email" id="email" name="email" class="form-control">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -191,18 +175,29 @@
             <form action="#" method="POST">
                 <div class="form-group">
                     <label for="current_password">Current Password</label>
-                    <input type="password" id="current_password" name="current_password" class="form-control" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="current_password" name="current_password" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('current_password')">Show</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="new_password">New Password</label>
-                    <input type="password" id="new_password" name="new_password" class="form-control" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="new_password" name="new_password" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('new_password')">Show</button>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label for="new_password_confirmation">Confirm New Password</label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation"
-                        class="form-control" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="new_password_confirmation" name="new_password_confirmation" required>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('new_password_confirmation')">Show</button>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update Password</button>
@@ -224,6 +219,7 @@
     </main>
 
     @include('Frontend.components.footer')
+    <script src="{{ asset('js/togglePassword.js') }}"></script>
 </body>
 
 </html>
