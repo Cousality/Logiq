@@ -385,7 +385,7 @@
                 <div class="team-card">
                     <div class="team-name">Haaris Ibrahim</div>
                     <div class="team-id">ID: 240373645</div>
-                    <div class="team-bio"></div>
+                    <div class="team-bio">Full-stack Dev</div>
                 </div>
 
                 <div class="team-card">
