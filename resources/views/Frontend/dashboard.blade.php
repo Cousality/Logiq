@@ -26,6 +26,22 @@
             opacity: 0.8;
         }
 
+        .admin-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--text);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-3px);
+        }
+
         .dashboard-containers {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -102,8 +118,9 @@
         <header class="dashboard-header">
             <h1 class="dashboard-title"> Hello, Admin</h1>
             <p>Welcome to your dashboard.</p>
+            <button type="submit" class="admin-btn">User Dashboard</button>
         </header>
-
+        
         <section class="dashboard-containers">
             <div class="dashboard-card">
                 <a href="#" class="card-link-wrapper">
@@ -148,7 +165,7 @@
             </div>
         </section>
 
-        @else (Auth::check() && Auth::user()->admin == 0)
+        @else
         <header class="dashboard-header">
             <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
             <p>Welcome to your dashboard.</p>
