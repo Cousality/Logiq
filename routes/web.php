@@ -40,17 +40,6 @@ Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 //Search
 Route::get('/search', [StoreController::class, 'index'])->name('search');
 
-//Wishlist Controller
-Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
-Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-
-//Basket Controller
-Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
-Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
-Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
-Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
-
 Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
@@ -93,10 +82,6 @@ Route::get('/your_address', function () {
     return view('Frontend.your_address');
 })->name('yourAddress');
 
-//Route::get('/customer_service', function () {
-//    return view('Frontend.customer_service');
-//})->name('customer_service');
-
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
 })->name('mypuzzles');
@@ -114,15 +99,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin_dashboard', function () {
         return view('Frontend.admin_dashboard');
     })->name('admin.dashboard');
+    //Basket Routes
+
+    Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+    Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
+    Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
+    Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
+
+    //Wishlist Routes
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+    //Checkout Routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 });
-
-//Route::get('/admin_customer_service', function () {
-//    return view('Frontend.admin_customer_service');
-//})->name('admin_customer_service');
-
-//Checkout Controller
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::fallback(function () {
     return view('errors.404');
