@@ -8,125 +8,25 @@
     <title>Register - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
-    <style>
-        .register-wrapper {
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .register-card {
-            background: var(--white);
-            border: 2px solid var(--text);
-            padding: 3rem;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 10px 10px 0px var(--red-pastel-1);
-        }
-
-        .register-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .register-header h2 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-
-        .alert {
-            padding: 0.75rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            border: 1px solid var(--text);
-        }
-
-        .alert-success {
-            background-color: #90EE90;
-            color: var(--text);
-        }
-
-        .alert-danger {
-            background-color: var(--red-pastel-1);
-            color: var(--bg-primary);
-        }
-
-        .alert ul {
-            margin: 0;
-            padding-left: 20px;
-            text-align: left;
-        }
-
-        .error {
-            color: var(--red-pastel-1);
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-            font-weight: bold;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 1rem;
-            background-color: var(--text);
-            color: var(--white);
-            border: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: transform 0.2s, background-color 0.2s;
-            margin-top: 1rem;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            background-color: var(--red-pastel-2);
-        }
-
-        .signup {
-            text-align: center;
-            margin-top: 2rem;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--text);
-            padding-top: 1.5rem;
-        }
-
-        .signup a {
-            color: var(--red-pastel-1);
-            font-weight: bold;
-            text-decoration: none;
-        }
-
-        .signup a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 
 <body>
     @include('Frontend.components.nav')
 
-    <div class="register-wrapper">
-        <div class="register-card">
-            <div class="register-header">
+    <main class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-header">
                 <h2>Register</h2>
                 <p>Create your account to get started.</p>
             </div>
 
             @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
+                <div class="alert alert-success">{{ session('success') }}</div>
             @endif
 
             @if ($errors->any())
                 <div class="alert alert-danger">
-                    <ul style="margin: 0; padding-left: 20px;">
+                    <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -136,7 +36,6 @@
 
             <form method="POST" action="{{ route('register.submit') }}">
                 @csrf
-
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" placeholder="user@logiq.com" value="{{ old('email') }}"
@@ -191,12 +90,13 @@
 
                 <button type="submit" class="btn">Register</button>
 
-                <p class="signup">
+                <div class="auth-footer-link">
                     Already have an account? <a href="{{ route('login') }}">Login</a>
-                </p>
+                </div>
             </form>
         </div>
-    </div>
+    </main>
+
     <script src="{{ asset('js/togglePassword.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -215,7 +115,6 @@
             password.onchange = validatePassword;
             confirmPassword.onkeyup = validatePassword;
 
-            // Final check on submit to prevent bypassing
             form.addEventListener('submit', function(event) {
                 if (password.value !== confirmPassword.value) {
                     event.preventDefault();
