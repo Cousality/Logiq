@@ -125,33 +125,54 @@
         <div class="back-nav">
             <a href="{{ route('dashboard') }}" class="btn btn-secondary"> <- Back to Dashboard</a>
         </div>
+        @if (session('success'))
+            <div
+                style="padding: 1rem; background: #d4edda; color: #155724; border: 2px solid #c3e6cb; margin-bottom: 1rem;">
+                {{ session('success') }}
+            </div>
+        @else
+            @if ($errors->any())
+                <div
+                    style="padding: 1rem; background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; margin-bottom: 1rem;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        @endif
         <section class="settings-card">
             <h2 class="section-title">Profile Information</h2>
-            <form action="#" method="POST">
+            <form action="{{ route('profile.update') }}" method="POST">
+                @csrf
                 <div class="grid-2-col">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="John">
+                        <input type="text" id="first_name" name="first_name" class="form-control"
+                            value="{{ old('first_name', $user->firstName) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Smith">
+                        <input type="text" id="last_name" name="last_name" class="form-control"
+                            value="{{ old('last_name', $user->lastName) }}" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" class="form-control"
-                        placeholder="user@logiq.com">
+                        value="{{ old('email', $user->email) }}" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn">Save Changes</button>
             </form>
         </section>
 
         <section class="settings-card">
             <h2 class="section-title">Change Password</h2>
-            <form action="#" method="POST">
+            <form action="{{ route('profile.password') }}" method="POST">
+                @csrf
                 <div class="form-group">
                     <label for="current_password">Current Password</label>
                     <div class="password-wrapper">
@@ -181,7 +202,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Update Password</button>
+                <button type="submit" class="btn">Update Password</button>
             </form>
         </section>
 
