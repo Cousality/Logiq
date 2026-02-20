@@ -87,6 +87,7 @@
             gap: 2rem;
             overflow-x: auto;
             scroll-behavior: smooth;
+            scrollbar-width: none;
         }
 
         .grid::-webkit-scrollbar {
@@ -229,49 +230,47 @@
 
     @include('Frontend.components.footer')
     <script>
-        document.querySelectorAll('.option-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const answer = this.getAttribute('data-value');
-                submitAnswer(answer);
+     
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const grid = document.querySelector(".grid");
+            if (!grid) return;
+
+            const originalCards = Array.from(grid.children);
+
+            
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                grid.appendChild(clone);
             });
-        });
 
-        function submitAnswer(val) {
-            const feedback = document.getElementById("feedback");
-            const btns = document.querySelectorAll(".option-btn");
+            const originalWidth = grid.scrollWidth / 2;
+            let scrollSpeed = 1.5;
+            let isPaused = false;
 
-            // Disable buttons Temp
-            btns.forEach(btn => btn.disabled = true);
-            feedback.textContent = "Analyzing...";
-            feedback.style.color = "var(--text)";
+            // Pause on hover
+            grid.addEventListener("mouseenter", () => {
+                isPaused = true;
+            });
 
-            fetch("{{ route('puzzle.check') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        answer: val
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    feedback.style.color = data.color;
-                    feedback.textContent = data.message;
+            grid.addEventListener("mouseleave", () => {
+                isPaused = false;
+            });
 
-                    if (data.status === 'error') {
-                        setTimeout(() => {
-                            btns.forEach(btn => btn.disabled = false);
-                            feedback.textContent = "";
-                        }, 2000);
+            function autoScroll() {
+                if (!isPaused) {
+                    grid.scrollLeft += scrollSpeed;
+
+                    if (grid.scrollLeft >= originalWidth) {
+                        grid.scrollLeft -= originalWidth;
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    feedback.textContent = "System Error.";
-                });
-        }
+                }
+
+                requestAnimationFrame(autoScroll);
+            }
+
+            autoScroll();
+        });
     </script>
 </body>
 
