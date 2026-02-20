@@ -161,7 +161,7 @@
         <a href="{{ route('store.index') }}" class="nav-icon store-icon" 
                         alt="store"></a>
         @if (Auth::check() && Auth::user()->admin == 1)
-            <a href="{{ route('admin.dashboard') }}" class= "nav-icon login-icon"
+            <a href="{{ route('dashboard') }}" class= "nav-icon login-icon"
                         alt="login"></a>
         @elseif (Auth::check() && Auth::user()->admin == 0)
             <a href="{{ route('dashboard') }}" class="nav-icon login-icon"
