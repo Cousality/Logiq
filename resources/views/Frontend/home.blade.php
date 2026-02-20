@@ -83,15 +83,26 @@
         }
 
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
             gap: 2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+
+        .grid::-webkit-scrollbar {
+        height: 8px;
+        }
+
+        .grid::-webkit-scrollbar-thumb {
+        background: var(--red-pastel-2);
         }
 
         .product-card {
             background: var(--white);
             border: 1px solid var(--red-pastel-2);
             transition: 0.3s;
+            min-width: 250px;
+            flex: 0 0 auto;
         }
 
         .product-card:hover {
@@ -207,6 +218,11 @@
                     <span class="price">$00</span>
                 </div>
             </div>
+            <div class="product-card"> ... </div>
+            <div class="product-card"> ... </div>
+            <div class="product-card"> ... </div>
+            <div class="product-card"> ... </div>
+            <div class="product-card"> ... </div>
         </div>
     </section>
 
