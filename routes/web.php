@@ -64,7 +64,7 @@ Route::post('/send-reset-link', function () {
 })->name('password.email');
 
 Route::get('/about_us', function () {
-    return view('Frontend.about_us');
+    return view('Frontend.text.about_us');
 })->name('about_us');
 
 Route::get('/privacy_policy', function () {
@@ -80,7 +80,7 @@ Route::get('/return_policy', function () {
 })->name('return_policy');
 
 Route::get('/FAQs', function () {
-    return view('Frontend.FAQs');
+    return view('Frontend.text.FAQs');
 });
 
 //Dashboard Routes
