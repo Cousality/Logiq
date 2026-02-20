@@ -98,6 +98,57 @@
 
     <main>
 
+        @if (Auth::check() && Auth::user()->admin == 1)
+        <header class="dashboard-header">
+            <h1 class="dashboard-title"> Hello, Admin</h1>
+            <p>Welcome to your dashboard.</p>
+        </header>
+
+        <section class="dashboard-containers">
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Order Management</h3>
+                    <h3 class="card-description">View, check and process customer orders.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">User Management</h3>
+                    <h3 class="card-description">View, add, delete and update customer details.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Inventory Management</h3>
+                    <h3 class="card-description">Manage stock levels and add, edit or remove products.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Analytics & Reports</h3>
+                    <h3 class="card-description">View current reports on stock levels and processing orders.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="/admin_customer_service" class="card-link-wrapper">
+                    <h3 class= "card-title">Customer Service</h3>
+                    <h3 class="card-description">View and respond to customer form requests.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Login & Security</h3>
+                    <h3 class="card-description">Manage name, email, phone number and password.</h3>
+                </a>
+            </div>
+        </section>
+
+        @else (Auth::check() && Auth::user()->admin == 0)
         <header class="dashboard-header">
             <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
             <p>Welcome to your dashboard.</p>
@@ -114,7 +165,7 @@
             <div class="dashboard-card">
                 <a href="/login_security" class="card-link-wrapper">
                     <h3 class= "card-title">Login & Security</h3>
-                    <h3 class="card-description">Manage name, email, phone number and password.</h3>
+                    <h3 class="card-description">Manage name, email and password.</h3>
                 </a>
             </div>
 
@@ -146,6 +197,7 @@
                 </a>
             </div>
         </section>
+        @endif
 
     </main>
 
