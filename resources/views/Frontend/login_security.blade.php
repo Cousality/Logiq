@@ -61,27 +61,7 @@
         }
 
         /* BUTTONS */
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            font-family: inherit;
-            border: 2px solid var(--text);
-            transition: all 0.2s;
-        }
 
-        .btn-primary {
-            background: var(--text);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: var(--bg-primary);
-            color: var(--text);
-            transform: translateY(-2px);
-        }
 
         .btn-danger {
             background: var(--red-pastel-1);
@@ -105,8 +85,6 @@
         }
 
         .btn-danger:hover {
-            background: var(--white);
-            color: var(--red-pastel-1);
             transform: translateY(-2px);
         }
 
@@ -153,17 +131,18 @@
                 <div class="grid-2-col">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
-                        <input type="text" id="first_name" name="first_name" class="form-control">
+                        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="John">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Last Name</label>
-                        <input type="text" id="last_name" name="last_name" class="form-control">
+                        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Smith">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" class="form-control">
+                    <input type="email" id="email" name="email" class="form-control"
+                        placeholder="user@logiq.com">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -176,7 +155,8 @@
                 <div class="form-group">
                     <label for="current_password">Current Password</label>
                     <div class="password-wrapper">
-                        <input type="password" id="current_password" name="current_password" required>
+                        <input type="password" id="current_password" name="current_password" placeholder="••••••••"
+                            required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('current_password')">Show</button>
                     </div>
@@ -185,7 +165,7 @@
                 <div class="form-group">
                     <label for="new_password">New Password</label>
                     <div class="password-wrapper">
-                        <input type="password" id="new_password" name="new_password" required>
+                        <input type="password" id="new_password" name="new_password" placeholder="••••••••" required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('new_password')">Show</button>
                     </div>
@@ -194,7 +174,8 @@
                 <div class="form-group">
                     <label for="new_password_confirmation">Confirm New Password</label>
                     <div class="password-wrapper">
-                        <input type="password" id="new_password_confirmation" name="new_password_confirmation" required>
+                        <input type="password" id="new_password_confirmation" name="new_password_confirmation"
+                            placeholder="••••••••" required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('new_password_confirmation')">Show</button>
                     </div>
