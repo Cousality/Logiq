@@ -120,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::fallback(function () {

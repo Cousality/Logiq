@@ -212,9 +212,10 @@
             <p class="warning-text">WARNING: Deleting your account is permanent. All orders, puzzle progress, and
                 settings will be permanently erased.</p>
 
-            <form action="#" method="POST"
+            <form action="{{ route('profile.destroy') }}" method="POST"
                 onsubmit="return confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.');">
-                <button type="submit" class="btn btn-danger">Delete Account</button>
+                @csrf
+                @method('DELETE') <button type="submit" class="btn btn-danger">Delete Account</button>
             </form>
         </section>
 
