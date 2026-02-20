@@ -140,8 +140,8 @@
 
             <div class="dashboard-card">
                 <a href="#" class="card-link-wrapper">
-                    <h3 class= "card-title">Login & Security</h3>
-                    <h3 class="card-description">Manage name, email, phone number and password.</h3>
+                    <h3 class= "card-title">Promotions & Discounts</h3>
+                    <h3 class="card-description">Manage Promotional Codes and Discounts.</h3>
                 </a>
             </div>
         </section>
