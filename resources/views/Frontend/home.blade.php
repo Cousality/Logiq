@@ -211,6 +211,22 @@
                     <span class="price">$00</span>
                 </div>
             </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
             <div class="product-card">
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
@@ -219,11 +235,30 @@
                     <span class="price">$00</span>
                 </div>
             </div>
-            <div class="product-card"> ... </div>
-            <div class="product-card"> ... </div>
-            <div class="product-card"> ... </div>
-            <div class="product-card"> ... </div>
-            <div class="product-card"> ... </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>PlaceHolder</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
         </div>
     </section>
 
