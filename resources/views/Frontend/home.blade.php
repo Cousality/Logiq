@@ -215,7 +215,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 2/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -223,7 +223,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 5/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -231,7 +231,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 8/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -239,7 +239,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 4/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -247,7 +247,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 6/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -255,7 +255,7 @@
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 3/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
