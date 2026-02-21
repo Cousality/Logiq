@@ -88,12 +88,18 @@ Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
 })->name('mypuzzles');
 
-// Customer Service
+// Auth Pages
 Route::middleware(['auth'])->group(function () {
     Route::get('/customer_service', [ContactController::class, 'index'])->name('customer_service');
     Route::post('/customer_service', [ContactController::class, 'add'])->name('customer_service.add');
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+
+    //Login & Security Routes
+    Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/dashboard', function () {
         return view('Frontend.dashboard');
     })->name('dashboard');
@@ -121,12 +127,6 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     //Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
-
-    //Login & Security Routes
-    Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
-    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
-    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::fallback(function () {
