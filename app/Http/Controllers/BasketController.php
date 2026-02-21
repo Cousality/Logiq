@@ -9,12 +9,6 @@ use Illuminate\Http\Request;
 
 class BasketController extends Controller
 {
-    // sends user to login if not signed in
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show basket page.
      */
@@ -67,25 +61,25 @@ class BasketController extends Controller
     }
 
     public function update(Request $request, BasketItem $item)
-{
-    $request->validate([
-        'quantity' => 'required|integer|min:1',
-    ]);
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+        ]);
 
-    $item->quantity = $request->quantity;
-    $item->save();
+        $item->quantity = $request->quantity;
+        $item->save();
 
-    $basket = Basket::where('userID', auth()->user()->userID)
-        ->where('orderStatus', 'cart')
-        ->first();
+        $basket = Basket::where('userID', auth()->user()->userID)
+            ->where('orderStatus', 'cart')
+            ->first();
 
-    $basketCount = $basket ? $basket->items()->sum('quantity') : 0;
+        $basketCount = $basket ? $basket->items()->sum('quantity') : 0;
 
-    return response()->json([
-        'success' => true,
-        'basketCount' => $basketCount
-    ]);
-}
+        return response()->json([
+            'success' => true,
+            'basketCount' => $basketCount,
+        ]);
+    }
 
     public function remove(BasketItem $item)
     {

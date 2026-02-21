@@ -3,17 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
-use App\Models\BasketItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -30,7 +24,7 @@ class CheckoutController extends Controller
         });
 
         $shipping = 0;
-        $total    = $subtotal + $shipping;
+        $total = $subtotal + $shipping;
 
         $cartItems = $basketItems;
 
@@ -40,19 +34,19 @@ class CheckoutController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'full_name'      => 'required|string|max:255',
-            'email'          => 'required|email',
-            'address_line1'  => 'required|string|max:255',
-            'city'           => 'required|string|max:255',
-            'postcode'       => 'required|string|max:20',
-            'country'        => 'required|string|max:50',
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'address_line1' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:20',
+            'country' => 'required|string|max:50',
             'payment_method' => 'required|in:card,paypal',
-            'card_name'      => 'required|string|max:255',
-            'card_number'    => 'required|string',
-            'expiry_month'   => 'required|string',
-            'expiry_year'    => 'required|string',
-            'cvv'            => 'required|string',
-            'agree_terms'    => 'accepted',
+            'card_name' => 'required|string|max:255',
+            'card_number' => 'required|string',
+            'expiry_month' => 'required|string',
+            'expiry_year' => 'required|string',
+            'cvv' => 'required|string',
+            'agree_terms' => 'accepted',
         ]);
 
         $user = auth()->user();
@@ -75,11 +69,11 @@ class CheckoutController extends Controller
             });
 
             $shipping = 0;
-            $total    = $subtotal + $shipping;
+            $total = $subtotal + $shipping;
 
             $basket->totalAmount = $total;
             $basket->orderStatus = 'pending';
-            $basket->orderDate   = now();
+            $basket->orderDate = now();
             $basket->save();
 
             foreach ($items as $item) {

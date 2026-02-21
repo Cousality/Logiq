@@ -7,6 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\IsAdmin;
@@ -41,17 +42,6 @@ Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 //Search
 Route::get('/search', [StoreController::class, 'index'])->name('search');
 
-//Wishlist Controller
-Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
-Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-
-//Basket Controller
-Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
-Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
-Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
-Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
-
 Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
@@ -65,7 +55,7 @@ Route::post('/send-reset-link', function () {
 })->name('password.email');
 
 Route::get('/about_us', function () {
-    return view('Frontend.about_us');
+    return view('Frontend.text.about_us');
 })->name('about_us');
 
 Route::get('/privacy_policy', function () {
@@ -81,7 +71,7 @@ Route::get('/return_policy', function () {
 })->name('return_policy');
 
 Route::get('/FAQs', function () {
-    return view('Frontend.FAQs');
+    return view('Frontend.text.FAQs');
 });
 
 //Dashboard Routes
@@ -93,10 +83,6 @@ Route::get('/login_security', function () {
 Route::get('/your_address', function () {
     return view('Frontend.your_address');
 })->name('yourAddress');
-
-//Route::get('/customer_service', function () {
-//    return view('Frontend.customer_service');
-//})->name('customer_service');
 
 Route::get('/my_puzzles', function () {
     return view('Frontend.my_puzzles');
@@ -120,15 +106,28 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/admin_dashboard', function () {
         return view('Frontend.admin_dashboard');
     })->name('admin.dashboard');
+    //Basket Routes
+
+    Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
+    Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
+    Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
+    Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
+
+    //Wishlist Routes
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+    //Checkout Routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    //Login & Security Routes
+    Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+    Route::delete('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-//Route::get('/admin_customer_service', function () {
-//    return view('Frontend.admin_customer_service');
-//})->name('admin_customer_service');
-
-//Checkout Controller
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::fallback(function () {
     return view('errors.404');

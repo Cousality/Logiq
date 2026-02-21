@@ -8,12 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
-    // sends user to login if not signed in
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /* Add product to wishlist */
     public function add(Request $request)
     {
