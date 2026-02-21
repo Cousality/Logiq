@@ -427,7 +427,7 @@
                 <div class="team-card">
                     <div class="team-name">Ibrahim Shah</div>
                     <div class="team-id">ID: 240278797</div>
-                    <div class="team-bio"></div>
+                    <div class="team-bio">Frontend Developer. Could've been a backend developer - knee injury</div>
                 </div>
 
             </div>

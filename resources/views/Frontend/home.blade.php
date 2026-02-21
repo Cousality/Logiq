@@ -83,15 +83,27 @@
         }
 
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: flex;
             gap: 2rem;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .grid::-webkit-scrollbar {
+        height: 8px;
+        }
+
+        .grid::-webkit-scrollbar-thumb {
+        background: var(--red-pastel-2);
         }
 
         .product-card {
             background: var(--white);
             border: 1px solid var(--red-pastel-2);
             transition: 0.3s;
+            min-width: 250px;
+            flex: 0 0 auto;
         }
 
         .product-card:hover {
@@ -199,11 +211,51 @@
                     <span class="price">$00</span>
                 </div>
             </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 2/10</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 5/10</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
             <div class="product-card">
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
-                    <p>PlaceHolder</p>
+                    <p>Difficulty: 8/10</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+             <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 4/10</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 6/10</p>
+                    <span class="price">$00</span>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">PlaceHolder</div>
+                <div class="product-info">
+                    <h3>PlaceHolder</h3>
+                    <p>Difficulty: 3/10</p>
                     <span class="price">$00</span>
                 </div>
             </div>
@@ -213,49 +265,47 @@
 
     @include('Frontend.components.footer')
     <script>
-        document.querySelectorAll('.option-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const answer = this.getAttribute('data-value');
-                submitAnswer(answer);
+     
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const grid = document.querySelector(".grid");
+            if (!grid) return;
+
+            const originalCards = Array.from(grid.children);
+
+            
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                grid.appendChild(clone);
             });
-        });
 
-        function submitAnswer(val) {
-            const feedback = document.getElementById("feedback");
-            const btns = document.querySelectorAll(".option-btn");
+            const originalWidth = grid.scrollWidth / 2;
+            let scrollSpeed = 1.5;
+            let isPaused = false;
 
-            // Disable buttons Temp
-            btns.forEach(btn => btn.disabled = true);
-            feedback.textContent = "Analyzing...";
-            feedback.style.color = "var(--text)";
+            // Pause on hover
+            grid.addEventListener("mouseenter", () => {
+                isPaused = true;
+            });
 
-            fetch("{{ route('puzzle.check') }}", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        answer: val
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    feedback.style.color = data.color;
-                    feedback.textContent = data.message;
+            grid.addEventListener("mouseleave", () => {
+                isPaused = false;
+            });
 
-                    if (data.status === 'error') {
-                        setTimeout(() => {
-                            btns.forEach(btn => btn.disabled = false);
-                            feedback.textContent = "";
-                        }, 2000);
+            function autoScroll() {
+                if (!isPaused) {
+                    grid.scrollLeft += scrollSpeed;
+
+                    if (grid.scrollLeft >= originalWidth) {
+                        grid.scrollLeft -= originalWidth;
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    feedback.textContent = "System Error.";
-                });
-        }
+                }
+
+                requestAnimationFrame(autoScroll);
+            }
+
+            autoScroll();
+        });
     </script>
 </body>
 

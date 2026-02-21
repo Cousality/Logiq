@@ -26,6 +26,22 @@
             opacity: 0.8;
         }
 
+        .admin-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--text);
+            color: var(--white);
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-3px);
+        }
+
         .dashboard-containers {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -97,13 +113,118 @@
     @include('Frontend.components.nav')
 
     <main>
+        @if (Auth::check() && Auth::user()->admin == 1)
+        <section id="adminView">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title"> Hello, Admin</h1>
+            <p>Welcome to your dashboard.</p>
+            <button type="button" class="admin-btn" onclick="toggleDashboard(this)">User Dashboard</button>
+        </header>
+        
+        <div class="dashboard-containers">
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Order Management</h3>
+                    <h3 class="card-description">View, check and process customer orders.</h3>
+                </a>
+            </div>
 
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">User Management</h3>
+                    <h3 class="card-description">View, add, delete and update customer details.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Inventory Management</h3>
+                    <h3 class="card-description">Manage stock levels and add, edit or remove products.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Analytics & Reports</h3>
+                    <h3 class="card-description">View current reports on stock levels and processing orders.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="/admin_customer_service" class="card-link-wrapper">
+                    <h3 class= "card-title">Customer Service</h3>
+                    <h3 class="card-description">View and respond to customer form requests.</h3>
+                </a>
+            </div>
+
+            <div class="dashboard-card">
+                <a href="#" class="card-link-wrapper">
+                    <h3 class= "card-title">Login & Security</h3>
+                    <h3 class="card-description">Manage name, email and password.</h3>
+                </a>
+            </div>
+        </div>
+        </section>
+        
+        <section id="userView" style="display:none">
+            <header class="dashboard-header">
+                <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
+                <p>Welcome to your dashboard.</p>
+                <button type="button" class="admin-btn" onclick="toggleDashboard(this)">Admin Dashboard</button>
+            </header>
+            
+            <div class="dashboard-containers">
+                <div class="dashboard-card">
+                    <a href="/your_orders" class="card-link-wrapper">
+                        <h3 class= "card-title">Your Orders</h3>
+                        <h3 class="card-description">View, manage and check status of past orders.</h3>
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <a href="/login_security" class="card-link-wrapper">
+                        <h3 class= "card-title">Login & Security</h3>
+                        <h3 class="card-description">Manage name, email and password.</h3>
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <a href="/your_address" class="card-link-wrapper">
+                        <h3 class= "card-title">Your Address</h3>
+                        <h3 class="card-description">Add, edit or remove an address.</h3>
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <a href="/wishlist" class="card-link-wrapper">
+                        <h3 class= "card-title">Wishlist</h3>
+                        <h3 class="card-description">View and manage saved products.</h3>
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <a href="/customer_service" class="card-link-wrapper">
+                        <h3 class= "card-title">Customer Service</h3>
+                        <h3 class="card-description">Use the contact form to contact us.</h3>
+                    </a>
+                </div>
+                
+                <div class="dashboard-card">
+                    <a href="/my_puzzles" class="card-link-wrapper">
+                        <h3 class= "card-title">My Puzzles</h3>
+                        <h3 class="card-description">View and edit reviewed and rated orders.</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        @else
         <header class="dashboard-header">
             <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
             <p>Welcome to your dashboard.</p>
         </header>
 
-        <section class="dashboard-containers">
+        <div class="dashboard-containers">
             <div class="dashboard-card">
                 <a href="/your_orders" class="card-link-wrapper">
                     <h3 class= "card-title">Your Orders</h3>
@@ -114,7 +235,7 @@
             <div class="dashboard-card">
                 <a href="/login_security" class="card-link-wrapper">
                     <h3 class= "card-title">Login & Security</h3>
-                    <h3 class="card-description">Manage name, email, phone number and password.</h3>
+                    <h3 class="card-description">Manage name, email and password.</h3>
                 </a>
             </div>
 
@@ -145,11 +266,24 @@
                     <h3 class="card-description">View and edit reviewed and rated orders.</h3>
                 </a>
             </div>
-        </section>
+        </div>
+        @endif
 
     </main>
 
     @include('Frontend.components.footer')
+
+    <script>
+        function toggleDashboard() {
+            const adminView = document.getElementById('adminView');
+            const userView = document.getElementById('userView');
+            
+            const showingAdmin = adminView.style.display !== 'none';
+            
+            adminView.style.display = showingAdmin ? 'none' : 'block';
+            userView.style.display = showingAdmin ? 'block' : 'none';
+        }
+    </script>
 
 </body>
 
