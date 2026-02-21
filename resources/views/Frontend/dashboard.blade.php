@@ -130,7 +130,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="#" class="card-link-wrapper">
+                        <a href="/user_management" class="card-link-wrapper">
                             <h3 class= "card-title">User Management</h3>
                             <h3 class="card-description">View, add, delete and update customer details.</h3>
                         </a>

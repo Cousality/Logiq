@@ -62,6 +62,9 @@
 
         /* BUTTONS */
 
+        .back-nav {
+            margin-bottom: 10px;
+        }
 
         .btn-danger {
             background: var(--red-pastel-1);
@@ -72,6 +75,11 @@
         .btn-secondary {
             background: transparent;
             color: var(--text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border: 2px solid var(--text);
+            display: inline-block;
+            transition: 0.2s;
         }
 
         .btn-secondary:hover {
@@ -80,9 +88,6 @@
             transform: translateY(-2px);
         }
 
-        .back-nav {
-            margin-bottom: 10px;
-        }
 
         .btn-danger:hover {
             transform: translateY(-2px);
@@ -123,7 +128,7 @@
 
     <main class="settings-container">
         <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary"> <- Back to Dashboard</a>
+            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
         </div>
         @if (session('success'))
             <div

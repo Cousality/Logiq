@@ -103,11 +103,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/user_management', function () {
-        return view('Frontend.user_management');
+        return view('Frontend.dashboard.user_management');
     })->name('user_management');
-    Route::get('/admin_dashboard', function () {
-        return view('Frontend.admin_dashboard');
-    })->name('admin.dashboard');
     //Basket Routes
 
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
