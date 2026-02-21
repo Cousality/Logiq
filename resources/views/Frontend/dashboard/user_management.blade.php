@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management - LOGIQ Admin</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
-    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
 
     <style>
         /* HEADER */
@@ -109,7 +108,7 @@
 
         /* ACTIONS */
         .action-cell {
-            display: flex;
+            justify-content: flex-end;
             gap: 10px;
         }
 
@@ -215,6 +214,7 @@
 
             .action-cell {
                 justify-content: flex-end;
+                width: 100%;
             }
         }
     </style>
@@ -237,8 +237,8 @@
             <h2 class="section-title">User Directory</h2>
 
             <form class="search-wrapper" action="#" method="GET">
-                <input type="email" name="search_email" class="search-input"
-                    placeholder="Search by exact email address..." required>
+                <input type="email" name="search_email" class="search-input" placeholder="Search by email address..."
+                    required>
                 <button type="submit" class="btn-search">Search</button>
             </form>
 
@@ -253,26 +253,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td data-label="ID">#1042</td>
-                        <td data-label="Name">John Doe</td>
-                        <td data-label="Email">john.doe@example.com</td>
-                        <td data-label="Role">User</td>
-                        <td data-label="Actions" class="action-cell">
-                            <button type="button" class="btn-action btn-make-admin">Make Admin</button>
-                            <button type="button" class="btn-action btn-danger">Delete</button>
-                        </td>
-                    </tr>
+                    @forelse($users as $user)
+                        <tr>
+                            <td data-label="ID">#{{ $user->id }}</td>
+                            <td data-label="Name">{{ $user->firstName }} {{ $user->lastName }}</td>
+                            <td data-label="Email">{{ $user->email }}</td>
+                            <td data-label="Role">{{ $user->admin ? 'Admin' : 'User' }}</td>
+                            <td data-label="Actions" class="action-cell">
+                                @if ($user->admin)
+                                    <span style="opacity: 0.5; padding: 5px 10px;">Already Admin</span>
+                                @else
+                                    <button type="button" class="btn-action btn-make-admin"
+                                        data-id="{{ $user->id }}">Make Admin</button>
+                                    <button type="button" class="btn-action btn-danger"
+                                        data-id="{{ $user->id }}">Delete</button>
+                                @endif
 
-                    <tr>
-                        <td data-label="ID">#1043</td>
-                        <td data-label="Name">Jane Smith</td>
-                        <td data-label="Email">jane.smith@example.com</td>
-                        <td data-label="Role">Admin</td>
-                        <td data-label="Actions" class="action-cell">
-                            <span style="opacity: 0.5; padding: 5px 10px;">Already Admin</span>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem;">No users found in the
+                                database.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </section>
