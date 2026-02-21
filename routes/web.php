@@ -76,16 +76,12 @@ Route::get('/FAQs', function () {
 
 //Dashboard Routes
 
-Route::get('/login_security', function () {
-    return view('Frontend.login_security');
-})->name('loginSecurity');
-
 Route::get('/your_address', function () {
-    return view('Frontend.your_address');
+    return view('Frontend.dashboard.your_address');
 })->name('yourAddress');
 
 Route::get('/my_puzzles', function () {
-    return view('Frontend.my_puzzles');
+    return view('Frontend.dashboard.my_puzzles');
 })->name('mypuzzles');
 
 // Auth Pages

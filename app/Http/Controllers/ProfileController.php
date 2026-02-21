@@ -13,7 +13,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('Frontend.login_security', compact('user'));
+        return view('Frontend.dashboard.login_security', compact('user'));
     }
 
     public function update(Request $request)
