@@ -15,4 +15,20 @@ class UserManagementController extends Controller
 
         return view('Frontend.dashboard.user_management', compact('users'));
     }
+
+    public function makeAdmin($id)
+    {
+        $user = User::where('userID', $id)->firstOrFail();
+
+        $user->update(['admin' => true]);
+
+        return back()->with('success', "{$user->firstName} {$user->lastName} has been granted Admin privileges.");
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return back()->with('success', "User {$user->email} has been deleted.");
+    }
 }
