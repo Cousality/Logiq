@@ -155,6 +155,44 @@
             background: var(--bg-secondary);
         }
 
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 0.35rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .card-stars-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 1rem;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .card-stars-wrap .stars-bg {
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+
+        .card-stars-wrap .stars-fg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #c8871a;
+            letter-spacing: 1px;
+        }
+
+        .card-review-count {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text);
+            opacity: 0.65;
+        }
+
         .difficulty-badge {
             position: absolute;
             top: 0;
@@ -189,6 +227,13 @@
                 <div class="card-header">
                     <h3 class="card-title">{{ $product->productName }}</h3>
                     <span class="card-price">£{{ number_format($product->productPrice, 2) }}</span>
+                    <div class="card-rating">
+                        <span class="card-stars-wrap">
+                            <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="stars-fg" data-pct="{{ $product->reviews_count > 0 ? (int)(($product->reviews_avg_rating / 5) * 100) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </span>
+                        <span class="card-review-count">({{ $product->reviews_count ?? 0 }})</span>
+                    </div>
                 </div>
 
                 <p class="card-description">
@@ -222,3 +267,8 @@
         </div>
     </div>
 @endforeach
+<script>
+    document.querySelectorAll('.card-stars-wrap .stars-fg[data-pct]').forEach(function (el) {
+        el.style.width = el.dataset.pct + '%';
+    });
+</script>
