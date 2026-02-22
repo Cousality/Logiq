@@ -82,7 +82,7 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -1px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             line-height: 1.1;
         }
 
@@ -91,8 +91,8 @@
             font-weight: bold;
             color: var(--red-pastel-1);
             margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 2px solid var(--text);
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--text);
         }
 
         .product-description {
@@ -562,6 +562,13 @@
             <div class="product-details-section">
                 <h1 class="product-title">{{ $product->productName }}</h1>
 
+                <div style="margin-bottom: 0.5rem;">
+                    <span class="rating-display" id="avg-rating-display">
+                        <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" id="avg-stars-fg" data-pct="{{ (isset($avgRating) && $reviewCount > 0) ? (int)number_format(($avgRating / 5) * 100, 2) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+                        <span class="review-count" id="review-count-label">({{ $reviewCount ?? 0 }})</span>
+                    </span>
+                </div>
+
                 <div class="product-price">£{{ number_format($product->productPrice, 2) }}</div>
 
                 <div class="product-description">
@@ -604,15 +611,6 @@
                 <div class="info-row">
                     <span class="info-label">Difficulty:</span>
                     <span class="info-value">{{ ucfirst($product->productDifficulty) }}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Rating:</span>
-                    <span class="info-value">
-                        <span class="rating-display" id="avg-rating-display">
-                            <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" id="avg-stars-fg" data-pct="{{ (isset($avgRating) && $reviewCount > 0) ? (int)number_format(($avgRating / 5) * 100, 2) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
-                            <span class="review-count" id="review-count-label">({{ $reviewCount ?? 0 }})</span>
-                        </span>
-                    </span>
                 </div>
 
             </div>
