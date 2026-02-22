@@ -108,6 +108,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
+    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
     //Basket Routes
 
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');

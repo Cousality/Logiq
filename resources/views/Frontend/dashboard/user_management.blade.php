@@ -255,7 +255,7 @@
                 <tbody>
                     @forelse($users as $user)
                         <tr>
-                            <td data-label="ID">#{{ $user->id }}</td>
+                            <td data-label="ID">#{{ $user->userID }}</td>
                             <td data-label="Name">{{ $user->firstName }} {{ $user->lastName }}</td>
                             <td data-label="Email">{{ $user->email }}</td>
                             <td data-label="Role">{{ $user->admin ? 'Admin' : 'User' }}</td>
@@ -263,10 +263,19 @@
                                 @if ($user->admin)
                                     <span style="opacity: 0.5; padding: 5px 10px;">Already Admin</span>
                                 @else
-                                    <button type="button" class="btn-action btn-make-admin"
-                                        data-id="{{ $user->id }}">Make Admin</button>
-                                    <button type="button" class="btn-action btn-danger"
-                                        data-id="{{ $user->id }}">Delete</button>
+                                    <form action="{{ route('users.makeAdmin', $user->userID) }}" method="POST"
+                                        style="display:inline-block;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-action btn-make-admin">Make Admin</button>
+                                    </form>
+
+                                    <form action="{{ route('admin.users.destroy', $user->userID) }}" method="POST"
+                                        style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-action btn-danger">Delete</button>
+                                    </form>
                                 @endif
 
                             </td>
