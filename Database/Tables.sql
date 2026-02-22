@@ -85,14 +85,13 @@ CREATE TABLE reviews (
     reviewID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userID INT(11) NOT NULL,
     productID INT(11) NOT NULL,
-    rating INT(1) NOT NULL CHECK (rating >= 1 AND rating <= 5),
-    reviewTitle VARCHAR(100),
-    reviewText TEXT,
-    reviewDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    rating DECIMAL(2,1) NOT NULL CHECK (rating >= 0.5 AND rating <= 5.0),
+    reviewComment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE,
     FOREIGN KEY (productID) REFERENCES products(productID) ON DELETE CASCADE,
+    UNIQUE KEY idx_unique_user_product (userID, productID),
     INDEX idx_product_rating (productID, rating),
     INDEX idx_user_review (userID)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
