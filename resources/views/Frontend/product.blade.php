@@ -705,7 +705,17 @@
         <div class="modal-box">
             <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
             <h2>Confirm Your Review</h2>
-            <div class="modal-preview-stars" id="modalPreviewStars"></div>
+            <p class="star-picker-label" style="margin-top:1rem;">Rating</p>
+            <div style="display:flex; align-items:center; margin-bottom:0.4rem;">
+                <div class="star-picker" id="modalStarPicker">
+                    <span class="sp-star" data-index="1">&#9733;</span>
+                    <span class="sp-star" data-index="2">&#9733;</span>
+                    <span class="sp-star" data-index="3">&#9733;</span>
+                    <span class="sp-star" data-index="4">&#9733;</span>
+                    <span class="sp-star" data-index="5">&#9733;</span>
+                </div>
+                <span class="star-picker-value" id="modalPickerValueLabel">&nbsp;</span>
+            </div>
             <p class="modal-rating-label" id="modalRatingLabel"></p>
             <p class="modal-comment-label">Comment <span style="font-weight:normal; opacity:0.6;">(optional)</span></p>
             <textarea class="modal-comment-input"
@@ -809,16 +819,61 @@
         }
 
         /* ---- Modal ---- */
-        var modal        = document.getElementById('reviewModal');
-        var previewStars = document.getElementById('modalPreviewStars');
-        var ratingLabel  = document.getElementById('modalRatingLabel');
-        var confirmBtn   = document.getElementById('modalConfirm');
-        var cancelBtn    = document.getElementById('modalCancel');
-        var closeBtn     = document.getElementById('modalClose');
-        var commentInput = document.getElementById('modalComment');
+        var modal             = document.getElementById('reviewModal');
+        var ratingLabel       = document.getElementById('modalRatingLabel');
+        var confirmBtn        = document.getElementById('modalConfirm');
+        var cancelBtn         = document.getElementById('modalCancel');
+        var closeBtn          = document.getElementById('modalClose');
+        var commentInput      = document.getElementById('modalComment');
+        var modalPicker       = document.getElementById('modalStarPicker');
+        var modalPickerStars  = Array.from(modalPicker.querySelectorAll('.sp-star'));
+        var modalValueLabel   = document.getElementById('modalPickerValueLabel');
+        var modalHoveredRating = 0;
+
+        function applyModalPickerDisplay(rating) {
+            modalPickerStars.forEach(function (star, i) {
+                var n = i + 1;
+                star.classList.remove('half-lit', 'full-lit');
+                star.style.cssText = '';
+                if (rating >= n) {
+                    star.classList.add('full-lit');
+                } else if (rating >= n - 0.5) {
+                    star.classList.add('half-lit');
+                }
+            });
+        }
+
+        modalPicker.addEventListener('mousemove', function (e) {
+            var rect = modalPicker.getBoundingClientRect();
+            var x = e.clientX - rect.left;
+            var frac = x / rect.width;
+            var raw = Math.max(1, Math.round(frac * 10));
+            modalHoveredRating = raw / 2;
+            applyModalPickerDisplay(modalHoveredRating);
+            modalValueLabel.textContent = modalHoveredRating.toFixed(1) + ' / 5';
+            ratingLabel.textContent = 'Rating: ' + modalHoveredRating.toFixed(1) + ' / 5.0';
+        });
+
+        modalPicker.addEventListener('mouseleave', function () {
+            applyModalPickerDisplay(pendingRating);
+            modalValueLabel.textContent = pendingRating > 0 ? pendingRating.toFixed(1) + ' / 5' : '\u00a0';
+            ratingLabel.textContent = pendingRating > 0 ? 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0' : '';
+            modalHoveredRating = 0;
+        });
+
+        modalPicker.addEventListener('click', function () {
+            if (modalHoveredRating > 0) {
+                pendingRating = modalHoveredRating;
+                applyModalPickerDisplay(pendingRating);
+                modalValueLabel.textContent = pendingRating.toFixed(1) + ' / 5';
+                ratingLabel.textContent = 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0';
+            }
+        });
 
         function openModal(rating) {
-            previewStars.innerHTML = renderStarsHTML(rating);
+            pendingRating = rating;
+            applyModalPickerDisplay(rating);
+            modalValueLabel.textContent = rating.toFixed(1) + ' / 5';
             ratingLabel.textContent = 'Rating: ' + rating.toFixed(1) + ' / 5.0';
             commentInput.value = '';
             modal.classList.add('active');
