@@ -664,7 +664,7 @@
             </div>
 
             {{-- RIGHT: Existing reviews --}}
-            <div>
+            <div style="max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
                 @if (isset($reviews) && $reviews->count() > 0)
                     <div class="review-list" id="reviewList">
                         @foreach ($reviews as $review)
