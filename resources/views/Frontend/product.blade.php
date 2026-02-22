@@ -608,14 +608,10 @@
                 <div class="info-row">
                     <span class="info-label">Rating:</span>
                     <span class="info-value">
-                        @if (isset($avgRating) && $avgRating && isset($reviewCount) && $reviewCount > 0)
-                            <span class="rating-display" id="avg-rating-display">
-                                <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" id="avg-stars-fg" data-pct="{{ (int)number_format(($avgRating / 5) * 100, 2) }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
-                                <span class="review-count" id="review-count-label">({{ $reviewCount }})</span>
-                            </span>
-                        @else
-                            <span style="opacity:0.5; font-size:0.9rem;">No reviews yet</span>
-                        @endif
+                        <span class="rating-display" id="avg-rating-display">
+                            <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" id="avg-stars-fg" data-pct="{{ (isset($avgRating) && $reviewCount > 0) ? (int)number_format(($avgRating / 5) * 100, 2) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+                            <span class="review-count" id="review-count-label">({{ $reviewCount ?? 0 }})</span>
+                        </span>
                     </span>
                 </div>
 

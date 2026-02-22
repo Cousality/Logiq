@@ -19,6 +19,8 @@ class StoreController extends Controller
                 $products = $this->fuzzySearch($searchQuery);
             } else {
                 $products = Product::where('productStatus', 'active')
+                    ->withAvg('reviews', 'rating')
+                    ->withCount('reviews')
                     ->orderBy('productName')
                     ->get();
             }
@@ -35,7 +37,10 @@ class StoreController extends Controller
 
     private function fuzzySearch($searchQuery)
     {
-        $allProducts = Product::where('productStatus', 'active')->get();
+        $allProducts = Product::where('productStatus', 'active')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->get();
         $results = [];
         $search = strtolower(trim($searchQuery));
 
