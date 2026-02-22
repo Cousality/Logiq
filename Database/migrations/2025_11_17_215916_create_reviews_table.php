@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->integer('reviewID', true);
-            $table->integer('userID')->index('idx_user_review');
+            $table->integer('userID');
             $table->integer('productID');
-            $table->integer('rating');
-            $table->string('reviewTitle', 100)->nullable();
-            $table->text('reviewText')->nullable();
-            $table->timestamp('reviewDate')->useCurrent();
+            $table->decimal('rating', 2, 1); // supports 0.5 increments, e.g. 3.5
+            $table->text('reviewComment')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
 
+            $table->unique(['userID', 'productID'], 'idx_unique_user_product');
             $table->index(['productID', 'rating'], 'idx_product_rating');
+            $table->index('userID', 'idx_user_review');
         });
     }
 
