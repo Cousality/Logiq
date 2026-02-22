@@ -18,6 +18,11 @@
         flex-shrink: 0;
     }
 
+    .logo a {
+        color: inherit;
+        text-decoration: none;
+    }
+
     .search-container {
         flex: 1;
         max-width: 400px;

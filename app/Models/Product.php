@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Review;
 
 
 class Product extends Model
@@ -26,4 +27,9 @@ class Product extends Model
         'productPrice' => 'decimal:2',
         'productQuantity' => 'integer'
     ];
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'productID', 'productID');
+    }
 }
