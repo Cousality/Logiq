@@ -22,6 +22,6 @@ class OrderController extends Controller
 
         $orders = $query->get();
 
-        return view('Frontend.your_orders', compact('orders'));
+        return view('Frontend.dashboard.your_orders', compact('orders'));
     }
 }

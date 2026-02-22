@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
@@ -106,12 +107,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::get('/user_management', function () {
-        return view('Frontend.user_management');
-    })->name('user_management');
-    Route::get('/admin_dashboard', function () {
-        return view('Frontend.admin_dashboard');
-    })->name('admin.dashboard');
+    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
     //Basket Routes
 
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
