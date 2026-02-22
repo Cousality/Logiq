@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\IsAdmin;
@@ -99,6 +100,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('Frontend.dashboard');
     })->name('dashboard');
+
+    //Review Routes
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
