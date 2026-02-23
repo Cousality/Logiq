@@ -91,11 +91,11 @@
         }
 
         .grid::-webkit-scrollbar {
-        height: 8px;
+            height: 8px;
         }
 
         .grid::-webkit-scrollbar-thumb {
-        background: var(--red-pastel-2);
+            background: var(--red-pastel-2);
         }
 
         .product-card {
@@ -211,7 +211,7 @@
                     <span class="price">$00</span>
                 </div>
             </div>
-             <div class="product-card">
+            <div class="product-card">
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
@@ -219,7 +219,7 @@
                     <span class="price">$00</span>
                 </div>
             </div>
-             <div class="product-card">
+            <div class="product-card">
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
@@ -235,7 +235,7 @@
                     <span class="price">$00</span>
                 </div>
             </div>
-             <div class="product-card">
+            <div class="product-card">
                 <div class="product-image">PlaceHolder</div>
                 <div class="product-info">
                     <h3>PlaceHolder</h3>
@@ -265,15 +265,61 @@
 
     @include('Frontend.components.footer')
     <script>
-     
-        document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".option-btn").forEach((button) => {
+            button.addEventListener("click", function() {
+                const answer = this.getAttribute("data-value");
+                submitAnswer(answer);
+            });
+        });
+
+        function submitAnswer(val) {
+            const feedback = document.getElementById("feedback");
+            const btns = document.querySelectorAll(".option-btn");
+
+            // Disable buttons Temp
+            btns.forEach((btn) => (btn.disabled = true));
+            feedback.textContent = "Analyzing...";
+            feedback.style.color = "var(--text)";
+
+            fetch("{{ route('puzzle.check') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute("content"),
+                    },
+                    body: JSON.stringify({
+                        answer: val,
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    feedback.style.color = data.color;
+                    feedback.textContent = data.message;
+
+                    if (data.status === "error") {
+                        setTimeout(() => {
+                            btns.forEach((btn) => (btn.disabled = false));
+                            feedback.textContent = "";
+                        }, 2000);
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    feedback.textContent = "System Error.";
+                });
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
             const grid = document.querySelector(".grid");
             if (!grid) return;
 
             const originalCards = Array.from(grid.children);
 
-            
+
             originalCards.forEach(card => {
                 const clone = card.cloneNode(true);
                 grid.appendChild(clone);

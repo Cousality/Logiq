@@ -10,7 +10,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return view('Frontend.customer_service');
+        return view('Frontend.dashboard.customer_service');
     }
 
     public function adminIndex()
@@ -31,7 +31,7 @@ class ContactController extends Controller
             ->orderBy('contact.created_at', 'desc')
             ->get();
 
-        return view('Frontend.admin_customer_service', compact('tickets'));
+        return view('Frontend.dashboard.admin_customer_service', compact('tickets'));
     }
 
     public function resolve($supportNum)
