@@ -130,6 +130,10 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/inventory_management', function () {
         return view('Frontend.dashboard.inventory_management');
     })->name('inventory_management');
+
+    Route::get('/promotions', function () {
+        return view('Frontend.dashboard.promotions');
+    })->name('promotions');
 });
 
 Route::fallback(function () {

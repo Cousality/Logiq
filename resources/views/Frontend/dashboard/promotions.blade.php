@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory Management - LOGIQ</title>
+    <title>Promotions - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
 
@@ -30,8 +30,8 @@
     @include('Frontend.components.nav')
 
     <header class="dashboard-header">
-        <h1 class="dashboard-title">Inventory Management</h1>
-        <p>Manage your inventory and stock levels.</p>
+        <h1 class="dashboard-title">Promotions</h1>
+        <p>Manage your promotions and discounts.</p>
     </header>
 
 
