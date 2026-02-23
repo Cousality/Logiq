@@ -8,10 +8,30 @@
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
     <style>
+
+        .dashboard-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
+        }
+
+        .dashboard-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 40px 20px;
         }
@@ -20,74 +40,72 @@
             flex: 1;
         }
 
-        .page-header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .myPuzzles-container {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            background: var(--white);
+            border: 2px solid var(--text);
+            padding: 3rem;
+            box-shadow: 10px 10px 0px var(--red-pastel-1);
+            margin: 0 auto;
         }
 
-        .page-header h2 {
-            font-size: 40px;
-            color: rgba(49, 14, 14, 1);
-            margin: 0;
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--text);
+            padding-bottom: 0.5rem;
         }
 
-        .category-block {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        .empty-puzzles {
+            text-align:center; 
+            padding: 50px 0; 
+            color: var(--text);
         }
 
-        .category-block h3 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: rgba(49, 14, 14, 1);
-        }
+        /* MOBILE */
 
-        .puzzle-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            row-gap: 10px;
-            padding-left: 20px;
-        }
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2.5rem;
+            }
 
-        .puzzle-item {
-            font-size: 18px;
-        }
+            .dashboard-header {
+                background: var(--bg-primary);
+            }
 
-        @media (max-width: 700px) {
-            .puzzle-list {
-                grid-template-columns: 1fr;
+            .dashboard-layout {
+                flex-direction: column;
             }
         }
+
     </style>
 
 </head>
 
 <body>
-
-    @include('Frontend.components.nav')
-
+     @include('Frontend.components.nav')
     <main>
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">My Puzzles</h1>
+            <p>View and edit reviewed and rated orders.</p>
+        </header>
+
         <div class="dashboard-layout">
 
-            @include('Frontend.components.dashboard_sidebar')
-
-            <div class="dashboard-content">
-
-                <div class="page-header">
-                    <h2>My Puzzles</h2>
-                    <p class="page-subtitle">View and edit reviewed and rated orders</p>
-                </div>
-
-
-
-                @include('Frontend.components.footer')
-
+        <div class="myPuzzles-container">
+            <h2 class="section-title">Your Past Reviews & Ratings</h2>
+            
+            <div class="empty-puzzles">
+                <h3>No reviewed puzzles found</h3>
+                <p>Once you leave a review, it will show up here.</p>
+            </div>
+        </div>
+        </div>
+    </main>
+    @include('Frontend.components.footer')
 </body>
 
-</html>
+</html
