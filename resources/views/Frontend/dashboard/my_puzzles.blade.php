@@ -28,14 +28,28 @@
             opacity: 0.8;
         }
 
-        .dashboard-layout {
-            display: flex;
-            gap: 30px;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 40px 20px;
+        .back-nav {
+            margin-top: 50px;
+            margin-bottom: 10px;
+            margin-left: 10%;
         }
 
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            padding: 10px 15px;
+            text-decoration: none;
+            border: 2px solid var(--text);
+            display: inline-block;
+            transition: 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+        
         .dashboard-content {
             flex: 1;
         }
@@ -94,6 +108,9 @@
         </header>
 
         <div class="dashboard-layout">
+        <div class="back-nav">
+            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
+        </div>
 
         <div class="myPuzzles-container">
             <h2 class="section-title">Your Past Reviews & Ratings</h2>
