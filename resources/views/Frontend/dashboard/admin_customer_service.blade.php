@@ -62,6 +62,17 @@
         }
 
         .stat-card {
+            background: var(--white);
+            border: 2px solid var(--text);
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0px 0px 0px var(--text);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 6px 6px 0px var(--text);
             background: var(--bg-secondary);
             border: 2px solid var(--text);
             padding: 10px;
@@ -79,6 +90,7 @@
         .stat-label {
             color: var(--text);
             font-size: 14px;
+            opacity: 0.7;
             text-transform: uppercase;
             
         }

@@ -24,11 +24,19 @@
             margin-bottom: 1rem;
         }
 
-        /* SETTINGS */
-        .settings-container {
-            max-width: 800px;
+        /* LAYOUT */
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 50px 5%;
+            align-items: flex-start;
+        }
+
+        /* SETTINGS */
+        .settings-container {
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 40px;
@@ -38,10 +46,12 @@
             background: var(--white);
             border: 2px solid var(--text);
             padding: 2rem;
-            transition: 0.3s;
+            box-shadow: 0px 0px 0px var(--text);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .settings-card:hover {
+            transform: translate(-4px, -4px);
             box-shadow: 6px 6px 0px var(--text);
         }
 
@@ -61,10 +71,6 @@
         }
 
         /* BUTTONS */
-
-        .back-nav {
-            margin-bottom: 10px;
-        }
 
         .btn-danger {
             background: var(--red-pastel-1);
@@ -109,6 +115,11 @@
                 background: var(--bg-primary);
             }
 
+            .dashboard-layout {
+                flex-direction: column;
+                padding: 20px 5%;
+            }
+
             .grid-2-col {
                 grid-template-columns: 1fr;
                 gap: 0;
@@ -126,10 +137,9 @@
     </header>
 
 
-    <main class="settings-container">
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
-        </div>
+    <div class="dashboard-layout">
+        @include('Frontend.components.dashboard_sidebar')
+        <main class="settings-container">
         @if (session('success'))
             <div
                 style="padding: 1rem; background: #d4edda; color: #155724; border: 2px solid #c3e6cb; margin-bottom: 1rem;">
@@ -224,7 +234,8 @@
             </form>
         </section>
 
-    </main>
+        </main>
+    </div>
 
     @include('Frontend.components.footer')
     <script src="{{ asset('js/togglePassword.js') }}"></script>

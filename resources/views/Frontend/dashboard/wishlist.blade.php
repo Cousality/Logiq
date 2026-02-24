@@ -21,52 +21,35 @@
             font-size: 4rem;
             letter-spacing: -3px;
             margin-bottom: 1rem;
-            text-transform: uppercase;
         }
 
-        .dashboard-content {
-            padding: 3rem 5%;
-            max-width: 1400px;
+        /* LAYOUT */
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 50px 5%;
+            align-items: flex-start;
         }
 
-        /* NAVIGATION */
-        .back-nav {
-            margin-bottom: 2rem;
+        .wishlist-container {
+            flex: 1;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        /* WISHLIST GRID & CARDS */
+        /* GRID */
         .wishlist-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
         }
 
+        /* CARD */
         .wishlist-card {
             background: var(--white);
             border: 2px solid var(--text);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.2s ease;
+            box-shadow: 0px 0px 0px var(--text);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .wishlist-card:hover {
@@ -76,16 +59,13 @@
 
         .product-image {
             width: 100%;
-            height: 250px;
-            background: var(--red-pastel-1);
+            height: 180px;
+            background: var(--bg-secondary);
             border-bottom: 2px solid var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text);
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
+            font-size: 0.9rem;
             overflow: hidden;
         }
 
@@ -105,142 +85,104 @@
         .product-name {
             font-size: 1.4rem;
             font-weight: bold;
-            color: var(--text);
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .product-price {
-            font-size: 1.3rem;
-            color: var(--text);
-            font-weight: bold;
-            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
         }
 
-        /* BUTTONS */
         .add-to-basket {
             width: 100%;
-            padding: 1rem;
+            padding: 0.6rem;
             background: var(--text);
-            color: var(--white);
+            color: var(--text-light);
             border: 2px solid var(--text);
             cursor: pointer;
-            font-size: 1rem;
+            font-family: inherit;
+            font-size: 0.85rem;
             font-weight: bold;
             text-transform: uppercase;
-            font-family: inherit;
-            transition: all 0.2s;
-            margin-bottom: 0.75rem;
+            transition: 0.2s;
+            margin-bottom: 0.5rem;
         }
 
         .add-to-basket:hover {
-            background: var(--red-pastel-1);
-            color: var(--white);
-            border-color: var(--red-pastel-1);
+            background: var(--red-pastel-2);
+            border-color: var(--red-pastel-2);
         }
 
         .remove-from-wishlist {
             width: 100%;
-            padding: 1rem;
+            padding: 0.6rem;
             background: transparent;
             color: var(--text);
             border: 2px solid var(--text);
             cursor: pointer;
-            font-size: 0.9rem;
+            font-family: inherit;
+            font-size: 0.85rem;
             font-weight: bold;
             text-transform: uppercase;
-            font-family: inherit;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
 
         .remove-from-wishlist:hover {
-            background: var(--text);
-            color: var(--white);
+            background: var(--red-pastel-1);
+            color: var(--text-light);
+            border-color: var(--red-pastel-1);
         }
 
         /* EMPTY STATE */
         .empty-wishlist {
-            text-align: center;
-            padding: 5rem 2rem;
             background: var(--white);
             border: 2px solid var(--text);
+            padding: 3rem;
+            text-align: center;
         }
 
-        .empty-wishlist h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .empty-wishlist p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-        }
-
-        .empty-wishlist .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--text);
-            color: var(--white);
-            text-decoration: none;
+        .empty-wishlist a {
+            color: var(--text);
             font-weight: bold;
-            text-transform: uppercase;
-            border: 2px solid var(--text);
-            transition: transform 0.2s;
         }
 
-        .empty-wishlist .cta-button:hover {
-            transform: translateY(-3px);
-            background: var(--red-pastel-1);
-            border-color: var(--red-pastel-1);
-        }
-
+        /* MOBILE */
         @media (max-width: 768px) {
-            .dashboard-title {
-                font-size: 2.5rem;
-            }
-
-            .dashboard-header {
-                background: var(--bg-primary);
-            }
-
-            .wishlist-grid {
-                grid-template-columns: 1fr;
-            }
+            .dashboard-title { font-size: 2.5rem; }
+            .dashboard-header { background: var(--bg-primary); }
+            .dashboard-layout { flex-direction: column; padding: 20px 5%; }
+            .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
     </style>
 </head>
 
 <body>
     @include('Frontend.components.nav')
+
     <header class="dashboard-header">
-        <h1 class="dashboard-title">Your Wishlist.</h1>
+        <h1 class="dashboard-title">My Wishlist</h1>
         <p>View and manage your saved items.</p>
     </header>
 
-    <main class="dashboard-content">
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary">← Back to Dashboard</a>
-        </div>
+    <div class="dashboard-layout">
+        @include('Frontend.components.dashboard_sidebar')
 
-        <div class="wishlist-container">
+        <main class="wishlist-container">
             @if (!empty($wishlistItems) && count($wishlistItems) > 0)
                 <div class="wishlist-grid">
                     @include('Frontend.components.wishlist_card')
                 </div>
             @else
                 <div class="empty-wishlist">
-                    <h2>Your wishlist is empty.</h2>
-                    <p>Nothing saved yet. Start exploring.</p>
-                    <a href="{{ route('store.index') }}" class="cta-button">Continue Shopping</a>
+                    <p style="margin-bottom: 0.5rem;">Your wishlist is empty.</p>
+                    <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
                 </div>
             @endif
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script src="{{ asset('js/wishlistPage.js') }}"></script>
-
     @include('Frontend.components.footer')
 </body>
 

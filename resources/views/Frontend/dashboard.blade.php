@@ -60,6 +60,7 @@
             justify-content: center;
             height: 100%;
             position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .card-link-wrapper {
