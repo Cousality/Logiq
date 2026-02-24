@@ -52,8 +52,12 @@
             background: var(--white);
             border: 2px solid var(--text);
             padding: 3rem;
-            box-shadow: 10px 10px 0px var(--red-pastel-1);
             margin: 0 auto;
+            transition: 0.3s;
+        }
+
+        .service-container:hover {
+            box-shadow: 6px 6px 0px var(--text);
         }
 
         .section-title {

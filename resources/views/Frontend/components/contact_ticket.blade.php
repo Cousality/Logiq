@@ -1,11 +1,9 @@
 <style>
     .ticket-card {
-        background: white;
-        border-radius: 10px;
+        background: var(--bg-secondary);
         padding: 20px;
         margin-bottom: 20px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        border-left: 4px solid rgba(49, 14, 14, 1);
+        border: 2px solid var(--text);
     }
 
     .ticket-header {
@@ -89,7 +87,7 @@
 
     .ticket-description p {
         margin: 0;
-        color: #555;
+        color: var(--text);
         line-height: 1.6;
         white-space: pre-wrap;
     }
@@ -103,7 +101,6 @@
     .btn-resolve {
         padding: 8px 16px;
         border: none;
-        border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
         transition: all 0.3s;
@@ -119,19 +116,22 @@
     }
 
     .btn-resolve {
-        background: #4caf50;
-        color: white;
+        background: var(--red-pastel-1);
+        color: var(--white);
+        border-color: var(--red-pastel-1);
     }
 
     .btn-resolve:hover {
-        background: #45a049;
+        transform: translateY(-2px);
     }
 </style>
 
 
 <div class="ticket-card">
     <div class="ticket-description">
-        <p>{{ $ticket->problemDescription }}</p>
+        <p>Description: {{ $ticket->problemDescription }}</p>
+        <p>Category: {{ $ticket->problemCategory }}</p>
+        <p>Date: {{ $ticket->created_at }}</p>
     </div>
 
     <div class="ticket-actions">
