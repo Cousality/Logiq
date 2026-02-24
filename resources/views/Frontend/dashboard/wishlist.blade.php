@@ -76,11 +76,14 @@
         }
 
         .product-info {
-            padding: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .product-name {
-            font-size: 1rem;
+            font-size: 1.4rem;
             font-weight: bold;
             margin-bottom: 0.4rem;
         }

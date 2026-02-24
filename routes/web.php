@@ -91,8 +91,10 @@ Route::get('/my_puzzles', function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/customer_service', [ContactController::class, 'index'])->name('customer_service');
     Route::post('/customer_service', [ContactController::class, 'add'])->name('customer_service.add');
-    Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
-    Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+
+    //Checkout Routes
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
     //Login & Security Routes
     Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
@@ -123,9 +125,16 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
-    //Checkout Routes
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
+    Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+
+    Route::get('/inventory_management', function () {
+        return view('Frontend.dashboard.inventory_management');
+    })->name('inventory_management');
+
+    Route::get('/promotions', function () {
+        return view('Frontend.dashboard.promotions');
+    })->name('promotions');
 });
 
 Route::fallback(function () {
