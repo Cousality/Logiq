@@ -71,10 +71,12 @@
             background: var(--white);
             border: 2px solid var(--text);
             padding: 1.5rem;
-            transition: 0.3s;
+            box-shadow: 0px 0px 0px var(--text);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .order-card:hover {
+            transform: translate(-4px, -4px);
             box-shadow: 6px 6px 0px var(--text);
         }
 
