@@ -1,82 +1,79 @@
 <style>
     .dashboard-sidebar {
-        background: white;
-        border-radius: 10px;
+        background: var(--white);
+        border: 2px solid var(--text);
         padding: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         width: 250px;
         height: fit-content;
     }
 
     .sidebar-user-section {
         padding-bottom: 15px;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 2px solid var(--text);
         margin-bottom: 20px;
     }
 
     .sidebar-greeting {
         font-size: 13px;
-        color: #666;
+        opacity: 0.6;
         margin: 0 0 5px 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     .sidebar-username {
-        font-family: 'Inria Serif';
         font-size: 18px;
-        font-weight: 600;
-        color: #310E0E;
+        font-weight: bold;
+        color: var(--text);
         margin: 0;
+        text-transform: uppercase;
+        letter-spacing: -1px;
     }
 
     .sidebar-menu {
         list-style: none;
         padding: 0;
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
     }
 
     .sidebar-section {
-        margin-bottom: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        margin-bottom: 16px;
         width: 100%;
     }
 
     .sidebar-section-title {
-        font-family: 'Inria Serif';
-        font-size: 12px;
-        font-weight: 600;
-        color: #310E0E;
-        margin-bottom: 10px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #f0f0f0;
+        font-size: 11px;
+        font-weight: bold;
+        color: var(--text);
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+        border-bottom: 1px solid var(--text);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        width: 100%;
     }
 
     .sidebar-menu-item {
-        margin-bottom: 2px;
+        width: 100%;
     }
 
     .sidebar-menu-link {
         display: block;
-        padding: 10px 12px;
-        color: #555;
+        padding: 6px 8px;
+        color: var(--text);
         text-decoration: none;
-        border-radius: 5px;
-        transition: all 0.2s;
+        transition: background 0.2s;
         font-size: 14px;
     }
 
     .sidebar-menu-link:hover {
-        background-color: #f5f5f5;
-        color: #310E0E;
+        background-color: var(--bg-secondary);
     }
 
     .sidebar-menu-link.active {
-        background-color: #310E0E;
-        color: white;
+        background-color: var(--text);
+        color: var(--text-light);
+        font-weight: bold;
     }
 
     @media (max-width: 768px) {
@@ -93,10 +90,10 @@
         <p class="sidebar-username">{{ auth()->check() ? auth()->user()->firstName : 'User' }}</p>
     </div>
 
-    <nav class="sidebar-menu">
+    <div class="sidebar-menu">
         <div class="sidebar-section">
             <h3 class="sidebar-section-title">Account Settings</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
                     <a href="{{ route('loginSecurity') }}"
                         class="sidebar-menu-link {{ request()->routeIs('loginSecurity') ? 'active' : '' }}">Login &
@@ -112,7 +109,7 @@
 
         <div class="sidebar-section">
             <h3 class="sidebar-section-title">Orders & Activity</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
                     <a href="{{ route('dashboard.orders') }}"
                         class="sidebar-menu-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}"> Your
@@ -133,7 +130,7 @@
 
         <div class="sidebar-section">
             <h3 class="sidebar-section-title">My Puzzles</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
                     <a href="{{ route('mypuzzles') }}"
                         class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
@@ -145,7 +142,7 @@
 
         <div class="sidebar-section">
             <h3 class="sidebar-section-title">Support</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
+            <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
                     <a href="{{ route('customer_service') }}"
                         class="sidebar-menu-link {{ request()->routeIs('customer_service') ? 'active' : '' }}">
@@ -155,5 +152,5 @@
             </ul>
         </div>
 
-    </nav>
+    </div>
 </aside>
