@@ -271,7 +271,7 @@
                                 </div>
                                 <div class="item-details">
                                     <div class="item-name">{{ $item->product->productName }}</div>
-                                    <div class="item-meta">Qty: {{ $item->quantity }} &middot; £{{ number_format($item->priceAtTime, 2) }}</div>
+                                    <div class="item-meta">Qty: {{ $item->quantity }} &middot; £{{ number_format($item->priceAtTime * $item->quantity, 2) }}</div>
                                 </div>
                             </div>
                         @endforeach
