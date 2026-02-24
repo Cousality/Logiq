@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Orders - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
@@ -440,6 +441,35 @@
             font-weight: 900;
             text-transform: uppercase;
         }
+
+        /* CANCEL ORDER MODAL */
+        .cancel-modal-box {
+            max-width: 460px;
+            text-align: center;
+        }
+
+        .cancel-modal-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .cancel-message {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .cancel-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .cancel-modal-actions .action-button {
+            flex: 1;
+        }
     </style>
 </head>
 
@@ -542,7 +572,8 @@
                             <button class="action-button">Request Exchange</button>
                         @endif
                         @if ($order->orderStatus == 'pending' || $order->orderStatus == 'processing')
-                            <button class="action-button">Cancel Order</button>
+                            <button class="action-button"
+                                onclick="openCancelModal('{{ $order->orderID }}', '{{ route('orders.cancel', $order->orderID) }}')">Cancel Order</button>
                         @endif
                     </div>
                 </div>
@@ -600,6 +631,23 @@
                 <span class="details-summary-count" id="detailsItemCount"></span>
                 <span class="details-total">Total &mdash; £<span id="detailsTotal"></span></span>
             </div>
+        </div>
+    </div>
+
+    {{-- CANCEL ORDER MODAL --}}
+    <div class="modal-overlay" id="cancelModal">
+        <div class="modal-box cancel-modal-box">
+            <button class="modal-close" onclick="closeCancelModal()">&times;</button>
+            <h2>Cancel Order?</h2>
+            <p class="cancel-message" id="cancelMessage"></p>
+            <form id="cancelForm" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="cancel-modal-actions">
+                    <button type="button" class="action-button primary" onclick="closeCancelModal()">Keep My Order</button>
+                    <button type="submit" class="action-button">Yes, Cancel It</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -672,6 +720,30 @@
 
         document.getElementById('detailsModal').addEventListener('click', function(e) {
             if (e.target === this) closeDetailsModal();
+        });
+
+        const cancelMessages = [
+            "This puzzle was really looking forward to meeting you. Are you absolutely sure?",
+            "Your order has feelings too, you know. Are you sure you want to do this?",
+            "Once cancelled, there's no going back. Your puzzles will be waiting for someone else.",
+            "We'll miss this one. Are you really, truly, completely sure?",
+            "This order had such potential. Sure you want to end things here?",
+            "Your future self might regret this. But it's your call — are you sure?",
+        ];
+
+        function openCancelModal(orderId, actionUrl) {
+            document.getElementById('cancelForm').action = actionUrl;
+            document.getElementById('cancelMessage').textContent =
+                cancelMessages[Math.floor(Math.random() * cancelMessages.length)];
+            document.getElementById('cancelModal').classList.add('active');
+        }
+
+        function closeCancelModal() {
+            document.getElementById('cancelModal').classList.remove('active');
+        }
+
+        document.getElementById('cancelModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCancelModal();
         });
     </script>
 </body>
