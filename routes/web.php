@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\IsAdmin;
@@ -127,9 +128,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
 
-    Route::get('/inventory_management', function () {
-        return view('Frontend.dashboard.inventory_management');
-    })->name('inventory_management');
+    Route::resource('admin/products', AdminProductController::class)->names('admin.products');
 
     Route::get('/promotions', function () {
         return view('Frontend.dashboard.promotions');
