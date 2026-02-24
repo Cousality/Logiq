@@ -197,14 +197,25 @@
             position: absolute;
             top: 0;
             right: 0;
-            background: var(--text);
-            color: var(--bg-primary);
+            color: #ffffff;
             padding: 0.5rem 1rem;
             font-size: 0.8rem;
             font-weight: bold;
             border-left: 2px solid var(--text);
             border-bottom: 2px solid var(--text);
             z-index: 10;
+        }
+
+        .difficulty-badge.easy {
+            background: #4a7c59;
+        }
+
+        .difficulty-badge.medium {
+            background: #c17f24;
+        }
+
+        .difficulty-badge.hard {
+            background: #a63232;
         }
     </style>
     <div class="product-card" data-category="{{ $product->productCategory }}"
