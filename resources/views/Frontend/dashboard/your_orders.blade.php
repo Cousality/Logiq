@@ -326,6 +326,120 @@
         .progress-labels span.active {
             opacity: 1;
         }
+
+        /* ORDER DETAILS MODAL */
+        .details-modal-box {
+            max-width: 680px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .details-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .details-modal-header .modal-order-meta {
+            margin-bottom: 0;
+        }
+
+        .details-divider {
+            border: none;
+            border-top: 1px solid var(--text);
+            margin: 1rem 0;
+        }
+
+        .details-items-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details-item-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(74, 44, 42, 0.2);
+        }
+
+        .details-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .details-item-image {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--text);
+            flex-shrink: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            text-align: center;
+        }
+
+        .details-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .details-item-name {
+            flex: 1;
+        }
+
+        .details-item-name strong {
+            display: block;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .details-tag {
+            display: inline-block;
+            padding: 2px 7px;
+            border: 1px solid var(--text);
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-right: 4px;
+            opacity: 0.6;
+        }
+
+        .details-item-pricing {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .details-item-pricing strong {
+            display: block;
+            font-size: 1rem;
+        }
+
+        .details-item-pricing small {
+            opacity: 0.55;
+            font-size: 0.8rem;
+        }
+
+        .details-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 1rem;
+        }
+
+        .details-summary-count {
+            font-size: 0.8rem;
+            opacity: 0.55;
+        }
+
+        .details-total {
+            font-size: 1.1rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 
@@ -403,7 +517,27 @@
                             <button class="action-button primary"
                                 onclick="openTrackModal('{{ $order->orderID }}', '{{ $order->orderStatus }}', '{{ $order->orderDate->format('d M Y') }}')">Track Order</button>
                         @endif
-                        <button class="action-button">View Details</button>
+                        @php
+                            $detailsItems = $order->orderItems->map(function($item) {
+                                return [
+                                    'name'       => $item->product->productName ?? 'Unknown Product',
+                                    'category'   => $item->product->productCategory ?? '',
+                                    'difficulty' => $item->product->productDifficulty ?? '',
+                                    'image'      => ($item->product && $item->product->productImage) ? asset($item->product->productImage) : '',
+                                    'qty'        => $item->quantity,
+                                    'unitPrice'  => number_format($item->priceAtTime, 2),
+                                    'lineTotal'  => number_format($item->priceAtTime * $item->quantity, 2),
+                                ];
+                            })->values();
+                            $detailsData = [
+                                'id'     => $order->orderID,
+                                'date'   => $order->orderDate->format('d M Y'),
+                                'status' => $order->orderStatus,
+                                'total'  => number_format($order->totalAmount, 2),
+                                'items'  => $detailsItems,
+                            ];
+                        @endphp
+                        <button class="action-button" onclick='openDetailsModal(@json($detailsData))'>View Details</button>
                         @if ($order->orderStatus == 'delivered')
                             <button class="action-button">Request Exchange</button>
                         @endif
@@ -448,6 +582,27 @@
         </div>
     </div>
 
+    {{-- ORDER DETAILS MODAL --}}
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-box details-modal-box">
+            <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+            <div class="details-modal-header">
+                <div>
+                    <h2>Order <span id="detailsOrderId"></span></h2>
+                    <p class="modal-order-meta">Placed on <span id="detailsOrderDate"></span></p>
+                </div>
+                <span class="order-status" id="detailsOrderStatus"></span>
+            </div>
+            <hr class="details-divider">
+            <div id="detailsItemsList" class="details-items-list"></div>
+            <hr class="details-divider">
+            <div class="details-summary">
+                <span class="details-summary-count" id="detailsItemCount"></span>
+                <span class="details-total">Total &mdash; £<span id="detailsTotal"></span></span>
+            </div>
+        </div>
+    </div>
+
     <script>
         const statusSteps = { pending: 1, processing: 2, shipped: 3, delivered: 4 };
         const stepIds = ['step-cart', 'step-pending', 'step-processing', 'step-shipped', 'step-delivered'];
@@ -474,6 +629,49 @@
 
         document.getElementById('trackModal').addEventListener('click', function(e) {
             if (e.target === this) closeTrackModal();
+        });
+
+        function openDetailsModal(order) {
+            document.getElementById('detailsOrderId').textContent = '#' + String(order.id).padStart(6, '0');
+            document.getElementById('detailsOrderDate').textContent = order.date;
+            document.getElementById('detailsTotal').textContent = order.total;
+
+            const statusEl = document.getElementById('detailsOrderStatus');
+            statusEl.textContent = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+            statusEl.className = 'order-status ' + order.status;
+
+            const totalQty = order.items.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('detailsItemCount').textContent =
+                totalQty + ' item' + (totalQty !== 1 ? 's' : '') + ' in this order';
+
+            document.getElementById('detailsItemsList').innerHTML = order.items.map(item => `
+                <div class="details-item-row">
+                    <div class="details-item-image">
+                        ${item.image
+                            ? `<img src="${item.image}" alt="${item.name}">`
+                            : 'No Image'}
+                    </div>
+                    <div class="details-item-name">
+                        <strong>${item.name}</strong>
+                        ${item.category ? `<span class="details-tag">${item.category}</span>` : ''}
+                        ${item.difficulty ? `<span class="details-tag">${item.difficulty}</span>` : ''}
+                    </div>
+                    <div class="details-item-pricing">
+                        <strong>£${item.lineTotal}</strong>
+                        <small>${item.qty} &times; £${item.unitPrice}</small>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('detailsModal').classList.add('active');
+        }
+
+        function closeDetailsModal() {
+            document.getElementById('detailsModal').classList.remove('active');
+        }
+
+        document.getElementById('detailsModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDetailsModal();
         });
     </script>
 </body>
