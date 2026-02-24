@@ -5,77 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>My Wishlist</title>
+    <title>My Wishlist - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <style>
+        /* HEADER */
+        .dashboard-header {
+            padding: 4rem 5%;
+            background: linear-gradient(135deg,
+                    var(--bg-primary) 60%,
+                    var(--red-pastel-1) 60%);
+            border-bottom: 2px solid var(--text);
+        }
+
+        .dashboard-title {
+            font-size: 4rem;
+            letter-spacing: -3px;
+            margin-bottom: 1rem;
+        }
+
+        /* LAYOUT */
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .dashboard-content {
-            flex: 1;
-        }
-
-        .page-header {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-title {
-            font-family: 'Inria Serif';
-            font-size: 40px;
-            color: #310E0E;
-            margin: 0 0 10px 0;
-        }
-
-        .page-subtitle {
-            color: #666;
-            font-size: 14px;
-            margin: 0;
+            padding: 50px 5%;
+            align-items: flex-start;
         }
 
         .wishlist-container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            flex: 1;
         }
 
+        /* GRID */
         .wishlist-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 1.5rem;
         }
 
+        /* CARD */
         .wishlist-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: 0.2s;
+            background: var(--white);
+            border: 2px solid var(--text);
+            transition: 0.3s;
         }
 
         .wishlist-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 6px 6px 0px var(--text);
         }
 
         .product-image {
             width: 100%;
-            height: 200px;
-            background: #e0e0e0;
+            height: 180px;
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666;
             font-size: 0.9rem;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .product-info {
@@ -85,70 +80,74 @@
         .product-name {
             font-size: 1rem;
             font-weight: bold;
-            color: #310E0E;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .product-price {
             font-size: 1.1rem;
-            color: #333;
             margin-bottom: 1rem;
-        }
-
-        .remove-from-wishlist {
-            width: 100%;
-            padding: 0.75rem;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .remove-from-wishlist:hover {
-            background: #c82333;
+            opacity: 0.8;
         }
 
         .add-to-basket {
             width: 100%;
-            padding: 0.75rem;
-            background: #310E0E;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            padding: 0.6rem;
+            background: var(--text);
+            color: var(--text-light);
+            border: 2px solid var(--text);
             cursor: pointer;
-            font-size: 0.95rem;
+            font-family: inherit;
+            font-size: 0.85rem;
             font-weight: bold;
+            text-transform: uppercase;
             transition: 0.2s;
             margin-bottom: 0.5rem;
         }
 
         .add-to-basket:hover {
-            background: #562323;
+            background: var(--red-pastel-2);
+            border-color: var(--red-pastel-2);
         }
 
+        .remove-from-wishlist {
+            width: 100%;
+            padding: 0.6rem;
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--text);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .remove-from-wishlist:hover {
+            background: var(--red-pastel-1);
+            color: var(--text-light);
+            border-color: var(--red-pastel-1);
+        }
+
+        /* EMPTY STATE */
         .empty-wishlist {
-            text-align: center;
+            background: var(--white);
+            border: 2px solid var(--text);
             padding: 3rem;
-            color: #666;
+            text-align: center;
         }
 
         .empty-wishlist a {
-            color: #310E0E;
-            text-decoration: underline;
+            color: var(--text);
+            font-weight: bold;
         }
 
+        /* MOBILE */
         @media (max-width: 768px) {
-            .dashboard-layout {
-                flex-direction: column;
-            }
-
-            .wishlist-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
+            .dashboard-title { font-size: 2.5rem; }
+            .dashboard-header { background: var(--bg-primary); }
+            .dashboard-layout { flex-direction: column; padding: 20px 5%; }
+            .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
     </style>
 </head>
@@ -156,32 +155,29 @@
 <body>
     @include('Frontend.components.nav')
 
+    <header class="dashboard-header">
+        <h1 class="dashboard-title">My Wishlist</h1>
+        <p>View and manage your saved items.</p>
+    </header>
+
     <div class="dashboard-layout">
         @include('Frontend.components.dashboard_sidebar')
 
-        <main class="dashboard-content">
-            <div class="page-header">
-                <h1 class="page-title">My Wishlist</h1>
-                <p class="page-subtitle">View and manage your saved items</p>
-            </div>
-
-            <div class="wishlist-container">
-                @if (!empty($wishlistItems) && count($wishlistItems) > 0)
-                    <div class="wishlist-grid">
-                        @include('Frontend.components.wishlist_card')
-                    </div>
-                @else
-                    <div class="empty-wishlist">
-                        <p>Your wishlist is empty.</p>
-                        <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
-                    </div>
-                @endif
-            </div>
+        <main class="wishlist-container">
+            @if (!empty($wishlistItems) && count($wishlistItems) > 0)
+                <div class="wishlist-grid">
+                    @include('Frontend.components.wishlist_card')
+                </div>
+            @else
+                <div class="empty-wishlist">
+                    <p style="margin-bottom: 0.5rem;">Your wishlist is empty.</p>
+                    <p><a href="{{ route('store.index') }}">Continue Shopping</a></p>
+                </div>
+            @endif
         </main>
     </div>
 
     <script src="{{ asset('js/wishlistPage.js') }}"></script>
-
     @include('Frontend.components.footer')
 </body>
 
