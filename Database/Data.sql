@@ -36,6 +36,7 @@ INSERT INTO products (productName, productSlug, productCategory, productDifficul
 -- SAMPLE USERS (password = "password")
 -- ============================================================
 INSERT INTO users (firstName, lastName, email, password, admin) VALUES
+    ('Admin', 'User',  'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', TRUE),
     ('John',  'Smith',    'john.smith@example.com',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', FALSE),
     ('Sarah', 'Jones',    'sarah.jones@example.com',  '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', FALSE),
     ('Mike',  'Brown',    'mike.brown@example.com',   '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', FALSE),
