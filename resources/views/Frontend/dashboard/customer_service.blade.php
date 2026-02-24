@@ -23,14 +23,9 @@
             margin-bottom: 1rem;
         }
 
-        .dashboard-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
         .back-nav {
             margin-top: 50px;
-            margin-bottom: 25px;
+            margin-bottom: 50px;
             margin-left: 20%;
         }
 
@@ -48,10 +43,6 @@
             background: var(--text);
             color: var(--white);
             transform: translateY(-2px);
-        }
-        
-        .dashboard-content {
-            flex: 1;
         }
 
         .service-container {

@@ -30,8 +30,8 @@
 
         .back-nav {
             margin-top: 50px;
-            margin-bottom: 10px;
-            margin-left: 10%;
+            margin-bottom: 50px;
+            margin-left: 20%;
         }
 
         .btn-secondary {
@@ -55,7 +55,7 @@
         }
 
         .myPuzzles-container {
-            width: 80%;
+            width: 60%;
             display: flex;
             flex-direction: column;
             background: var(--white);
