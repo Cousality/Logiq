@@ -205,6 +205,127 @@
             .order-header { flex-direction: column; align-items: flex-start; gap: 10px; }
             .order-info { flex-direction: column; gap: 8px; }
         }
+
+        /* TRACK ORDER MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(74, 44, 42, 0.55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-primary);
+            border: 2px solid var(--text);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 560px;
+            box-shadow: 6px 6px 0px var(--text);
+            position: relative;
+        }
+
+        .modal-box h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-order-meta {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        /* PROGRESS BAR */
+        #progressbar {
+            display: flex;
+            padding: 0;
+            margin: 30px 0 10px;
+        }
+
+        #progressbar li {
+            list-style: none;
+            flex: 1;
+            position: relative;
+            text-align: center;
+        }
+
+        #progressbar li:before {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            display: block;
+            font-size: 16px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            margin: auto;
+            color: var(--text);
+            content: "";
+            position: relative;
+            z-index: 1;
+        }
+
+        #progressbar li:not(:last-child):after {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 50%;
+            width: 100%;
+            height: 12px;
+            background: var(--bg-secondary);
+            z-index: 0;
+        }
+
+        #progressbar li.active:before {
+            content: "✓";
+            background: var(--text);
+            color: var(--text-light);
+        }
+
+        #progressbar li.active:has(+ li.active):after {
+            background: var(--text);
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+
+        .progress-labels span {
+            width: 20%;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            opacity: 0.3;
+            transition: opacity 0.2s ease;
+        }
+
+        .progress-labels span.active {
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -279,7 +400,8 @@
 
                     <div class="order-actions">
                         @if ($order->orderStatus != 'cancelled' && $order->orderStatus != 'delivered')
-                            <button class="action-button primary">Track Order</button>
+                            <button class="action-button primary"
+                                onclick="openTrackModal('{{ $order->orderID }}', '{{ $order->orderStatus }}', '{{ $order->orderDate->format('d M Y') }}')">Track Order</button>
                         @endif
                         <button class="action-button">View Details</button>
                         @if ($order->orderStatus == 'delivered')
@@ -301,6 +423,59 @@
     </div>
 
     @include('Frontend.components.footer')
+
+    {{-- TRACK ORDER MODAL --}}
+    <div class="modal-overlay" id="trackModal">
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeTrackModal()">&times;</button>
+            <h2>Order <span id="trackOrderId"></span></h2>
+            <p class="modal-order-meta">Placed on <span id="trackOrderDate"></span></p>
+
+            <ul id="progressbar">
+                <li class="step0" id="step-cart"></li>
+                <li class="step0" id="step-pending"></li>
+                <li class="step0" id="step-processing"></li>
+                <li class="step0" id="step-shipped"></li>
+                <li class="step0" id="step-delivered"></li>
+            </ul>
+            <div class="progress-labels">
+                <span>Cart</span>
+                <span>Pending</span>
+                <span>Processing</span>
+                <span>Shipped</span>
+                <span>Delivered</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const statusSteps = { pending: 1, processing: 2, shipped: 3, delivered: 4 };
+        const stepIds = ['step-cart', 'step-pending', 'step-processing', 'step-shipped', 'step-delivered'];
+        const labelSpans = document.querySelectorAll('.progress-labels span');
+
+        function openTrackModal(orderId, status, date) {
+            document.getElementById('trackOrderId').textContent = '#' + String(orderId).padStart(6, '0');
+            document.getElementById('trackOrderDate').textContent = date;
+
+            const activeSteps = (statusSteps[status] ?? 0) + 1;
+            stepIds.forEach((id, i) => {
+                document.getElementById(id).classList.toggle('active', i < activeSteps);
+            });
+            labelSpans.forEach((span, i) => {
+                span.classList.toggle('active', i < activeSteps);
+            });
+
+            document.getElementById('trackModal').classList.add('active');
+        }
+
+        function closeTrackModal() {
+            document.getElementById('trackModal').classList.remove('active');
+        }
+
+        document.getElementById('trackModal').addEventListener('click', function(e) {
+            if (e.target === this) closeTrackModal();
+        });
+    </script>
 </body>
 
 </html>
