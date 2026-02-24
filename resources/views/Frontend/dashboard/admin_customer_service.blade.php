@@ -49,23 +49,30 @@
         }
 
         .stat-card {
-            background: white;
-            border-radius: 10px;
+            background: var(--white);
+            border: 2px solid var(--text);
             padding: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            box-shadow: 0px 0px 0px var(--text);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 6px 6px 0px var(--text);
         }
 
         .stat-number {
             font-size: 32px;
             font-weight: bold;
-            color: rgba(49, 14, 14, 1);
+            color: var(--text);
             margin-bottom: 5px;
         }
 
         .stat-label {
-            color: #666;
+            color: var(--text);
             font-size: 14px;
+            opacity: 0.7;
         }
 
         .tickets-container {
