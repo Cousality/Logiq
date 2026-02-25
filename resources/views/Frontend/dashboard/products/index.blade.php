@@ -296,7 +296,7 @@
                         <tr>
                             <td data-label="Image">
                                 @if($product->productImage)
-                                    <img src="{{ asset($product->productImage) }}"
+                                    <img src="{{ $product->imageUrl }}"
                                          alt="{{ $product->productName }}"
                                          class="thumb">
                                 @else

@@ -176,6 +176,20 @@
                     @enderror
                 </div>
 
+                {{-- Slug --}}
+                <div class="form-group">
+                    <label for="productSlug">URL Slug</label>
+                    <input type="text"
+                           id="productSlug"
+                           name="productSlug"
+                           value="{{ old('productSlug', $product->productSlug) }}"
+                           maxlength="255">
+                    @error('productSlug')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                    <p class="image-hint">Used in the product URL. Edit to customise — auto-updates from the name if cleared.</p>
+                </div>
+
                 {{-- Category & Difficulty --}}
                 <div class="form-row">
                     <div class="form-group">
@@ -271,7 +285,7 @@
                     <label for="productImage">Product Image</label>
                     @if($product->productImage)
                         <div class="current-image-wrap">
-                            <img src="{{ asset($product->productImage) }}"
+                            <img src="{{ $product->imageUrl }}"
                                  alt="Current image"
                                  class="current-thumb">
                             <span class="image-hint">Current image — upload a new one to replace it.</span>
@@ -299,6 +313,20 @@
     @include('Frontend.components.footer')
 
     <script>
+        (function () {
+            function toSlug(str) {
+                return str.toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '')
+                    .trim()
+                    .replace(/[\s-]+/g, '-');
+            }
+            var nameInput = document.getElementById('productName');
+            var slugInput = document.getElementById('productSlug');
+            nameInput.addEventListener('input', function () {
+                if (slugInput.value === '') slugInput.value = toSlug(this.value);
+            });
+        })();
+
         document.getElementById('productForm').addEventListener('submit', function (e) {
             let valid = true;
             const errors = [];

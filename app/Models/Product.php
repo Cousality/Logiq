@@ -47,7 +47,13 @@ class Product extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return $this->productImage ? asset($this->productImage) : '';
+        if (!$this->productImage) return '';
+        // New uploads are stored as products/filename.jpg on the public disk
+        if (str_starts_with($this->productImage, 'products/')) {
+            return asset('storage/' . $this->productImage);
+        }
+        // Legacy paths (e.g. /Images/...) are public directory assets
+        return asset($this->productImage);
     }
 
     public function reviews()

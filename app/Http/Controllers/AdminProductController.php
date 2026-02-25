@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class AdminProductController extends Controller
 {
@@ -35,6 +36,7 @@ class AdminProductController extends Controller
 
         $validated = $request->validate([
             'productName'       => 'required|string|max:255',
+            'productSlug'       => 'nullable|string|max:255',
             'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,HandheldBrainTeasers',
             'productDifficulty' => 'required|in:easy,medium,hard',
             'productPrice'      => 'required|numeric|min:0',
@@ -46,8 +48,16 @@ class AdminProductController extends Controller
 
         if ($request->hasFile('productImage')) {
             $path = $request->file('productImage')->store('products', 'public');
-            $validated['productImage'] = 'storage/' . $path;
+            $validated['productImage'] = $path;
         }
+
+        $base = Str::slug($request->filled('productSlug') ? $request->productSlug : $request->productName);
+        $slug = $base;
+        $i = 1;
+        while (Product::where('productSlug', $slug)->exists()) {
+            $slug = $base . '-' . $i++;
+        }
+        $validated['productSlug'] = $slug;
 
         Product::create($validated);
 
@@ -84,12 +94,22 @@ class AdminProductController extends Controller
 
         if ($request->hasFile('productImage')) {
             if ($product->productImage) {
-                Storage::disk('public')->delete(str_replace('storage/', '', $product->productImage));
+                Storage::disk('public')->delete($product->productImage);
             }
             $path = $request->file('productImage')->store('products', 'public');
-            $validated['productImage'] = 'storage/' . $path;
+            $validated['productImage'] = $path;
         } else {
             unset($validated['productImage']);
+        }
+
+        if ($request->productName !== $product->productName) {
+            $base = Str::slug($request->productName);
+            $slug = $base;
+            $i = 1;
+            while (Product::where('productSlug', $slug)->where('productID', '!=', $product->productID)->exists()) {
+                $slug = $base . '-' . $i++;
+            }
+            $validated['productSlug'] = $slug;
         }
 
         $product->update($validated);
@@ -105,7 +125,7 @@ class AdminProductController extends Controller
         }
 
         if ($product->productImage) {
-            Storage::disk('public')->delete(str_replace('storage/', '', $product->productImage));
+            Storage::disk('public')->delete($product->productImage);
         }
 
         $product->delete();

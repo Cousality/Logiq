@@ -228,7 +228,7 @@
         <a href="{{ route('product.index', $product->productSlug) }}" class="card-link-wrapper">
             <div class="card-image-container">
                 @if ($product->productImage)
-                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}">
+                    <img src="{{ $product->imageUrl }}" alt="{{ $product->productName }}">
                 @else
                     <span class="placeholder-icon">🧩</span>
                 @endif
