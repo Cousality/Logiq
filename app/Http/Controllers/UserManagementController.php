@@ -9,11 +9,53 @@ class UserManagementController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::query();
+        $searchQuery = $request->input('query');
 
-        $users = $query->paginate(20)->appends($request->except('page'));
+        if ($searchQuery) {
+            $users = $this->fuzzySearch($searchQuery);
+        } else {
+            $users = User::query()->paginate(20)->appends($request->except('page'));
+        }
 
-        return view('Frontend.dashboard.user_management', compact('users'));
+        return view('Frontend.dashboard.user_management', compact('users', 'searchQuery'));
+    }
+
+    private function fuzzySearch($searchQuery)
+    {
+        $allUsers = User::all();
+        $results = [];
+        $search = strtolower(trim($searchQuery));
+
+        foreach ($allUsers as $user) {
+            $score = 0;
+            $name = strtolower($user->firstName . ' ' . $user->lastName);
+            $email = strtolower($user->email ?? '');
+
+            // Check for matches
+            if (str_contains($name, $search)) {
+                $score += 100;
+            }
+            if (str_contains($email, $search)) {
+                $score += 50;
+            }
+
+            // Check similarity for typos
+            $words = explode(' ', $name);
+            foreach ($words as $word) {
+                similar_text($search, $word, $percent);
+                if ($percent > 70) {
+                    $score += $percent;
+                }
+            }
+
+            if ($score > 0) {
+                $results[] = ['user' => $user, 'score' => $score];
+            }
+        }
+
+        usort($results, fn ($a, $b) => $b['score'] <=> $a['score']);
+
+        return collect(array_map(fn ($item) => $item['user'], $results));
     }
 
     public function makeAdmin($id)
