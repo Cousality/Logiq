@@ -29,19 +29,26 @@ class AppServiceProvider extends ServiceProvider
        View::composer('*', function ($view) {
 
         $basketCount = 0;
+        $basketPreviewItems = collect();
+        $basketTotal = 0;
 
         if (auth()->check()) {
 
-            $basket = Basket::where('userID', auth()->user()->userID)
+            $basket = Basket::with(['items.product'])
+                ->where('userID', auth()->user()->userID)
                 ->where('orderStatus', 'cart')
                 ->first();
 
             if ($basket) {
-                $basketCount = $basket->items()->sum('quantity');
+                $basketPreviewItems = $basket->items;
+                $basketCount = $basketPreviewItems->sum('quantity');
+                $basketTotal = $basketPreviewItems->sum(fn($item) => $item->product->productPrice * $item->quantity);
             }
         }
 
         $view->with('basketCount', $basketCount);
+        $view->with('basketPreviewItems', $basketPreviewItems);
+        $view->with('basketTotal', $basketTotal);
     });
     }
 }

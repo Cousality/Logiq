@@ -14,9 +14,9 @@
         </div>
         <div class="item-price">£{{ number_format($item->product->productPrice, 2) }}</div>
         <div class="quantity-controls">
-            <button class="qty-btn" onclick="changeQuantity({{ $item->orderItemID }}, -1)">-</button>
+            <button class="qty-btn" data-id="{{ $item->orderItemID }}" data-delta="-1" onclick="changeQuantity(+this.dataset.id, +this.dataset.delta)">-</button>
             <span class="qty-display" id="qty-{{ $item->orderItemID }}">{{ $item->quantity }}</span>
-            <button class="qty-btn" onclick="changeQuantity({{ $item->orderItemID }}, 1)">+</button>
+            <button class="qty-btn" data-id="{{ $item->orderItemID }}" data-delta="1" onclick="changeQuantity(+this.dataset.id, +this.dataset.delta)">+</button>
         </div>
     </div>
     <div class="item-actions">

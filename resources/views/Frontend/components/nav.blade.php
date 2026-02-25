@@ -33,6 +33,100 @@
         box-shadow: 0 1px 0 0 var(--text);
         padding-bottom: 5px;
         transition: box-shadow 0.2s ease;
+        position: relative;
+    }
+
+    .search-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        right: 0;
+        background: var(--bg-primary);
+        border: 1px solid var(--text);
+        z-index: 9999;
+        max-height: 360px;
+        overflow-y: auto;
+    }
+
+    .search-dropdown.open {
+        display: block;
+    }
+
+    .search-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.65rem 1rem;
+        text-decoration: none;
+        color: var(--text);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+        transition: background 0.15s ease;
+    }
+
+    .search-dropdown-item:last-child {
+        border-bottom: none;
+    }
+
+    .search-dropdown-item:hover,
+    .search-dropdown-item.focused {
+        background: var(--bg-secondary);
+    }
+
+    .search-dropdown-thumb {
+        width: 42px;
+        height: 42px;
+        object-fit: cover;
+        flex-shrink: 0;
+        border: 1px solid var(--text);
+    }
+
+    .search-dropdown-thumb-placeholder {
+        width: 42px;
+        height: 42px;
+        flex-shrink: 0;
+        background: var(--bg-secondary);
+        border: 1px solid var(--text);
+    }
+
+    .search-dropdown-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .search-dropdown-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .search-dropdown-price {
+        font-size: 0.8rem;
+        opacity: 0.65;
+        margin-top: 2px;
+    }
+
+    .search-dropdown-footer {
+        padding: 0.6rem 1rem;
+        font-size: 0.82rem;
+        text-align: center;
+        opacity: 0.6;
+        border-top: 1px solid var(--text);
+        cursor: pointer;
+    }
+
+    .search-dropdown-footer:hover {
+        opacity: 1;
+        background: var(--bg-secondary);
+    }
+
+    .search-dropdown-empty {
+        padding: 1rem;
+        text-align: center;
+        font-size: 0.9rem;
+        opacity: 0.55;
     }
 
     .search-container:focus-within {
@@ -248,7 +342,8 @@
         display: flex;
     }
 
-    .dropdown-actions button {
+    .dropdown-actions button,
+    .dropdown-actions a {
         flex: 1;
         background: var(--text);
         color: var(--bg-primary);
@@ -260,6 +355,8 @@
         font-size: 0.8rem;
         letter-spacing: 1px;
         text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
         transition: opacity 0.15s;
     }
 
@@ -270,8 +367,141 @@
     }
 
     .dropdown-actions button:hover,
+    .dropdown-actions a:hover,
     .dropdown-actions form button:hover {
         opacity: 0.8;
+    }
+
+    /* Basket Dropdown */
+    .basket-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .basket-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: 360px;
+        background: var(--bg-primary);
+        border: 2px solid var(--text);
+        z-index: 900;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .basket-dropdown.open {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0);
+    }
+
+    /* Bridge the gap so cursor doesn't fall into empty space */
+    .basket-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -14px;
+        left: 0;
+        right: 0;
+        height: 14px;
+    }
+
+    .basket-preview-items {
+        max-height: 280px;
+        overflow-y: auto;
+        border-bottom: 2px solid var(--text);
+        margin-top: 1px;
+    }
+
+    .basket-preview-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.2rem;
+        border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .basket-preview-item:last-child {
+        border-bottom: none;
+    }
+
+    .basket-preview-img {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border: 1px solid var(--bg-secondary);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-secondary);
+    }
+
+    .basket-preview-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .basket-preview-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        min-width: 0;
+    }
+
+    .basket-preview-name {
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .basket-preview-qty {
+        font-size: 0.72rem;
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .basket-preview-price {
+        font-size: 0.85rem;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .basket-preview-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.2rem;
+        border-bottom: 2px solid var(--text);
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .basket-preview-empty {
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.5;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .basket-dropdown .dropdown-actions a:not(:last-child) {
+        border-right: 1px solid var(--bg-primary);
     }
 
     /* Hamburger Button */
@@ -536,12 +766,21 @@
         <a href="{{ route('home') }}">LOGIQ.</a>
     </div>
 
-    <div class="search-container">
+    <div class="search-container" id="search-wrapper">
         <span class="search-icon">⌕</span>
-        <form action="{{ route('search') }}" method="GET">
-            <input type="text" name="query" class="search-input" placeholder="Search puzzles..." required />
+        <form action="{{ route('search') }}" method="GET" id="search-form">
+            <input
+                type="text"
+                name="query"
+                id="search-input"
+                class="search-input"
+                placeholder="Search puzzles..."
+                autocomplete="off"
+                required
+            />
             <button type="submit" style="opacity: 0; width: 0; height: 0; position: absolute;"></button>
         </form>
+        <div class="search-dropdown" id="search-dropdown"></div>
     </div>
 
     <div class="nav-links">
@@ -613,6 +852,48 @@
                     {{ $basketCount }}
                 </span>
             @endif
+
+            <div class="basket-dropdown">
+                <div class="dropdown-header">
+                    <span class="dropdown-greeting">Your Basket</span>
+                    <span class="dropdown-name">{{ $basketCount ?? 0 }} Item{{ ($basketCount ?? 0) != 1 ? 's' : '' }}</span>
+                </div>
+
+                @if(($basketCount ?? 0) > 0)
+                    <div class="basket-preview-items">
+                        @foreach($basketPreviewItems ?? [] as $item)
+                            <div class="basket-preview-item">
+                                <div class="basket-preview-img">
+                                    @if(!empty($item->product->productImage))
+                                        <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
+                                    @endif
+                                </div>
+                                <div class="basket-preview-info">
+                                    <span class="basket-preview-name">{{ $item->product->productName }}</span>
+                                    <span class="basket-preview-qty">Qty: {{ $item->quantity }}</span>
+                                </div>
+                                <span class="basket-preview-price">£{{ number_format($item->product->productPrice * $item->quantity, 2) }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="basket-preview-total">
+                        <span>Total</span>
+                        <span>£{{ number_format($basketTotal ?? 0, 2) }}</span>
+                    </div>
+                @else
+                    <div class="basket-preview-empty">
+                        <span>Your basket is empty</span>
+                    </div>
+                @endif
+
+                <div class="dropdown-actions">
+                    <a href="{{ route('basket.index') }}">View Basket</a>
+                    @if(($basketCount ?? 0) > 0)
+                        <a href="{{ route('checkout.index') }}">Checkout</a>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <!-- Hamburger — far right -->
@@ -656,6 +937,21 @@
         });
     }
 
+    // Basket dropdown
+    const basketWrapper = document.querySelector('.basket-wrapper');
+    const basketDropdown = document.querySelector('.basket-dropdown');
+
+    if (basketWrapper && basketDropdown) {
+        let basketCloseTimer;
+        basketWrapper.addEventListener('mouseenter', () => {
+            clearTimeout(basketCloseTimer);
+            basketDropdown.classList.add('open');
+        });
+        basketWrapper.addEventListener('mouseleave', () => {
+            basketCloseTimer = setTimeout(() => basketDropdown.classList.remove('open'), 50);
+        });
+    }
+
     // Category sidebar toggle
     const hamburgerBtn = document.getElementById("hamburger-btn");
     const categorySidebar = document.getElementById("category-sidebar");
@@ -685,5 +981,109 @@
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeSidebar();
+    });
+
+    // ── Live search dropdown ──────────────────────────────────────────────
+    const searchInput    = document.getElementById('search-input');
+    const searchDropdown = document.getElementById('search-dropdown');
+    const searchForm     = document.getElementById('search-form');
+    const suggestionsUrl = "{{ route('search.suggestions') }}";
+
+    let focusedIndex = -1;
+
+    function getItems() {
+        return searchDropdown.querySelectorAll('.search-dropdown-item');
+    }
+
+    function setFocus(index) {
+        const items = getItems();
+        items.forEach(el => el.classList.remove('focused'));
+        if (index >= 0 && index < items.length) {
+            items[index].classList.add('focused');
+            items[index].scrollIntoView({ block: 'nearest' });
+        }
+        focusedIndex = index;
+    }
+
+    function openDropdown(html) {
+        searchDropdown.innerHTML = html;
+        searchDropdown.classList.add('open');
+        focusedIndex = -1;
+    }
+
+    function closeDropdown() {
+        searchDropdown.classList.remove('open');
+        searchDropdown.innerHTML = '';
+        focusedIndex = -1;
+    }
+
+    function buildDropdownHtml(suggestions, query) {
+        if (suggestions.length === 0) {
+            return `<div class="search-dropdown-empty">No results found</div>`;
+        }
+        const items = suggestions.map(s => {
+            const thumb = s.image
+                ? `<img class="search-dropdown-thumb" src="${s.image}" alt="${s.name}" />`
+                : `<div class="search-dropdown-thumb-placeholder"></div>`;
+            return `<a class="search-dropdown-item" href="/product/${s.slug}">
+                ${thumb}
+                <div class="search-dropdown-info">
+                    <div class="search-dropdown-name">${s.name}</div>
+                    <div class="search-dropdown-price">£${s.price}</div>
+                </div>
+            </a>`;
+        }).join('');
+        const footer = `<div class="search-dropdown-footer" data-query="${query}">See all results for "${query}"</div>`;
+        return items + footer;
+    }
+
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim();
+        if (query.length === 0) {
+            closeDropdown();
+            return;
+        }
+        fetch(`${suggestionsUrl}?query=${encodeURIComponent(query)}`)
+            .then(r => r.json())
+            .then(data => {
+                if (searchInput.value.trim() === '') { closeDropdown(); return; }
+                openDropdown(buildDropdownHtml(data, query));
+
+                // "See all results" footer click
+                const footer = searchDropdown.querySelector('.search-dropdown-footer');
+                if (footer) {
+                    footer.addEventListener('click', () => {
+                        searchForm.submit();
+                    });
+                }
+            })
+            .catch(() => closeDropdown());
+    });
+
+    // Keyboard navigation
+    searchInput.addEventListener('keydown', (e) => {
+        if (!searchDropdown.classList.contains('open')) return;
+        const items = getItems();
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            setFocus(Math.min(focusedIndex + 1, items.length - 1));
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            setFocus(Math.max(focusedIndex - 1, 0));
+        } else if (e.key === 'Enter') {
+            if (focusedIndex >= 0 && items[focusedIndex]) {
+                const href = items[focusedIndex].getAttribute('href');
+                if (href) { e.preventDefault(); window.location.href = href; }
+            }
+        } else if (e.key === 'Escape') {
+            closeDropdown();
+        }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+        if (!document.getElementById('search-wrapper').contains(e.target)) {
+            closeDropdown();
+        }
     });
 </script>

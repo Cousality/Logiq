@@ -228,9 +228,9 @@
         <section class="settings-card">
             <h2 class="section-title">User Directory</h2>
 
-            <form class="search-wrapper" action="#" method="GET">
-                <input type="email" name="search_email" class="search-input" placeholder="Search by email address..."
-                    required>
+            <form class="search-wrapper" action="{{ route('userManagement') }}" method="GET">
+                <input type="text" name="query" class="search-input" placeholder="Search users..."
+                    value="{{ $searchQuery ?? '' }}">
                 <button type="submit" class="btn-search">Search</button>
             </form>
 

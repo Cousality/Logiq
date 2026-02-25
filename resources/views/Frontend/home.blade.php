@@ -412,7 +412,10 @@
             <div class="category-grid" id="rec-grid">
                 <div class="category-track" id="rec-track">
                     @forelse ($topProducts as $i => $product)
-                        @php $avgRating = $product->reviews_avg_rating ?? 0; @endphp
+                        @php
+                            $avgRating = $product->reviews_avg_rating ?? 0;
+                            $starWidth = $product->reviews_count > 0 ? round(($avgRating / 5) * 100) : 0;
+                        @endphp
                         <a href="{{ route('product.index', $product->productSlug) }}" class="rec-card">
                             <div class="rec-difficulty-badge {{ strtolower($product->productDifficulty) }}">
                                 {{ strtoupper($product->productDifficulty) }}
@@ -433,7 +436,7 @@
                                 <div class="rec-rating">
                                     <span class="rec-stars-wrap">
                                         <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                                        <span class="stars-fg" style="width: {{ $product->reviews_count > 0 ? round(($avgRating / 5) * 100) : 0 }}%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                        <span class="stars-fg" style="width: <?= $starWidth ?>%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                                     </span>
                                     <span class="rec-review-count">({{ $product->reviews_count ?? 0 }})</span>
                                 </div>
