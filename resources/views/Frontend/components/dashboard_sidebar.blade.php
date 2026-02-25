@@ -120,11 +120,6 @@
                         class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}"> My
                         Wishlist </a>
                 </li>
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('basket.index') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('basket.index') ? 'active' : '' }}"> My Basket
-                    </a>
-                </li>
             </ul>
         </div>
 
