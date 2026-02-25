@@ -817,7 +817,7 @@
                             <div class="dropdown-col">
                                 <p class="dropdown-col-title">Admin</p>
                                 <a href="{{ route('userManagement') }}">User Management</a>
-                                <a href="{{ route('inventory_management') }}">Inventory</a>
+                                <a href="{{ route('admin.products.index') }}">Inventory</a>
                                 <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
                             </div>
                         @endif
