@@ -348,10 +348,14 @@
                             <td data-label="Actions" class="action-cell">
                                 @if ($user->admin)
                                     <form action="{{ route('users.removeAdmin', $user->userID) }}" method="POST"
+                                        id="removeAdminForm-{{ $user->userID }}"
                                         style="display:inline-block;">
                                         @csrf
                                         @method('PATCH')
-                                        <button type="submit" class="btn-action btn-danger">Remove Admin</button>
+                                        <button type="button" class="btn-action btn-danger"
+                                            data-user-id="{{ $user->userID }}"
+                                            data-user-name="{{ $user->firstName }} {{ $user->lastName }}"
+                                            onclick="openRemoveAdminModal(this.dataset.userId, this.dataset.userName)">Remove Admin</button>
                                     </form>
                                 @else
                                     <form action="{{ route('users.makeAdmin', $user->userID) }}" method="POST"
@@ -401,6 +405,19 @@
         </div>
     </div>
 
+    {{-- REMOVE ADMIN CONFIRMATION MODAL --}}
+    <div class="modal-overlay" id="removeAdminModal">
+        <div class="modal-box">
+            <button class="modal-close" id="removeAdminClose" aria-label="Close">&times;</button>
+            <h2>Confirm Remove Admin</h2>
+            <p class="modal-message">Are you sure you want to remove admin privileges from <strong id="removeAdminUserName"></strong>? They will lose all administrative access.</p>
+            <div class="modal-actions">
+                <button type="button" class="modal-confirm-btn" id="removeAdminConfirm">Yes, Remove Admin</button>
+                <button type="button" class="modal-cancel-btn" id="removeAdminCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     @include('Frontend.components.footer')
 
     <script>
@@ -436,6 +453,40 @@
 
         // Expose opener for inline onclick
         window.openMakeAdminModal = openMakeAdminModal;
+    })();
+
+    (function () {
+        var pendingRemoveFormId = null;
+        var modal      = document.getElementById('removeAdminModal');
+        var confirmBtn = document.getElementById('removeAdminConfirm');
+        var cancelBtn  = document.getElementById('removeAdminCancel');
+        var closeBtn   = document.getElementById('removeAdminClose');
+
+        function openRemoveAdminModal(userId, userName) {
+            pendingRemoveFormId = 'removeAdminForm-' + userId;
+            document.getElementById('removeAdminUserName').textContent = userName;
+            modal.classList.add('active');
+        }
+
+        function closeRemoveAdminModal() {
+            pendingRemoveFormId = null;
+            modal.classList.remove('active');
+        }
+
+        confirmBtn.addEventListener('click', function () {
+            if (pendingRemoveFormId) {
+                document.getElementById(pendingRemoveFormId).submit();
+            }
+        });
+
+        cancelBtn.addEventListener('click', closeRemoveAdminModal);
+        closeBtn.addEventListener('click', closeRemoveAdminModal);
+        modal.addEventListener('click', function (e) {
+            if (e.target === this) closeRemoveAdminModal();
+        });
+
+        // Expose opener for inline onclick
+        window.openRemoveAdminModal = openRemoveAdminModal;
     })();
     </script>
 </body>
