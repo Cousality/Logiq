@@ -59,6 +59,8 @@
             font-weight: bold;
             text-transform: uppercase;
             transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
 
         .filter-button:hover,
@@ -487,19 +489,42 @@
         <main class="orders-container">
 
             <div class="orders-filter">
-                <button class="filter-button {{ !request('status') || request('status') == 'all' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders') }}'">All</button>
-                <button class="filter-button {{ request('status') == 'processing' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'processing']) }}'">Processing</button>
-                <button class="filter-button {{ request('status') == 'shipped' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'shipped']) }}'">Shipped</button>
-                <button class="filter-button {{ request('status') == 'delivered' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'delivered']) }}'">Delivered</button>
-                <button class="filter-button {{ request('status') == 'cancelled' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'cancelled']) }}'">Cancelled</button>
-                <button class="filter-button {{ request('status') == 'exchanges' ? 'active' : '' }}"
-                    onclick="window.location.href='{{ route('dashboard.orders', ['status' => 'exchanges']) }}'">Exchanges</button>
+                <a class="filter-button {{ !request('status') || request('status') == 'all' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders') }}">All</a>
+                <a class="filter-button {{ request('status') == 'processing' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'processing']) }}">Processing</a>
+                <a class="filter-button {{ request('status') == 'shipped' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'shipped']) }}">Shipped</a>
+                <a class="filter-button {{ request('status') == 'delivered' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'delivered']) }}">Delivered</a>
+                <a class="filter-button {{ request('status') == 'cancelled' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'cancelled']) }}">Cancelled</a>
+                <a class="filter-button {{ request('status') == 'exchanges' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'exchanges']) }}">Exchanges</a>
             </div>
+
+            @php
+                $allOrdersData = $orders->mapWithKeys(function ($order) {
+                    return [$order->orderID => [
+                        'id'     => $order->orderID,
+                        'date'   => $order->orderDate->format('d M Y'),
+                        'status' => $order->orderStatus,
+                        'total'  => number_format($order->totalAmount, 2),
+                        'items'  => $order->orderItems->map(function ($item) {
+                            return [
+                                'name'       => $item->product->productName ?? 'Unknown Product',
+                                'category'   => $item->product->productCategory ?? '',
+                                'difficulty' => $item->product->productDifficulty ?? '',
+                                'image'      => ($item->product && $item->product->productImage) ? asset($item->product->productImage) : '',
+                                'qty'        => $item->quantity,
+                                'unitPrice'  => number_format($item->priceAtTime, 2),
+                                'lineTotal'  => number_format($item->priceAtTime * $item->quantity, 2),
+                            ];
+                        })->values(),
+                    ]];
+                });
+            @endphp
+            <script type="application/json" id="orders-data">@json($allOrdersData)</script>
 
             @forelse($orders as $order)
                 <div class="order-card">
@@ -545,35 +570,22 @@
                     <div class="order-actions">
                         @if ($order->orderStatus != 'cancelled' && $order->orderStatus != 'delivered')
                             <button class="action-button primary"
-                                onclick="openTrackModal('{{ $order->orderID }}', '{{ $order->orderStatus }}', '{{ $order->orderDate->format('d M Y') }}')">Track Order</button>
+                                data-id="{{ $order->orderID }}"
+                                data-status="{{ $order->orderStatus }}"
+                                data-date="{{ $order->orderDate->format('d M Y') }}"
+                                onclick="openTrackModal(this)">Track Order</button>
                         @endif
-                        @php
-                            $detailsItems = $order->orderItems->map(function($item) {
-                                return [
-                                    'name'       => $item->product->productName ?? 'Unknown Product',
-                                    'category'   => $item->product->productCategory ?? '',
-                                    'difficulty' => $item->product->productDifficulty ?? '',
-                                    'image'      => ($item->product && $item->product->productImage) ? asset($item->product->productImage) : '',
-                                    'qty'        => $item->quantity,
-                                    'unitPrice'  => number_format($item->priceAtTime, 2),
-                                    'lineTotal'  => number_format($item->priceAtTime * $item->quantity, 2),
-                                ];
-                            })->values();
-                            $detailsData = [
-                                'id'     => $order->orderID,
-                                'date'   => $order->orderDate->format('d M Y'),
-                                'status' => $order->orderStatus,
-                                'total'  => number_format($order->totalAmount, 2),
-                                'items'  => $detailsItems,
-                            ];
-                        @endphp
-                        <button class="action-button" onclick='openDetailsModal(@json($detailsData))'>View Details</button>
+                        <button class="action-button"
+                            data-order-id="{{ $order->orderID }}"
+                            onclick="openDetailsModal(this)">View Details</button>
                         @if ($order->orderStatus == 'delivered')
                             <button class="action-button">Request Exchange</button>
                         @endif
                         @if ($order->orderStatus == 'pending' || $order->orderStatus == 'processing')
                             <button class="action-button"
-                                onclick="openCancelModal('{{ $order->orderID }}', '{{ route('orders.cancel', $order->orderID) }}')">Cancel Order</button>
+                                data-order-id="{{ $order->orderID }}"
+                                data-cancel-url="{{ route('orders.cancel', $order->orderID) }}"
+                                onclick="openCancelModal(this)">Cancel Order</button>
                         @endif
                     </div>
                 </div>
@@ -652,11 +664,16 @@
     </div>
 
     <script>
+        const ordersDetails = JSON.parse(document.getElementById('orders-data').textContent);
         const statusSteps = { pending: 1, processing: 2, shipped: 3, delivered: 4 };
         const stepIds = ['step-cart', 'step-pending', 'step-processing', 'step-shipped', 'step-delivered'];
         const labelSpans = document.querySelectorAll('.progress-labels span');
 
-        function openTrackModal(orderId, status, date) {
+        function openTrackModal(btn) {
+            const orderId = btn.dataset.id;
+            const status  = btn.dataset.status;
+            const date    = btn.dataset.date;
+
             document.getElementById('trackOrderId').textContent = '#' + String(orderId).padStart(6, '0');
             document.getElementById('trackOrderDate').textContent = date;
 
@@ -679,7 +696,9 @@
             if (e.target === this) closeTrackModal();
         });
 
-        function openDetailsModal(order) {
+        function openDetailsModal(btn) {
+            const order = ordersDetails[btn.dataset.orderId];
+            if (!order) return;
             document.getElementById('detailsOrderId').textContent = '#' + String(order.id).padStart(6, '0');
             document.getElementById('detailsOrderDate').textContent = order.date;
             document.getElementById('detailsTotal').textContent = order.total;
@@ -731,8 +750,8 @@
             "Your future self might regret this. But it's your call — are you sure?",
         ];
 
-        function openCancelModal(orderId, actionUrl) {
-            document.getElementById('cancelForm').action = actionUrl;
+        function openCancelModal(btn) {
+            document.getElementById('cancelForm').action = btn.dataset.cancelUrl;
             document.getElementById('cancelMessage').textContent =
                 cancelMessages[Math.floor(Math.random() * cancelMessages.length)];
             document.getElementById('cancelModal').classList.add('active');
