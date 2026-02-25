@@ -177,6 +177,18 @@
                 </div>
             </div>
             <div class="filter-section">
+                <h3 class="filter-heading">Min. Rating</h3>
+                <div class="filter-group">
+                    <select class="filter-btn" id="rating-filter">
+                        <option value="0">ALL RATINGS</option>
+                        <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733; 5 Stars</option>
+                        <option value="4">&#9733;&#9733;&#9733;&#9733; 4+ Stars</option>
+                        <option value="3">&#9733;&#9733;&#9733; 3+ Stars</option>
+                        <option value="2">&#9733;&#9733; 2+ Stars</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-section">
                 <h3 class="filter-heading">Sort By</h3>
                 <div class="filter-group">
                     <select class="filter-btn" id="sort-by">

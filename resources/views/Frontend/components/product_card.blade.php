@@ -219,7 +219,8 @@
         }
     </style>
     <div class="product-card" data-category="{{ $product->productCategory }}"
-        data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}">
+        data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}"
+        data-rating="{{ $product->reviews_count > 0 ? round($product->reviews_avg_rating) : 0 }}">
 
         <div class="difficulty-badge {{ strtolower($product->productDifficulty) }}">
             {{ strtoupper($product->productDifficulty) }}

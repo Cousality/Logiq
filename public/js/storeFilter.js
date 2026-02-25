@@ -2,6 +2,7 @@
 const categoryFilterBtns = document.querySelectorAll(".category-filter");
 const productCards = document.querySelectorAll(".product-card");
 const difficultyFilter = document.getElementById("difficulty-filter");
+const ratingFilter = document.getElementById("rating-filter");
 const sortBy = document.getElementById("sort-by");
 const noResults = document.querySelector(".no-results");
 
@@ -11,6 +12,7 @@ const urlCategory = urlParams.get("category");
 
 let activeCategory = urlCategory || "all";
 let activeDifficulty = "all";
+let activeMinRating = 0;
 
 // Apply URL-based category on load
 if (urlCategory) {
@@ -39,6 +41,12 @@ difficultyFilter.addEventListener("change", (e) => {
     applyFilters();
 });
 
+// Rating filter
+ratingFilter.addEventListener("change", (e) => {
+    activeMinRating = parseInt(e.target.value);
+    applyFilters();
+});
+
 // Apply all filters
 function applyFilters() {
     let visibleCount = 0;
@@ -46,13 +54,15 @@ function applyFilters() {
     productCards.forEach((card) => {
         const category = card.dataset.category;
         const difficulty = card.dataset.difficulty;
+        const rating = parseInt(card.dataset.rating) || 0;
 
         let showCategory =
             activeCategory === "all" || category === activeCategory;
         let showDifficulty =
             activeDifficulty === "all" || difficulty === activeDifficulty;
+        let showRating = rating >= activeMinRating;
 
-        if (showCategory && showDifficulty) {
+        if (showCategory && showDifficulty && showRating) {
             card.style.display = "block";
             visibleCount++;
         } else {
