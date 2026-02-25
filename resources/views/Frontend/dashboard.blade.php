@@ -146,9 +146,8 @@
 
                     <div class="dashboard-card">
                         <a href="#" class="card-link-wrapper">
-                            <h3 class= "card-title">Analytics & Reports</h3>
-                            <h3 class="card-description">View current reports on stock levels and processing orders.
-                            </h3>
+                            <h3 class= "card-title">Review Moderation</h3>
+                            <h3 class="card-description">View current reviews and delete inappropriate reviews.</h3>
                         </a>
                     </div>
 
