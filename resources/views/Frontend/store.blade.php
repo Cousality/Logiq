@@ -35,8 +35,7 @@
         /* SIDEBAR */
         .filter-sidebar {
             flex: 0 0 200px;
-            position: sticky;
-            top: 2rem;
+            align-self: flex-start;
             background: var(--bg-secondary);
             border: 1px solid var(--text);
             padding: 1.5rem 1rem;
@@ -114,9 +113,10 @@
             }
 
             .filter-sidebar {
+                position: static;
                 flex: none;
                 width: 100%;
-                position: static;
+                max-height: none;
             }
 
             .filter-group {
