@@ -315,6 +315,7 @@
         max-height: 280px;
         overflow-y: auto;
         border-bottom: 2px solid var(--text);
+        margin-top: 1px;
     }
 
     .basket-preview-item {
