@@ -337,7 +337,7 @@
                                                 <span class="badge badge-difficulty {{ strtolower($review->product->productDifficulty) }}">{{ strtoupper($review->product->productDifficulty) }}</span>
                                             </div>
 
-                                            <form action="{{ route('review.update', $review->reviewID) }}" method="POST">
+                                            <form id="update-{{ $review->reviewID }}" action="{{ route('review.update', $review->reviewID) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
 
@@ -370,17 +370,19 @@
                                                               placeholder="Write your review here...">{{ $review->reviewComment }}</textarea>
                                                 </div>
 
-                                                <div class="btn-row">
-                                                    <button type="submit" class="btn-update">Update Review</button>
-
-                                                    <form action="{{ route('review.delete', $review->reviewID) }}" method="POST"
-                                                          onsubmit="return confirm('Are you sure you want to delete this review?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn-delete">Delete Review</button>
-                                                    </form>
-                                                </div>
                                             </form>
+
+                                            <form action="{{ route('review.delete', $review->reviewID) }}" method="POST"
+                                                  id="delete-{{ $review->reviewID }}"
+                                                  onsubmit="return confirm('Are you sure you want to delete this review?')">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+
+                                            <div class="btn-row">
+                                                <button type="submit" form="update-{{ $review->reviewID }}" class="btn-update">Update Review</button>
+                                                <button type="submit" form="delete-{{ $review->reviewID }}" class="btn-delete">Delete Review</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
