@@ -63,7 +63,6 @@
             border: 1px solid var(--text);
             cursor: pointer;
             text-align: left;
-            font-family: inherit;
         }
 
         .puzzle-options button:hover {
@@ -92,7 +91,7 @@
 
         .categories-section {
             padding: 6rem 5%;
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
         }
 
         .category-carousel {
@@ -159,12 +158,14 @@
             color: inherit;
         }
 
-        .category-card:hover {
+        .category-card:hover,
+        .rec-card:hover {
             transform: translateY(-5px);
             box-shadow: 8px 8px 0 var(--red-pastel-1);
         }
 
-        .category-card::before {
+        .category-card::before,
+        .rec-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -172,6 +173,10 @@
             width: 6px;
             height: 100%;
             background: var(--red-pastel-1);
+        }
+
+        .rec-card::before {
+            z-index: 1;
         }
 
         .category-name {
@@ -206,6 +211,137 @@
             min-height: 1.6em;
         }
 
+
+        /* MOST RECOMMENDED SECTION */
+        .recommended-section {
+            padding: 6rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .rec-card {
+            background: var(--white);
+            border: 2px solid var(--text);
+            box-sizing: border-box;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            flex-shrink: 0;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+        }
+
+        .rec-card-image {
+            height: 200px;
+            background: var(--bg-secondary);
+            border-bottom: 2px solid var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .rec-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rec-card-image .rec-placeholder {
+            font-size: 3.5rem;
+        }
+
+        .rec-card-body {
+            padding: 1.25rem 1.25rem 1.25rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .rec-rank {
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--red-pastel-1);
+            margin-bottom: 0.35rem;
+        }
+
+        .rec-name {
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 0.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .rec-price {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--red-pastel-1);
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+
+        .rec-stars-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 0.95rem;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .rec-stars-wrap .stars-bg {
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+
+        .rec-stars-wrap .stars-fg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #c8871a;
+            letter-spacing: 1px;
+        }
+
+        .rec-review-count {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text);
+            opacity: 0.65;
+        }
+
+        .rec-difficulty-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: #ffffff;
+            padding: 0.35rem 0.7rem;
+            font-size: 0.72rem;
+            font-weight: bold;
+            border-left: 2px solid var(--text);
+            border-bottom: 2px solid var(--text);
+            z-index: 10;
+        }
+
+        .rec-difficulty-badge.easy   { background: #4a7c59; }
+        .rec-difficulty-badge.medium { background: #c17f24; }
+        .rec-difficulty-badge.hard   { background: #a63232; }
 
         /* MOBILE FIXES */
         @media (max-width: 768px) {
@@ -249,7 +385,7 @@
 
             <div class="puzzle-question">Sequence: {{ $puzzle['sequence_string'] }}</div>
 
-            <div class="puzzle-options" id="puzzle-options-container">
+            <div class="puzzle-options">
                 @foreach ($puzzle['options'] as $option)
                     <button class="option-btn" data-value="{{ $option }}">
                         {{ $option }}
@@ -261,6 +397,59 @@
         </div>
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </header>
+
+    <section class="recommended-section">
+        <div class="section-header">
+            <h2>Most Recommended</h2>
+            <div class="divider"></div>
+        </div>
+
+        <div class="category-carousel">
+            <button class="carousel-arrow" id="rec-prev">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+
+            <div class="category-grid" id="rec-grid">
+                <div class="category-track" id="rec-track">
+                    @forelse ($topProducts as $i => $product)
+                        @php $avgRating = $product->reviews_avg_rating ?? 0; @endphp
+                        <a href="{{ route('product.index', $product->productSlug) }}" class="rec-card">
+                            <div class="rec-difficulty-badge {{ strtolower($product->productDifficulty) }}">
+                                {{ strtoupper($product->productDifficulty) }}
+                            </div>
+
+                            <div class="rec-card-image">
+                                @if ($product->productImage)
+                                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}">
+                                @else
+                                    <span class="rec-placeholder">🧩</span>
+                                @endif
+                            </div>
+
+                            <div class="rec-card-body">
+                                <div class="rec-rank">#{{ $i + 1 }} Recommended</div>
+                                <div class="rec-name">{{ $product->productName }}</div>
+                                <div class="rec-price">£{{ number_format($product->productPrice, 2) }}</div>
+                                <div class="rec-rating">
+                                    <span class="rec-stars-wrap">
+                                        <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                        <span class="stars-fg" style="width: {{ $product->reviews_count > 0 ? round(($avgRating / 5) * 100) : 0 }}%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                    </span>
+                                    <span class="rec-review-count">({{ $product->reviews_count ?? 0 }})</span>
+                                </div>
+                            </div>
+                        </a>
+                    @empty
+                        <p style="opacity:0.6; padding: 2rem;">No reviewed products yet.</p>
+                    @endforelse
+                </div>
+            </div>
+
+            <button class="carousel-arrow" id="rec-next">
+                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+        </div>
+    </section>
 
     <section class="categories-section">
             <div class="section-header">
@@ -312,66 +501,55 @@
 
     @include('Frontend.components.footer')
     <script>
-        // Infinite category carousel
-        const catGrid = document.getElementById('category-grid');
-        const track = document.getElementById('category-track');
-        const originals = Array.from(track.querySelectorAll('.category-card'));
-        const count = originals.length;
-        const step = 2;
+        function makeCarousel(trackId, cardSelector, prevId, nextId, step) {
+            const track    = document.getElementById(trackId);
+            const originals = Array.from(track.querySelectorAll(cardSelector));
+            if (originals.length === 0) return;
+            const count = originals.length;
 
-        // Centre cards so both arrows are equidistant from the nearest card
-        const cardW  = originals[0].offsetWidth;
-        const gapPx  = parseFloat(getComputedStyle(track).gap);
-        const cStep  = cardW + gapPx;
-        const visible = Math.floor((catGrid.offsetWidth + gapPx) / cStep);
-        const remainder = catGrid.offsetWidth - (visible * cardW + (visible - 1) * gapPx);
-        track.style.paddingLeft = (remainder / 2) + 'px';
+            originals.forEach(c => track.appendChild(c.cloneNode(true)));
 
-        // Append clones: [0,1,2,3,4, 0',1',2',3',4']
-        originals.forEach(c => track.appendChild(c.cloneNode(true)));
+            const cards = track.querySelectorAll(cardSelector);
+            let current = 0;
+            let busy = false;
 
-        const cards = track.querySelectorAll('.category-card');
-        let current = 0;
-        let busy = false;
+            function cStep()  { return cards[1].offsetLeft - cards[0].offsetLeft; }
 
-        function cardStep() {
-            return cards[1].offsetLeft - cards[0].offsetLeft;
-        }
-
-        function setPosition(index, animate) {
-            if (!animate) track.style.transition = 'none';
-            track.style.transform = `translateX(-${index * cardStep()}px)`;
-            if (!animate) requestAnimationFrame(() => track.style.transition = '');
-            current = index;
-        }
-
-        function next() {
-            if (busy) return;
-            busy = true;
-            setPosition(current + step, true);
-            setTimeout(() => {
-                if (current >= count) setPosition(current - count, false);
-                busy = false;
-            }, 450);
-        }
-
-        function prev() {
-            if (busy) return;
-            busy = true;
-            if (current - step < 0) {
-                setPosition(current + count, false);
-                requestAnimationFrame(() => requestAnimationFrame(() => {
-                    setPosition(current - step, true);
-                    setTimeout(() => { busy = false; }, 450);
-                }));
-            } else {
-                setPosition(current - step, true);
-                setTimeout(() => { busy = false; }, 450);
+            function setPos(index, animate) {
+                if (!animate) track.style.transition = 'none';
+                track.style.transform = `translateX(-${index * cStep()}px)`;
+                if (!animate) requestAnimationFrame(() => track.style.transition = '');
+                current = index;
             }
+
+            document.getElementById(nextId).addEventListener('click', () => {
+                if (busy) return;
+                busy = true;
+                setPos(current + step, true);
+                setTimeout(() => {
+                    if (current >= count) setPos(current - count, false);
+                    busy = false;
+                }, 450);
+            });
+
+            document.getElementById(prevId).addEventListener('click', () => {
+                if (busy) return;
+                busy = true;
+                if (current - step < 0) {
+                    setPos(current + count, false);
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        setPos(current - step, true);
+                        setTimeout(() => { busy = false; }, 450);
+                    }));
+                } else {
+                    setPos(current - step, true);
+                    setTimeout(() => { busy = false; }, 450);
+                }
+            });
         }
 
-        document.getElementById('cat-prev').addEventListener('click', prev);
-        document.getElementById('cat-next').addEventListener('click', next);
+        makeCarousel('rec-track',      '.rec-card',      'rec-prev',  'rec-next',  2);
+        makeCarousel('category-track', '.category-card', 'cat-prev',  'cat-next',  2);
     </script>
     <script>
         document.querySelectorAll(".option-btn").forEach((button) => {
@@ -385,7 +563,7 @@
             const feedback = document.getElementById("feedback");
             const btns = document.querySelectorAll(".option-btn");
 
-            // Disable buttons Temp
+            // Disable buttons
             btns.forEach((btn) => (btn.disabled = true));
             feedback.textContent = "Analyzing...";
             feedback.style.color = "var(--text)";

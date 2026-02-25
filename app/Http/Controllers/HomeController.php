@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Providers\DailyPuzzleService;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,15 @@ class HomeController extends Controller
     {
         $puzzle = $this->puzzleService->getDailyPuzzle();
 
-        return view('Frontend.home', compact('puzzle'));
+        $topProducts = Product::where('productStatus', 'active')
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->orderByDesc('reviews_avg_rating')
+            ->orderByDesc('reviews_count')
+            ->take(10)
+            ->get();
+
+        return view('Frontend.home', compact('puzzle', 'topProducts'));
     }
 
     public function validatePuzzle(Request $request)
