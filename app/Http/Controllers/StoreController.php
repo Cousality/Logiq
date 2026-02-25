@@ -48,27 +48,35 @@ class StoreController extends Controller
             ->withCount('reviews')
             ->get();
         $results = [];
-        $search = strtolower(trim($searchQuery));
+        $search     = strtolower(trim($searchQuery));
+        $searchNorm = preg_replace('/[^a-z0-9 ]/', '', $search);
+        $searchWords = array_filter(explode(' ', $searchNorm));
 
         foreach ($allProducts as $product) {
             $score = 0;
-            $name = strtolower($product->productName);
-            $desc = strtolower($product->productDescription ?? '');
+            $name     = strtolower($product->productName);
+            $nameNorm = preg_replace('/[^a-z0-9 ]/', '', $name);
+            $desc     = strtolower($product->productDescription ?? '');
+            $descNorm = preg_replace('/[^a-z0-9 ]/', '', $desc);
 
-            // Check for matches
-            if (str_contains($name, $search)) {
+            // Exact substring match (normalised)
+            if (str_contains($nameNorm, $searchNorm)) {
                 $score += 100;
             }
-            if (str_contains($desc, $search)) {
+            if (str_contains($descNorm, $searchNorm)) {
                 $score += 50;
             }
 
-            // Check similarity for typos
-            $words = explode(' ', $name);
-            foreach ($words as $word) {
-                similar_text($search, $word, $percent);
-                if ($percent > 70) {
-                    $score += $percent;
+            // Per-word fuzzy: every search word vs every name word
+            $nameWords = array_filter(explode(' ', $nameNorm));
+            foreach ($searchWords as $sw) {
+                $bestWord = 0;
+                foreach ($nameWords as $nw) {
+                    similar_text($sw, $nw, $pct);
+                    $bestWord = max($bestWord, $pct);
+                }
+                if ($bestWord >= 70) {
+                    $score += $bestWord;
                 }
             }
 
