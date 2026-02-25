@@ -29,14 +29,25 @@
         margin: 0 2rem;
         display: flex;
         align-items: center;
-        border-bottom: 1px solid var(--text);
+        border-bottom: 2px solid transparent;
+        box-shadow: 0 1px 0 0 var(--text);
         padding-bottom: 5px;
+        transition: box-shadow 0.2s ease;
+    }
+
+    .search-container:focus-within {
+        box-shadow: 0 2px 0 0 var(--red-pastel-1);
+    }
+
+    .search-container:focus-within .search-icon {
+        opacity: 1;
     }
 
     .search-icon {
         font-size: 1.2rem;
         margin-right: 10px;
         opacity: 0.6;
+        transition: opacity 0.2s ease;
     }
 
     .search-container form {
