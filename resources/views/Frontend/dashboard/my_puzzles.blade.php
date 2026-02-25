@@ -235,6 +235,38 @@
             border-color: var(--red-pastel-1);
         }
 
+        .btn-delete {
+            margin-top: 0.5rem;
+            background: transparent;
+            color: #a63232;
+            border: 2px solid #a63232;
+            padding: 0.5rem 1.5rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: #a63232;
+            color: #ffffff;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-top: 0.8rem;
+        }
+
+        .btn-row .btn-update,
+        .btn-row .btn-delete {
+            margin-top: 0;
+        }
+
         /* MOBILE */
         @media (max-width: 768px) {
             .dashboard-title {
@@ -338,7 +370,16 @@
                                                               placeholder="Write your review here...">{{ $review->reviewComment }}</textarea>
                                                 </div>
 
-                                                <button type="submit" class="btn-update">Update Review</button>
+                                                <div class="btn-row">
+                                                    <button type="submit" class="btn-update">Update Review</button>
+
+                                                    <form action="{{ route('review.delete', $review->reviewID) }}" method="POST"
+                                                          onsubmit="return confirm('Are you sure you want to delete this review?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn-delete">Delete Review</button>
+                                                    </form>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>

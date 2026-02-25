@@ -107,6 +107,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     Route::get('/my_puzzles', [ReviewController::class, 'myPuzzles'])->name('my_puzzles');
     Route::put('/my_puzzles/{review}', [ReviewController::class, 'updateReview'])->name('review.update');
+    Route::delete('/my_puzzles/{review}', [ReviewController::class, 'deleteReview'])->name('review.delete');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {

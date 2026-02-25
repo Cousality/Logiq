@@ -19,6 +19,17 @@ class ReviewController extends Controller
         return view('Frontend.dashboard.my_puzzles', compact('reviews'));
     }
 
+    public function deleteReview(Review $review)
+    {
+        if ($review->userID !== Auth::id()) {
+            abort(403);
+        }
+
+        $review->delete();
+
+        return redirect()->route('my_puzzles')->with('success', 'Your review has been deleted.');
+    }
+
     public function updateReview(Request $request, Review $review)
     {
         if ($review->userID !== Auth::id()) {
