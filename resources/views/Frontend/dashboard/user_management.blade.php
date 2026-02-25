@@ -347,7 +347,12 @@
                             <td data-label="Role">{{ $user->admin ? 'Admin' : 'User' }}</td>
                             <td data-label="Actions" class="action-cell">
                                 @if ($user->admin)
-                                    <span style="opacity: 0.5; padding: 5px 10px;">Already Admin</span>
+                                    <form action="{{ route('users.removeAdmin', $user->userID) }}" method="POST"
+                                        style="display:inline-block;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="btn-action btn-danger">Remove Admin</button>
+                                    </form>
                                 @else
                                     <form action="{{ route('users.makeAdmin', $user->userID) }}" method="POST"
                                         id="makeAdminForm-{{ $user->userID }}"

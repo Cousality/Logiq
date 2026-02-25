@@ -82,6 +82,15 @@ class UserManagementController extends Controller
         return back()->with('success', "{$user->firstName} {$user->lastName} has been granted Admin privileges.");
     }
 
+    public function removeAdmin($id)
+    {
+        $user = User::where('userID', $id)->firstOrFail();
+
+        $user->update(['admin' => false]);
+
+        return back()->with('success', "{$user->firstName} {$user->lastName} has had Admin privileges removed.");
+    }
+
     public function destroy(User $user)
     {
         $user->delete();
