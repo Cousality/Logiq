@@ -274,6 +274,137 @@
         opacity: 0.8;
     }
 
+    /* Basket Dropdown */
+    .basket-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .basket-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: 360px;
+        background: var(--bg-primary);
+        border: 2px solid var(--text);
+        z-index: 900;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .basket-dropdown.open {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0);
+    }
+
+    /* Bridge the gap so cursor doesn't fall into empty space */
+    .basket-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -14px;
+        left: 0;
+        right: 0;
+        height: 14px;
+    }
+
+    .basket-preview-items {
+        max-height: 280px;
+        overflow-y: auto;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .basket-preview-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1.2rem;
+        border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .basket-preview-item:last-child {
+        border-bottom: none;
+    }
+
+    .basket-preview-img {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border: 1px solid var(--bg-secondary);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-secondary);
+    }
+
+    .basket-preview-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .basket-preview-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+        min-width: 0;
+    }
+
+    .basket-preview-name {
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .basket-preview-qty {
+        font-size: 0.72rem;
+        opacity: 0.6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .basket-preview-price {
+        font-size: 0.85rem;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+
+    .basket-preview-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1.2rem;
+        border-bottom: 2px solid var(--text);
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .basket-preview-empty {
+        padding: 1.5rem 1.2rem;
+        text-align: center;
+        font-size: 0.82rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.5;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .basket-dropdown .dropdown-actions button:not(:last-child) {
+        border-right: 1px solid var(--bg-primary);
+    }
+
     /* Hamburger Button */
     .hamburger-btn {
         background: transparent;
@@ -613,6 +744,48 @@
                     {{ $basketCount }}
                 </span>
             @endif
+
+            <div class="basket-dropdown">
+                <div class="dropdown-header">
+                    <span class="dropdown-greeting">Your Basket</span>
+                    <span class="dropdown-name">{{ $basketCount ?? 0 }} Item{{ ($basketCount ?? 0) != 1 ? 's' : '' }}</span>
+                </div>
+
+                @if(($basketCount ?? 0) > 0)
+                    <div class="basket-preview-items">
+                        @foreach($basketPreviewItems ?? [] as $item)
+                            <div class="basket-preview-item">
+                                <div class="basket-preview-img">
+                                    @if(!empty($item->product->productImage))
+                                        <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
+                                    @endif
+                                </div>
+                                <div class="basket-preview-info">
+                                    <span class="basket-preview-name">{{ $item->product->productName }}</span>
+                                    <span class="basket-preview-qty">Qty: {{ $item->quantity }}</span>
+                                </div>
+                                <span class="basket-preview-price">£{{ number_format($item->product->productPrice * $item->quantity, 2) }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="basket-preview-total">
+                        <span>Total</span>
+                        <span>£{{ number_format($basketTotal ?? 0, 2) }}</span>
+                    </div>
+                @else
+                    <div class="basket-preview-empty">
+                        <span>Your basket is empty</span>
+                    </div>
+                @endif
+
+                <div class="dropdown-actions">
+                    <button type="button" onclick="window.location='{{ route('basket.index') }}'">View Basket</button>
+                    @if(($basketCount ?? 0) > 0)
+                        <button type="button" onclick="window.location='{{ route('checkout.index') }}'">Checkout</button>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <!-- Hamburger — far right -->
@@ -653,6 +826,21 @@
         });
         accountWrapper.addEventListener('mouseleave', () => {
             closeTimer = setTimeout(() => accountDropdown.classList.remove('open'), 50);
+        });
+    }
+
+    // Basket dropdown
+    const basketWrapper = document.querySelector('.basket-wrapper');
+    const basketDropdown = document.querySelector('.basket-dropdown');
+
+    if (basketWrapper && basketDropdown) {
+        let basketCloseTimer;
+        basketWrapper.addEventListener('mouseenter', () => {
+            clearTimeout(basketCloseTimer);
+            basketDropdown.classList.add('open');
+        });
+        basketWrapper.addEventListener('mouseleave', () => {
+            basketCloseTimer = setTimeout(() => basketDropdown.classList.remove('open'), 50);
         });
     }
 
