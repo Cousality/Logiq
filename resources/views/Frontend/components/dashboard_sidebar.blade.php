@@ -120,12 +120,6 @@
                         class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}"> My
                         Wishlist </a>
                 </li>
-            </ul>
-        </div>
-
-        <div class="sidebar-section">
-            <h3 class="sidebar-section-title">My Puzzles</h3>
-            <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
                     <a href="{{ route('mypuzzles') }}"
                         class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
