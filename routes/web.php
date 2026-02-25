@@ -84,9 +84,6 @@ Route::get('/your_address', function () {
     return view('Frontend.dashboard.your_address');
 })->name('yourAddress');
 
-Route::get('/my_puzzles', function () {
-    return view('Frontend.dashboard.my_puzzles');
-})->name('mypuzzles');
 
 // Auth Pages
 Route::middleware(['auth'])->group(function () {
@@ -108,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
     //Review Routes
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/my_puzzles', [ReviewController::class, 'myPuzzles'])->name('my_puzzles');
+    Route::put('/my_puzzles/{review}', [ReviewController::class, 'updateReview'])->name('review.update');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {

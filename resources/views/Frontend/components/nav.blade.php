@@ -566,7 +566,7 @@
                             <a href="{{ route('dashboard') }}">Dashboard</a>
                             <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                             <a href="{{ route('wishlist.index') }}">My Wishlist</a>
-                            <a href="{{ route('mypuzzles') }}">My Puzzles</a>
+                            <a href="{{ route('my_puzzles') }}">My Puzzles</a>
                         </div>
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Settings</p>

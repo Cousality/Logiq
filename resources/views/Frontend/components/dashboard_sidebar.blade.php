@@ -121,8 +121,8 @@
                         Wishlist </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('mypuzzles') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
+                    <a href="{{ route('my_puzzles') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('my_puzzles') ? 'active' : '' }}">
                         My Puzzles
                     </a>
                 </li>
