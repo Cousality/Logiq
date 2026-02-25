@@ -65,6 +65,12 @@
             color: var(--red-pastel-1);
             flex-shrink: 0;
             line-height: 1;
+            transition: transform var(--transition);
+            display: inline-block;
+        }
+
+        .faq-toggle.open {
+            transform: rotate(45deg);
         }
 
         .faq-answer {
@@ -145,7 +151,10 @@
     <script>
         function toggleFAQ(id) {
             const answer = document.getElementById(id);
-            answer.style.display = answer.style.display === "block" ? "none" : "block";
+            const toggle = document.querySelector(`[data-faq="${id}"]`);
+            const isOpen = answer.style.display === "block";
+            answer.style.display = isOpen ? "none" : "block";
+            toggle.classList.toggle("open", !isOpen);
         }
     </script>
 </head>
@@ -215,7 +224,7 @@
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ('faq{{ $i }}')">
                         {{ $faq['q'] }}
-                        <span class="faq-toggle">+</span>
+                        <span class="faq-toggle" data-faq="faq{{ $i }}">+</span>
                     </div>
                     <div id="faq{{ $i }}" class="faq-answer">
                         {{ $faq['a'] }}
