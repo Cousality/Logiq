@@ -8,82 +8,137 @@
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
 
     <style>
-        h1 {
-            font-size: 60px;
+        main h1 {
+            font-size: 3rem;
             text-align: center;
-            margin-top: 40px;
+            padding: 4rem 5% 2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text);
+        }
+
+        .faq-page-wrapper {
+            padding: 2rem 5% 5rem;
+            display: flex;
+            justify-content: center;
         }
 
         .faq-container {
             max-width: 900px;
-            margin: 0 auto;
-            padding: 20px 40px;
+            width: 100%;
+        }
+
+        .faq-divider {
+            width: 100px;
+            height: 4px;
+            background: var(--red-pastel-1);
+            margin: 0 auto 3rem;
         }
 
         .faq-item {
-            background: white;
-            color: #310E0E;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            font-size: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid var(--text);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            transition: border-color var(--transition);
+        }
+
+        .faq-item:hover {
+            border-color: var(--red-pastel-1);
         }
 
         .faq-question {
             font-weight: bold;
-            font-size: 22px;
+            font-size: 1.1rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            gap: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.4rem;
+            color: var(--red-pastel-1);
+            flex-shrink: 0;
+            line-height: 1;
         }
 
         .faq-answer {
-            margin-top: 10px;
+            margin-top: 0.75rem;
             display: none;
-            font-size: 18px;
+            font-size: 1rem;
+            line-height: 1.7;
+            border-left: 3px solid var(--red-pastel-1);
+            padding-left: 1rem;
+            color: var(--text);
         }
 
         /* Submit Question Form */
         .form-section {
-            background: white;
-            color: #310E0E;
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 40px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+            background: var(--white);
+            color: var(--text);
+            border: 2px solid var(--text);
+            box-shadow: 8px 8px 0px var(--red-pastel-1);
+            padding: 2rem 2.5rem;
+            margin-top: 3rem;
         }
 
         .form-section h2 {
-            font-size: 28px;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text);
+        }
+
+        .form-section p {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--text);
         }
 
         .form-section input,
         .form-section textarea {
             width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 1px solid #bbb;
-            font-family: 'Inria Serif', serif;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+            border: 2px solid var(--text);
+            background: var(--bg-primary);
+            color: var(--text);
+            font-family: "Courier New", Courier, monospace;
+            transition: border-color var(--transition);
+            outline: none;
+        }
+
+        .form-section input:focus,
+        .form-section textarea:focus {
+            border-color: var(--red-pastel-1);
         }
 
         .form-section button {
-            margin-top: 15px;
+            margin-top: 1.25rem;
             width: 100%;
-            padding: 12px;
-            background: #310E0E;
-            color: white;
-            font-size: 20px;
-            border: none;
-            border-radius: 10px;
+            padding: 0.85rem;
+            background: var(--red-pastel-1);
+            color: var(--text-light);
+            font-size: 1rem;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid var(--red-pastel-1);
             cursor: pointer;
+            transition: background var(--transition), color var(--transition);
         }
 
         .form-section button:hover {
-            background: #4A1818;
+            background: var(--red-pastel-2);
+            border-color: var(--red-pastel-2);
         }
     </style>
 
@@ -104,7 +159,10 @@
 
         <h1>Frequently Asked Questions</h1>
 
-        <div class="faq-container">
+        <div class="faq-page-wrapper">
+            <div class="faq-container">
+
+                <div class="faq-divider"></div>
 
             {{-- FAQ ITEMS --}}
             @php
@@ -157,7 +215,7 @@
                 <div class="faq-item">
                     <div class="faq-question" onclick="toggleFAQ('faq{{ $i }}')">
                         {{ $faq['q'] }}
-                        <span>+</span>
+                        <span class="faq-toggle">+</span>
                     </div>
                     <div id="faq{{ $i }}" class="faq-answer">
                         {{ $faq['a'] }}
@@ -180,6 +238,7 @@
                 </form>
             </div>
 
+            </div>
         </div>
 
     </main>
