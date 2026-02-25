@@ -248,7 +248,8 @@
         display: flex;
     }
 
-    .dropdown-actions button {
+    .dropdown-actions button,
+    .dropdown-actions a {
         flex: 1;
         background: var(--text);
         color: var(--bg-primary);
@@ -260,6 +261,8 @@
         font-size: 0.8rem;
         letter-spacing: 1px;
         text-transform: uppercase;
+        text-decoration: none;
+        text-align: center;
         transition: opacity 0.15s;
     }
 
@@ -270,6 +273,7 @@
     }
 
     .dropdown-actions button:hover,
+    .dropdown-actions a:hover,
     .dropdown-actions form button:hover {
         opacity: 0.8;
     }
@@ -402,7 +406,7 @@
         border-bottom: 2px solid var(--text);
     }
 
-    .basket-dropdown .dropdown-actions button:not(:last-child) {
+    .basket-dropdown .dropdown-actions a:not(:last-child) {
         border-right: 1px solid var(--bg-primary);
     }
 
@@ -781,9 +785,9 @@
                 @endif
 
                 <div class="dropdown-actions">
-                    <button type="button" onclick="window.location='{{ route('basket.index') }}'">View Basket</button>
+                    <a href="{{ route('basket.index') }}">View Basket</a>
                     @if(($basketCount ?? 0) > 0)
-                        <button type="button" onclick="window.location='{{ route('checkout.index') }}'">Checkout</button>
+                        <a href="{{ route('checkout.index') }}">Checkout</a>
                     @endif
                 </div>
             </div>
