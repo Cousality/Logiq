@@ -23,36 +23,26 @@
             margin-bottom: 1rem;
         }
 
-        .back-nav {
-            margin-top: 50px;
-            margin-bottom: 50px;
-            margin-left: 20%;
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 5%;
+            align-items: flex-start;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
-            transform: translateY(-2px);
+        .dashboard-content {
+            flex: 1;
         }
 
         .service-container {
-            width: 60%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             background: var(--white);
             border: 2px solid var(--text);
             padding: 3rem;
-            margin: 0 auto;
             transition: 0.3s;
         }
 
@@ -77,6 +67,10 @@
             .dashboard-header {
                 background: var(--bg-primary);
             }
+
+            .dashboard-layout {
+                flex-direction: column;
+            }
         }
     </style>
 
@@ -92,11 +86,10 @@
             <p>Use the contact form to contact us.</p>
         </header>
 
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
-        </div>
-
-        <div class="service-container">
+        <div class="dashboard-layout">
+            @include('Frontend.components.dashboard_sidebar')
+            <div class="dashboard-content">
+                <div class="service-container">
             <h2 class="section-title">Contact Support</h2>
             
             <form method="POST" action="{{ route('customer_service.add') }}">
@@ -133,6 +126,8 @@
                 <button type="submit" class="btn">Submit Request</button>
             </div>
             </form>
+            </div>
+            </div>
         </div>
     </main>
 

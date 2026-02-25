@@ -23,6 +23,25 @@
             letter-spacing: -3px;
             margin-bottom: 1rem;
         }
+
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 50px 5%;
+            align-items: flex-start;
+        }
+
+        .dashboard-content {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-title { font-size: 2.5rem; }
+            .dashboard-header { background: var(--bg-primary); }
+            .dashboard-layout { flex-direction: column; }
+        }
     </style>
 </head>
 
@@ -34,9 +53,11 @@
         <p>Manage your inventory and stock levels.</p>
     </header>
 
-
-
-    </main>
+    <div class="dashboard-layout">
+        @include('Frontend.components.admin_sidebar')
+        <div class="dashboard-content">
+        </div>
+    </div>
 
     @include('Frontend.components.footer')
 </body>

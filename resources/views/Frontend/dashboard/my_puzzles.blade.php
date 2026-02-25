@@ -23,46 +23,27 @@
             margin-bottom: 1rem;
         }
 
-        .dashboard-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
-        .back-nav {
-            margin-top: 50px;
-            margin-bottom: 50px;
-            margin-left: 20%;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-        
         .dashboard-content {
             flex: 1;
         }
 
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 5%;
+            align-items: flex-start;
+        }
+
         .myPuzzles-container {
-            width: 60%;
+            width: 100%;
             display: flex;
             flex-direction: column;
             background: var(--white);
             border: 2px solid var(--text);
             padding: 3rem;
             box-shadow: 10px 10px 0px var(--red-pastel-1);
-            margin: 0 auto;
         }
 
         .section-title {
@@ -108,18 +89,17 @@
         </header>
 
         <div class="dashboard-layout">
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
-        </div>
-
-        <div class="myPuzzles-container">
-            <h2 class="section-title">Your Past Reviews & Ratings</h2>
-            
-            <div class="empty-puzzles">
-                <h3>No reviewed puzzles found</h3>
-                <p>Once you leave a review, it will show up here.</p>
+            @include('Frontend.components.dashboard_sidebar')
+            <div class="dashboard-content">
+                <div class="myPuzzles-container">
+                    <h2 class="section-title">Your Past Reviews & Ratings</h2>
+                    
+                    <div class="empty-puzzles">
+                        <h3>No reviewed puzzles found</h3>
+                        <p>Once you leave a review, it will show up here.</p>
+                    </div>
+                </div>
             </div>
-        </div>
         </div>
     </main>
     @include('Frontend.components.footer')

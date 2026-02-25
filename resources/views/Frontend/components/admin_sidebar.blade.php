@@ -87,43 +87,47 @@
 <aside class="dashboard-sidebar">
     <div class="sidebar-user-section">
         <p class="sidebar-greeting">Hello,</p>
-        <p class="sidebar-username">{{ auth()->check() ? auth()->user()->firstName : 'User' }}</p>
+        <p class="sidebar-username">{{ auth()->check() ? auth()->user()->firstName : 'Admin' }}</p>
     </div>
 
     <div class="sidebar-menu">
         <div class="sidebar-section">
-            <h3 class="sidebar-section-title">Account Settings</h3>
+            <h3 class="sidebar-section-title">Users</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('loginSecurity') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('loginSecurity') ? 'active' : '' }}">Login &
-                        Security</a>
+                    <a href="#"
+                        class="sidebar-menu-link">
+                        Order Management
+                    </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('yourAddress') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('yourAddress') ? 'active' : '' }}">Your
-                        Address</a>
+                    <a href="{{ route('userManagement') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('userManagement') ? 'active' : '' }}">
+                        User Management
+                    </a>
                 </li>
             </ul>
         </div>
 
         <div class="sidebar-section">
-            <h3 class="sidebar-section-title">Orders & Activity</h3>
+            <h3 class="sidebar-section-title">Store</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('dashboard.orders') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('dashboard.orders') ? 'active' : '' }}"> Your
-                        Orders </a>
+                    <a href="{{ route('inventory_management') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('inventory_management') ? 'active' : '' }}">
+                        Inventory
+                    </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('wishlist.index') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('wishlist.index') ? 'active' : '' }}"> My
-                        Wishlist </a>
+                    <a href="{{ route('promotions') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('promotions') ? 'active' : '' }}">
+                        Promotions
+                    </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('mypuzzles') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('mypuzzles') ? 'active' : '' }}">
-                        My Puzzles
+                    <a href="#"
+                        class="sidebar-menu-link">
+                        Analytics & Reports
                     </a>
                 </li>
             </ul>
@@ -133,13 +137,12 @@
             <h3 class="sidebar-section-title">Support</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('customer_service') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('customer_service') ? 'active' : '' }}">
-                        Customer Service
+                    <a href="{{ route('admin.customer_service') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.customer_service') ? 'active' : '' }}">
+                        Support Tickets
                     </a>
                 </li>
             </ul>
         </div>
-
     </div>
 </aside>

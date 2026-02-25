@@ -23,37 +23,30 @@
 
         }
 
-        .back-nav {
-            margin-top: 50px;
-            margin-bottom: 25px;
-            margin-left: 20%;
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 50px 5%;
+            align-items: flex-start;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
-            transform: translateY(-2px);
+        .dashboard-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .stats-container {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 10px;
-            width: 60%;
+            width: 100%;
             background: var(--white);
             border: 2px solid var(--text);
             padding: 2rem;
-            margin: 0 auto;
             transition: 0.3s;
         }
 
@@ -96,12 +89,10 @@
         }
 
         .tickets-container {
-            width: 60%;
+            width: 100%;
             background: var(--white);
             border: 2px solid var(--text);
             padding: 2rem;
-            margin: 0 auto;
-            margin-top: 20px;
             transition: 0.3s;
         }
 
@@ -139,7 +130,11 @@
                 background: var(--bg-primary);
             }
 
-             .stats-container {
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .stats-container {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
@@ -157,9 +152,9 @@
             <p>Manage and respond to customer support tickets</p>
         </header>
 
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
-        </div>
+        <div class="dashboard-layout">
+            @include('Frontend.components.admin_sidebar')
+            <div class="dashboard-content">
 
         <div class="stats-container">
             <div class="stat-card">
@@ -203,6 +198,8 @@
                          @include('Frontend.components.contact_ticket', ['ticket' => $ticket])
                     @endforeach
                 @endif
+            </div>
+        </div>
             </div>
         </div>
     </main>
