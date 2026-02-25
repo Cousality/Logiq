@@ -172,3 +172,6 @@ INSERT INTO reviews (userID, productID, rating, reviewComment) VALUES
     (6, 25, 5.0, 'One of the best brain teasers I have tried. Looks simple, absolutely is not.');
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES 
+    ('WELCOME10','percentage',10.00,'2026-03-01','2026-03-31');
