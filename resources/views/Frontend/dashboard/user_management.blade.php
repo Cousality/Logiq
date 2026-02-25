@@ -24,10 +24,17 @@
         }
 
         /* CONTAINER & CARDS */
-        .management-container {
-            max-width: 1200px;
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 50px 5%;
+            align-items: flex-start;
+        }
+
+        .dashboard-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 40px;
@@ -144,26 +151,6 @@
             transform: translateY(-2px);
         }
 
-        .back-nav {
-            margin-bottom: 10px;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
         /* MOBILE FIXES */
         @media (max-width: 768px) {
             .dashboard-title {
@@ -172,6 +159,10 @@
 
             .dashboard-header {
                 background: var(--bg-primary);
+            }
+
+            .dashboard-layout {
+                flex-direction: column;
             }
 
             .search-wrapper {
@@ -230,10 +221,9 @@
         <p>Admin control panel for managing customer accounts and privileges.</p>
     </header>
 
-    <main class="management-container">
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary"> <- Back to Dashboard</a>
-        </div>
+    <div class="dashboard-layout">
+        @include('Frontend.components.admin_sidebar')
+        <div class="dashboard-content">
 
         <section class="settings-card">
             <h2 class="section-title">User Directory</h2>
@@ -292,7 +282,8 @@
             </table>
         </section>
 
-    </main>
+        </div>
+    </div>
 
     @include('Frontend.components.footer')
 </body>
