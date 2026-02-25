@@ -154,6 +154,101 @@
             .dashboard-layout { flex-direction: column; padding: 20px 5%; }
             .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
         }
+
+        /* REMOVE MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(74, 44, 42, 0.55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-primary);
+            border: 2px solid var(--text);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 6px 6px 0px var(--text);
+            position: relative;
+        }
+
+        .modal-box h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-message {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-confirm-btn,
+        .modal-cancel-btn {
+            flex: 1;
+            padding: 0.85rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 2px solid var(--text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .modal-confirm-btn {
+            background: var(--text);
+            color: var(--bg-primary);
+        }
+
+        .modal-confirm-btn:hover {
+            background: var(--red-pastel-1);
+            border-color: var(--red-pastel-1);
+            color: var(--white);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--text);
+        }
+
+        .modal-cancel-btn {
+            background: var(--bg-primary);
+            color: var(--text);
+        }
+
+        .modal-cancel-btn:hover {
+            background: var(--bg-secondary);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--text);
+        }
     </style>
 </head>
 
@@ -180,6 +275,19 @@
                 </div>
             @endif
         </main>
+    </div>
+
+    {{-- REMOVE FROM WISHLIST MODAL --}}
+    <div class="modal-overlay" id="removeWishlistModal">
+        <div class="modal-box">
+            <button class="modal-close" id="removeWishlistClose" aria-label="Close">&times;</button>
+            <h2>Remove from Wishlist?</h2>
+            <p class="modal-message" id="removeWishlistMessage"></p>
+            <div class="modal-actions">
+                <button type="button" class="modal-confirm-btn" id="removeWishlistConfirm">Yes, Remove It</button>
+                <button type="button" class="modal-cancel-btn" id="removeWishlistCancel">Keep It</button>
+            </div>
+        </div>
     </div>
 
     <script src="{{ asset('js/wishlistPage.js') }}"></script>
