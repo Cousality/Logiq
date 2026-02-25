@@ -71,7 +71,7 @@
             margin-bottom: 2rem;
         }
 
-        .search-input {
+        .user-search-input {
             flex-grow: 1;
             padding: 10px;
             border: 2px solid var(--text);
@@ -323,7 +323,7 @@
             <h2 class="section-title">User Directory</h2>
 
             <form class="search-wrapper" action="{{ route('userManagement') }}" method="GET">
-                <input type="text" name="query" class="search-input" placeholder="Search users..."
+                <input type="text" name="query" class="user-search-input" placeholder="Search users..."
                     value="{{ $searchQuery ?? '' }}">
                 <button type="submit" class="btn-search">Search</button>
             </form>
