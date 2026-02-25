@@ -102,26 +102,165 @@
         font-size: 0.9rem;
     }
 
-    .nav-btn {
-        background: var(--text);
-        color: var(--bg-primary);
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
-        font-family: inherit;
-        font-weight: bold;
-        margin-left: 1rem;
+    /* Account Dropdown */
+    .account-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
     }
 
-    #dark-mode-toggle {
+    .account-dropdown {
+        position: absolute;
+        top: calc(100% + 12px);
+        right: 0;
+        width: 420px;
+        background: var(--bg-primary);
+        border: 2px solid var(--text);
+        z-index: 900;
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-6px);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .account-dropdown.open {
+        opacity: 1;
+        pointer-events: all;
+        transform: translateY(0);
+    }
+
+    /* Bridge the gap so cursor doesn't fall into empty space */
+    .account-dropdown::before {
+        content: '';
+        position: absolute;
+        top: -14px;
+        left: 0;
+        right: 0;
+        height: 14px;
+    }
+
+    .dropdown-header {
+        padding: 1rem 1.4rem 0.9rem;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .dropdown-greeting {
+        display: block;
+        font-size: 0.7rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        opacity: 0.5;
+        margin-bottom: 2px;
+    }
+
+    .dropdown-name {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 900;
+        letter-spacing: -0.5px;
+        text-transform: uppercase;
+    }
+
+    /* Wide multi-column body */
+    .dropdown-columns {
+        display: flex;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .dropdown-col {
+        flex: 1;
+        padding: 0.8rem 0 1rem;
+        border-right: 1px solid var(--bg-secondary);
+    }
+
+    .dropdown-col:last-child {
+        border-right: none;
+    }
+
+    .dropdown-col-title {
+        font-size: 0.65rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        opacity: 0.5;
+        padding: 0.2rem 1.2rem 0.6rem;
+        border-bottom: 1px solid var(--bg-secondary);
+        margin-bottom: 0.3rem;
+    }
+
+    .dropdown-col a {
+        display: block;
+        padding: 0.4rem 1.2rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.15s;
+    }
+
+    .dropdown-col a:hover {
+        background: var(--bg-secondary);
+    }
+
+    /* Guest state (no columns needed) */
+    .dropdown-guest {
+        display: flex;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .dropdown-guest a {
+        flex: 1;
+        display: block;
+        padding: 1rem 1.2rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center;
+        border-right: 1px solid var(--text);
+        transition: background 0.15s;
+    }
+
+    .dropdown-guest a:last-child {
+        border-right: none;
+    }
+
+    .dropdown-guest a:hover {
+        background: var(--bg-secondary);
+    }
+
+    .dropdown-actions {
+        display: flex;
+    }
+
+    .dropdown-actions button {
+        flex: 1;
         background: var(--text);
         color: var(--bg-primary);
         border: none;
-        padding: 5px 10px;
+        padding: 0.7rem 0.5rem;
         cursor: pointer;
         font-family: inherit;
         font-weight: bold;
-        margin-left: 1rem;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: opacity 0.15s;
+    }
+
+    .dropdown-actions form {
+        flex: 1;
+        display: flex;
+        border-right: 1px solid var(--bg-primary);
+    }
+
+    .dropdown-actions button:hover,
+    .dropdown-actions form button:hover {
+        opacity: 0.8;
     }
 
     /* Hamburger Button */
@@ -207,7 +346,6 @@
         cursor: pointer;
         font-size: 1.5rem;
         color: var(--text);
-        font-family: inherit;
         font-weight: bold;
         line-height: 1;
         padding: 0;
@@ -235,8 +373,6 @@
 
     .sidebar-category-list {
         list-style: none;
-        padding: 0;
-        margin: 0;
     }
 
     .sidebar-category-list li a {
@@ -398,11 +534,63 @@
     </div>
 
     <div class="nav-links">
-        @auth
-            <a href="{{ route('dashboard') }}" class="nav-icon login-icon" alt="login"></a>
-        @else
-            <a href="{{ route('login') }}" class="nav-icon login-icon" alt="login"></a>
-        @endauth
+        <!-- Account icon with dropdown -->
+        <div class="account-wrapper">
+            @auth
+                <a href="{{ route('dashboard') }}" class="nav-icon login-icon" alt="account"></a>
+            @else
+                <a href="{{ route('login') }}" class="nav-icon login-icon" alt="login"></a>
+            @endauth
+
+            <div class="account-dropdown">
+                @auth
+                    <div class="dropdown-header">
+                        <span class="dropdown-greeting">Hello,</span>
+                        <span class="dropdown-name">{{ auth()->user()->firstName }}</span>
+                    </div>
+
+                    <div class="dropdown-columns">
+                        <div class="dropdown-col">
+                            <p class="dropdown-col-title">Your Account</p>
+                            <a href="{{ route('dashboard') }}">Dashboard</a>
+                            <a href="{{ route('dashboard.orders') }}">Your Orders</a>
+                            <a href="{{ route('wishlist.index') }}">My Wishlist</a>
+                            <a href="{{ route('mypuzzles') }}">My Puzzles</a>
+                        </div>
+                        <div class="dropdown-col">
+                            <p class="dropdown-col-title">Settings</p>
+                            <a href="{{ route('loginSecurity') }}">Login &amp; Security</a>
+                            <a href="{{ route('yourAddress') }}">Your Address</a>
+                            <a href="{{ route('customer_service') }}">Customer Service</a>
+                        </div>
+                        @if(auth()->user()->admin == 1)
+                            <div class="dropdown-col">
+                                <p class="dropdown-col-title">Admin</p>
+                                <a href="{{ route('userManagement') }}">User Management</a>
+                                <a href="{{ route('inventory_management') }}">Inventory</a>
+                                <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="dropdown-actions">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                        <button id="dark-mode-toggle" type="button">Theme</button>
+                    </div>
+                @else
+                    <div class="dropdown-guest">
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    </div>
+                    <div class="dropdown-actions">
+                        <button id="dark-mode-toggle" type="button">Theme</button>
+                    </div>
+                @endauth
+            </div>
+        </div>
         <div class="basket-wrapper">
             <a href="{{ route('basket.index') }}" 
                class="nav-icon basket-icon"
@@ -415,18 +603,6 @@
                 </span>
             @endif
         </div>
-        @auth
-            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                @csrf
-                <button type="submit" class="nav-btn">LOGOUT</button>
-            </form>
-        @endauth
-
-        @guest
-            <a href="{{ route('login') }}">LOGIN</a>
-        @endguest
-
-        <button id="dark-mode-toggle">THEME</button>
 
         <!-- Hamburger — far right -->
         <button class="hamburger-btn" id="hamburger-btn" aria-label="Open categories" aria-expanded="false">
@@ -453,6 +629,15 @@
             body.classList.contains("dark-mode") ? "dark" : "light",
         );
     });
+
+    // Account dropdown
+    const accountWrapper = document.querySelector('.account-wrapper');
+    const accountDropdown = document.querySelector('.account-dropdown');
+
+    if (accountWrapper && accountDropdown) {
+        accountWrapper.addEventListener('mouseenter', () => accountDropdown.classList.add('open'));
+        accountWrapper.addEventListener('mouseleave', () => accountDropdown.classList.remove('open'));
+    }
 
     // Category sidebar toggle
     const hamburgerBtn = document.getElementById("hamburger-btn");
