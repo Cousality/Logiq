@@ -138,7 +138,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="/inventory_management" class="card-link-wrapper">
+                        <a href="{{ route('admin.products.index') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Inventory Management</h3>
                             <h3 class="card-description">Manage stock levels and add, edit or remove products.</h3>
                         </a>

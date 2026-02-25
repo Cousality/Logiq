@@ -550,7 +550,7 @@
         <div class="product-image-container">
             <div class="product-image">
                 @if ($product->productImage)
-                    <img src="{{ asset($product->productImage) }}" alt="{{ $product->productName }}"
+                    <img src="{{ $product->imageUrl }}" alt="{{ $product->productName }}"
                         style="height: 100%; width: 100%;">
                 @else
                     Product Image
