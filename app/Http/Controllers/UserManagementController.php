@@ -24,23 +24,31 @@ class UserManagementController extends Controller
     {
         $allUsers = User::all();
         $results = [];
-        $search = strtolower(trim($searchQuery));
+        $search     = strtolower(trim($searchQuery));
+        $searchNorm = preg_replace('/[^a-z0-9 ]/', '', $search);
+        $searchWords = array_filter(explode(' ', $searchNorm));
 
         foreach ($allUsers as $user) {
             $score = 0;
-            $name = strtolower($user->firstName . ' ' . $user->lastName);
-            $email = strtolower($user->email ?? '');
+            $name     = strtolower($user->firstName . ' ' . $user->lastName);
+            $nameNorm = preg_replace('/[^a-z0-9 ]/', '', $name);
+            $email    = strtolower($user->email ?? '');
 
-            // Name: substring match
-            if (str_contains($name, $search)) {
+            // Name: substring match (normalised)
+            if (str_contains($nameNorm, $searchNorm)) {
                 $score += 100;
             }
 
-            // Name: similar_text per word
-            foreach (explode(' ', $name) as $word) {
-                similar_text($search, $word, $percent);
-                if ($percent > 70) {
-                    $score += $percent;
+            // Name: per-word fuzzy (normalised)
+            $nameWords = array_filter(explode(' ', $nameNorm));
+            foreach ($searchWords as $sw) {
+                $bestWord = 0;
+                foreach ($nameWords as $nw) {
+                    similar_text($sw, $nw, $pct);
+                    $bestWord = max($bestWord, $pct);
+                }
+                if ($bestWord >= 70) {
+                    $score += $bestWord;
                 }
             }
 
