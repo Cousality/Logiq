@@ -635,8 +635,14 @@
     const accountDropdown = document.querySelector('.account-dropdown');
 
     if (accountWrapper && accountDropdown) {
-        accountWrapper.addEventListener('mouseenter', () => accountDropdown.classList.add('open'));
-        accountWrapper.addEventListener('mouseleave', () => accountDropdown.classList.remove('open'));
+        let closeTimer;
+        accountWrapper.addEventListener('mouseenter', () => {
+            clearTimeout(closeTimer);
+            accountDropdown.classList.add('open');
+        });
+        accountWrapper.addEventListener('mouseleave', () => {
+            closeTimer = setTimeout(() => accountDropdown.classList.remove('open'), 50);
+        });
     }
 
     // Category sidebar toggle
