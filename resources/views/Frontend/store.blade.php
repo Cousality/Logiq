@@ -91,6 +91,74 @@
             appearance: auto;
         }
 
+        /* PRICE SLIDER */
+        .price-slider-wrapper {
+            position: relative;
+            height: 28px;
+            margin: 0.5rem 0 0.25rem;
+        }
+
+        .price-slider-wrapper input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            pointer-events: none;
+            outline: none;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .price-slider-track {
+            position: absolute;
+            height: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border: 1px solid var(--text);
+        }
+
+        .price-slider-range {
+            position: absolute;
+            height: 4px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--text);
+        }
+
+        .price-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: var(--bg-primary);
+            border: 2px solid var(--text);
+            cursor: pointer;
+            pointer-events: all;
+        }
+
+        .price-slider-wrapper input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: var(--bg-primary);
+            border: 2px solid var(--text);
+            cursor: pointer;
+            pointer-events: all;
+            border-radius: 0;
+        }
+
+        .price-range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 0.25rem;
+        }
+
         /* PRODUCTS */
         .store-products {
             flex: 1;
@@ -163,6 +231,19 @@
                     <button class="filter-btn category-filter" data-filter="Word&Number">WORD & NUMBER</button>
                     <button class="filter-btn category-filter" data-filter="BoardGames">BOARD GAMES</button>
                     <button class="filter-btn category-filter" data-filter="HandheldBrainTeasers">HANDHELD</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h3 class="filter-heading">Price Range</h3>
+                <div class="price-slider-wrapper">
+                    <div class="price-slider-track"></div>
+                    <div class="price-slider-range" id="price-slider-range"></div>
+                    <input type="range" id="price-min" min="0" max="200" value="0" step="1">
+                    <input type="range" id="price-max" min="0" max="200" value="200" step="1">
+                </div>
+                <div class="price-range-labels">
+                    <span id="price-min-label">£0</span>
+                    <span id="price-max-label">£200</span>
                 </div>
             </div>
             <div class="filter-section">
