@@ -14,15 +14,21 @@ class StoreController extends Controller
         try {
             DB::connection()->getPdo();
             $searchQuery = $request->input('query');
+            $category = $request->input('category');
 
             if ($searchQuery) {
                 $products = $this->fuzzySearch($searchQuery);
             } else {
-                $products = Product::where('productStatus', 'active')
+                $query = Product::where('productStatus', 'active')
                     ->withAvg('reviews', 'rating')
                     ->withCount('reviews')
-                    ->orderBy('productName')
-                    ->get();
+                    ->orderBy('productName');
+
+                if ($category) {
+                    $query->where('productCategory', $category);
+                }
+
+                $products = $query->get();
             }
 
             return view('Frontend.store', compact('products', 'searchQuery'));

@@ -12,8 +12,6 @@ const noResults = document.querySelector(".no-results");
 
 let activeDifficulty = "all";
 let activeMinRating = 0;
-let activePriceMin = 0;
-let activePriceMax = 0;
 
 // Initialise price slider range from actual product prices
 const allPrices = Array.from(productCards).map((c) => parseFloat(c.dataset.price) || 0);
@@ -21,7 +19,6 @@ const maxProductPrice = allPrices.length ? Math.ceil(Math.max(...allPrices)) : 2
 priceMin.max = maxProductPrice;
 priceMax.max = maxProductPrice;
 priceMax.value = maxProductPrice;
-activePriceMax = maxProductPrice;
 
 function updatePriceSlider() {
     const min = parseInt(priceMin.value);
@@ -50,7 +47,6 @@ priceMin.addEventListener("input", () => {
     if (parseInt(priceMin.value) > parseInt(priceMax.value)) {
         priceMin.value = priceMax.value;
     }
-    activePriceMin = parseInt(priceMin.value);
     updatePriceSlider();
     applyFilters();
 });
@@ -59,7 +55,6 @@ priceMax.addEventListener("input", () => {
     if (parseInt(priceMax.value) < parseInt(priceMin.value)) {
         priceMax.value = priceMin.value;
     }
-    activePriceMax = parseInt(priceMax.value);
     updatePriceSlider();
     applyFilters();
 });
@@ -78,7 +73,7 @@ function applyFilters() {
         let showDifficulty =
             activeDifficulty === "all" || difficulty === activeDifficulty;
         let showRating = rating >= activeMinRating;
-        let showPrice = price >= activePriceMin && price <= activePriceMax;
+        let showPrice = price >= parseInt(priceMin.value) && price <= parseInt(priceMax.value);
 
         if (showDifficulty && showRating && showPrice) {
             card.style.display = "block";
