@@ -107,17 +107,7 @@ Route::middleware(['auth'])->group(function () {
         return view('Frontend.dashboard');
     })->name('dashboard');
 
-    //Review Routes
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-});
-
-Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
-    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
-    Route::patch('/user_management/{id}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
-    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
     //Basket Routes
-
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
     Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
     Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
@@ -127,6 +117,16 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+    //Review Routes
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
+    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
+    Route::patch('/user_management/{id}/remove-admin', [UserManagementController::class, 'removeAdmin'])->name('users.removeAdmin');
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
 
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
