@@ -43,6 +43,7 @@ Route::get('/store', [StoreController::class, 'index'])->name('store.index');
 
 //Search
 Route::get('/search', [StoreController::class, 'index'])->name('search');
+Route::get('/search/suggestions', [StoreController::class, 'suggestions'])->name('search.suggestions');
 
 Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name('product.index');
 

@@ -81,4 +81,24 @@ class StoreController extends Controller
 
         return collect(array_map(fn ($item) => $item['product'], $results));
     }
+
+    public function suggestions(Request $request)
+    {
+        $query = $request->input('query', '');
+
+        if (strlen(trim($query)) < 1) {
+            return response()->json([]);
+        }
+
+        $products = $this->fuzzySearch($query)->take(6);
+
+        $suggestions = $products->map(fn ($p) => [
+            'name'  => $p->productName,
+            'slug'  => $p->productSlug,
+            'image' => $p->productImage,
+            'price' => number_format($p->productPrice, 2),
+        ]);
+
+        return response()->json($suggestions);
+    }
 }
