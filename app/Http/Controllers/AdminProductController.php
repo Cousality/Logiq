@@ -83,6 +83,7 @@ class AdminProductController extends Controller
 
         $validated = $request->validate([
             'productName'       => 'required|string|max:255',
+            'productSlug'       => 'nullable|string|max:255',
             'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,HandheldBrainTeasers',
             'productDifficulty' => 'required|in:easy,medium,hard',
             'productPrice'      => 'required|numeric|min:0',
@@ -102,15 +103,13 @@ class AdminProductController extends Controller
             unset($validated['productImage']);
         }
 
-        if ($request->productName !== $product->productName) {
-            $base = Str::slug($request->productName);
-            $slug = $base;
-            $i = 1;
-            while (Product::where('productSlug', $slug)->where('productID', '!=', $product->productID)->exists()) {
-                $slug = $base . '-' . $i++;
-            }
-            $validated['productSlug'] = $slug;
+        $base = Str::slug($request->filled('productSlug') ? $request->productSlug : $request->productName);
+        $slug = $base;
+        $i = 1;
+        while (Product::where('productSlug', $slug)->where('productID', '!=', $product->productID)->exists()) {
+            $slug = $base . '-' . $i++;
         }
+        $validated['productSlug'] = $slug;
 
         $product->update($validated);
 
