@@ -370,10 +370,14 @@
                                     </form>
 
                                     <form action="{{ route('admin.users.destroy', $user->userID) }}" method="POST"
+                                        id="deleteUserForm-{{ $user->userID }}"
                                         style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-action btn-danger">Delete</button>
+                                        <button type="button" class="btn-action btn-danger"
+                                            data-user-id="{{ $user->userID }}"
+                                            data-user-name="{{ $user->firstName }} {{ $user->lastName }}"
+                                            onclick="openDeleteUserModal(this.dataset.userId, this.dataset.userName)">Delete</button>
                                     </form>
                                 @endif
 
@@ -414,6 +418,19 @@
             <div class="modal-actions">
                 <button type="button" class="modal-confirm-btn" id="removeAdminConfirm">Yes, Remove Admin</button>
                 <button type="button" class="modal-cancel-btn" id="removeAdminCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    {{-- DELETE USER CONFIRMATION MODAL --}}
+    <div class="modal-overlay" id="deleteUserModal">
+        <div class="modal-box">
+            <button class="modal-close" id="deleteUserClose" aria-label="Close">&times;</button>
+            <h2>Confirm Delete User</h2>
+            <p class="modal-message">Are you sure you want to delete <strong id="deleteUserName"></strong>? This action is permanent and cannot be undone.</p>
+            <div class="modal-actions">
+                <button type="button" class="modal-confirm-btn" id="deleteUserConfirm">Yes, Delete User</button>
+                <button type="button" class="modal-cancel-btn" id="deleteUserCancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -487,6 +504,40 @@
 
         // Expose opener for inline onclick
         window.openRemoveAdminModal = openRemoveAdminModal;
+    })();
+
+    (function () {
+        var pendingDeleteFormId = null;
+        var modal      = document.getElementById('deleteUserModal');
+        var confirmBtn = document.getElementById('deleteUserConfirm');
+        var cancelBtn  = document.getElementById('deleteUserCancel');
+        var closeBtn   = document.getElementById('deleteUserClose');
+
+        function openDeleteUserModal(userId, userName) {
+            pendingDeleteFormId = 'deleteUserForm-' + userId;
+            document.getElementById('deleteUserName').textContent = userName;
+            modal.classList.add('active');
+        }
+
+        function closeDeleteUserModal() {
+            pendingDeleteFormId = null;
+            modal.classList.remove('active');
+        }
+
+        confirmBtn.addEventListener('click', function () {
+            if (pendingDeleteFormId) {
+                document.getElementById(pendingDeleteFormId).submit();
+            }
+        });
+
+        cancelBtn.addEventListener('click', closeDeleteUserModal);
+        closeBtn.addEventListener('click', closeDeleteUserModal);
+        modal.addEventListener('click', function (e) {
+            if (e.target === this) closeDeleteUserModal();
+        });
+
+        // Expose opener for inline onclick
+        window.openDeleteUserModal = openDeleteUserModal;
     })();
     </script>
 </body>
