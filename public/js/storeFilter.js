@@ -5,8 +5,22 @@ const difficultyFilter = document.getElementById("difficulty-filter");
 const sortBy = document.getElementById("sort-by");
 const noResults = document.querySelector(".no-results");
 
-let activeCategory = "all";
+// Read initial category from URL params (e.g. ?category=Twist)
+const urlParams = new URLSearchParams(window.location.search);
+const urlCategory = urlParams.get("category");
+
+let activeCategory = urlCategory || "all";
 let activeDifficulty = "all";
+
+// Apply URL-based category on load
+if (urlCategory) {
+    categoryFilterBtns.forEach((btn) => {
+        btn.classList.remove("active");
+        if (btn.dataset.filter === urlCategory) {
+            btn.classList.add("active");
+        }
+    });
+}
 
 // Category button filters
 categoryFilterBtns.forEach((btn) => {
@@ -73,4 +87,9 @@ if (sortBy) {
 
         cards.forEach((card) => grid.appendChild(card));
     });
+}
+
+// Apply initial filter if a category was passed via URL
+if (urlCategory) {
+    applyFilters();
 }

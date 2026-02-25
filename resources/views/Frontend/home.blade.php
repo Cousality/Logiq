@@ -70,64 +70,134 @@
             background: var(--bg-secondary);
         }
 
-        /* PRODUCT GRID */
-        .products {
-            padding: 5rem 5%;
-        }
-
-        .section-title {
+        /* CATEGORIES SECTION */
+        .section-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
-        .grid {
+        .divider {
+            width: 100px;
+            height: 4px;
+            background: var(--red-pastel-1);
+            margin: 0 auto;
+        }
+
+        .categories-section {
+            padding: 6rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .category-carousel {
+            position: relative;
             display: flex;
-            gap: 2rem;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .grid::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .grid::-webkit-scrollbar-thumb {
-            background: var(--red-pastel-2);
-        }
-
-        .product-card {
-            background: var(--white);
-            border: 1px solid var(--red-pastel-2);
-            transition: 0.3s;
-            min-width: 250px;
-            flex: 0 0 auto;
-        }
-
-        .product-card:hover {
-            box-shadow: 5px 5px 0px var(--text);
-        }
-
-        .product-image {
-            height: 200px;
-            background-color: var(--red-pastel-1);
+        .carousel-arrow {
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            padding: 0.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            opacity: 0.6;
+            transition: opacity 0.2s;
         }
 
-        .product-info {
-            padding: 1.5rem;
+        .carousel-arrow:hover {
+            opacity: 1;
         }
 
-        .price {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
+        .carousel-arrow svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--text);
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .category-grid {
+            overflow: hidden;
+            flex: 1;
+            padding-top: 14px;
+            margin-top: -14px;
+        }
+
+        .category-track {
+            display: flex;
+            gap: 2.5rem;
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .category-card {
+            background: var(--white);
+            border: 2px solid var(--text);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            min-height: 280px;
+            min-width: 380px;
+            max-width: 380px;
+            flex-shrink: 0;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 8px 8px 0 var(--red-pastel-1);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--red-pastel-1);
+        }
+
+        .category-name {
             font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+
+        .category-name::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--red-pastel-1);
+        }
+
+        .category-bio {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text);
+            flex-grow: 1;
         }
 
         #feedback {
@@ -192,78 +262,117 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </header>
 
-    <section class="products">
-        <h2 class="section-title">Categories</h2>
-        <div class="grid">
-            <div class="product-card">
-                <div class="product-image">Placeholder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 9/10</p>
-                    <span class="price">$00</span>
-                </div>
+    <section class="categories-section">
+            <div class="section-header">
+                <h2>Shop By Category</h2>
+                <div class="divider"></div>
             </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>Cryptex Cylinder</h3>
-                    <p>Difficulty: 7/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 2/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 5/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 8/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 4/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 6/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">PlaceHolder</div>
-                <div class="product-info">
-                    <h3>PlaceHolder</h3>
-                    <p>Difficulty: 3/10</p>
-                    <span class="price">$00</span>
-                </div>
-            </div>
-        </div>
-    </section>
 
+            <div class="category-carousel">
+                <button class="carousel-arrow" id="cat-prev">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+
+                <div class="category-grid" id="category-grid">
+                    <div class="category-track" id="category-track">
+
+                    <a href="{{ route('store.index') }}?category=Twist" class="category-card">
+                        <div class="category-name">Twist</div>
+                        <div class="category-bio">Rubik's cubes, Pyraminx, Speedcubes and more. Challenge your dexterity and spatial reasoning with our range of twisty puzzles.</div>
+                    </a>
+
+                    <a href="{{ route('store.index') }}?category=Jigsaw" class="category-card">
+                        <div class="category-name">Jigsaw</div>
+                        <div class="category-bio">From 100 to 1000 pieces, our jigsaw collection features iconic landmarks from around the world — perfect for solo or group sessions.</div>
+                    </a>
+
+                    <a href="{{ route('store.index') }}?category=Word%26Number" class="category-card">
+                        <div class="category-name">Word&amp;Number</div>
+                        <div class="category-bio">Sudoku, crosswords, Scrabble, word searches and nonograms. Exercise your vocabulary and numerical logic in equal measure.</div>
+                    </a>
+
+                    <a href="{{ route('store.index') }}?category=BoardGames" class="category-card">
+                        <div class="category-name">BoardGames</div>
+                        <div class="category-bio">Chess, Monopoly, Cluedo and more. Classic strategy and social games that bring people together around the table.</div>
+                    </a>
+
+                    <a href="{{ route('store.index') }}?category=HandheldBrainTeasers" class="category-card">
+                        <div class="category-name">HandheldBrainTeasers</div>
+                        <div class="category-bio">Compact mechanical puzzles you can take anywhere. Wooden burr puzzles and interlocking challenges for the dedicated thinker.</div>
+                    </a>
+
+                    </div>
+                </div>
+
+                <button class="carousel-arrow" id="cat-next">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+            </div>
+        </section>
 
     @include('Frontend.components.footer')
+    <script>
+        // Infinite category carousel
+        const catGrid = document.getElementById('category-grid');
+        const track = document.getElementById('category-track');
+        const originals = Array.from(track.querySelectorAll('.category-card'));
+        const count = originals.length;
+        const step = 2;
+
+        // Centre cards so both arrows are equidistant from the nearest card
+        const cardW  = originals[0].offsetWidth;
+        const gapPx  = parseFloat(getComputedStyle(track).gap);
+        const cStep  = cardW + gapPx;
+        const visible = Math.floor((catGrid.offsetWidth + gapPx) / cStep);
+        const remainder = catGrid.offsetWidth - (visible * cardW + (visible - 1) * gapPx);
+        track.style.paddingLeft = (remainder / 2) + 'px';
+
+        // Append clones: [0,1,2,3,4, 0',1',2',3',4']
+        originals.forEach(c => track.appendChild(c.cloneNode(true)));
+
+        const cards = track.querySelectorAll('.category-card');
+        let current = 0;
+        let busy = false;
+
+        function cardStep() {
+            return cards[1].offsetLeft - cards[0].offsetLeft;
+        }
+
+        function setPosition(index, animate) {
+            if (!animate) track.style.transition = 'none';
+            track.style.transform = `translateX(-${index * cardStep()}px)`;
+            if (!animate) requestAnimationFrame(() => track.style.transition = '');
+            current = index;
+        }
+
+        function next() {
+            if (busy) return;
+            busy = true;
+            setPosition(current + step, true);
+            setTimeout(() => {
+                if (current >= count) setPosition(current - count, false);
+                busy = false;
+            }, 450);
+        }
+
+        function prev() {
+            if (busy) return;
+            busy = true;
+            if (current - step < 0) {
+                setPosition(current + count, false);
+                requestAnimationFrame(() => requestAnimationFrame(() => {
+                    setPosition(current - step, true);
+                    setTimeout(() => { busy = false; }, 450);
+                }));
+            } else {
+                setPosition(current - step, true);
+                setTimeout(() => { busy = false; }, 450);
+            }
+        }
+
+        document.getElementById('cat-prev').addEventListener('click', prev);
+        document.getElementById('cat-next').addEventListener('click', next);
+    </script>
     <script>
         document.querySelectorAll(".option-btn").forEach((button) => {
             button.addEventListener("click", function() {
@@ -311,48 +420,7 @@
                 });
         }
     </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
 
-            const grid = document.querySelector(".grid");
-            if (!grid) return;
-
-            const originalCards = Array.from(grid.children);
-
-
-            originalCards.forEach(card => {
-                const clone = card.cloneNode(true);
-                grid.appendChild(clone);
-            });
-
-            const originalWidth = grid.scrollWidth / 2;
-            let scrollSpeed = 1.5;
-            let isPaused = false;
-
-            // Pause on hover
-            grid.addEventListener("mouseenter", () => {
-                isPaused = true;
-            });
-
-            grid.addEventListener("mouseleave", () => {
-                isPaused = false;
-            });
-
-            function autoScroll() {
-                if (!isPaused) {
-                    grid.scrollLeft += scrollSpeed;
-
-                    if (grid.scrollLeft >= originalWidth) {
-                        grid.scrollLeft -= originalWidth;
-                    }
-                }
-
-                requestAnimationFrame(autoScroll);
-            }
-
-            autoScroll();
-        });
-    </script>
 </body>
 
 </html>
