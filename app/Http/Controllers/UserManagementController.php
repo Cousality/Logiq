@@ -31,21 +31,28 @@ class UserManagementController extends Controller
             $name = strtolower($user->firstName . ' ' . $user->lastName);
             $email = strtolower($user->email ?? '');
 
-            // Check for matches
+            // Name: substring match
             if (str_contains($name, $search)) {
                 $score += 100;
             }
-            if (str_contains($email, $search)) {
-                $score += 50;
-            }
 
-            // Check similarity for typos
-            $words = explode(' ', $name);
-            foreach ($words as $word) {
+            // Name: similar_text per word
+            foreach (explode(' ', $name) as $word) {
                 similar_text($search, $word, $percent);
                 if ($percent > 70) {
                     $score += $percent;
                 }
+            }
+
+            // Email: substring match
+            if (str_contains($email, $search)) {
+                $score += 100;
+            }
+
+            // Email: similar_text on full email
+            similar_text($search, $email, $percent);
+            if ($percent > 70) {
+                $score += $percent;
             }
 
             if ($score > 0) {
