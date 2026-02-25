@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
 
     <style>
         main h1 {
@@ -86,7 +87,6 @@
             line-height: 1.7;
             border-left: 3px solid var(--red-pastel-1);
             padding-left: 1rem;
-            color: var(--text);
         }
 
         .faq-answer.open {
@@ -99,9 +99,15 @@
             background: var(--white);
             color: var(--text);
             border: 2px solid var(--text);
-            box-shadow: 8px 8px 0px var(--red-pastel-1);
+            box-shadow: 0px 0px 0px var(--text);
             padding: 2rem 2.5rem;
             margin-top: 3rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-section:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 6px 6px 0px var(--text);
         }
 
         .form-section h2 {
@@ -109,32 +115,11 @@
             margin-bottom: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text);
         }
 
         .form-section p {
             font-size: 0.95rem;
             margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        .form-section input,
-        .form-section textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            margin-top: 0.75rem;
-            border: 2px solid var(--text);
-            background: var(--bg-primary);
-            color: var(--text);
-            font-family: "Courier New", Courier, monospace;
-            transition: border-color var(--transition);
-            outline: none;
-        }
-
-        .form-section input:focus,
-        .form-section textarea:focus {
-            border-color: var(--red-pastel-1);
         }
 
         .form-section button {
@@ -150,12 +135,13 @@
             letter-spacing: 2px;
             border: 2px solid var(--red-pastel-1);
             cursor: pointer;
-            transition: background var(--transition), color var(--transition);
+            transition: background var(--transition), border-color var(--transition), transform 0.2s;
         }
 
         .form-section button:hover {
             background: var(--red-pastel-2);
             border-color: var(--red-pastel-2);
+            transform: translateY(-3px);
         }
     </style>
 
@@ -248,10 +234,15 @@
                 <p>If your question wasn’t answered above, submit your own below.</p>
 
                 <form onsubmit="alert('Your question has been received (demo).'); return false;">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-
-                    <textarea rows="4" placeholder="Your Question" required></textarea>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="4" placeholder="Your Question" required></textarea>
+                    </div>
 
                     <button type="submit">Submit Question</button>
                 </form>
