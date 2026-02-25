@@ -74,13 +74,24 @@
         }
 
         .faq-answer {
-            margin-top: 0.75rem;
-            display: none;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.35s ease, margin-top 0.35s ease;
+            margin-top: 0;
+        }
+
+        .faq-answer > div {
+            overflow: hidden;
             font-size: 1rem;
             line-height: 1.7;
             border-left: 3px solid var(--red-pastel-1);
             padding-left: 1rem;
             color: var(--text);
+        }
+
+        .faq-answer.open {
+            grid-template-rows: 1fr;
+            margin-top: 0.75rem;
         }
 
         /* Submit Question Form */
@@ -152,9 +163,8 @@
         function toggleFAQ(id) {
             const answer = document.getElementById(id);
             const toggle = document.querySelector(`[data-faq="${id}"]`);
-            const isOpen = answer.style.display === "block";
-            answer.style.display = isOpen ? "none" : "block";
-            toggle.classList.toggle("open", !isOpen);
+            answer.classList.toggle("open");
+            toggle.classList.toggle("open");
         }
     </script>
 </head>
@@ -227,7 +237,7 @@
                         <span class="faq-toggle" data-faq="faq{{ $i }}">+</span>
                     </div>
                     <div id="faq{{ $i }}" class="faq-answer">
-                        {{ $faq['a'] }}
+                        <div>{{ $faq['a'] }}</div>
                     </div>
                 </div>
             @endforeach
