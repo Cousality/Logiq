@@ -113,8 +113,8 @@
             <h3 class="sidebar-section-title">Store</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('inventory_management') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('inventory_management') ? 'active' : '' }}">
+                    <a href="{{ route('admin.products.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                         Inventory
                     </a>
                 </li>

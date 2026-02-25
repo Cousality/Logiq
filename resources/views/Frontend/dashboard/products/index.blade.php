@@ -19,13 +19,21 @@
             margin-bottom: 1rem;
         }
 
-        .management-container {
+        .dashboard-layout {
+            display: flex;
+            gap: 30px;
             max-width: 1400px;
             margin: 0 auto;
             padding: 50px 5%;
+            align-items: flex-start;
+        }
+
+        .dashboard-content {
+            flex: 1;
             display: flex;
             flex-direction: column;
             gap: 40px;
+            min-width: 0;
         }
 
         .settings-card {
@@ -222,6 +230,7 @@
         @media (max-width: 900px) {
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
+            .dashboard-layout { flex-direction: column; }
             .product-table, .product-table tbody, .product-table tr, .product-table td {
                 display: block; width: 100%;
             }
@@ -259,10 +268,10 @@
         <p>Manage products, stock levels, and visibility.</p>
     </header>
 
-    <main class="management-container">
-        <div class="back-nav">
-            <a href="{{ route('dashboard') }}" class="btn-secondary">&larr; Back to Dashboard</a>
-        </div>
+    <main>
+        <div class="dashboard-layout">
+            @include('Frontend.components.admin_sidebar')
+            <div class="dashboard-content">
 
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -373,6 +382,9 @@
                 </div>
             @endif
         </section>
+
+            </div>
+        </div>
     </main>
 
     @include('Frontend.components.footer')
