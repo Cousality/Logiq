@@ -987,7 +987,7 @@
     const searchInput    = document.getElementById('search-input');
     const searchDropdown = document.getElementById('search-dropdown');
     const searchForm     = document.getElementById('search-form');
-    const suggestionsUrl = '{{ route('search.suggestions') }}';
+    const suggestionsUrl = "{{ route('search.suggestions') }}";
 
     let focusedIndex = -1;
 
