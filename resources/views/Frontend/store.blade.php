@@ -23,36 +23,53 @@
             margin-bottom: 1rem;
         }
 
-        .store-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
-        .store-products {
+        /* STORE LAYOUT */
+        .store-layout {
+            display: flex;
+            align-items: flex-start;
             padding: 2rem 5%;
+            gap: 2rem;
             margin-bottom: 5rem;
         }
 
-        /* FILTERS */
-        .filters {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 5%;
+        /* SIDEBAR */
+        .filter-sidebar {
+            flex: 0 0 200px;
+            position: sticky;
+            top: 2rem;
             background: var(--bg-secondary);
+            border: 1px solid var(--text);
+            padding: 1.5rem 1rem;
+        }
+
+        .filter-section {
+            margin-bottom: 1.75rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-heading {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.6;
+            margin-bottom: 0.75rem;
             border-bottom: 1px solid var(--text);
-            flex-wrap: wrap;
-            gap: 1rem;
+            padding-bottom: 0.4rem;
         }
 
         .filter-group {
             display: flex;
-            gap: 1rem;
-            align-items: center;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
         .filter-btn {
-            padding: 0.5rem 1.5rem;
+            display: block;
+            width: 100%;
+            padding: 0.5rem 1rem;
             background: var(--bg-primary);
             border: 1px solid var(--text);
             color: var(--text);
@@ -61,7 +78,8 @@
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            text-align: left;
         }
 
         .filter-btn:hover,
@@ -71,21 +89,13 @@
         }
 
         select.filter-btn {
-            padding: 0.5rem 1rem;
+            appearance: auto;
         }
 
-
-
-
-        /* EMPTY STATE */
-        .empty-state {
-            text-align: center;
-            padding: 5rem 2rem;
-        }
-
-        .empty-state h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        /* PRODUCTS */
+        .store-products {
+            flex: 1;
+            min-width: 0;
         }
 
         /* MOBILE RESPONSIVE */
@@ -98,13 +108,24 @@
                 background: var(--bg-primary);
             }
 
-            .filters {
+            .store-layout {
                 flex-direction: column;
-                align-items: stretch;
+                padding: 1.5rem 5%;
+            }
+
+            .filter-sidebar {
+                flex: none;
+                width: 100%;
+                position: static;
             }
 
             .filter-group {
+                flex-direction: row;
                 flex-wrap: wrap;
+            }
+
+            .filter-btn {
+                width: auto;
             }
 
             .products-grid {
@@ -112,10 +133,6 @@
                 gap: 1.5rem;
             }
 
-            .featured-banner {
-                grid-template-columns: 1fr;
-                padding: 2rem;
-            }
         }
     </style>
 </head>
@@ -134,48 +151,62 @@
         @endif
     </header>
 
-    <div class="filters">
-        <div class="filter-group">
-            <button class="filter-btn active category-filter" data-filter="all">ALL</button>
-            <button class="filter-btn category-filter" data-filter="Twist">TWIST PUZZLE</button>
-            <button class="filter-btn category-filter" data-filter="Jigsaw">JIGSAWS</button>
-            <button class="filter-btn category-filter" data-filter="Word&Number">WORD & NUMBER</button>
-            <button class="filter-btn category-filter" data-filter="BoardGames">BOARD GAMES</button>
-            <button class="filter-btn category-filter" data-filter="HandheldBrainTeasers">HANDHELD</button>
-        </div>
-        <div class="filter-group">
-            <select class="filter-btn" id="difficulty-filter">
-                <option value="all">ALL DIFFICULTIES</option>
-                <option value="easy">EASY</option>
-                <option value="medium">MEDIUM</option>
-                <option value="hard">HARD</option>
-            </select>
-            <select class="filter-btn" id="sort-by">
-                <option value="featured">FEATURED</option>
-                <option value="price-low">PRICE: LOW TO HIGH</option>
-                <option value="price-high">PRICE: HIGH TO LOW</option>
-            </select>
-        </div>
+    <div class="store-layout">
+        <!-- Left Filter Sidebar -->
+        <aside class="filter-sidebar">
+            <div class="filter-section">
+                <h3 class="filter-heading">Category</h3>
+                <div class="filter-group">
+                    <button class="filter-btn active category-filter" data-filter="all">ALL</button>
+                    <button class="filter-btn category-filter" data-filter="Twist">TWIST PUZZLE</button>
+                    <button class="filter-btn category-filter" data-filter="Jigsaw">JIGSAWS</button>
+                    <button class="filter-btn category-filter" data-filter="Word&Number">WORD & NUMBER</button>
+                    <button class="filter-btn category-filter" data-filter="BoardGames">BOARD GAMES</button>
+                    <button class="filter-btn category-filter" data-filter="HandheldBrainTeasers">HANDHELD</button>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h3 class="filter-heading">Difficulty</h3>
+                <div class="filter-group">
+                    <select class="filter-btn" id="difficulty-filter">
+                        <option value="all">ALL DIFFICULTIES</option>
+                        <option value="easy">EASY</option>
+                        <option value="medium">MEDIUM</option>
+                        <option value="hard">HARD</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-section">
+                <h3 class="filter-heading">Sort By</h3>
+                <div class="filter-group">
+                    <select class="filter-btn" id="sort-by">
+                        <option value="featured">FEATURED</option>
+                        <option value="price-low">PRICE: LOW TO HIGH</option>
+                        <option value="price-high">PRICE: HIGH TO LOW</option>
+                    </select>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Products Grid -->
+        <section class="store-products">
+            @if (!empty($dbError))
+                <div class="db-error-message"
+                    style="text-align: center; padding: 3rem; background: var(--red-pastel-1); color: var(--text-light); border: 2px solid var(--text);">
+                    <h2 style="margin-bottom: 1rem; font-size: 2rem;">Cannot Connect to Database</h2>
+                    <p>We're experiencing technical difficulties connecting to our product database.</p>
+                </div>
+            @else
+                <div class="products-grid">
+                    @include('Frontend.components.product_card')
+                </div>
+
+                <div class="no-results" style="display: none; text-align: center; padding: 3rem; font-size: 1.2rem;">
+                    No products match your current filters.
+                </div>
+            @endif
+        </section>
     </div>
-
-    <!-- Products Grid -->
-    <section class="store-products">
-        @if (!empty($dbError))
-            <div class="db-error-message"
-                style="text-align: center; padding: 3rem; background: var(--red-pastel-1); color: var(--text-light); border: 2px solid var(--text); margin: 0 5%;">
-                <h2 style="margin-bottom: 1rem; font-size: 2rem;">Cannot Connect to Database</h2>
-                <p>We're experiencing technical difficulties connecting to our product database.</p>
-            </div>
-        @else
-            <div class="products-grid">
-                @include('Frontend.components.product_card')
-            </div>
-
-            <div class="no-results" style="display: none; text-align: center; padding: 3rem; font-size: 1.2rem;">
-                No products match your current filters.
-            </div>
-        @endif
-    </section>
 
     @include('Frontend.components.footer')
 
