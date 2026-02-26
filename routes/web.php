@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminPromotionController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\IsAdmin;
@@ -133,9 +134,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::resource('admin/inventory', AdminProductController::class)->names('admin.products');
 
-    Route::get('/promotions', function () {
-        return view('Frontend.dashboard.promotions');
-    })->name('promotions');
+    Route::resource('admin/promotions', AdminPromotionController::class)->names('admin.promotions');
 
     Route::get('/inventory_management', function () {
         return view('Frontend.dashboard.inventory_management');

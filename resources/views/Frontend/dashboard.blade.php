@@ -159,7 +159,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="/promotions" class="card-link-wrapper">
+                        <a href="{{ route('admin.promotions.index') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Promotions</h3>
                             <h3 class="card-description">Manage Promotions & Discounts.</h3>
                         </a>
