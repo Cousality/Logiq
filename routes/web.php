@@ -140,6 +140,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/inventory_management', function () {
         return view('Frontend.dashboard.inventory_management');
     })->name('inventory_management');
+
+    Route::get('/review_moderation', [ReviewController::class, 'reviewModeration'])->name('review_moderation');
+    Route::delete('/review_moderation/{review}', [ReviewController::class, 'adminDeleteReview'])->name('review_moderation.delete');
 });
 
 Route::fallback(function () {

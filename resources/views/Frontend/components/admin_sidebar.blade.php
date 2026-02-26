@@ -125,9 +125,9 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="#"
-                        class="sidebar-menu-link">
-                        Analytics & Reports
+                    <a href="{{ route('review_moderation') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('review_moderation') ? 'active' : '' }}">
+                        Review Moderation
                     </a>
                 </li>
             </ul>
