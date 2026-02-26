@@ -13,6 +13,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\AddressController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -81,9 +82,6 @@ Route::get('/FAQs', function () {
 
 //Dashboard Routes
 
-Route::get('/your_address', function () {
-    return view('Frontend.dashboard.your_address');
-})->name('yourAddress');
 
 Route::get('/my_puzzles', function () {
     return view('Frontend.dashboard.my_puzzles');
@@ -97,6 +95,12 @@ Route::middleware(['auth'])->group(function () {
     //Checkout Routes
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    //Address Routes
+    Route::get('/your_address', [AddressController::class, 'index'])->name('yourAddress');
+    Route::post('/your_address', [AddressController::class, 'store'])->name('address.store');
+    Route::put('/your_address/{address}', [AddressController::class, 'update'])->name('address.update');
+    Route::delete('/your_address/{address}', [AddressController::class, 'destroy'])->name('address.destroy');
 
     //Login & Security Routes
     Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
