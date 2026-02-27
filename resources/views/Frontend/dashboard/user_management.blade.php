@@ -38,6 +38,7 @@
             display: flex;
             flex-direction: column;
             gap: 40px;
+            min-width: 0;
         }
 
         .settings-card {
@@ -128,6 +129,7 @@
             border: 2px solid var(--text);
             transition: 0.2s;
             font-family: inherit;
+            white-space: nowrap;
         }
 
         .btn-make-admin {
@@ -246,7 +248,7 @@
         }
 
         /* MOBILE FIXES */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .dashboard-title {
                 font-size: 2.5rem;
             }
@@ -257,6 +259,10 @@
 
             .dashboard-layout {
                 flex-direction: column;
+            }
+
+            .dashboard-content {
+                width: 100%;
             }
 
             .search-wrapper {
@@ -301,7 +307,7 @@
 
             .action-cell {
                 justify-content: flex-end;
-                width: 100%;
+                padding-left: 10px;
             }
         }
     </style>
