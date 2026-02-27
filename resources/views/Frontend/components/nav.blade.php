@@ -682,6 +682,97 @@
         opacity: 0.85;
     }
 
+    /* Mobile Account Modal */
+    .mobile-account-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(74, 44, 42, 0.55);
+        z-index: 1000;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .mobile-account-overlay.active {
+        display: flex;
+    }
+
+    .mobile-account-box {
+        background: var(--bg-primary);
+        border-top: 2px solid var(--text);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        width: 100%;
+        position: relative;
+    }
+
+    .mobile-account-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .mobile-account-header span {
+        font-size: 1rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .mobile-account-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        font-size: 1.4rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .mobile-account-btn {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 1.5rem;
+        border: none;
+        background: var(--bg-primary);
+        color: var(--text);
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.15s;
+        box-sizing: border-box;
+    }
+
+    .mobile-account-btn:hover {
+        background: var(--bg-secondary);
+    }
+
+    .mobile-account-btn.danger {
+        color: var(--red-pastel-1);
+    }
+
+    .mobile-account-items > * {
+        display: block;
+        margin: 0;
+        border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .mobile-account-items > *:last-child {
+        border-bottom: none;
+    }
+
     /* Mobile Fixes for Nav */
     @media (max-width: 900px) {
         nav {
@@ -929,8 +1020,39 @@
     </div>
 </nav>
 
+<!-- Mobile Account Modal -->
+<div class="mobile-account-overlay" id="mobile-account-overlay">
+    <div class="mobile-account-box">
+        <div class="mobile-account-header">
+            @auth
+                <span>Hello, {{ auth()->user()->firstName }}</span>
+            @else
+                <span>Account</span>
+            @endauth
+            <button class="mobile-account-close" id="mobile-account-close" aria-label="Close">&times;</button>
+        </div>
+
+        @auth
+            <div class="mobile-account-items">
+                <a href="{{ route('dashboard') }}" class="mobile-account-btn">Dashboard</a>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="mobile-account-btn danger">Logout</button>
+                </form>
+                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
+            </div>
+        @else
+            <div class="mobile-account-items">
+                <a href="{{ route('login') }}" class="mobile-account-btn">Login</a>
+                <a href="{{ route('register') }}" class="mobile-account-btn">Register</a>
+                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
+            </div>
+        @endauth
+    </div>
+</div>
+
 <script>
-    // Dark mode toggle
+    // Dark mode toggle (desktop)
     const toggleBtn = document.getElementById("dark-mode-toggle");
     const body = document.body;
 
@@ -938,13 +1060,55 @@
         body.classList.add("dark-mode");
     }
 
-    toggleBtn.addEventListener("click", () => {
-        body.classList.toggle("dark-mode");
-        localStorage.setItem(
-            "theme",
-            body.classList.contains("dark-mode") ? "dark" : "light",
-        );
-    });
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+            body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+        });
+    }
+
+    // Mobile theme toggle (inside modal)
+    const mobileThemeToggle = document.getElementById('mobile-theme-bar');
+    if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('click', () => {
+            body.classList.toggle("dark-mode");
+            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+        });
+    }
+
+    function openAccountModal() {
+        mobileAccountOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAccountModal() {
+        mobileAccountOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Mobile account modal
+    const mobileAccountOverlay = document.getElementById('mobile-account-overlay');
+    const mobileAccountClose = document.getElementById('mobile-account-close');
+    const accountIcon = document.querySelector('.account-wrapper .nav-icon');
+
+    if (accountIcon && mobileAccountOverlay) {
+        accountIcon.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                openAccountModal();
+            }
+        });
+    }
+
+    if (mobileAccountClose) {
+        mobileAccountClose.addEventListener('click', () => closeAccountModal());
+    }
+
+    if (mobileAccountOverlay) {
+        mobileAccountOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileAccountOverlay) closeAccountModal();
+        });
+    }
 
     // Account dropdown
     const accountWrapper = document.querySelector('.account-wrapper');
