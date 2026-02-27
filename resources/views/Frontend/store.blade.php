@@ -167,7 +167,7 @@
         }
 
         /* MOBILE RESPONSIVE */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .store-title {
                 font-size: 2.5rem;
             }
@@ -202,6 +202,26 @@
                 gap: 1.5rem;
             }
 
+            .card-description {
+                display: none;
+            }
+
+            .card-image-container {
+                height: 140px;
+            }
+
+            .card-content {
+                padding: 0.75rem;
+            }
+
+            .card-title {
+                font-size: 0.9rem;
+            }
+
+            .card-price {
+                font-size: 0.9rem;
+                margin-top: 0.25rem;
+            }
         }
     </style>
 </head>
