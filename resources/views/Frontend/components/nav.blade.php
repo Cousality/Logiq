@@ -953,10 +953,12 @@
     if (accountWrapper && accountDropdown) {
         let closeTimer;
         accountWrapper.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 900) return;
             clearTimeout(closeTimer);
             accountDropdown.classList.add('open');
         });
         accountWrapper.addEventListener('mouseleave', () => {
+            if (window.innerWidth <= 900) return;
             closeTimer = setTimeout(() => accountDropdown.classList.remove('open'), 50);
         });
     }
@@ -968,10 +970,12 @@
     if (basketWrapper && basketDropdown) {
         let basketCloseTimer;
         basketWrapper.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 900) return;
             clearTimeout(basketCloseTimer);
             basketDropdown.classList.add('open');
         });
         basketWrapper.addEventListener('mouseleave', () => {
+            if (window.innerWidth <= 900) return;
             basketCloseTimer = setTimeout(() => basketDropdown.classList.remove('open'), 50);
         });
     }

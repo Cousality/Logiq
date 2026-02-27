@@ -384,6 +384,10 @@
                 font-size: 0.9rem;
             }
 
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
             .footer-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
