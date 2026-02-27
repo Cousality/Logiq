@@ -344,17 +344,40 @@
         .rec-difficulty-badge.hard   { background: #a63232; }
 
         /* MOBILE FIXES */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
                 text-align: center;
                 background: var(--bg-primary);
+                min-height: unset;
+                padding: 3rem 5%;
+                gap: 2.5rem;
             }
 
             .hero-text h1 {
-                font-size: 2.5rem;
+                font-size: 2rem;
+                margin-bottom: 1rem;
             }
 
+            .cta-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .puzzle-card {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 1.5rem;
+            }
+
+            .puzzle-question {
+                font-size: 1rem;
+            }
+
+            .puzzle-options button {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
 
             .footer-content {
                 grid-template-columns: 1fr;
@@ -365,6 +388,29 @@
                 flex-direction: column;
                 gap: 1rem;
                 text-align: center;
+            }
+
+            /* Native scroll carousels on mobile */
+            .category-grid {
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .category-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .rec-card {
+                scroll-snap-align: start;
+                width: 260px;
+            }
+
+            .category-card {
+                scroll-snap-align: start;
+                min-width: 260px;
+                max-width: 260px;
             }
         }
     </style>
@@ -506,11 +552,17 @@
     <script>
         function makeCarousel(trackId, cardSelector, prevId, nextId, step) {
             const track    = document.getElementById(trackId);
+            const grid     = track.parentElement;
             const originals = Array.from(track.querySelectorAll(cardSelector));
             if (originals.length === 0) return;
             const count = originals.length;
 
-            originals.forEach(c => track.appendChild(c.cloneNode(true)));
+            function isMobile() { return window.innerWidth <= 900; }
+
+            // Only clone cards on desktop for infinite scroll
+            if (!isMobile()) {
+                originals.forEach(c => track.appendChild(c.cloneNode(true)));
+            }
 
             const cards = track.querySelectorAll(cardSelector);
             let current = 0;
@@ -519,6 +571,7 @@
             function cStep()  { return cards[1].offsetLeft - cards[0].offsetLeft; }
 
             function setPos(index, animate) {
+                if (isMobile()) return;
                 if (!animate) track.style.transition = 'none';
                 track.style.transform = `translateX(-${index * cStep()}px)`;
                 if (!animate) requestAnimationFrame(() => track.style.transition = '');
@@ -526,6 +579,15 @@
             }
 
             document.getElementById(nextId).addEventListener('click', () => {
+                if (isMobile()) {
+                    const atEnd = grid.scrollLeft + grid.offsetWidth >= grid.scrollWidth - 10;
+                    if (atEnd) {
+                        grid.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        grid.scrollBy({ left: grid.offsetWidth * 0.8, behavior: 'smooth' });
+                    }
+                    return;
+                }
                 if (busy) return;
                 busy = true;
                 setPos(current + step, true);
@@ -536,6 +598,15 @@
             });
 
             document.getElementById(prevId).addEventListener('click', () => {
+                if (isMobile()) {
+                    const atStart = grid.scrollLeft <= 10;
+                    if (atStart) {
+                        grid.scrollTo({ left: grid.scrollWidth, behavior: 'smooth' });
+                    } else {
+                        grid.scrollBy({ left: -(grid.offsetWidth * 0.8), behavior: 'smooth' });
+                    }
+                    return;
+                }
                 if (busy) return;
                 busy = true;
                 if (current - step < 0) {
