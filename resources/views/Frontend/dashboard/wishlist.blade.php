@@ -35,6 +35,7 @@
 
         .wishlist-container {
             flex: 1;
+            min-width: 0;
         }
 
         /* GRID */
@@ -148,11 +149,22 @@
         }
 
         /* MOBILE */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
             .dashboard-layout { flex-direction: column; padding: 20px 5%; }
-            .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .wishlist-container { width: 100%; }
+            .wishlist-grid { grid-template-columns: 1fr; }
+            .wishlist-card { display: flex; flex-direction: row; }
+            .product-image {
+                width: 120px;
+                min-width: 120px;
+                height: auto;
+                border-bottom: none;
+                border-right: 2px solid var(--text);
+            }
+            .product-info { padding: 1rem; }
+            .product-name { font-size: 1.1rem; }
         }
 
         /* REMOVE MODAL */
