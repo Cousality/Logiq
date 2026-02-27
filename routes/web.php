@@ -148,3 +148,5 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 Route::fallback(function () {
     return view('errors.404');
 });
+
+Route::get('/checkout/paypal', [CheckoutController::class, 'paypal'])->name('checkout.paypal');
