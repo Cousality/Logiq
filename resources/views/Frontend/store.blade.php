@@ -186,6 +186,33 @@
                 flex: none;
                 width: 100%;
                 max-height: none;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                align-items: flex-start;
+            }
+
+            /* Category + Price Range take full width */
+            .filter-section:nth-child(1),
+            .filter-section:nth-child(2) {
+                flex: 0 0 100%;
+                margin-bottom: 0;
+            }
+
+            /* Difficulty, Min. Rating, Sort By share one row */
+            .filter-section:nth-child(3),
+            .filter-section:nth-child(4),
+            .filter-section:nth-child(5) {
+                flex: 1 1 0;
+                min-width: 0;
+                margin-bottom: 0;
+            }
+
+            .filter-section:nth-child(3) .filter-btn,
+            .filter-section:nth-child(4) .filter-btn,
+            .filter-section:nth-child(5) .filter-btn {
+                width: 100%;
             }
 
             .filter-group {
