@@ -683,24 +683,48 @@
     }
 
     /* Mobile Fixes for Nav */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
         nav {
-            flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding: 1rem 5%;
+        }
+
+        .logo {
+            order: 1;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            order: 2;
+            margin-left: auto;
         }
 
         .search-container {
+            order: 3;
+            flex-basis: 100%;
             width: 100%;
+            max-width: 100%;
             margin: 0;
         }
 
         .nav-links a {
-            margin: 0 10px;
+            margin: 0 4px;
         }
 
         .category-sidebar {
             width: 100%;
+        }
+
+        .account-dropdown {
+            width: calc(100vw - 10%);
+            right: 0;
+        }
+
+        .basket-dropdown {
+            width: calc(100vw - 10%);
+            right: 0;
         }
     }
 </style>
