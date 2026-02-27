@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,6 +146,7 @@
             padding: 0.85rem 1rem;
             text-align: left;
             vertical-align: middle;
+
         }
 
         .product-table th {
@@ -172,12 +174,30 @@
             border: 1px solid currentColor;
         }
 
-        .badge-easy   { color: #4a7c59; border-color: #4a7c59; }
-        .badge-medium { color: #c17f24; border-color: #c17f24; }
-        .badge-hard   { color: #a63232; border-color: #a63232; }
+        .badge-easy {
+            color: #4a7c59;
+            border-color: #4a7c59;
+        }
 
-        .badge-active { color: #4a7c59; border-color: #4a7c59; }
-        .badge-hidden { color: #888;    border-color: #888; }
+        .badge-medium {
+            color: #c17f24;
+            border-color: #c17f24;
+        }
+
+        .badge-hard {
+            color: #a63232;
+            border-color: #a63232;
+        }
+
+        .badge-active {
+            color: #4a7c59;
+            border-color: #4a7c59;
+        }
+
+        .badge-hidden {
+            color: #888;
+            border-color: #888;
+        }
 
         .thumb {
             width: 48px;
@@ -230,17 +250,35 @@
         }
 
         @media (max-width: 900px) {
-            .dashboard-title { font-size: 2.5rem; }
-            .dashboard-header { background: var(--bg-primary); }
-            .dashboard-layout { flex-direction: column; }
-            .product-table, .product-table tbody, .product-table tr, .product-table td {
-                display: block; width: 100%;
+            .dashboard-title {
+                font-size: 2.5rem;
             }
-            .product-table thead { display: none; }
+
+            .dashboard-header {
+                background: var(--bg-primary);
+            }
+
+            .dashboard-layout {
+                flex-direction: column;
+            }
+
+            .product-table,
+            .product-table tbody,
+            .product-table tr,
+            .product-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .product-table thead {
+                display: none;
+            }
+
             .product-table tr {
                 margin-bottom: 15px;
                 border: 2px solid var(--text);
             }
+
             .product-table td {
                 text-align: right;
                 padding-left: 50%;
@@ -248,6 +286,7 @@
                 border: none;
                 border-bottom: 1px solid var(--text);
             }
+
             .product-table td::before {
                 content: attr(data-label);
                 position: absolute;
@@ -258,10 +297,14 @@
                 text-align: left;
                 font-weight: bold;
             }
-            .action-cell { justify-content: flex-end; }
+
+            .action-cell {
+                justify-content: flex-end;
+            }
         }
     </style>
 </head>
+
 <body>
     @include('Frontend.components.nav')
 
@@ -275,115 +318,116 @@
             @include('Frontend.components.admin_sidebar')
             <div class="dashboard-content">
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        <section class="settings-card">
-            <h2 class="section-title">
-                <span>All Products ({{ $products->total() }})</span>
-                @if(auth()->user()->admin)
-                    <a href="{{ route('admin.products.create') }}" class="btn-add">+ Add Product</a>
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
-            </h2>
 
-            <table class="product-table">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Difficulty</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Status</th>
-                        @if(auth()->user()->admin)
-                            <th>Actions</th>
+                <section class="settings-card">
+                    <h2 class="section-title">
+                        <span>All Products ({{ $products->total() }})</span>
+                        @if (auth()->user()->admin)
+                            <a href="{{ route('admin.products.create') }}" class="btn-add">+ Add Product</a>
                         @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($products as $product)
-                        <tr>
-                            <td data-label="Image">
-                                @if($product->productImage)
-                                    <img src="{{ $product->imageUrl }}"
-                                         alt="{{ $product->productName }}"
-                                         class="thumb">
-                                @else
-                                    <div class="no-thumb">🧩</div>
+                    </h2>
+
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Difficulty</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Status</th>
+                                @if (auth()->user()->admin)
+                                    <th>Actions</th>
                                 @endif
-                            </td>
-                            <td data-label="Name"><strong>{{ $product->productName }}</strong></td>
-                            <td data-label="Category">{{ $product->productCategory }}</td>
-                            <td data-label="Difficulty">
-                                <span class="badge badge-{{ strtolower($product->productDifficulty) }}">
-                                    {{ strtoupper($product->productDifficulty) }}
-                                </span>
-                            </td>
-                            <td data-label="Price">£{{ number_format($product->productPrice, 2) }}</td>
-                            <td data-label="Qty">{{ $product->productQuantity }}</td>
-                            <td data-label="Status">
-                                <span class="badge badge-{{ $product->productStatus }}">
-                                    {{ strtoupper($product->productStatus) }}
-                                </span>
-                            </td>
-                            @if(auth()->user()->admin)
-                                <td data-label="Actions">
-                                    <div class="action-cell">
-                                        <a href="{{ route('admin.products.edit', $product->productID) }}"
-                                           class="btn-action btn-edit">Edit</a>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($products as $product)
+                                <tr>
+                                    <td data-label="Image">
+                                        @if ($product->productImage)
+                                            <img src="{{ $product->imageUrl }}" alt="{{ $product->productName }}"
+                                                class="thumb">
+                                        @else
+                                            <div class="no-thumb">🧩</div>
+                                        @endif
+                                    </td>
+                                    <td data-label="Name"><strong>{{ $product->productName }}</strong></td>
+                                    <td data-label="Category">{{ $product->productCategory }}</td>
+                                    <td data-label="Difficulty">
+                                        <span class="badge badge-{{ strtolower($product->productDifficulty) }}">
+                                            {{ strtoupper($product->productDifficulty) }}
+                                        </span>
+                                    </td>
+                                    <td data-label="Price">£{{ number_format($product->productPrice, 2) }}</td>
+                                    <td data-label="Qty">{{ $product->productQuantity }}</td>
+                                    <td data-label="Status">
+                                        <span class="badge badge-{{ $product->productStatus }}">
+                                            {{ strtoupper($product->productStatus) }}
+                                        </span>
+                                    </td>
+                                    @if (auth()->user()->admin)
+                                        <td data-label="Actions">
+                                            <div class="action-cell">
+                                                <a href="{{ route('admin.products.edit', $product->productID) }}"
+                                                    class="btn-action btn-edit">Edit</a>
 
-                                        <form action="{{ route('admin.products.destroy', $product->productID) }}"
-                                              method="POST"
-                                              onsubmit="return confirm('Delete {{ addslashes($product->productName) }}? This cannot be undone.')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn-action btn-danger">Delete</button>
-                                        </form>
-                                    </div>
-                                </td>
+                                                <form
+                                                    action="{{ route('admin.products.destroy', $product->productID) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Delete {{ addslashes($product->productName) }}? This cannot be undone.')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-action btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="{{ auth()->user()->admin ? 8 : 7 }}"
+                                        style="text-align:center; padding:2rem;">
+                                        No products found. <a href="{{ route('admin.products.create') }}">Add one
+                                            now.</a>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+
+                    {{-- Pagination --}}
+                    @if ($products->hasPages())
+                        <div class="pagination-wrapper">
+                            {{-- Previous --}}
+                            @if ($products->onFirstPage())
+                                <span class="disabled">&laquo;</span>
+                            @else
+                                <a href="{{ $products->previousPageUrl() }}">&laquo;</a>
                             @endif
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="{{ auth()->user()->admin ? 8 : 7 }}"
-                                style="text-align:center; padding:2rem;">
-                                No products found. <a href="{{ route('admin.products.create') }}">Add one now.</a>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
 
-            {{-- Pagination --}}
-            @if($products->hasPages())
-                <div class="pagination-wrapper">
-                    {{-- Previous --}}
-                    @if($products->onFirstPage())
-                        <span class="disabled">&laquo;</span>
-                    @else
-                        <a href="{{ $products->previousPageUrl() }}">&laquo;</a>
+                            {{-- Page numbers --}}
+                            @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                                @if ($page == $products->currentPage())
+                                    <span class="active">{{ $page }}</span>
+                                @else
+                                    <a href="{{ $url }}">{{ $page }}</a>
+                                @endif
+                            @endforeach
+
+                            {{-- Next --}}
+                            @if ($products->hasMorePages())
+                                <a href="{{ $products->nextPageUrl() }}">&raquo;</a>
+                            @else
+                                <span class="disabled">&raquo;</span>
+                            @endif
+                        </div>
                     @endif
-
-                    {{-- Page numbers --}}
-                    @foreach($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-                        @if($page == $products->currentPage())
-                            <span class="active">{{ $page }}</span>
-                        @else
-                            <a href="{{ $url }}">{{ $page }}</a>
-                        @endif
-                    @endforeach
-
-                    {{-- Next --}}
-                    @if($products->hasMorePages())
-                        <a href="{{ $products->nextPageUrl() }}">&raquo;</a>
-                    @else
-                        <span class="disabled">&raquo;</span>
-                    @endif
-                </div>
-            @endif
-        </section>
+                </section>
 
             </div>
         </div>
@@ -391,4 +435,5 @@
 
     @include('Frontend.components.footer')
 </body>
+
 </html>

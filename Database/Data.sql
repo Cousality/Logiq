@@ -26,11 +26,11 @@ INSERT INTO products (productName, productSlug, productCategory, productDifficul
     ('Chess Board Game', 'chess-board-game', 'BoardGames','hard', 6.99, 'A timeless two-player strategy game centred on planning, tactics and outthinking your opponent.', '/Images/chess.png', 5, 'active'),
     ('Checkers Board Game', 'checkers-board-game', 'BoardGames','hard', 7.99, 'A simple, tactical board game where players jump and capture pieces to dominate the board.', '/Images/checkers.png', 5, 'active'),
 
-    ('Wooden Burr Puzzle', 'wooden-burr-puzzle', 'HandheldBrainTeasers', 'hard', 8.99, 'A wooden 3D interlocking puzzle that challenges players to assemble the pieces in the right order.', '/Images/burr_puzzle.png', 5, 'active'),
-    ('Soma Cube', 'soma-cube', 'HandheldBrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
-    ('Snake Twist Puzzle', 'snake-twist-puzzle', 'HandheldBrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
-    ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'HandheldBrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
-    ('Metal Disentanglement Puzzle', 'metal-disentanglement-puzzle', 'HandheldBrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
+    ('Wooden Burr Puzzle', 'wooden-burr-puzzle', 'BrainTeasers', 'hard', 8.99, 'A wooden 3D interlocking puzzle that challenges players to assemble the pieces in the right order.', '/Images/burr_puzzle.png', 5, 'active'),
+    ('Soma Cube', 'soma-cube', 'BrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
+    ('Snake Twist Puzzle', 'snake-twist-puzzle', 'BrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
+    ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'BrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
+    ('Metal Disentanglement Puzzle', 'metal-disentanglement-puzzle', 'BrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
 
 -- ============================================================
 -- SAMPLE USERS (password = "password")

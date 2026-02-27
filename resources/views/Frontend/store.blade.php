@@ -273,12 +273,21 @@
             <div class="filter-section">
                 <h3 class="filter-heading">Category</h3>
                 <div class="filter-group">
-                    <a href="{{ route('store.index') }}" class="filter-btn category-filter {{ !request('category') ? 'active' : '' }}">ALL</a>
-                    <a href="{{ route('store.index') }}?category=Twist" class="filter-btn category-filter {{ request('category') === 'Twist' ? 'active' : '' }}">TWIST PUZZLE</a>
-                    <a href="{{ route('store.index') }}?category=Jigsaw" class="filter-btn category-filter {{ request('category') === 'Jigsaw' ? 'active' : '' }}">JIGSAWS</a>
-                    <a href="{{ route('store.index') }}?category=Word%26Number" class="filter-btn category-filter {{ request('category') === 'Word&Number' ? 'active' : '' }}">WORD & NUMBER</a>
-                    <a href="{{ route('store.index') }}?category=BoardGames" class="filter-btn category-filter {{ request('category') === 'BoardGames' ? 'active' : '' }}">BOARD GAMES</a>
-                    <a href="{{ route('store.index') }}?category=HandheldBrainTeasers" class="filter-btn category-filter {{ request('category') === 'HandheldBrainTeasers' ? 'active' : '' }}">HANDHELD</a>
+                    <a href="{{ route('store.index') }}"
+                        class="filter-btn category-filter {{ !request('category') ? 'active' : '' }}">ALL</a>
+                    <a href="{{ route('store.index') }}?category=Twist"
+                        class="filter-btn category-filter {{ request('category') === 'Twist' ? 'active' : '' }}">TWIST
+                        PUZZLE</a>
+                    <a href="{{ route('store.index') }}?category=Jigsaw"
+                        class="filter-btn category-filter {{ request('category') === 'Jigsaw' ? 'active' : '' }}">JIGSAWS</a>
+                    <a href="{{ route('store.index') }}?category=Word%26Number"
+                        class="filter-btn category-filter {{ request('category') === 'Word&Number' ? 'active' : '' }}">WORD
+                        & NUMBER</a>
+                    <a href="{{ route('store.index') }}?category=BoardGames"
+                        class="filter-btn category-filter {{ request('category') === 'BoardGames' ? 'active' : '' }}">BOARD
+                        GAMES</a>
+                    <a href="{{ route('store.index') }}?category=BrainTeasers"
+                        class="filter-btn category-filter {{ request('category') === 'BrainTeasers' ? 'active' : '' }}">BRAINTEASERS</a>
                 </div>
             </div>
             <div class="filter-section">

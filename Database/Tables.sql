@@ -40,7 +40,7 @@ CREATE TABLE products (
     productID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     productName VARCHAR(100) NOT NULL,
     productSlug VARCHAR(120) NOT NULL UNIQUE,
-    productCategory ENUM('Twist','Jigsaw','Word&Number','BoardGames','HandheldBrainTeasers') NOT NULL,
+    productCategory ENUM('Twist','Jigsaw','Word&Number','BoardGames','BrainTeasers') NOT NULL,
     productDifficulty ENUM('easy','medium','hard') NOT NULL,
     productPrice DECIMAL(10, 2) NOT NULL,
     productDescription TEXT NOT NULL,
