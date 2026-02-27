@@ -33,12 +33,13 @@
 
         .dashboard-content {
             flex: 1;
+            min-width: 0;
         }
 
         .moderation-container {
             background: var(--white);
             border: 2px solid var(--text);
-            padding: 3rem;
+            padding: 2rem;
             box-shadow: 10px 10px 0px var(--red-pastel-1);
         }
 
@@ -90,6 +91,7 @@
         /* Table */
         .reviews-table {
             width: 100%;
+            table-layout: fixed;
             border-collapse: collapse;
             font-size: 0.9rem;
         }
@@ -97,18 +99,20 @@
         .reviews-table th {
             background: var(--text);
             color: var(--text-light);
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.75rem;
             text-align: left;
             text-transform: uppercase;
             font-size: 0.78rem;
             letter-spacing: 0.5px;
             white-space: nowrap;
+            overflow: hidden;
         }
 
         .reviews-table td {
-            padding: 0.75rem 1rem;
+            padding: 0.6rem 0.75rem;
             border-bottom: 1px solid var(--bg-secondary);
             vertical-align: middle;
+            word-break: break-word;
         }
 
         .reviews-table tr:last-child td {
@@ -117,21 +121,6 @@
 
         .reviews-table tr:hover td {
             background: var(--bg-secondary);
-        }
-
-        /* Product cell */
-        .product-cell {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .product-thumb {
-            width: 48px;
-            height: 48px;
-            object-fit: cover;
-            border: 2px solid var(--text);
-            flex-shrink: 0;
         }
 
         .product-name {
@@ -156,15 +145,29 @@
         .diff-badge.hard   { background: #a63232; }
 
         /* Stars */
-        .stars { font-size: 1rem; letter-spacing: 1px; }
-        .stars .empty { color: #ccc; }
+        .stars-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 1rem;
+            line-height: 1;
+            white-space: nowrap;
+        }
+        .stars-wrap .stars-bg {
+            color: #ccc;
+            letter-spacing: 2px;
+        }
+        .stars-wrap .stars-fg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            color: #c8871a;
+            letter-spacing: 2px;
+        }
 
         /* Comment */
         .review-comment {
-            max-width: 260px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
             opacity: 0.8;
             font-size: 0.85rem;
         }
@@ -198,7 +201,7 @@
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
             .dashboard-layout { flex-direction: column; }
-            .moderation-container { padding: 1.5rem; overflow-x: auto; }
+            .moderation-container { padding: 1rem; }
         }
     </style>
 </head>
@@ -243,6 +246,15 @@
                         </div>
 
                         <table class="reviews-table">
+                            <colgroup>
+                                <col style="width:17%"> <!-- Product -->
+                                <col style="width:11%"> <!-- Difficulty -->
+                                <col style="width:13%"> <!-- User -->
+                                <col style="width:16%"> <!-- Rating -->
+                                <col style="width:17%"> <!-- Comment -->
+                                <col style="width:13%"> <!-- Date -->
+                                <col style="width:13%"> <!-- Delete -->
+                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>Product</th>
@@ -258,12 +270,7 @@
                                 @foreach($reviews as $review)
                                     <tr>
                                         <td>
-                                            <div class="product-cell">
-                                                <img class="product-thumb"
-                                                     src="{{ $review->product->imageUrl }}"
-                                                     alt="{{ $review->product->productName }}">
-                                                <span class="product-name">{{ $review->product->productName }}</span>
-                                            </div>
+                                            <span class="product-name">{{ $review->product->productName }}</span>
                                         </td>
                                         <td>
                                             <span class="diff-badge {{ strtolower($review->product->productDifficulty) }}">
@@ -271,15 +278,10 @@
                                             </span>
                                         </td>
                                         <td>{{ $review->user->firstName }} {{ $review->user->lastName }}</td>
-                                        <td>
-                                            <span class="stars">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    @if($review->rating >= $i)
-                                                        &#9733;
-                                                    @else
-                                                        <span class="empty">&#9733;</span>
-                                                    @endif
-                                                @endfor
+                                        <td style="white-space:nowrap">
+                                            <span class="stars-wrap">
+                                                <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                                <span class="stars-fg" data-pct="{{ number_format(($review->rating / 5) * 100, 2) }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                                             </span>
                                             {{ number_format($review->rating, 1) }}
                                         </td>
@@ -292,7 +294,7 @@
                                                 <span class="no-comment">No comment</span>
                                             @endif
                                         </td>
-                                        <td>{{ $review->created_at->format('d M Y') }}</td>
+                                        <td style="white-space:nowrap">{{ $review->created_at->format('d M Y') }}</td>
                                         <td>
                                             <form action="{{ route('review_moderation.delete', $review->reviewID) }}"
                                                   method="POST"
@@ -312,6 +314,11 @@
         </div>
     </main>
     @include('Frontend.components.footer')
+    <script>
+        document.querySelectorAll('.stars-fg[data-pct]').forEach(function (el) {
+            el.style.width = el.dataset.pct + '%';
+        });
+    </script>
 </body>
 
 </html>
