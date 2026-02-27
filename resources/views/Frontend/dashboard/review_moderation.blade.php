@@ -97,36 +97,25 @@
         /* Table */
         .reviews-table {
             width: 100%;
-            table-layout: fixed;
             border-collapse: collapse;
-            font-size: 0.9rem;
+        }
+
+        .reviews-table th,
+        .reviews-table td {
+            border: 2px solid var(--text);
+            padding: 0.85rem 1rem;
+            text-align: left;
+            vertical-align: middle;
         }
 
         .reviews-table th {
-            background: var(--text);
-            color: var(--text-light);
-            padding: 0.6rem 0.75rem;
-            text-align: left;
+            background: var(--bg-secondary);
             text-transform: uppercase;
-            font-size: 0.78rem;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-
-        .reviews-table td {
-            padding: 0.6rem 0.75rem;
-            border-bottom: 1px solid var(--bg-secondary);
-            vertical-align: middle;
-            word-break: break-word;
-        }
-
-        .reviews-table tr:last-child td {
-            border-bottom: none;
+            font-size: 0.85rem;
         }
 
         .reviews-table tr:hover td {
-            background: var(--bg-secondary);
+            background-color: var(--bg-primary);
         }
 
         .product-name {
@@ -137,18 +126,18 @@
 
         /* Difficulty badge */
         .diff-badge {
-            font-size: 0.7rem;
+            display: inline-block;
+            font-size: 0.72rem;
             font-weight: bold;
             text-transform: uppercase;
-            padding: 2px 8px;
-            border: 2px solid var(--text);
-            color: #fff;
+            padding: 3px 10px;
+            border: 1px solid currentColor;
             white-space: nowrap;
         }
 
-        .diff-badge.easy   { background: #4a7c59; }
-        .diff-badge.medium { background: #c17f24; }
-        .diff-badge.hard   { background: #a63232; }
+        .diff-badge.easy   { color: #4a7c59; border-color: #4a7c59; }
+        .diff-badge.medium { color: #c17f24; border-color: #c17f24; }
+        .diff-badge.hard   { color: #a63232; border-color: #a63232; }
 
         /* Stars */
         .stars-wrap {
@@ -184,30 +173,92 @@
         }
 
         /* Delete button */
-        .btn-delete {
-            background: transparent;
-            color: #a63232;
-            border: 2px solid #a63232;
-            padding: 0.35rem 0.9rem;
+        .btn-action {
+            padding: 5px 14px;
             font-weight: bold;
-            text-transform: uppercase;
             cursor: pointer;
+            border: 2px solid var(--text);
+            transition: 0.2s;
             font-family: inherit;
-            font-size: 0.78rem;
-            transition: background 0.2s, color 0.2s;
-            white-space: nowrap;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-delete:hover {
-            background: #a63232;
-            color: #ffffff;
+        .btn-danger {
+            background: var(--red-pastel-1);
+            color: var(--white);
+            border-color: var(--red-pastel-1);
         }
 
-        @media (max-width: 768px) {
+        .btn-danger:hover {
+            transform: translateY(-2px);
+        }
+
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .pagination-wrapper a,
+        .pagination-wrapper span {
+            padding: 6px 14px;
+            border: 2px solid var(--text);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .pagination-wrapper a:hover {
+            background: var(--text);
+            color: var(--white);
+        }
+
+        .pagination-wrapper span.active {
+            background: var(--text);
+            color: var(--white);
+        }
+
+        .pagination-wrapper span.disabled {
+            opacity: 0.4;
+        }
+
+        @media (max-width: 900px) {
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
             .dashboard-layout { flex-direction: column; }
             .moderation-container { padding: 1rem; }
+            .reviews-table, .reviews-table tbody, .reviews-table tr, .reviews-table td {
+                display: block; width: 100%;
+            }
+            .reviews-table thead { display: none; }
+            .reviews-table tr {
+                margin-bottom: 15px;
+                border: 2px solid var(--text);
+            }
+            .reviews-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                border: none;
+                border-bottom: 1px solid var(--text);
+            }
+            .reviews-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            .summary-bar { flex-wrap: wrap; gap: 1rem; }
+            .reviews-table td form { display: flex; justify-content: flex-end; }
         }
     </style>
 </head>
@@ -238,29 +289,20 @@
                     @else
                         <div class="summary-bar">
                             <div class="summary-stat">
-                                <strong>{{ $reviews->count() }}</strong>
+                                <strong>{{ $totalCount }}</strong>
                                 <span>Total Reviews</span>
                             </div>
                             <div class="summary-stat">
-                                <strong>{{ number_format($reviews->avg('rating'), 1) }}</strong>
+                                <strong>{{ number_format($avgRating, 1) }}</strong>
                                 <span>Avg Rating</span>
                             </div>
                             <div class="summary-stat">
-                                <strong>{{ $reviews->pluck('productID')->unique()->count() }}</strong>
+                                <strong>{{ $productsReviewed }}</strong>
                                 <span>Products Reviewed</span>
                             </div>
                         </div>
 
                         <table class="reviews-table">
-                            <colgroup>
-                                <col style="width:17%"> <!-- Product -->
-                                <col style="width:11%"> <!-- Difficulty -->
-                                <col style="width:13%"> <!-- User -->
-                                <col style="width:16%"> <!-- Rating -->
-                                <col style="width:17%"> <!-- Comment -->
-                                <col style="width:13%"> <!-- Date -->
-                                <col style="width:13%"> <!-- Delete -->
-                            </colgroup>
                             <thead>
                                 <tr>
                                     <th>Product</th>
@@ -275,23 +317,23 @@
                             <tbody>
                                 @foreach($reviews as $review)
                                     <tr>
-                                        <td>
+                                        <td data-label="Product">
                                             <span class="product-name">{{ $review->product->productName }}</span>
                                         </td>
-                                        <td>
+                                        <td data-label="Difficulty">
                                             <span class="diff-badge {{ strtolower($review->product->productDifficulty) }}">
                                                 {{ strtoupper($review->product->productDifficulty) }}
                                             </span>
                                         </td>
-                                        <td>{{ $review->user->firstName }} {{ $review->user->lastName }}</td>
-                                        <td style="white-space:nowrap">
+                                        <td data-label="User">{{ $review->user->firstName }} {{ $review->user->lastName }}</td>
+                                        <td data-label="Rating">
                                             <span class="stars-wrap">
                                                 <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                                                 <span class="stars-fg" data-pct="{{ number_format(($review->rating / 5) * 100, 2) }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                                             </span>
                                             {{ number_format($review->rating, 1) }}
                                         </td>
-                                        <td>
+                                        <td data-label="Comment">
                                             @if($review->reviewComment)
                                                 <span class="review-comment" title="{{ $review->reviewComment }}">
                                                     {{ $review->reviewComment }}
@@ -300,20 +342,48 @@
                                                 <span class="no-comment">No comment</span>
                                             @endif
                                         </td>
-                                        <td style="white-space:nowrap">{{ $review->created_at->format('d M Y') }}</td>
-                                        <td>
+                                        <td data-label="Date">{{ $review->created_at->format('d M Y') }}</td>
+                                        <td data-label="">
                                             <form action="{{ route('review_moderation.delete', $review->reviewID) }}"
                                                   method="POST"
                                                   onsubmit="return confirm('Delete this review?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn-delete">Delete</button>
+                                                <button type="submit" class="btn-action btn-danger">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
+
+                        {{-- Pagination --}}
+                        @if($reviews->hasPages())
+                            <div class="pagination-wrapper">
+                                {{-- Previous --}}
+                                @if($reviews->onFirstPage())
+                                    <span class="disabled">&laquo;</span>
+                                @else
+                                    <a href="{{ $reviews->previousPageUrl() }}">&laquo;</a>
+                                @endif
+
+                                {{-- Page numbers --}}
+                                @foreach($reviews->getUrlRange(1, $reviews->lastPage()) as $page => $url)
+                                    @if($page == $reviews->currentPage())
+                                        <span class="active">{{ $page }}</span>
+                                    @else
+                                        <a href="{{ $url }}">{{ $page }}</a>
+                                    @endif
+                                @endforeach
+
+                                {{-- Next --}}
+                                @if($reviews->hasMorePages())
+                                    <a href="{{ $reviews->nextPageUrl() }}">&raquo;</a>
+                                @else
+                                    <span class="disabled">&raquo;</span>
+                                @endif
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

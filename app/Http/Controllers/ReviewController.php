@@ -11,9 +11,12 @@ class ReviewController extends Controller
 {
     public function reviewModeration()
     {
-        $reviews = Review::with(['product', 'user'])->latest()->get();
+        $totalCount       = Review::count();
+        $avgRating        = Review::avg('rating');
+        $productsReviewed = Review::distinct('productID')->count('productID');
+        $reviews          = Review::with(['product', 'user'])->latest()->paginate(20);
 
-        return view('Frontend.dashboard.review_moderation', compact('reviews'));
+        return view('Frontend.dashboard.review_moderation', compact('reviews', 'totalCount', 'avgRating', 'productsReviewed'));
     }
 
     public function adminDeleteReview(Review $review)
