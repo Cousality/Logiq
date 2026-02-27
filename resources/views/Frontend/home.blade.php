@@ -347,11 +347,16 @@
         @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
-                text-align: center;
-                background: var(--bg-primary);
+                background: var(--red-pastel-1);
                 min-height: unset;
-                padding: 3rem 5%;
-                gap: 2.5rem;
+                padding: 0 0 2.5rem;
+                gap: 0;
+            }
+
+            .hero-text {
+                background: var(--bg-primary);
+                padding: 3rem 5% 2.5rem;
+                text-align: center;
             }
 
             .hero-text h1 {
@@ -365,8 +370,8 @@
             }
 
             .puzzle-card {
-                max-width: 480px;
-                margin: 0 auto;
+                max-width: 90%;
+                margin: 2rem auto 0;
                 padding: 1.5rem;
             }
 
