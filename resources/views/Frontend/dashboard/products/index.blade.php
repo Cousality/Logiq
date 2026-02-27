@@ -31,9 +31,6 @@
 
         .dashboard-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
             min-width: 0;
         }
 
@@ -41,7 +38,6 @@
             background: var(--white);
             border: 2px solid var(--text);
             padding: 2rem;
-            box-shadow: 0px 0px 0px var(--text);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -103,7 +99,6 @@
             text-decoration: none;
             font-weight: bold;
             font-family: inherit;
-            cursor: pointer;
             transition: 0.2s;
             display: inline-block;
         }
@@ -111,27 +106,6 @@
         .btn-add:hover {
             background: var(--red-pastel-1);
             border-color: var(--red-pastel-1);
-            transform: translateY(-2px);
-        }
-
-        .back-nav {
-            margin-bottom: 10px;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            padding: 10px 15px;
-            text-decoration: none;
-            border: 2px solid var(--text);
-            display: inline-block;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-
-        .btn-secondary:hover {
-            background: var(--text);
-            color: var(--white);
             transform: translateY(-2px);
         }
 
@@ -146,7 +120,6 @@
             padding: 0.85rem 1rem;
             text-align: left;
             vertical-align: middle;
-
         }
 
         .product-table th {
@@ -176,27 +149,22 @@
 
         .badge-easy {
             color: #4a7c59;
-            border-color: #4a7c59;
         }
 
         .badge-medium {
             color: #c17f24;
-            border-color: #c17f24;
         }
 
         .badge-hard {
             color: #a63232;
-            border-color: #a63232;
         }
 
         .badge-active {
             color: #4a7c59;
-            border-color: #4a7c59;
         }
 
         .badge-hidden {
             color: #888;
-            border-color: #888;
         }
 
         .thumb {
@@ -214,7 +182,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
         }
 
         .pagination-wrapper {
@@ -235,11 +202,7 @@
             color: var(--text);
         }
 
-        .pagination-wrapper a:hover {
-            background: var(--text);
-            color: var(--white);
-        }
-
+        .pagination-wrapper a:hover,
         .pagination-wrapper span.active {
             background: var(--text);
             color: var(--white);
@@ -292,10 +255,8 @@
                 position: absolute;
                 left: 10px;
                 width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                text-align: left;
                 font-weight: bold;
+                text-align: left;
             }
 
             .action-cell {

@@ -564,7 +564,9 @@
 
                 <div style="margin-bottom: 0.5rem;">
                     <span class="rating-display" id="avg-rating-display">
-                        <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" id="avg-stars-fg" data-pct="{{ (isset($avgRating) && $reviewCount > 0) ? (int)number_format(($avgRating / 5) * 100, 2) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+                        <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span
+                                class="stars-fg" id="avg-stars-fg"
+                                data-pct="{{ isset($avgRating) && $reviewCount > 0 ? (int) number_format(($avgRating / 5) * 100, 2) : 0 }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
                         <span class="review-count" id="review-count-label">({{ $reviewCount ?? 0 }})</span>
                     </span>
                 </div>
@@ -641,10 +643,8 @@
                     @endif
 
                     <div style="display:flex; align-items:center;">
-                        <div class="star-picker"
-                             id="starPicker"
-                             data-product="{{ $product->productID }}"
-                             data-current="{{ (isset($userReview) && $userReview) ? $userReview->rating : 0 }}">
+                        <div class="star-picker" id="starPicker" data-product="{{ $product->productID }}"
+                            data-current="{{ isset($userReview) && $userReview ? $userReview->rating : 0 }}">
                             <span class="sp-star" data-index="1">&#9733;</span>
                             <span class="sp-star" data-index="2">&#9733;</span>
                             <span class="sp-star" data-index="3">&#9733;</span>
@@ -656,8 +656,7 @@
                 @else
                     <h3>Leave a Review</h3>
                     <p style="font-size:0.9rem; opacity:0.7; line-height:1.6;">
-                        <a href="{{ route('login') }}"
-                           style="color: var(--red-pastel-1); font-weight:bold;">Log in</a>
+                        <a href="{{ route('login') }}" style="color: var(--red-pastel-1); font-weight:bold;">Log in</a>
                         to leave a review for this product.
                     </p>
                 @endauth
@@ -671,14 +670,15 @@
                             <div class="review-card">
                                 <div class="review-card-header">
                                     <span class="review-card-author">
-                                        {{ $review->user
-                                            ? $review->user->firstName . ' ' . substr($review->user->lastName, 0, 1) . '.'
-                                            : 'Anonymous' }}
+                                        {{ $review->user ? $review->user->firstName . ' ' . substr($review->user->lastName, 0, 1) . '.' : 'Anonymous' }}
                                     </span>
                                     <span class="review-card-date">{{ $review->created_at->format('d M Y') }}</span>
                                 </div>
                                 <div class="review-card-stars">
-                                    <span class="stars-wrap"><span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="stars-fg" data-pct="{{ number_format(($review->rating / 5) * 100, 2) }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
+                                    <span class="stars-wrap"><span
+                                            class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span
+                                            class="stars-fg"
+                                            data-pct="{{ number_format(($review->rating / 5) * 100, 2) }}">&#9733;&#9733;&#9733;&#9733;&#9733;</span></span>
                                 </div>
                                 @if ($review->reviewComment)
                                     <p class="review-card-comment">{{ $review->reviewComment }}</p>
@@ -711,10 +711,9 @@
                 <span class="star-picker-value" id="modalPickerValueLabel">&nbsp;</span>
             </div>
             <p class="modal-rating-label" id="modalRatingLabel"></p>
-            <p class="modal-comment-label">Comment <span style="font-weight:normal; opacity:0.6;">(optional)</span></p>
-            <textarea class="modal-comment-input"
-                      id="modalComment"
-                      placeholder="Share your thoughts about this product..."></textarea>
+            <p class="modal-comment-label">Comment <span style="font-weight:normal; opacity:0.6;">(optional)</span>
+            </p>
+            <textarea class="modal-comment-input" id="modalComment" placeholder="Share your thoughts about this product..."></textarea>
             <div class="modal-actions">
                 <button class="modal-confirm-btn" id="modalConfirm">Confirm Review</button>
                 <button class="modal-cancel-btn" id="modalCancel">Cancel</button>
@@ -727,225 +726,232 @@
     @include('Frontend.components.footer')
 
     <script>
-    (function () {
-        // Initialise star widths
-        document.querySelectorAll('[data-pct]').forEach(function (el) {
-            el.style.width = el.dataset.pct + '%';
-        });
+        (function() {
+            // Initialise star widths
+            document.querySelectorAll('[data-pct]').forEach(function(el) {
+                el.style.width = el.dataset.pct + '%';
+            });
 
-        // Render star HTML for modal preview
-        function renderStarsHTML(rating) {
-            var html = '';
-            for (var i = 1; i <= 5; i++) {
-                if (rating >= i) {
-                    html += '<span style="color:#c8871a;">&#9733;</span>';
-                } else if (rating >= i - 0.5) {
-                    html += '<span style="background:linear-gradient(to right,#c8871a 50%,#ccc 50%);' +
+            // Render star HTML for modal preview
+            function renderStarsHTML(rating) {
+                var html = '';
+                for (var i = 1; i <= 5; i++) {
+                    if (rating >= i) {
+                        html += '<span style="color:#c8871a;">&#9733;</span>';
+                    } else if (rating >= i - 0.5) {
+                        html += '<span style="background:linear-gradient(to right,#c8871a 50%,#ccc 50%);' +
                             '-webkit-background-clip:text;-webkit-text-fill-color:transparent;' +
                             'background-clip:text;">&#9733;</span>';
-                } else {
-                    html += '<span style="color:#ccc;">&#9733;</span>';
-                }
-            }
-            return html;
-        }
-
-        function showToast(msg) {
-            var t = document.getElementById('toast');
-            if (!t) return;
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(function () { t.classList.remove('show'); }, 3000);
-        }
-
-        var picker = document.getElementById('starPicker');
-        if (!picker) return;
-
-        var stars = Array.from(picker.querySelectorAll('.sp-star'));
-        var valueLabel = document.getElementById('pickerValueLabel');
-        var hoveredRating = 0;
-        var pendingRating = 0;
-
-        // Show current saved rating on load
-        var saved = parseFloat(picker.dataset.current) || 0;
-        if (saved > 0) {
-            applyPickerDisplay(saved);
-            valueLabel.textContent = saved.toFixed(1) + ' / 5';
-        }
-
-        picker.addEventListener('mousemove', function (e) {
-            var rect = picker.getBoundingClientRect();
-            var x = e.clientX - rect.left;
-            var frac = x / rect.width;                // 0..1
-            var raw = Math.max(1, Math.round(frac * 10)); // 1..10 half-steps
-            hoveredRating = raw / 2;                  // 0.5..5.0
-            applyPickerDisplay(hoveredRating);
-            valueLabel.textContent = hoveredRating.toFixed(1) + ' / 5';
-        });
-
-        picker.addEventListener('mouseleave', function () {
-            var s = parseFloat(picker.dataset.current) || 0;
-            applyPickerDisplay(s);
-            valueLabel.textContent = s > 0 ? s.toFixed(1) + ' / 5' : '\u00a0';
-            hoveredRating = 0;
-        });
-
-        picker.addEventListener('click', function () {
-            if (hoveredRating > 0) {
-                pendingRating = hoveredRating;
-                openModal(pendingRating);
-            }
-        });
-
-        function applyPickerDisplay(rating) {
-            stars.forEach(function (star, i) {
-                var n = i + 1;
-                // Reset
-                star.classList.remove('half-lit', 'full-lit');
-                star.style.cssText = '';
-
-                if (rating >= n) {
-                    star.classList.add('full-lit');
-                } else if (rating >= n - 0.5) {
-                    star.classList.add('half-lit');
-                }
-            });
-        }
-
-        /* ---- Modal ---- */
-        var modal             = document.getElementById('reviewModal');
-        var ratingLabel       = document.getElementById('modalRatingLabel');
-        var confirmBtn        = document.getElementById('modalConfirm');
-        var cancelBtn         = document.getElementById('modalCancel');
-        var closeBtn          = document.getElementById('modalClose');
-        var commentInput      = document.getElementById('modalComment');
-        var modalPicker       = document.getElementById('modalStarPicker');
-        var modalPickerStars  = Array.from(modalPicker.querySelectorAll('.sp-star'));
-        var modalValueLabel   = document.getElementById('modalPickerValueLabel');
-        var modalHoveredRating = 0;
-
-        function applyModalPickerDisplay(rating) {
-            modalPickerStars.forEach(function (star, i) {
-                var n = i + 1;
-                star.classList.remove('half-lit', 'full-lit');
-                star.style.cssText = '';
-                if (rating >= n) {
-                    star.classList.add('full-lit');
-                } else if (rating >= n - 0.5) {
-                    star.classList.add('half-lit');
-                }
-            });
-        }
-
-        modalPicker.addEventListener('mousemove', function (e) {
-            var rect = modalPicker.getBoundingClientRect();
-            var x = e.clientX - rect.left;
-            var frac = x / rect.width;
-            var raw = Math.max(1, Math.round(frac * 10));
-            modalHoveredRating = raw / 2;
-            applyModalPickerDisplay(modalHoveredRating);
-            modalValueLabel.textContent = modalHoveredRating.toFixed(1) + ' / 5';
-            ratingLabel.textContent = 'Rating: ' + modalHoveredRating.toFixed(1) + ' / 5.0';
-        });
-
-        modalPicker.addEventListener('mouseleave', function () {
-            applyModalPickerDisplay(pendingRating);
-            modalValueLabel.textContent = pendingRating > 0 ? pendingRating.toFixed(1) + ' / 5' : '\u00a0';
-            ratingLabel.textContent = pendingRating > 0 ? 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0' : '';
-            modalHoveredRating = 0;
-        });
-
-        modalPicker.addEventListener('click', function () {
-            if (modalHoveredRating > 0) {
-                pendingRating = modalHoveredRating;
-                applyModalPickerDisplay(pendingRating);
-                modalValueLabel.textContent = pendingRating.toFixed(1) + ' / 5';
-                ratingLabel.textContent = 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0';
-            }
-        });
-
-        function openModal(rating) {
-            pendingRating = rating;
-            applyModalPickerDisplay(rating);
-            modalValueLabel.textContent = rating.toFixed(1) + ' / 5';
-            ratingLabel.textContent = 'Rating: ' + rating.toFixed(1) + ' / 5.0';
-            commentInput.value = '';
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-            pendingRating = 0;
-        }
-
-        cancelBtn.addEventListener('click', closeModal);
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) closeModal();
-        });
-
-        confirmBtn.addEventListener('click', function () {
-            if (!pendingRating) return;
-
-            var productID = picker.dataset.product;
-            var comment = commentInput.value.trim();
-
-            confirmBtn.disabled = true;
-            confirmBtn.textContent = 'Saving\u2026';
-
-            fetch('{{ route("reviews.store") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    productID: parseInt(productID),
-                    rating: pendingRating,
-                    reviewComment: comment || null
-                })
-            })
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                confirmBtn.disabled = false;
-                confirmBtn.textContent = 'Confirm Review';
-
-                if (data.success) {
-                    picker.dataset.current = pendingRating.toFixed(1);
-                    applyPickerDisplay(pendingRating);
-                    valueLabel.textContent = pendingRating.toFixed(1) + ' / 5';
-
-                    /* Update avg rating row */
-                    var avgDisplay = document.getElementById('avg-rating-display');
-                    var countLabel = document.getElementById('review-count-label');
-                    if (avgDisplay) {
-                        var fg = avgDisplay.querySelector('.stars-fg');
-                        if (fg) {
-                            fg.style.width = ((data.avgRating / 5) * 100).toFixed(2) + '%';
-                        }
-                        if (countLabel) {
-                            countLabel.textContent = '(' + data.reviewCount + ')';
-                        }
+                    } else {
+                        html += '<span style="color:#ccc;">&#9733;</span>';
                     }
-
-                    closeModal();
-                    showToast('Review saved!');
-                    setTimeout(function () { window.location.reload(); }, 1200);
-                } else {
-                    showToast(data.message || 'Something went wrong.');
-                    closeModal();
                 }
-            })
-            .catch(function () {
-                confirmBtn.disabled = false;
-                confirmBtn.textContent = 'Confirm Review';
-                showToast('Network error. Please try again.');
-                closeModal();
-            });
-        });
+                return html;
+            }
 
-    })();
+            function showToast(msg) {
+                var t = document.getElementById('toast');
+                if (!t) return;
+                t.textContent = msg;
+                t.classList.add('show');
+                setTimeout(function() {
+                    t.classList.remove('show');
+                }, 3000);
+            }
+
+            var picker = document.getElementById('starPicker');
+            if (!picker) return;
+
+            var stars = Array.from(picker.querySelectorAll('.sp-star'));
+            var valueLabel = document.getElementById('pickerValueLabel');
+            var hoveredRating = 0;
+            var pendingRating = 0;
+
+            // Show current saved rating on load
+            var saved = parseFloat(picker.dataset.current) || 0;
+            if (saved > 0) {
+                applyPickerDisplay(saved);
+                valueLabel.textContent = saved.toFixed(1) + ' / 5';
+            }
+
+            picker.addEventListener('mousemove', function(e) {
+                var rect = picker.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var frac = x / rect.width; // 0..1
+                var raw = Math.max(1, Math.round(frac * 10)); // 1..10 half-steps
+                hoveredRating = raw / 2; // 0.5..5.0
+                applyPickerDisplay(hoveredRating);
+                valueLabel.textContent = hoveredRating.toFixed(1) + ' / 5';
+            });
+
+            picker.addEventListener('mouseleave', function() {
+                var s = parseFloat(picker.dataset.current) || 0;
+                applyPickerDisplay(s);
+                valueLabel.textContent = s > 0 ? s.toFixed(1) + ' / 5' : '\u00a0';
+                hoveredRating = 0;
+            });
+
+            picker.addEventListener('click', function() {
+                if (hoveredRating > 0) {
+                    pendingRating = hoveredRating;
+                    openModal(pendingRating);
+                }
+            });
+
+            function applyPickerDisplay(rating) {
+                stars.forEach(function(star, i) {
+                    var n = i + 1;
+                    // Reset
+                    star.classList.remove('half-lit', 'full-lit');
+                    star.style.cssText = '';
+
+                    if (rating >= n) {
+                        star.classList.add('full-lit');
+                    } else if (rating >= n - 0.5) {
+                        star.classList.add('half-lit');
+                    }
+                });
+            }
+
+            /* ---- Modal ---- */
+            var modal = document.getElementById('reviewModal');
+            var ratingLabel = document.getElementById('modalRatingLabel');
+            var confirmBtn = document.getElementById('modalConfirm');
+            var cancelBtn = document.getElementById('modalCancel');
+            var closeBtn = document.getElementById('modalClose');
+            var commentInput = document.getElementById('modalComment');
+            var modalPicker = document.getElementById('modalStarPicker');
+            var modalPickerStars = Array.from(modalPicker.querySelectorAll('.sp-star'));
+            var modalValueLabel = document.getElementById('modalPickerValueLabel');
+            var modalHoveredRating = 0;
+
+            function applyModalPickerDisplay(rating) {
+                modalPickerStars.forEach(function(star, i) {
+                    var n = i + 1;
+                    star.classList.remove('half-lit', 'full-lit');
+                    star.style.cssText = '';
+                    if (rating >= n) {
+                        star.classList.add('full-lit');
+                    } else if (rating >= n - 0.5) {
+                        star.classList.add('half-lit');
+                    }
+                });
+            }
+
+            modalPicker.addEventListener('mousemove', function(e) {
+                var rect = modalPicker.getBoundingClientRect();
+                var x = e.clientX - rect.left;
+                var frac = x / rect.width;
+                var raw = Math.max(1, Math.round(frac * 10));
+                modalHoveredRating = raw / 2;
+                applyModalPickerDisplay(modalHoveredRating);
+                modalValueLabel.textContent = modalHoveredRating.toFixed(1) + ' / 5';
+                ratingLabel.textContent = 'Rating: ' + modalHoveredRating.toFixed(1) + ' / 5.0';
+            });
+
+            modalPicker.addEventListener('mouseleave', function() {
+                applyModalPickerDisplay(pendingRating);
+                modalValueLabel.textContent = pendingRating > 0 ? pendingRating.toFixed(1) + ' / 5' : '\u00a0';
+                ratingLabel.textContent = pendingRating > 0 ? 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0' :
+                    '';
+                modalHoveredRating = 0;
+            });
+
+            modalPicker.addEventListener('click', function() {
+                if (modalHoveredRating > 0) {
+                    pendingRating = modalHoveredRating;
+                    applyModalPickerDisplay(pendingRating);
+                    modalValueLabel.textContent = pendingRating.toFixed(1) + ' / 5';
+                    ratingLabel.textContent = 'Rating: ' + pendingRating.toFixed(1) + ' / 5.0';
+                }
+            });
+
+            function openModal(rating) {
+                pendingRating = rating;
+                applyModalPickerDisplay(rating);
+                modalValueLabel.textContent = rating.toFixed(1) + ' / 5';
+                ratingLabel.textContent = 'Rating: ' + rating.toFixed(1) + ' / 5.0';
+                commentInput.value = '';
+                modal.classList.add('active');
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                pendingRating = 0;
+            }
+
+            cancelBtn.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeModal();
+            });
+
+            confirmBtn.addEventListener('click', function() {
+                if (!pendingRating) return;
+
+                var productID = picker.dataset.product;
+                var comment = commentInput.value.trim();
+
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = 'Saving\u2026';
+
+                fetch('{{ route('reviews.store') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            productID: parseInt(productID),
+                            rating: pendingRating,
+                            reviewComment: comment || null
+                        })
+                    })
+                    .then(function(res) {
+                        return res.json();
+                    })
+                    .then(function(data) {
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = 'Confirm Review';
+
+                        if (data.success) {
+                            picker.dataset.current = pendingRating.toFixed(1);
+                            applyPickerDisplay(pendingRating);
+                            valueLabel.textContent = pendingRating.toFixed(1) + ' / 5';
+
+                            /* Update avg rating row */
+                            var avgDisplay = document.getElementById('avg-rating-display');
+                            var countLabel = document.getElementById('review-count-label');
+                            if (avgDisplay) {
+                                var fg = avgDisplay.querySelector('.stars-fg');
+                                if (fg) {
+                                    fg.style.width = ((data.avgRating / 5) * 100).toFixed(2) + '%';
+                                }
+                                if (countLabel) {
+                                    countLabel.textContent = '(' + data.reviewCount + ')';
+                                }
+                            }
+
+                            closeModal();
+                            showToast('Review saved!');
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1200);
+                        } else {
+                            showToast(data.message || 'Something went wrong.');
+                            closeModal();
+                        }
+                    })
+                    .catch(function() {
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = 'Confirm Review';
+                        showToast('Network error. Please try again.');
+                        closeModal();
+                    });
+            });
+
+        })();
     </script>
 </body>
 
