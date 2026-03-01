@@ -18,6 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $primaryKey = 'userID';
+    protected $keyType = 'int';
+    public $incrementing = true;
 
     protected $fillable = [
         'firstName',
@@ -48,4 +50,9 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+public function getAuthIdentifierName()
+{
+    return 'userID';
+}
 }
