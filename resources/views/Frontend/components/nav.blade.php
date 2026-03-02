@@ -25,8 +25,9 @@
 
     .search-container {
         flex: 1;
-        max-width: 400px;
-        margin: 0 2rem;
+        min-width: 260px;
+        max-width: 520px;
+        margin: 0 1.5rem;
         display: flex;
         align-items: center;
         border-bottom: 2px solid transparent;
@@ -173,19 +174,19 @@
         display: flex;
         align-items: center;
     }
-    
+
     .nav-icon {
-        width: 50px;           
+        width: 50px;
         height: 50px;
-        display: flex;         
-        align-items: center;  
+        display: flex;
+        align-items: center;
         justify-content: center;
         background-size: contain;
         cursor: pointer;
     }
 
     .login-icon {
-        background-image: var(--icon-login); 
+        background-image: var(--icon-login);
     }
 
     .basket-icon {
@@ -196,7 +197,7 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        gap: 10px;
+        gap: 12px;
     }
 
     .nav-links a {
@@ -205,6 +206,94 @@
         font-weight: 600;
         text-transform: uppercase;
         font-size: 0.9rem;
+    }
+
+    /* Theme toggle (slider) */
+    .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+
+    .theme-toggle-input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+    }
+
+    .theme-toggle-label {
+        width: 50px;
+        height: 25px;
+        border: 2px solid var(--text);
+        border-radius: 999px;
+        background: var(--bg-primary);
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .theme-toggle-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 999px;
+        background: var(--text);
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.2s ease;
+    }
+
+    .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
+        transform: translate(24px, -50%);
+    }
+
+    .theme-toggle-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        opacity: 0.9;
+    }
+
+    .theme-toggle-sun {
+        left: 7px;
+        opacity: 1;
+    }
+
+    .theme-toggle-moon {
+        right: 7px;
+        opacity: 0;
+    }
+
+    body.dark-mode .theme-toggle-sun {
+        opacity: 0;
+    }
+
+    body.dark-mode .theme-toggle-moon {
+        opacity: 1;
+    }
+
+    .theme-toggle-icon svg {
+        width: 16px;
+        height: 16px;
+        stroke: var(--bg-primary);
+        stroke-width: 2.2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     /* Account Dropdown */
@@ -797,6 +886,7 @@
             flex-basis: 100%;
             width: 100%;
             max-width: 100%;
+            min-width: 0;
             margin: 0;
         }
 
@@ -816,6 +906,10 @@
         .basket-dropdown {
             width: calc(100vw - 10%);
             right: 0;
+        }
+
+        .theme-toggle {
+            display: none;
         }
     }
 </style>
@@ -899,6 +993,31 @@
     </div>
 
     <div class="nav-links">
+        <div class="theme-toggle" aria-label="Toggle theme">
+            <input id="theme-toggle" class="theme-toggle-input" type="checkbox" />
+            <label class="theme-toggle-label" for="theme-toggle">
+                <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2"></path>
+                        <path d="M12 20v2"></path>
+                        <path d="M2 12h2"></path>
+                        <path d="M20 12h2"></path>
+                        <path d="M4.6 4.6l1.4 1.4"></path>
+                        <path d="M18 18l1.4 1.4"></path>
+                        <path d="M19.4 4.6L18 6"></path>
+                        <path d="M6 18l-1.4 1.4"></path>
+                    </svg>
+                </span>
+                <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a6.5 6.5 0 1 0 9.8 9.8Z"></path>
+                    </svg>
+                </span>
+                <span class="theme-toggle-thumb" aria-hidden="true"></span>
+            </label>
+        </div>
+
         <!-- Account icon with dropdown -->
         <div class="account-wrapper">
             @auth
@@ -943,7 +1062,7 @@
                             @csrf
                             <button type="submit">Logout</button>
                         </form>
-                        <button id="dark-mode-toggle" type="button">Theme</button>
+                        <button id="dark-mode-toggle" type="button" style="display:none;">Theme</button>
                     </div>
                 @else
                     <div class="dropdown-guest">
@@ -951,13 +1070,14 @@
                         <a href="{{ route('register') }}">Register</a>
                     </div>
                     <div class="dropdown-actions">
-                        <button id="dark-mode-toggle" type="button">Theme</button>
+                        <button id="dark-mode-toggle" type="button" style="display:none;">Theme</button>
                     </div>
                 @endauth
             </div>
         </div>
+
         <div class="basket-wrapper">
-            <a href="{{ route('basket.index') }}" 
+            <a href="{{ route('basket.index') }}"
                class="nav-icon basket-icon"
                alt="basket">
             </a>
@@ -1056,14 +1176,30 @@
     const toggleBtn = document.getElementById("dark-mode-toggle");
     const body = document.body;
 
+    const themeToggleInput = document.getElementById('theme-toggle');
+
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
+        if (themeToggleInput) themeToggleInput.checked = true;
+    } else {
+        if (themeToggleInput) themeToggleInput.checked = false;
+    }
+
+    function setTheme(isDark) {
+        body.classList.toggle("dark-mode", isDark);
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        if (themeToggleInput) themeToggleInput.checked = isDark;
+    }
+
+    if (themeToggleInput) {
+        themeToggleInput.addEventListener('change', () => {
+            setTheme(themeToggleInput.checked);
+        });
     }
 
     if (toggleBtn) {
         toggleBtn.addEventListener("click", () => {
-            body.classList.toggle("dark-mode");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+            setTheme(!body.classList.contains("dark-mode"));
         });
     }
 
@@ -1071,8 +1207,7 @@
     const mobileThemeToggle = document.getElementById('mobile-theme-bar');
     if (mobileThemeToggle) {
         mobileThemeToggle.addEventListener('click', () => {
-            body.classList.toggle("dark-mode");
-            localStorage.setItem("theme", body.classList.contains("dark-mode") ? "dark" : "light");
+            setTheme(!body.classList.contains("dark-mode"));
         });
     }
 
