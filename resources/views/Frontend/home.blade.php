@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/quiz_celebrate.css') }}" />
     <style>
         /* HERO SECTION */
         .hero {
@@ -424,7 +425,7 @@
         }
     </style>
 </head>
-
+<script src="{{ asset('js/quiz_celebrate.js') }}"></script>
 <body>
     @include('Frontend.components.nav')
 
@@ -435,7 +436,7 @@
             <br />
             <a href="{{ route('store.index') }}" class="cta-button">Browse Store</a>
         </div>
-        <div class="puzzle-card">
+        <div class="puzzle-card quiz-box" id="daily-quiz">
             <div class="puzzle-badge">DAILY LOGIQ</div>
 
             <div class="puzzle-question">Sequence: {{ $puzzle['sequence_string'] }}</div>
@@ -449,6 +450,7 @@
             </div>
 
             <div id="feedback"></div>
+            <canvas id="quiz-confetti" aria-hidden="true"></canvas>
         </div>
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </header>
@@ -668,13 +670,18 @@
                     feedback.style.color = data.color;
                     feedback.textContent = data.message;
 
-                    if (data.status === "error") {
-                        setTimeout(() => {
-                            btns.forEach((btn) => (btn.disabled = false));
-                            feedback.textContent = "";
-                        }, 2000);
-                    }
-                })
+                //  Celebration trigger 
+                    if (data.status === "success" && window.LogiqQuizCelebrate) {
+                        window.LogiqQuizCelebrate.burst("daily-quiz", 1500);
+            }
+
+                if (data.status === "error") {
+                    setTimeout(() => {
+                     btns.forEach((btn) => (btn.disabled = false));
+                    feedback.textContent = "";
+                }, 2000);
+        }
+        })
                 .catch((error) => {
                     console.error("Error:", error);
                     feedback.textContent = "System Error.";
