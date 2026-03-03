@@ -96,6 +96,16 @@
         .signup a:hover {
             text-decoration: underline;
         }
+
+        .success-message {
+            background-color: #90EE90;
+            color: var(--text);
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid var(--text);
+        }
     </style>
 </head>
 
@@ -111,6 +121,10 @@
 
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
+
+                @if (session('message'))
+                    <div class="success-message">{{ session('message') }}</div>
+                @endif
 
                 @if ($errors->has('credentials'))
                     <div class="error-message">

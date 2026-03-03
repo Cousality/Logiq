@@ -97,6 +97,13 @@ CREATE TABLE reviews (
     INDEX idx_user_review (userID)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE password_resets (
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NULL,
+    INDEX password_resets_email_index (email)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE wishlists (
     wishlistID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userID INT(11) NOT NULL,

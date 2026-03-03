@@ -11,6 +11,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 /*
@@ -60,7 +61,7 @@ Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.o
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
-});
+})->name('password.request');
 
 Route::post('/send-reset-link', function (Request $request) {
 
