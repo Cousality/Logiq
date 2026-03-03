@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class AdminProductController extends Controller
 {
-    private const CATEGORIES = ['Twist', 'Jigsaw', 'Word&Number', 'BoardGames', 'HandheldBrainTeasers'];
+    private const CATEGORIES = ['Twist', 'Jigsaw', 'Word&Number', 'BoardGames', 'BrainTeasers'];
     private const DIFFICULTIES = ['easy', 'medium', 'hard'];
     private const STATUSES = ['active', 'hidden'];
 
@@ -37,10 +37,10 @@ class AdminProductController extends Controller
         $validated = $request->validate([
             'productName'       => 'required|string|max:255',
             'productSlug'       => 'nullable|string|max:255',
-            'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,HandheldBrainTeasers',
+            'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,BrainTeasers',
             'productDifficulty' => 'required|in:easy,medium,hard',
             'productPrice'      => 'required|numeric|min:0',
-            'productDescription'=> 'nullable|string',
+            'productDescription'=> 'required|string',
             'productImage'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'productQuantity'   => 'required|integer|min:0',
             'productStatus'     => 'required|in:active,hidden',
@@ -84,10 +84,10 @@ class AdminProductController extends Controller
         $validated = $request->validate([
             'productName'       => 'required|string|max:255',
             'productSlug'       => 'nullable|string|max:255',
-            'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,HandheldBrainTeasers',
+            'productCategory'   => 'required|in:Twist,Jigsaw,Word&Number,BoardGames,BrainTeasers',
             'productDifficulty' => 'required|in:easy,medium,hard',
             'productPrice'      => 'required|numeric|min:0',
-            'productDescription'=> 'nullable|string',
+            'productDescription'=> 'required|string',
             'productImage'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'productQuantity'   => 'required|integer|min:0',
             'productStatus'     => 'required|in:active,hidden',

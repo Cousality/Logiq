@@ -34,6 +34,7 @@
 
         .dashboard-content {
             flex: 1;
+            min-width: 0;
         }
 
         .service-container {
@@ -61,7 +62,7 @@
         }
 
         /* MOBILE */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .dashboard-title {
                 font-size: 2.5rem;
             }
@@ -72,6 +73,10 @@
 
             .dashboard-layout {
                 flex-direction: column;
+            }
+
+            .dashboard-content {
+                width: 100%;
             }
         }
     </style>

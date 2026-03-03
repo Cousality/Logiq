@@ -217,6 +217,45 @@
         .difficulty-badge.hard {
             background: #a63232;
         }
+
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .card-description {
+                display: none;
+            }
+
+            .card-image-container {
+                height: 140px;
+            }
+
+            .card-content {
+                padding: 0.75rem;
+            }
+
+            .card-actions {
+                padding: 0.75rem;
+                padding-top: 0;
+                gap: 0.5rem;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .card-price {
+                font-size: 0.85rem;
+                margin-top: 0.2rem;
+            }
+
+            .btn-style {
+                padding: 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
     </style>
     <div class="product-card" data-category="{{ $product->productCategory }}"
         data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}"

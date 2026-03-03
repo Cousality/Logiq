@@ -145,7 +145,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="#" class="card-link-wrapper">
+                        <a href="{{ route('review_moderation') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Review Moderation</h3>
                             <h3 class="card-description">View current reviews and delete inappropriate reviews.</h3>
                         </a>
