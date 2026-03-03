@@ -171,4 +171,110 @@ INSERT INTO reviews (userID, productID, rating, reviewComment) VALUES
     (3, 25, 4.0, 'Good quality metal. Takes proper logical thinking and patience. Very satisfying.'),
     (6, 25, 5.0, 'One of the best brain teasers I have tried. Looks simple, absolutely is not.');
 
+-- ============================================================
+-- ADDRESSES
+-- One default address per non-admin user (userID 2–7)
+-- addressID 1=John Smith, 2=Sarah Jones, 3=Mike Brown,
+--           4=Emma Wilson, 5=James Taylor, 6=Lucy Anderson
+-- ============================================================
+INSERT INTO addresses (userID, recipientFirstName, recipientLastName, phone, addressLine1, addressLine2, city, postCode, isDefault) VALUES
+    (2, 'John',  'Smith',    '07700900001', '12 Baker Street',    NULL,          'London',     'NW1 6XE', TRUE),
+    (3, 'Sarah', 'Jones',    '07700900002', '5 Victoria Road',    'Flat 3',      'Manchester', 'M1 2AB',  TRUE),
+    (4, 'Mike',  'Brown',    '07700900003', '8 Castle Terrace',   NULL,          'Edinburgh',  'EH1 2DP', TRUE),
+    (5, 'Emma',  'Wilson',   '07700900004', '22 Queen Street',    'Apartment 1', 'Bristol',    'BS1 4NT', TRUE),
+    (6, 'James', 'Taylor',   '07700900005', '3 Park Lane',        NULL,          'Birmingham', 'B1 1BB',  TRUE),
+    (7, 'Lucy',  'Anderson', '07700900006', '17 Harbour View',    'Floor 2',     'Liverpool',  'L1 8JQ',  TRUE);
+
+-- ============================================================
+-- ORDERS
+-- orderStatus options: cart | pending | processing | shipped | delivered | cancelled
+-- userID 2=John Smith,  3=Sarah Jones,  4=Mike Brown,
+--        5=Emma Wilson, 6=James Taylor, 7=Lucy Anderson
+-- addressID matches the addresses inserted above
+-- ============================================================
+INSERT INTO orders (userID, orderDate, orderStatus, totalAmount, addressID) VALUES
+    -- John Smith: two orders
+    (2, '2026-01-05 10:23:00', 'delivered',  26.48, 1),  -- orderID 1
+    (2, '2026-02-14 14:05:00', 'shipped',    14.98, 1),  -- orderID 2
+
+    -- Sarah Jones: two orders
+    (3, '2026-01-12 09:00:00', 'delivered',  23.48, 2),  -- orderID 3
+    (3, '2026-02-20 11:30:00', 'processing', 15.97, 2),  -- orderID 4
+
+    -- Mike Brown: two orders
+    (4, '2025-12-28 16:45:00', 'delivered',  26.48, 3),  -- orderID 5
+    (4, '2026-02-25 08:15:00', 'pending',    14.98, 3),  -- orderID 6
+
+    -- Emma Wilson: two orders
+    (5, '2026-01-19 13:55:00', 'delivered',  27.96, 4),  -- orderID 7
+    (5, '2026-02-28 17:00:00', 'shipped',    14.49, 4),  -- orderID 8
+
+    -- James Taylor: two orders
+    (6, '2025-12-15 12:00:00', 'delivered',  19.97, 5),  -- orderID 9
+    (6, '2026-01-30 10:10:00', 'cancelled',  15.99, 5),  -- orderID 10
+
+    -- Lucy Anderson: two orders
+    (7, '2026-01-08 15:20:00', 'delivered',  25.97, 6),  -- orderID 11
+    (7, '2026-02-22 09:45:00', 'processing', 11.98, 6);  -- orderID 12
+
+-- ============================================================
+-- ORDER ITEMS
+-- priceAtTime reflects the product price at time of purchase
+-- ============================================================
+INSERT INTO order_items (orderID, productID, quantity, priceAtTime) VALUES
+    -- Order 1: John Smith (delivered) — 3x3 Rubik's Cube, Eiffel Tower Jigsaw, Scrabble
+    (1,  1, 1,  7.99),
+    (1,  6, 1,  9.99),
+    (1, 13, 1,  8.50),
+
+    -- Order 2: John Smith (shipped) — 100 Sudoku Puzzles, Soma Cube
+    (2, 11, 1,  9.99),
+    (2, 22, 1,  4.99),
+
+    -- Order 3: Sarah Jones (delivered) — 2x2 Rubik's Cube, Speedcube, 80 Nonogram Puzzles
+    (3,  2, 1,  6.50),
+    (3,  5, 1,  7.99),
+    (3, 15, 1,  8.99),
+
+    -- Order 4: Sarah Jones (processing) — 500 Piece London Eye Jigsaw, Snake Twist Puzzle x2
+    (4,  7, 1,  7.99),
+    (4, 23, 2,  3.99),
+
+    -- Order 5: Mike Brown (delivered) — 5x5 Rubik's Cube, Cluedo, Wooden Burr Puzzle
+    (5,  3, 1,  9.99),
+    (5, 16, 1,  7.50),
+    (5, 21, 1,  8.99),
+
+    -- Order 6: Mike Brown (pending) — Monopoly, Labyrinth Ball Maze
+    (6, 18, 1,  8.99),
+    (6, 24, 1,  5.99),
+
+    -- Order 7: Emma Wilson (delivered) — Pyraminx, Big Ben Jigsaw, Chess, 20 Word Search Puzzles
+    (7,  4, 1,  5.99),
+    (7,  8, 1,  8.99),
+    (7, 19, 1,  6.99),
+    (7, 14, 1,  5.99),
+
+    -- Order 8: Emma Wilson (shipped) — 40 Crossword Puzzles, Metal Separation Puzzle
+    (8, 12, 1,  7.50),
+    (8, 25, 1,  6.99),
+
+    -- Order 9: James Taylor (delivered) — Statue of Liberty Jigsaw, Sphinx & Pyramid Jigsaw, Checkers
+    (9,  9, 1,  5.99),
+    (9, 10, 1,  5.99),
+    (9, 20, 1,  7.99),
+
+    -- Order 10: James Taylor (cancelled) — Ludo, 1000 Piece Eiffel Tower Jigsaw
+    (10, 17, 1,  6.00),
+    (10,  6, 1,  9.99),
+
+    -- Order 11: Lucy Anderson (delivered) — Speedcube, 80 Nonogram Puzzles, Wooden Burr Puzzle
+    (11,  5, 1,  7.99),
+    (11, 15, 1,  8.99),
+    (11, 21, 1,  8.99),
+
+    -- Order 12: Lucy Anderson (processing) — 3x3 Rubik's Cube, Snake Twist Puzzle
+    (12,  1, 1,  7.99),
+    (12, 23, 1,  3.99);
+
 SET FOREIGN_KEY_CHECKS = 1;
