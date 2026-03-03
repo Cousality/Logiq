@@ -30,7 +30,7 @@ INSERT INTO products (productName, productSlug, productCategory, productDifficul
     ('Soma Cube', 'soma-cube', 'BrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
     ('Snake Twist Puzzle', 'snake-twist-puzzle', 'BrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
     ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'BrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
-    ('Metal Disentanglement Puzzle', 'metal-disentanglement-puzzle', 'BrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
+    ('Metal Separation Puzzle', 'metal-separation-puzzle', 'BrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
 
 -- ============================================================
 -- SAMPLE USERS (password = "password")
