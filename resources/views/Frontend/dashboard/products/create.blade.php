@@ -259,9 +259,10 @@
 
                 {{-- Description --}}
                 <div class="form-group">
-                    <label for="productDescription">Description</label>
+                    <label for="productDescription">Description *</label>
                     <textarea id="productDescription"
                               name="productDescription"
+                              required
                               placeholder="Describe the product...">{{ old('productDescription') }}</textarea>
                     @error('productDescription')
                         <span class="error">{{ $message }}</span>
@@ -330,6 +331,9 @@
             if (qty.value === '' || parseInt(qty.value) < 0) {
                 errors.push('Quantity must be 0 or greater.'); valid = false;
             }
+
+            const desc = document.getElementById('productDescription');
+            if (!desc.value.trim()) { errors.push('Description is required.'); valid = false; }
 
             const img = document.getElementById('productImage');
             if (img.files.length > 0) {

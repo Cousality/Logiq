@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('productID', true);
             $table->string('productName', 100);
             $table->string('productSlug', 120)->unique('productSlug');
-            $table->enum('productCategory', ['Twist', 'Jigsaw', 'Word&Number', 'BoardGames', 'HandheldBrainTeasers'])->index('idx_category');
+            $table->enum('productCategory', ['Twist', 'Jigsaw', 'Word&Number', 'BoardGames', 'BrainTeasers'])->index('idx_category');
             $table->enum('productDifficulty', ['easy', 'medium', 'hard']);
             $table->decimal('productPrice', 10)->index('idx_price');
             $table->text('productDescription');

@@ -133,7 +133,7 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
 
-    Route::resource('admin/inventory', AdminProductController::class)->names('admin.products');
+    Route::resource('admin/inventory', AdminProductController::class)->names('admin.products')->parameters(['inventory' => 'product']);
 
     Route::get('/promotions', function () {
         return view('Frontend.dashboard.promotions');
