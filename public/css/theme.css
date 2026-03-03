@@ -3,9 +3,12 @@
     --bg-secondary: #fce5ad;
     --red-pastel-1: #5d0f17;
     --red-pastel-2: #640a13;
+    --red-pastel-static: var(--red-pastel-1);
     --text: #4a2c2a;
     --text-light: #faedcd;
+    --text-light-static: var(--text-light);
     --white: #ffffff;
+    --white-static: var(--white);
     --transition: 0.3s ease;
     --icon-store: url("/Images/store_icon.png");
     --icon-login: url("/Images/login_icon.png");
@@ -15,7 +18,9 @@
 body.dark-mode {
     --bg-primary: #121212;
     --bg-secondary: #1a1a1a;
+    --red-pastel-1: #e0e0e0;
     --text: #e0e0e0;
+    --text-light: #1e1e1e;
     --white: #1e1e1e;
     --icon-store: url("/Images/store_dark.png");
     --icon-login: url("/Images/login_dark.png");

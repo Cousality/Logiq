@@ -18,7 +18,7 @@
             align-items: center;
             background: linear-gradient(135deg,
                     var(--bg-primary) 50%,
-                    var(--red-pastel-1) 50%);
+                    var(--red-pastel-static) 50%);
         }
 
         .hero-text h1 {
@@ -86,7 +86,7 @@
         .divider {
             width: 100px;
             height: 4px;
-            background: var(--red-pastel-1);
+            background: var(--red-pastel-static);
             margin: 0 auto;
         }
 
@@ -173,7 +173,7 @@
             left: 0;
             width: 6px;
             height: 100%;
-            background: var(--red-pastel-1);
+            background: var(--red-pastel-static);
         }
 
         .rec-card::before {
