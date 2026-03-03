@@ -53,11 +53,13 @@ Route::patch('/your_orders/{order}/cancel', [OrderController::class, 'cancel'])-
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
-});
+})->name('password.request');
 
-Route::post('/send-reset-link', function () {
-    return back()->with('message', 'A password reset link has been sent to your email.');
-})->name('password.email');
+Route::post('/send-reset-link', [AuthController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
 Route::get('/about_us', function () {
     return view('Frontend.text.about_us');
