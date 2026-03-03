@@ -64,7 +64,7 @@
             <ul>
                 <li><a class="footerLinks" href="{{ route('dashboard.orders') }}">Your Orders</a></li>
                 <li><a class="footerLinks" href="{{ route('yourAddress') }}">Your Address</a></li>
-                <li><a class="footerLinks" href="{{ route('mypuzzles') }}">My Puzzles</a></li>
+                <li><a class="footerLinks" href="{{ route('my_puzzles') }}">My Puzzles</a></li>
                 <li><a class="footerLinks" href="{{ route('wishlist.index') }}">Wishlist</a></li>
                 <li><a class="footerLinks" href="{{ route('basket.index') }}">Basket</a></li>
             </ul>

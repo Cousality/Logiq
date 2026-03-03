@@ -85,9 +85,6 @@ Route::get('/FAQs', function () {
 //Dashboard Routes
 
 
-Route::get('/my_puzzles', function () {
-    return view('Frontend.dashboard.my_puzzles');
-})->name('mypuzzles');
 
 // Auth Pages
 Route::middleware(['auth'])->group(function () {
@@ -113,6 +110,17 @@ Route::middleware(['auth'])->group(function () {
         return view('Frontend.dashboard');
     })->name('dashboard');
 
+    //Review Routes
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/my_puzzles', [ReviewController::class, 'myPuzzles'])->name('my_puzzles');
+    Route::put('/my_puzzles/{review}', [ReviewController::class, 'updateReview'])->name('review.update');
+    Route::delete('/my_puzzles/{review}', [ReviewController::class, 'deleteReview'])->name('review.delete');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
+    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
     //Basket Routes
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
     Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
