@@ -14,7 +14,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -66,7 +66,7 @@
         .filter-button:hover,
         .filter-button.active {
             background: var(--text);
-            color: var(--text-light);
+            color: var(--white);
         }
 
         /* ORDER CARD */
@@ -197,7 +197,7 @@
 
         .action-button.primary:hover {
             background: var(--red-pastel-2);
-            color: var(--text-light);
+            color: var(--white-static);
         }
 
         /* MOBILE */
