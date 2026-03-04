@@ -13,6 +13,12 @@
     --icon-store: url("/Images/store_icon.png");
     --icon-login: url("/Images/login_icon.png");
     --icon-basket: url("/Images/basket_icon.png");
+    color-scheme: light;
+    --transition: 0.3s ease;
+}
+
+html.dark-mode {
+    color-scheme: dark;
 }
 
 body.dark-mode {
@@ -25,6 +31,8 @@ body.dark-mode {
     --icon-store: url("/Images/store_dark.png");
     --icon-login: url("/Images/login_dark.png");
     --icon-basket: url("/Images/basket_dark.png");
+   
+   
 }
 * {
     box-sizing: border-box;
@@ -61,7 +69,40 @@ body {
     line-height: 1;
 }
 
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--red-pastel-1) var(--bg-secondary);
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
 }
+
+/* Light mode */
+::-webkit-scrollbar-track {
+    background: #fce5ad;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #5d0f17;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #640a13;
+}
+
+/* Dark mode */
+html.dark-mode ::-webkit-scrollbar-track {
+    background: #0a0a0a !important;
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb {
+    background: #3a3a3a !important;
+    border-radius: 4px;
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #555555 !important;
+}
+
+
+
+
+

@@ -1180,13 +1180,13 @@
 
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
+        document.documentElement.classList.add("dark-mode");
         if (themeToggleInput) themeToggleInput.checked = true;
-    } else {
-        if (themeToggleInput) themeToggleInput.checked = false;
     }
 
     function setTheme(isDark) {
         body.classList.toggle("dark-mode", isDark);
+        document.documentElement.classList.toggle("dark-mode", isDark);
         localStorage.setItem("theme", isDark ? "dark" : "light");
         if (themeToggleInput) themeToggleInput.checked = isDark;
     }
