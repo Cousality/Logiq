@@ -43,8 +43,7 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:card,paypal',
             'card_name' => 'required|string|max:255',
             'card_number' => 'required|string',
-            'expiry_month' => 'required|string',
-            'expiry_year' => 'required|string',
+            'expiry' => 'required|string',
             'cvv' => 'required|string',
             'agree_terms' => 'accepted',
         ]);
