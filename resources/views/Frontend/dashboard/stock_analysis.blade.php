@@ -269,6 +269,7 @@
                                 <tr>
                                     <th>Product</th>
                                     <th>Current Qty</th>
+                                    <th>Status</th>
                                     <th>Qty Sold</th>
                                     <th>Revenue</th>
                                     <th>Total Orders</th>
@@ -280,6 +281,23 @@
                                     <tr>
                                         <td data-label="Product"><strong>{{ $stat->productName }}</strong></td>
                                         <td data-label="Current Qty">{{ $stat->productQuantity }}</td>
+                                        <td data-label="Status"
+                                            @if($stat->productQuantity <= 5)
+                                                style="background: #fce4e4; color: #a63232; font-weight: bold;"
+                                            @elseif($stat->productQuantity > 30)
+                                                style="background: #fff3e0; color: #e65100; font-weight: bold;"
+                                            @else
+                                                style="background: #e4f5e9; color: #2e7d32; font-weight: bold;"
+                                            @endif
+                                        >
+                                            @if($stat->productQuantity <= 5)
+                                                Low Stock
+                                            @elseif($stat->productQuantity > 30)
+                                                Over Stock
+                                            @else
+                                                Normal
+                                            @endif
+                                        </td>
                                         <td data-label="Qty Sold">{{ $stat->total_sold }}</td>
                                         <td data-label="Revenue">£{{ number_format($stat->total_revenue, 2) }}</td>
                                         <td data-label="Total Orders">{{ $stat->order_count }}</td>
