@@ -6,8 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 
 <style>
+
+.checkout-header {
+    padding: 4rem 5%;
+    background: linear-gradient(135deg,
+        var(--bg-primary) 60%,
+        var(--red-pastel-static) 60%);
+    border-bottom: 2px solid var(--text);
+}
+
+.header-title {
+    font-size: 4rem;
+    letter-spacing: -3px;
+    margin-bottom: 1rem;
+}
+
 .checkout-wrapper{
     max-width:1200px;
     margin:30px auto 60px;
@@ -17,42 +33,43 @@
 }
 
 .checkout-main{
-    flex:2;
-    background:#fff;
-    border-radius:16px;
-    padding:24px 24px 32px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    flex: 2;
+    padding: 3rem 5%;
+    background: var(--white);
+    border: 2px solid var(--text);
 }
 
 .checkout-summary{
-    flex:1;
-    background:#fff;
-    border-radius:16px;
-    padding:24px;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
-    position:sticky;
-    top:20px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--text);
+    padding: 2rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
 }
 
 .checkout-title{
-    font-family:"Inria Serif";
-    font-size:32px;
-    color:#310E0E;
-    margin-bottom:16px;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 0.5rem;
 }
 
-.section{
+.section {
     margin-bottom:24px;
-    padding-bottom:20px;
-    border-bottom:1px solid #f2f2f2;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--text);
 }
 
-.section:last-of-type{border-bottom:none;}
+form .section:last-of-type {
+    border-bottom:none;
+}
 
 .section-title{
     font-size:18px;
     font-weight:600;
-    color:#310E0E;
+    color: var(--text);
     margin-bottom:12px;
 }
 
@@ -62,46 +79,33 @@
     gap:12px 16px;
 }
 
-.form-row-full{grid-column:1/-1;}
-
-label{
-    font-size:13px;
-    color:#444;
-    margin-bottom:4px;
-    display:block;
-}
-
-input,select{
-    width:100%;
-    padding:10px 11px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    font-size:14px;
-}
-
-input:focus,select:focus{
-    border-color:#310E0E;
-    box-shadow:0 0 0 1px rgba(49,14,14,.15);
-    outline:none;
-}
-
 .paypal-btn{
-    display:block;
-    text-align:center;
-    background:#ffc439;
-    color:#111;
-    border-radius:999px;
-    padding:12px;
-    text-decoration:none;
-    font-weight:600;
-    margin-bottom:14px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--text);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+.paypal-btn:hover {
+    background: var(--text);
+    color: var(--bg-primary);
 }
 
 .divider{
     text-align:center;
     font-size:11px;
     letter-spacing:.12em;
-    color:#aaa;
+    color: var(--text);
     margin:12px 0;
 }
 
@@ -110,6 +114,7 @@ input:focus,select:focus{
     align-items:center;
     gap:8px;
     font-size:13px;
+    text-transform: uppercase;
     margin-top:12px;
 }
 
@@ -120,36 +125,66 @@ input:focus,select:focus{
     cursor:pointer;
 }
 
-.primary-btn{
-    width:100%;
-    border-radius:999px;
-    border:none;
-    background:#310E0E;
-    color:#fff;
-    padding:13px;
-    font-size:15px;
-    cursor:pointer;
-    margin-top:14px;
+.primary-btn {
+    width: 100%;
+    padding: 1.2rem;
+    margin-top: 20px;
+    background: var(--text);
+    color: var(--white);
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
+
+.primary-btn:hover {
+    background: var(--red-pastel-1);
+    transform: translateY(-2px);
 }
 
 .summary-title{
-    font-size:18px;
-    font-weight:600;
-    color:#310E0E;
-    margin-bottom:14px;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: -1px;
 }
 
-.summary-item,.summary-row{
+.summary-item {
     display:flex;
     justify-content:space-between;
     font-size:14px;
-    margin-bottom:6px;
+    margin-bottom:0.6rem;
 }
 
-.summary-row.total{
-    font-weight:700;
-    color:#310E0E;
+.price {
+    padding-left: 6px;
 }
+
+.summary-row {
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-top: 0.2rem;
+    font-weight: bold;
+}
+
+.summary-row:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--text);
+    margin-top: 1rem;
+    padding-top:10px;
+}
+
+.summary-row.total {
+    font-weight: bold;
+    font-size: 1.2rem;     
+}
+
 
 @media(max-width:900px){
     .checkout-wrapper{flex-direction:column;}
@@ -162,64 +197,75 @@ input:focus,select:focus{
 
 @include('Frontend.components.nav')
 
+<header class="checkout-header">
+    <h1 class="header-title">CHECKOUT.</h1>   
+</header>
+
 <div class="checkout-wrapper">
 
 <!-- LEFT SIDE -->
 <section class="checkout-main">
 
-<h1 class="checkout-title">Checkout</h1>
-
-<!-- PAYPAL BUTTON OUTSIDE FORM -->
-<a href="{{ route('checkout.paypal') }}" class="paypal-btn">
-    Continue with PayPal
-</a>
-
-<div class="divider">OR PAY WITH CARD</div>
+<div class="section">
+    <h3 class="section-title">Payment Method</h3>
+    
+    <!-- PAYPAL BUTTON -->
+     <a href="{{ route('checkout.paypal') }}" class="paypal-btn">Continue with PayPal</a>
+     <div class="divider">OR PAY WITH CARD</div>
+</div>
 
 <form action="{{ route('checkout.store') }}" method="POST">
 @csrf
 
+<input type="hidden" name="payment_method" value="card">
+
 <!-- DELIVERY -->
 <div class="section">
-<h2 class="section-title">Delivery details</h2>
+<h3 class="section-title">Delivery Details</h3>
 
-<div class="form-grid">
-    <div class="form-row-full">
+    <div class="form-group">
         <label>Full name</label>
-        <input name="full_name" required>
+        <input name="full_name" 
+        value="{{ old('full_name', trim((auth()->user()->firstName ?? '').' '.(auth()->user()->lastName ?? ''))) }}" required>
     </div>
 
-    <div class="form-row-full">
+    <div class="form-group">
         <label>Email</label>
-        <input type="email" name="email" required>
+        <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" required>
     </div>
 
-    <div class="form-row-full">
-        <label>Address</label>
+    <div class="form-group">
+        <label>Address Line 1</label>
         <input name="address_line1" required>
     </div>
 
-    <div>
+    <div class="form-group">
+        <label>Address Line 2 (Optional)</label>
+        <input name="address_line2">
+    </div>
+
+    <div class="form-grid">
+    <div class="form-group">
         <label>City</label>
         <input name="city" required>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>Postcode</label>
         <input name="postcode" required>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>Country</label>
         <select name="country" required>
-            <option value="">Select</option>
+            <option value="">Select Country</option>
             <option>UK</option>
             <option>Ireland</option>
-            <option>EU</option>
+            <option>Europe</option>
         </select>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>Phone (optional)</label>
         <input type="tel" name="phone">
     </div>
@@ -228,44 +274,46 @@ input:focus,select:focus{
 
 <!-- PAYMENT -->
 <div class="section">
-<h2 class="section-title">Card payment</h2>
+<h3 class="section-title">Card Details</h3>
 
-<div class="form-grid">
-    <div class="form-row-full">
+    <div class="form-group">
         <label>Name on card</label>
-        <input type="text" name="card_name" autocomplete="cc-name">
+        <input type="text" name="card_name" autocomplete="cc-name" required>
     </div>
 
-    <div class="form-row-full">
+    <div class="form-group">
         <label>Card number</label>
         <input id="card_number" name="card_number" maxlength="19"
-               placeholder="4242 4242 4242 4242" autocomplete="cc-number">
+               placeholder="4242 4242 4242 4242" autocomplete="cc-number" required>
     </div>
 
-    <div>
+    <div class="form-grid">
+    <div class="form-group">
         <label>Expiry (MM/YY)</label>
         <input id="expiry" name="expiry" maxlength="5"
-               placeholder="MM/YY" autocomplete="cc-exp">
+               placeholder="MM/YY" autocomplete="cc-exp" required>
     </div>
 
-    <div>
+    <div class="form-group">
         <label>CVV</label>
         <input id="cvv" name="cvv" maxlength="4"
-               placeholder="123" autocomplete="cc-csc">
+               placeholder="123" autocomplete="cc-csc" required>
     </div>
 </div>
 </div>
 
 <!-- CONFIRM -->
 <div class="section">
+<h3 class="section-title">Review and Confirm</h3>
+
 <div class="terms-row">
-    <input id="agree_terms" type="checkbox" required>
+    <input id="agree_terms" name="agree_terms" type="checkbox" required>
     <label for="agree_terms">
         I agree to the <a href="{{ route('terms') }}">Terms & Conditions</a>
     </label>
 </div>
 
-<button class="primary-btn">Place order</button>
+<button type="submit" class="primary-btn">Place order</button>
 </div>
 
 </form>
@@ -278,15 +326,31 @@ input:focus,select:focus{
 @foreach(($cartItems ?? []) as $item)
 <div class="summary-item">
     <span>{{ $item->product->productName ?? 'Product' }} × {{ $item->quantity }}</span>
-    <span>£{{ number_format($item->priceAtTime,2) }}</span>
+    <span class="price">£{{ number_format($item->priceAtTime * $item->quantity, 2) }}</span>
 </div>
 @endforeach
 
-<hr>
-
-<div class="summary-row total">
-    <span>Total</span>
-    <span>£{{ number_format($total ?? 0,2) }}</span>
+<div class="summary-totals">
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>£{{ number_format($subtotal, 2) }}</span>
+    </div>
+   
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span>
+             @if ($shipping == 0)
+               Free
+            @else
+               £{{ number_format($shipping, 2) }}
+            @endif
+        </span>
+    </div>
+    
+    <div class="summary-row total">
+        <span>Total</span>
+        <span>£{{ number_format($total ?? 0,2) }}</span>
+    </div>
 </div>
 </aside>
 
