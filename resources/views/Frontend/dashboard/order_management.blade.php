@@ -525,75 +525,52 @@
                                 @endif
                             </div>
                         @endif
-                    @endif
+                        @endif
                 </div>
             </div>
         </div>
     </main>
     @include('Frontend.components.footer')
 
-    {{-- Order Details Modal --}}
-    <div class="details-modal-overlay" id="detailsModal">
-        <div class="details-modal-box">
-            <button class="details-modal-close" onclick="closeDetailsModal()">&times;</button>
-            <h2 id="detailsModalTitle">Order Details</h2>
-            <table class="details-items-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody id="detailsModalBody"></tbody>
-            </table>
-            <div class="details-total" id="detailsModalTotal"></div>
+    {{-- Pre-rendered Order Details Modals --}}
+    @foreach($orders as $order)
+        <div class="details-modal-overlay" id="detailsModal-{{ $order->orderID }}">
+            <div class="details-modal-box">
+                <button class="details-modal-close" onclick="closeDetailsModal({{ $order->orderID }})">&times;</button>
+                <h2>Order #{{ $order->orderID }}</h2>
+                <table class="details-items-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($order->orderItems as $item)
+                            <tr>
+                                <td>{{ $item->product ? $item->product->productName : 'Deleted product' }}</td>
+                                <td>{{ $item->quantity }}</td>
+                                <td>£{{ number_format($item->priceAtTime, 2) }}</td>
+                                <td>£{{ number_format($item->quantity * $item->priceAtTime, 2) }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div class="details-total">Total: £{{ number_format($order->totalAmount, 2) }}</div>
+            </div>
         </div>
-    </div>
+    @endforeach
 
     <script>
-        var orderData = {};
-        @foreach($orders as $order)
-            orderData[{{ $order->orderID }}] = {
-                items: [
-                    @foreach($order->orderItems as $item)
-                    {
-                        name: @json($item->product ? $item->product->productName : 'Deleted product'),
-                        qty: {{ $item->quantity }},
-                        price: {{ $item->priceAtTime }}
-                    },
-                    @endforeach
-                ],
-                total: {{ $order->totalAmount }}
-            };
-        @endforeach
-
         function openDetailsModal(orderId) {
-            var data = orderData[orderId];
-            if (!data) return;
-            document.getElementById('detailsModalTitle').textContent = 'Order #' + orderId;
-            var html = '';
-            data.items.forEach(function(item) {
-                html += '<tr>'
-                    + '<td>' + item.name + '</td>'
-                    + '<td>' + item.qty + '</td>'
-                    + '<td>\u00a3' + item.price.toFixed(2) + '</td>'
-                    + '<td>\u00a3' + (item.qty * item.price).toFixed(2) + '</td>'
-                    + '</tr>';
-            });
-            document.getElementById('detailsModalBody').innerHTML = html;
-            document.getElementById('detailsModalTotal').textContent = 'Total: \u00a3' + data.total.toFixed(2);
-            document.getElementById('detailsModal').classList.add('active');
+            document.getElementById('detailsModal-' + orderId).classList.add('active');
         }
 
-        function closeDetailsModal() {
-            document.getElementById('detailsModal').classList.remove('active');
+        function closeDetailsModal(orderId) {
+            document.getElementById('detailsModal-' + orderId).classList.remove('active');
         }
-
-        document.getElementById('detailsModal').addEventListener('click', function(e) {
-            if (e.target === this) closeDetailsModal();
-        });
     </script>
 </body>
 </html>

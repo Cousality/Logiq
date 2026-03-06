@@ -159,6 +159,8 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
         return view('Frontend.dashboard.inventory_management');
     })->name('inventory_management');
 
+    Route::get('/stock_analysis', [AdminProductController::class, 'stockAnalysis'])->name('stock_analysis');
+
     Route::get('/review_moderation', [ReviewController::class, 'reviewModeration'])->name('review_moderation');
     Route::delete('/review_moderation/{review}', [ReviewController::class, 'adminDeleteReview'])->name('review_moderation.delete');
 });
