@@ -43,10 +43,10 @@
         .dashboard-containers {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            max-width: 1300px;
+            max-width: 1800px;
             margin: 0 auto;
             gap: 30px;
-            padding: 50px 10% 0px;
+            padding: 50px 5% 0px;
         }
 
         .dashboard-card {
@@ -121,7 +121,7 @@
 
                 <div class="dashboard-containers">
                     <div class="dashboard-card">
-                        <a href="#" class="card-link-wrapper">
+                        <a href="{{ route('admin.orders.index') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Order Management</h3>
                             <h3 class="card-description">View, check and process customer orders.</h3>
                         </a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -131,5 +132,53 @@ class AdminProductController extends Controller
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product deleted successfully.');
+    }
+
+    public function stockAnalysis()
+    {
+        $productStats = DB::table('products')
+            ->leftJoin('order_items', 'products.productID', '=', 'order_items.productID')
+            ->leftJoin('orders', function ($join) {
+                $join->on('order_items.orderID', '=', 'orders.orderID')
+                     ->whereNotIn('orders.orderStatus', ['cancelled', 'cart']);
+            })
+            ->select(
+                'products.productID',
+                'products.productName',
+                'products.productQuantity',
+                DB::raw('COALESCE(SUM(order_items.quantity), 0) as total_sold'),
+                DB::raw('COALESCE(SUM(order_items.quantity * order_items.priceAtTime), 0) as total_revenue'),
+                DB::raw('COUNT(DISTINCT orders.orderID) as order_count')
+            )
+            ->groupBy(
+                'products.productID',
+                'products.productName',
+                'products.productQuantity'
+            )
+            ->orderByDesc('total_sold')
+            ->paginate(20);
+
+        $productOrders = DB::table('order_items')
+            ->join('orders', 'order_items.orderID', '=', 'orders.orderID')
+            ->leftJoin('users', 'orders.userID', '=', 'users.userID')
+            ->whereNotIn('orders.orderStatus', ['cancelled', 'cart'])
+            ->select(
+                'order_items.productID',
+                'orders.orderID',
+                'users.firstName',
+                'users.lastName',
+                'order_items.quantity',
+                'order_items.priceAtTime',
+                'orders.orderDate',
+                'orders.orderStatus'
+            )
+            ->orderByDesc('orders.orderDate')
+            ->get()
+            ->groupBy('productID');
+
+        return view('Frontend.dashboard.stock_analysis', compact(
+            'productStats',
+            'productOrders'
+        ));
     }
 }

@@ -123,8 +123,8 @@
             <h3 class="sidebar-section-title">Users</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="#"
-                        class="sidebar-menu-link">
+                    <a href="{{ route('admin.orders.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                         Order Management
                     </a>
                 </li>
@@ -144,6 +144,12 @@
                     <a href="{{ route('admin.products.index') }}"
                         class="sidebar-menu-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                         Inventory
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('stock_analysis') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('stock_analysis') ? 'active' : '' }}">
+                        Stock Analysis
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
