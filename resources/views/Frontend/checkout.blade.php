@@ -198,7 +198,8 @@ form .section:last-of-type {
 @include('Frontend.components.nav')
 
 <header class="checkout-header">
-    <h1 class="header-title">CHECKOUT.</h1>   
+    <h1 class="header-title">CHECKOUT</h1> 
+    <p>Review and Confirm your Order.</p>  
 </header>
 
 <div class="checkout-wrapper">
