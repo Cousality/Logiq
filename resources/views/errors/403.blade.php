@@ -18,7 +18,7 @@
             text-align: center;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 40%);
+                    var(--red-pastel-static) 40%);
         }
 
         .error-card {
