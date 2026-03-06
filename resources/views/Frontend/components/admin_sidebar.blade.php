@@ -123,8 +123,8 @@
             <h3 class="sidebar-section-title">Users</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="#"
-                        class="sidebar-menu-link">
+                    <a href="{{ route('admin.orders.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                         Order Management
                     </a>
                 </li>

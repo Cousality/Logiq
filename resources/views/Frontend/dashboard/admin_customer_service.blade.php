@@ -26,7 +26,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1300px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;

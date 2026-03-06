@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
@@ -144,6 +145,9 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
+
+    Route::get('/order_management', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::patch('/order_management/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 
     Route::resource('admin/inventory', AdminProductController::class)->names('admin.products')->parameters(['inventory' => 'product']);
 
