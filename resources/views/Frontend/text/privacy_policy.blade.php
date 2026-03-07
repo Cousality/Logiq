@@ -23,6 +23,12 @@
             width: 100%;
             padding: 3rem;
             position: relative;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .policy-document:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--text);
         }
 
         .policy-header {
