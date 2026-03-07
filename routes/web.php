@@ -54,6 +54,7 @@ Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name(
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 Route::patch('/your_orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel')->middleware('auth');
 Route::patch('/your_orders/{order}/return', [OrderController::class, 'returnOrder'])->name('orders.return')->middleware('auth');
+Route::delete('/your_orders/{order}/delete', [OrderController::class, 'destroy'])->name('orders.destroy');
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
@@ -124,12 +125,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/my_puzzles', [ReviewController::class, 'myPuzzles'])->name('my_puzzles');
     Route::put('/my_puzzles/{review}', [ReviewController::class, 'updateReview'])->name('review.update');
     Route::delete('/my_puzzles/{review}', [ReviewController::class, 'deleteReview'])->name('review.delete');
-});
 
-Route::middleware(['auth', IsAdmin::class])->group(function () {
-    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
-    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
-    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
     //Basket Routes
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
     Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
@@ -140,6 +136,13 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
     Route::post('/wishlist/remove', [WishlistController::class, 'remove'])->name('wishlist.remove');
     Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
+    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
+    
 
     //Review Routes
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
