@@ -218,7 +218,7 @@
             background: #a63232;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;

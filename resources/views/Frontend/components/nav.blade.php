@@ -863,7 +863,7 @@
     }
 
     /* Mobile Fixes for Nav */
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
         nav {
             flex-wrap: wrap;
             gap: 0.75rem;

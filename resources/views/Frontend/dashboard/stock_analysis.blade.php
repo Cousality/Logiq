@@ -215,7 +215,7 @@
             opacity: 0.4;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
             .dashboard-layout { flex-direction: column; align-items: stretch; }

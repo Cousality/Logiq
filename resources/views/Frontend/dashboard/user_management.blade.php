@@ -248,7 +248,7 @@
         }
 
         /* MOBILE FIXES */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .dashboard-title {
                 font-size: 2.5rem;
             }
@@ -292,6 +292,8 @@
                 position: relative;
                 border: none;
                 border-bottom: 1px solid var(--text);
+                overflow-wrap: break-word;
+                word-break: break-word;
             }
 
             .user-table td::before {

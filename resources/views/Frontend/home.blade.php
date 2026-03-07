@@ -345,7 +345,7 @@
         .rec-difficulty-badge.hard   { background: #a63232; }
 
         /* MOBILE FIXES */
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .hero {
                 grid-template-columns: 1fr;
                 background: var(--red-pastel-1);

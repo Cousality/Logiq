@@ -20,7 +20,7 @@
         }
 
         .management-container {
-            max-width: 900px;
+            max-width: 768px;
             margin: 0 auto;
             padding: 50px 5%;
             display: flex;

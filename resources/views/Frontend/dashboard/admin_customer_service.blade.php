@@ -136,6 +136,7 @@
 
             .dashboard-layout {
                 flex-direction: column;
+                align-items: stretch;
             }
 
             .stats-container {

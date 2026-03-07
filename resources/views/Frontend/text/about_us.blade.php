@@ -52,7 +52,7 @@
         .about-section p {
             font-size: 1.2rem;
             line-height: 1.8;
-            max-width: 900px;
+            max-width: 768px;
             margin: 0 auto;
         }
 

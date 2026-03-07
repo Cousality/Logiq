@@ -186,7 +186,7 @@ form .section:last-of-type {
 }
 
 
-@media(max-width:900px){
+@media(max-width:768px){
     .checkout-wrapper{flex-direction:column;}
     .checkout-summary{position:static;}
 }

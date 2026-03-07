@@ -249,7 +249,102 @@
             opacity: 0.4;
         }
 
-        @media (max-width: 900px) {
+        /* Delete Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(74, 44, 42, 0.55);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-primary);
+            border: 2px solid var(--text);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 6px 6px 0px var(--text);
+            position: relative;
+        }
+
+        .modal-box h2 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-message {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-confirm-btn,
+        .modal-cancel-btn {
+            flex: 1;
+            padding: 0.85rem;
+            font-family: 'Courier New', monospace;
+            font-weight: 900;
+            text-transform: uppercase;
+            border: 2px solid var(--text);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .modal-confirm-btn {
+            background: var(--text);
+            color: var(--bg-primary);
+        }
+
+        .modal-confirm-btn:hover {
+            background: var(--red-pastel-1);
+            border-color: var(--red-pastel-1);
+            color: var(--white);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--text);
+        }
+
+        .modal-cancel-btn {
+            background: var(--bg-primary);
+            color: var(--text);
+        }
+
+        .modal-cancel-btn:hover {
+            background: var(--bg-secondary);
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 var(--text);
+        }
+
+        @media (max-width: 768px) {
             .dashboard-title {
                 font-size: 2.5rem;
             }
@@ -260,6 +355,7 @@
 
             .dashboard-layout {
                 flex-direction: column;
+                align-items: stretch;
             }
 
             .product-table,
@@ -376,14 +472,9 @@
                                                 <a href="{{ route('admin.products.edit', $product->productID) }}"
                                                     class="btn-action btn-edit">Edit</a>
 
-                                                <form
-                                                    action="{{ route('admin.products.destroy', $product->productID) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Delete {{ addslashes($product->productName) }}? This cannot be undone.')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn-action btn-danger">Delete</button>
-                                                </form>
+                                                <button type="button" class="btn-action btn-danger delete-trigger"
+                                                    data-product-id="{{ $product->productID }}"
+                                                    data-product-name="{{ $product->productName }}">Delete</button>
                                             </div>
                                         </td>
                                     @endif
@@ -432,6 +523,86 @@
             </div>
         </div>
     </main>
+
+    {{-- Delete Product Modal --}}
+    <div class="modal-overlay" id="deleteProductModal">
+        <div class="modal-box">
+            <button class="modal-close" id="deleteProductClose" aria-label="Close">&times;</button>
+            <h2>Delete Product?</h2>
+            <p class="modal-message" id="deleteProductMessage"></p>
+            <div class="modal-actions">
+                <button type="button" class="modal-confirm-btn" id="deleteProductConfirm">Yes, Delete It</button>
+                <button type="button" class="modal-cancel-btn" id="deleteProductCancel">Keep It</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const messages = [
+                "This product will be permanently removed. Are you sure?",
+                "Once deleted, this product can't be recovered. Proceed?",
+                "This will remove the product from your entire inventory. Sure?",
+                "All data for this product will be lost forever. Continue?",
+                "Are you absolutely certain you want to delete this product?",
+            ];
+
+            let pendingId = null;
+            const modal = document.getElementById('deleteProductModal');
+            const confirmBtn = document.getElementById('deleteProductConfirm');
+            const cancelBtn = document.getElementById('deleteProductCancel');
+            const closeBtn = document.getElementById('deleteProductClose');
+            const messageEl = document.getElementById('deleteProductMessage');
+
+            function openModal(productId, productName) {
+                pendingId = productId;
+                messageEl.textContent = messages[Math.floor(Math.random() * messages.length)];
+                modal.classList.add('active');
+            }
+
+            function closeModal() {
+                pendingId = null;
+                modal.classList.remove('active');
+            }
+
+            document.querySelectorAll('.delete-trigger').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    openModal(
+                        this.getAttribute('data-product-id'),
+                        this.getAttribute('data-product-name')
+                    );
+                });
+            });
+
+            confirmBtn.addEventListener('click', function () {
+                if (!pendingId) return;
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/admin/inventory/' + pendingId;
+
+                const csrf = document.createElement('input');
+                csrf.type = 'hidden';
+                csrf.name = '_token';
+                csrf.value = '{{ csrf_token() }}';
+                form.appendChild(csrf);
+
+                const method = document.createElement('input');
+                method.type = 'hidden';
+                method.name = '_method';
+                method.value = 'DELETE';
+                form.appendChild(method);
+
+                document.body.appendChild(form);
+                form.submit();
+            });
+
+            cancelBtn.addEventListener('click', closeModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === this) closeModal();
+            });
+        })();
+    </script>
 
     @include('Frontend.components.footer')
 </body>
