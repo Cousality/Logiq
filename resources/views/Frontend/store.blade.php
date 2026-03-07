@@ -362,7 +362,32 @@
 
     <script src="{{ asset('js/storeFilter.js') }}"></script>
     <script src="{{ asset('js/wishlist.js') }}"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const revealElements = document.querySelectorAll('.product-card, .filter-sidebar, .store-header h1, .store-header p');
 
+            revealElements.forEach(function(el) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(80px)';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            });
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealElements.forEach(function(el) {
+                observer.observe(el);
+            });
+        });
+    </script>
 
 </body>
 
