@@ -118,7 +118,7 @@
         .order-status.processing { color: #2563eb; border-color: #2563eb; background: #eff6ff; }
         .order-status.shipped    { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
         .order-status.cancelled  { color: #a63232; border-color: #a63232; background: #fef2f2; }
-        .order-status.returned   { color: #5f5f5f; border-color: #5f5f5f; background: #d6d6d6; }
+        .order-status.returned   { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
         
         /* ORDER ITEMS */
         .order-items {
