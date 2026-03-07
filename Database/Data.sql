@@ -338,3 +338,6 @@ INSERT INTO order_items (orderID, productID, quantity, priceAtTime) VALUES
     (22, 23, 1,  3.99);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES 
+    ('WELCOME10','percentage',10.00);

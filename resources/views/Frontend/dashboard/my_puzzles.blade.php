@@ -217,7 +217,7 @@
 
         .review-textarea:focus {
             outline: none;
-            box-shadow: 3px 3px 0 var(--red-pastel-1);
+            box-shadow: 3px 3px 0 var(--text);
         }
 
         /* Submit button */

@@ -8,9 +8,9 @@
   "use strict";
 
   // Settings
-  const DURATION_MS = 3200; 
+  const DURATION_MS = 4500; 
   const COUNT = 180; 
-  const SPEED_MULT = 0.65;   //  (lower = slower)
+  const SPEED_MULT = 0.50;   //  (lower = slower)
 
 
   function clamp(n, min, max) {
@@ -57,8 +57,8 @@
     return pieces;
   }
 
-  function update(pieces, dt, w, h) {
-    const gravity = 320 * SPEED_MULT;
+  function update(pieces, dt, w, h, timeFade) {
+    const gravity = 280 * SPEED_MULT;
     const drag = 0.99; 
 
     for (const p of pieces) {
@@ -71,8 +71,13 @@
       p.rot += p.rotV * dt;
 
      
-      if (p.y > h * 0.6) {
-        p.alpha = clamp(1 - (p.y - h * 0.6) / (h * 0.9), 0, 1);
+      if (p.y > h * 0.75) {
+        p.alpha = clamp(1 - (p.y - h * 0.75) / (h * 0.5), 0, 1);
+      }
+
+      // Global fade-out based on remaining time
+      if (timeFade < 1) {
+        p.alpha *= timeFade;
       }
 
       if (p.x < -20) p.x = w + 20;
@@ -118,7 +123,11 @@
       const dt = clamp((now - last) / 1000, 0.001, 0.033);
       last = now;
 
-      update(pieces, dt, s.w, s.h);
+      const elapsed = now - start;
+      const fadeZone = total * 0.3;
+      const timeFade = elapsed > total - fadeZone ? clamp((total - elapsed) / fadeZone, 0, 1) : 1;
+
+      update(pieces, dt, s.w, s.h, timeFade);
       draw(s.ctx, pieces, s.w, s.h);
 
       if (now - start < total) {

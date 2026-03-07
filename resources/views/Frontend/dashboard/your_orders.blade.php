@@ -113,13 +113,13 @@
             border: 2px solid var(--text);
         }
 
-        .order-status.pending    { background: #fff3cd; }
-        .order-status.delivered  { background: #d4edda; }
-        .order-status.processing { background: #fce5ad; }
-        .order-status.shipped    { background: #d1ecf1; }
-        .order-status.cancelled  { background: #e2e3e5; }
-        .order-status.returned   { background: #f3e8ff; }
-
+        .order-status.pending    { color: #c17f24; border-color: #c17f24; background: #fff8e1; }
+        .order-status.delivered  { color: #4a7c59; border-color: #4a7c59; background: #f0fdf4; }
+        .order-status.processing { color: #2563eb; border-color: #2563eb; background: #eff6ff; }
+        .order-status.shipped    { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
+        .order-status.cancelled  { color: #a63232; border-color: #a63232; background: #fef2f2; }
+        .order-status.returned   { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
+        
         /* ORDER ITEMS */
         .order-items {
             display: flex;

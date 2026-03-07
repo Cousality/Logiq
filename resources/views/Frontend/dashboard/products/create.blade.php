@@ -9,7 +9,7 @@
     <style>
         .dashboard-header {
             padding: 4rem 5%;
-            background: linear-gradient(135deg, var(--bg-primary) 60%, var(--red-pastel-1) 60%);
+            background: linear-gradient(135deg, var(--bg-primary) 60%, var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
