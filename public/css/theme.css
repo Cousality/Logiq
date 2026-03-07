@@ -31,8 +31,6 @@ body.dark-mode {
     --icon-store: url("/Images/store_dark.png");
     --icon-login: url("/Images/login_dark.png");
     --icon-basket: url("/Images/basket_dark.png");
-   
-   
 }
 * {
     box-sizing: border-box;
@@ -102,7 +100,12 @@ html.dark-mode ::-webkit-scrollbar-thumb:hover {
     background: #555555 !important;
 }
 
+/* Scrollbar — Firefox */
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #5d0f17 #fce5ad;
+}
 
-
-
-
+html.dark-mode {
+    scrollbar-color: #3a3a3a #0a0a0a;
+}
