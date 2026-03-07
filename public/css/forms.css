@@ -83,7 +83,7 @@ textarea {
     padding: 3rem;
     width: 100%;
     max-width: 450px;
-    box-shadow: 10px 10px 0px var(--red-pastel-1);
+    box-shadow: 6px 6px 0px var(--text);
 }
 
 .auth-header {

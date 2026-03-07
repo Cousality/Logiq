@@ -40,13 +40,13 @@
             background: var(--white);
             border: 2px solid var(--text);
             padding: 2rem;
-            box-shadow: 0px 0px 0px var(--red-pastel-1);
+            box-shadow: 0px 0px 0px var(--text);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .moderation-container:hover {
             transform: translate(-4px, -4px);
-            box-shadow: 10px 10px 0px var(--red-pastel-1);
+            box-shadow: 6px 6px 0px var(--text);
         }
 
         .section-title {
