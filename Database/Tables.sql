@@ -57,7 +57,7 @@ CREATE TABLE orders (
     orderID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userID INT(11) NOT NULL,
     orderDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    orderStatus ENUM('cart', 'pending', 'processing', 'shipped', 'delivered', 'cancelled') NOT NULL DEFAULT 'cart',
+    orderStatus ENUM('cart', 'pending', 'processing', 'shipped', 'delivered', 'cancelled', 'returned') NOT NULL DEFAULT 'cart',
     totalAmount DECIMAL(10, 2) NOT NULL,
     addressID INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

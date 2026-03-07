@@ -1417,7 +1417,7 @@
         if (e.key === "Escape") closeSidebar();
     });
 
-    // ── Live search dropdown ──────────────────────────────────────────────
+    // Live search dropdown
     const searchInput    = document.getElementById('search-input');
     const searchDropdown = document.getElementById('search-dropdown');
     const searchForm     = document.getElementById('search-form');
@@ -1521,7 +1521,7 @@
         }
     });
 
-    // ── Logout confirmation modal ─────────────────────────────────────────
+    // Logout confirmation modal
     (function () {
         var logoutModal    = document.getElementById('logoutModal');
         if (!logoutModal) return;
