@@ -84,6 +84,12 @@ Route::get('/FAQs', function () {
     return view('Frontend.text.FAQs');
 });
 
+
+
+Route::post('/faq/submit', [ContactController::class, 'add'])->name('faq.submit');
+Route::get('/ticket-submitted', function () {
+    return view('Frontend.dashboard.ticket_submitted');
+})->name('ticket.submitted');
 //Dashboard Routes
 
 
