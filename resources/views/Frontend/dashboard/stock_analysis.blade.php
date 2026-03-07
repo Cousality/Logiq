@@ -42,6 +42,7 @@
             padding: 2rem;
             box-shadow: 0px 0px 0px var(--red-pastel-1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow-x: auto;
         }
 
         .management-container:hover {
