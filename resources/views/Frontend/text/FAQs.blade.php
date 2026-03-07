@@ -164,6 +164,11 @@
 
         <h1>Frequently Asked Questions</h1>
 
+        @if(session('success'))
+            <div style="padding: 1rem; background: #d4edda; color: #155724; border: 2px solid #c3e6cb; margin: 0 5% 1rem;">
+                Your question has been submitted. One of our team members will contact you shortly!
+            </div>
+        @endif
         <div class="faq-page-wrapper">
             <div class="faq-container">
 
@@ -233,19 +238,26 @@
                 <h2>Still need help?</h2>
                 <p>If your question wasn’t answered above, submit your own below.</p>
 
-                <form onsubmit="alert('Your question has been received (demo).'); return false;">
-                    <div class="form-group">
-                        <input type="text" placeholder="Your Name" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Your Email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea rows="4" placeholder="Your Question" required></textarea>
-                    </div>
+<form method="POST" action="{{ route('faq.submit') }}">
+    @csrf
+    <input type="hidden" name="issueCategory" value="other">
 
-                    <button type="submit">Submit Question</button>
-                </form>
+    @guest
+        <div class="form-group">
+            <input type="text" name="name" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+            <input type="email" name="email" placeholder="Your Email" required>
+        </div>
+    @endguest
+
+    <div class="form-group">
+        <textarea name="message" rows="4" placeholder="Your Question" required></textarea>
+    </div>
+
+    <button type="submit">Submit Question</button>
+</form>  
+
             </div>
 
             </div>
