@@ -52,6 +52,7 @@ Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name(
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 Route::patch('/your_orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel')->middleware('auth');
+Route::patch('/your_orders/{order}/return', [OrderController::class, 'returnOrder'])->name('orders.return')->middleware('auth');
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');

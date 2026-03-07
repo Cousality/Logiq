@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminOrderController extends Controller
 {
-    private const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    private const STATUSES = ['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'];
 
     public function index(Request $request)
     {
@@ -21,7 +21,7 @@ class AdminOrderController extends Controller
         $orders = $query->paginate(20);
 
         $totalOrders   = Order::count();
-        $totalRevenue  = Order::whereNotIn('orderStatus', ['cancelled', 'cart'])->sum('totalAmount');
+        $totalRevenue  = Order::whereNotIn('orderStatus', ['cancelled', 'cart', 'returned'])->sum('totalAmount');
         $pendingCount  = Order::where('orderStatus', 'pending')->count();
 
         return view('Frontend.dashboard.order_management', compact(

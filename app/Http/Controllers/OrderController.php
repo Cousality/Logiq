@@ -43,4 +43,21 @@ class OrderController extends Controller
 
         return back()->with('success', 'Your order has been cancelled.');
     }
+
+    /* Return an order */
+    public function returnOrder(Request $request, Order $order)
+    {
+        if ($order->userID !== Auth::id()) {
+            abort(403);
+        }
+
+        if (!in_array($order->orderStatus, ['shipped', 'delivered'])) {
+            return back()->with('error', 'This order cannot be returned.');
+        }
+
+        $order->orderStatus = 'returned';
+        $order->save();
+
+        return back()->with('success', 'Your order has been returned.');
+    }
 }

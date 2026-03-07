@@ -192,6 +192,7 @@
         .badge-shipped    { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
         .badge-delivered  { color: #4a7c59; border-color: #4a7c59; background: #f0fdf4; }
         .badge-cancelled  { color: #a63232; border-color: #a63232; background: #fef2f2; }
+        .badge-returned   { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
 
         /* Status update form */
         .status-form {
@@ -434,6 +435,7 @@
                                 <option value="shipped"    {{ request('status') === 'shipped'    ? 'selected' : '' }}>Shipped</option>
                                 <option value="delivered"  {{ request('status') === 'delivered'  ? 'selected' : '' }}>Delivered</option>
                                 <option value="cancelled"  {{ request('status') === 'cancelled'  ? 'selected' : '' }}>Cancelled</option>
+                                <option value="returned"   {{ request('status') === 'returned'   ? 'selected' : '' }}>Returned</option>
                             </select>
                             <button type="submit" class="btn-filter">Filter</button>
                         </form>
@@ -486,6 +488,7 @@
                                                     <option value="shipped"    {{ $order->orderStatus === 'shipped'    ? 'selected' : '' }}>Shipped</option>
                                                     <option value="delivered"  {{ $order->orderStatus === 'delivered'  ? 'selected' : '' }}>Delivered</option>
                                                     <option value="cancelled"  {{ $order->orderStatus === 'cancelled'  ? 'selected' : '' }}>Cancelled</option>
+                                                    <option value="returned"   {{ $order->orderStatus === 'returned'   ? 'selected' : '' }}>Returned</option>
                                                 </select>
                                                 <button type="submit" class="btn-action btn-update">Update</button>
                                             </form>
