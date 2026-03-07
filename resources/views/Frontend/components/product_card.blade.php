@@ -261,6 +261,12 @@
         data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}"
         data-rating="{{ $product->reviews_count > 0 ? round($product->reviews_avg_rating) : 0 }}">
 
+        @if($product->productQuantity <= 0)
+            <div class="out-of-stock-overlay">
+                <span>Out of Stock</span>
+            </div>
+        @endif
+
         <div class="difficulty-badge {{ strtolower($product->productDifficulty) }}">
             {{ strtoupper($product->productDifficulty) }}
         </div>
@@ -301,8 +307,8 @@
             <form action="{{ route('basket.add') }}" method="POST" class="w-full">
                 @csrf
                 <input type="hidden" name="productID" value="{{ $product->productID }}">
-                <button type="submit" class="btn-style btn-primary">
-                    ADD TO BASKET
+                <button type="submit" class="btn-style btn-primary" @if($product->productQuantity <= 0) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
+                    {{ $product->productQuantity <= 0 ? 'OUT OF STOCK' : 'ADD TO BASKET' }}
                 </button>
             </form>
             <div class= "btn-wishlist">
