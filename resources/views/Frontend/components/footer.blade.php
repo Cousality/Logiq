@@ -56,6 +56,23 @@
         max-width: 1200px;
         margin: 0 auto;
     }
+
+    body.dark-mode .footer-content,
+    body.dark-mode .footer-bottom {
+        color: #ffffff;
+    }
+
+    body.dark-mode .footer-column h4 {
+        border-bottom-color: #ffffff;
+    }
+
+    body.dark-mode .footer-column a {
+        color: #ffffff;
+    }
+
+    body.dark-mode .footer-bottom {
+        border-top-color: #ffffff;
+    }
 </style>
 <footer>
     <div class="footer-content">
