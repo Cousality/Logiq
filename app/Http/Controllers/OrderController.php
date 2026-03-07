@@ -41,6 +41,12 @@ class OrderController extends Controller
         $order->orderStatus = 'cancelled';
         $order->save();
 
+        foreach ($order->orderItems as $item) {
+            if ($item->product) {
+                $item->product->increment('productQuantity', $item->quantity);
+            }
+        }
+
         return back()->with('success', 'Your order has been cancelled.');
     }
 
@@ -57,6 +63,12 @@ class OrderController extends Controller
 
         $order->orderStatus = 'returned';
         $order->save();
+
+        foreach ($order->orderItems as $item) {
+            if ($item->product) {
+                $item->product->increment('productQuantity', $item->quantity);
+            }
+        }
 
         return back()->with('success', 'Your order has been returned.');
     }

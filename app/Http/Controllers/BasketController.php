@@ -36,6 +36,8 @@ class BasketController extends Controller
         $user = auth()->user();
         $quantity = $request->input('quantity', 1);
 
+        $product = Product::findOrFail($request->productID);
+
         $basket = Basket::firstOrCreate(
             [
                 'userID' => $user->userID,
@@ -46,14 +48,19 @@ class BasketController extends Controller
             ]
         );
 
-        $product = Product::findOrFail($request->productID);
-
         $item = BasketItem::firstOrNew([
             'orderID' => $basket->orderID,
             'productID' => $product->productID,
         ]);
 
-        $item->quantity = ($item->exists ? $item->quantity : 0) + $quantity;
+        $newQuantity = ($item->exists ? $item->quantity : 0) + $quantity;
+
+        if ($newQuantity > $product->productQuantity) {
+            return redirect()->route('store.index')
+                ->with('error', 'Not enough stock available. Only ' . $product->productQuantity . ' left.');
+        }
+
+        $item->quantity = $newQuantity;
         $item->priceAtTime = $product->productPrice;
         $item->save();
 
@@ -65,6 +72,13 @@ class BasketController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
         ]);
+
+        if ($item->product && $request->quantity > $item->product->productQuantity) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not enough stock. Only ' . $item->product->productQuantity . ' available.',
+            ], 422);
+        }
 
         $item->quantity = $request->quantity;
         $item->save();
