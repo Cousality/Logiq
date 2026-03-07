@@ -148,7 +148,8 @@
             border: 2px solid var(--text);
             padding: 2rem;
             position: relative;
-            transition: all 0.3s;
+            box-shadow: 0px 0px 0px var(--red-pastel-1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             min-height: 280px;
@@ -162,7 +163,7 @@
         .category-card:hover,
         .rec-card:hover {
             transform: translateY(-5px);
-            box-shadow: 8px 8px 0 var(--red-pastel-1);
+            box-shadow: 6px 6px 0px var(--red-pastel-1);
         }
 
         .category-card::before,
@@ -173,7 +174,7 @@
             left: 0;
             width: 6px;
             height: 100%;
-            background: var(--red-pastel-static);
+            background: var(--red-pastel-1);
         }
 
         .rec-card::before {
@@ -224,7 +225,8 @@
             border: 2px solid var(--text);
             box-sizing: border-box;
             position: relative;
-            transition: all 0.3s;
+            box-shadow: 0px 0px 0px var(--red-pastel-1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             width: 300px;
@@ -672,7 +674,7 @@
 
                 //  Celebration trigger 
                     if (data.status === "success" && window.LogiqQuizCelebrate) {
-                        window.LogiqQuizCelebrate.burst("daily-quiz", 1500);
+                        window.LogiqQuizCelebrate.burst("daily-quiz", 4500);
             }
 
                 if (data.status === "error") {

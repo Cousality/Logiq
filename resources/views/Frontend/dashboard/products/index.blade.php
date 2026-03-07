@@ -23,7 +23,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1800px;
+            max-width: 100%;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -43,6 +43,7 @@
             padding: 2rem;
             box-shadow: 0px 0px 0px var(--text);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            overflow-x: auto;
         }
 
         .settings-card:hover {

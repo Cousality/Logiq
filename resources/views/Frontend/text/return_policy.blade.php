@@ -22,7 +22,7 @@
             background: var(--white, #ffffff);
             /* Fallback to white if var missing */
             border: 2px solid var(--text, #000);
-            box-shadow: 10px 10px 0px var(--red-pastel-1, #ffb3b3);
+            box-shadow: 6px 6px 0px var(--text);
             max-width: 800px;
             width: 100%;
             padding: 3rem;
@@ -116,7 +116,7 @@
 
             .policy-document {
                 padding: 1.5rem;
-                box-shadow: 5px 5px 0px var(--red-pastel-1, #ffb3b3);
+                box-shadow: 4px 4px 0px var(--text);
             }
 
             .policy-header h1 {
