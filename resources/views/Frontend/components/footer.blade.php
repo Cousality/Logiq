@@ -2,14 +2,14 @@
     /* FOOTER */
     footer {
         background: linear-gradient(135deg,
-                var(--red-pastel-1),
+                var(--red-pastel-static),
                 var(--red-pastel-2));
         padding: 4rem 5% 2rem 5%;
         margin-top: 4rem;
     }
 
     .footer-content {
-        color: var(--text-light);
+        color: var(--text-light-static);
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 3rem;
@@ -22,7 +22,7 @@
         margin-bottom: 1rem;
         text-transform: uppercase;
         letter-spacing: 1px;
-        border-bottom: 2px solid var(--text-light);
+        border-bottom: 2px solid var(--text-light-static);
         padding-bottom: 0.5rem;
         display: inline-block;
     }
@@ -36,7 +36,7 @@
     }
 
     .footer-column a {
-        color: var(--text-light);
+        color: var(--text-light-static);
         text-decoration: none;
         transition: transform 0.2s;
         display: inline-block;
@@ -47,14 +47,31 @@
     }
 
     .footer-bottom {
-        color: var(--text-light);
-        border-top: 2px solid var(--text-light);
+        color: var(--text-light-static);
+        border-top: 2px solid var(--text-light-static);
         padding-top: 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         max-width: 1200px;
         margin: 0 auto;
+    }
+
+    body.dark-mode .footer-content,
+    body.dark-mode .footer-bottom {
+        color: #ffffff;
+    }
+
+    body.dark-mode .footer-column h4 {
+        border-bottom-color: #ffffff;
+    }
+
+    body.dark-mode .footer-column a {
+        color: #ffffff;
+    }
+
+    body.dark-mode .footer-bottom {
+        border-top-color: #ffffff;
     }
 </style>
 <footer>
@@ -64,7 +81,7 @@
             <ul>
                 <li><a class="footerLinks" href="{{ route('dashboard.orders') }}">Your Orders</a></li>
                 <li><a class="footerLinks" href="{{ route('yourAddress') }}">Your Address</a></li>
-                <li><a class="footerLinks" href="{{ route('mypuzzles') }}">My Puzzles</a></li>
+                <li><a class="footerLinks" href="{{ route('my_puzzles') }}">My Puzzles</a></li>
                 <li><a class="footerLinks" href="{{ route('wishlist.index') }}">Wishlist</a></li>
                 <li><a class="footerLinks" href="{{ route('basket.index') }}">Basket</a></li>
             </ul>

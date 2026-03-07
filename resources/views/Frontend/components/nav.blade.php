@@ -25,8 +25,9 @@
 
     .search-container {
         flex: 1;
-        max-width: 400px;
-        margin: 0 2rem;
+        min-width: 260px;
+        max-width: 520px;
+        margin: 0 1.5rem;
         display: flex;
         align-items: center;
         border-bottom: 2px solid transparent;
@@ -173,19 +174,19 @@
         display: flex;
         align-items: center;
     }
-    
+
     .nav-icon {
-        width: 50px;           
+        width: 50px;
         height: 50px;
-        display: flex;         
-        align-items: center;  
+        display: flex;
+        align-items: center;
         justify-content: center;
         background-size: contain;
         cursor: pointer;
     }
 
     .login-icon {
-        background-image: var(--icon-login); 
+        background-image: var(--icon-login);
     }
 
     .basket-icon {
@@ -196,7 +197,7 @@
         display: flex;
         align-items: center;
         flex-shrink: 0;
-        gap: 10px;
+        gap: 12px;
     }
 
     .nav-links a {
@@ -205,6 +206,94 @@
         font-weight: 600;
         text-transform: uppercase;
         font-size: 0.9rem;
+    }
+
+    /* Theme toggle (slider) */
+    .theme-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 62px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+
+    .theme-toggle-input {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+    }
+
+    .theme-toggle-label {
+        width: 50px;
+        height: 25px;
+        border: 2px solid var(--text);
+        border-radius: 999px;
+        background: var(--bg-primary);
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .theme-toggle-thumb {
+        width: 15px;
+        height: 15px;
+        border-radius: 999px;
+        background: var(--text);
+        position: absolute;
+        left: 4px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.2s ease;
+    }
+
+    .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
+        transform: translate(24px, -50%);
+    }
+
+    .theme-toggle-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        opacity: 0.9;
+    }
+
+    .theme-toggle-sun {
+        left: 7px;
+        opacity: 1;
+    }
+
+    .theme-toggle-moon {
+        right: 7px;
+        opacity: 0;
+    }
+
+    body.dark-mode .theme-toggle-sun {
+        opacity: 0;
+    }
+
+    body.dark-mode .theme-toggle-moon {
+        opacity: 1;
+    }
+
+    .theme-toggle-icon svg {
+        width: 16px;
+        height: 16px;
+        stroke: var(--bg-primary);
+        stroke-width: 2.2;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
     }
 
     /* Account Dropdown */
@@ -682,26 +771,241 @@
         opacity: 0.85;
     }
 
+    /* Mobile Account Modal */
+    .mobile-account-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(74, 44, 42, 0.55);
+        z-index: 1000;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    .mobile-account-overlay.active {
+        display: flex;
+    }
+
+    .mobile-account-box {
+        background: var(--bg-primary);
+        border-top: 2px solid var(--text);
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        width: 100%;
+        position: relative;
+    }
+
+    .mobile-account-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 1.5rem;
+        border-bottom: 2px solid var(--text);
+    }
+
+    .mobile-account-header span {
+        font-size: 1rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .mobile-account-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        font-size: 1.4rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .mobile-account-btn {
+        display: block;
+        width: 100%;
+        padding: 0.9rem 1.5rem;
+        border: none;
+        background: var(--bg-primary);
+        color: var(--text);
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.15s;
+        box-sizing: border-box;
+    }
+
+    .mobile-account-btn:hover {
+        background: var(--bg-secondary);
+    }
+
+    .mobile-account-btn.danger {
+        color: var(--red-pastel-1);
+    }
+
+    .mobile-account-items > * {
+        display: block;
+        margin: 0;
+        border-bottom: 1px solid var(--bg-secondary);
+    }
+
+    .mobile-account-items > *:last-child {
+        border-bottom: none;
+    }
+
     /* Mobile Fixes for Nav */
     @media (max-width: 768px) {
         nav {
-            flex-direction: column;
-            gap: 1.5rem;
-            padding-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            padding: 1rem 5%;
+        }
+
+        .logo {
+            order: 1;
+            font-size: 1.6rem;
+            flex-shrink: 0;
+        }
+
+        .nav-links {
+            order: 2;
+            margin-left: auto;
         }
 
         .search-container {
+            order: 3;
+            flex-basis: 100%;
             width: 100%;
+            max-width: 100%;
+            min-width: 0;
             margin: 0;
         }
 
         .nav-links a {
-            margin: 0 10px;
+            margin: 0 4px;
         }
 
         .category-sidebar {
             width: 100%;
         }
+
+        .account-dropdown {
+            width: calc(100vw - 10%);
+            right: 0;
+        }
+
+        .basket-dropdown {
+            width: calc(100vw - 10%);
+            right: 0;
+        }
+
+        .theme-toggle {
+            display: none;
+        }
+    }
+
+    /* LOGOUT CONFIRMATION MODAL */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(74, 44, 42, 0.55);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-overlay.active {
+        display: flex;
+    }
+
+    .modal-box {
+        background: var(--bg-primary);
+        border: 2px solid var(--text);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 460px;
+        box-shadow: 6px 6px 0px var(--text);
+        position: relative;
+    }
+
+    .modal-box h2 {
+        font-size: 1.4rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-message {
+        font-size: 0.95rem;
+        opacity: 0.75;
+        margin: 1rem 0 2rem;
+        line-height: 1.6;
+        font-style: italic;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        font-size: 1.4rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .modal-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .modal-confirm-btn,
+    .modal-cancel-btn {
+        flex: 1;
+        padding: 0.85rem;
+        font-family: 'Courier New', monospace;
+        font-weight: 900;
+        text-transform: uppercase;
+        border: 2px solid var(--text);
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+    }
+
+    .modal-confirm-btn {
+        background: var(--text);
+        color: var(--bg-primary);
+    }
+
+    .modal-confirm-btn:hover {
+        background: var(--red-pastel-1);
+        border-color: var(--red-pastel-1);
+        color: var(--white);
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 var(--text);
+    }
+
+    .modal-cancel-btn {
+        background: var(--bg-primary);
+        color: var(--text);
+    }
+
+    .modal-cancel-btn:hover {
+        background: var(--bg-secondary);
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0 var(--text);
     }
 </style>
 
@@ -784,6 +1088,31 @@
     </div>
 
     <div class="nav-links">
+        <div class="theme-toggle" aria-label="Toggle theme">
+            <input id="theme-toggle" class="theme-toggle-input" type="checkbox" />
+            <label class="theme-toggle-label" for="theme-toggle">
+                <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2"></path>
+                        <path d="M12 20v2"></path>
+                        <path d="M2 12h2"></path>
+                        <path d="M20 12h2"></path>
+                        <path d="M4.6 4.6l1.4 1.4"></path>
+                        <path d="M18 18l1.4 1.4"></path>
+                        <path d="M19.4 4.6L18 6"></path>
+                        <path d="M6 18l-1.4 1.4"></path>
+                    </svg>
+                </span>
+                <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a6.5 6.5 0 1 0 9.8 9.8Z"></path>
+                    </svg>
+                </span>
+                <span class="theme-toggle-thumb" aria-hidden="true"></span>
+            </label>
+        </div>
+
         <!-- Account icon with dropdown -->
         <div class="account-wrapper">
             @auth
@@ -805,7 +1134,7 @@
                             <a href="{{ route('dashboard') }}">Dashboard</a>
                             <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                             <a href="{{ route('wishlist.index') }}">My Wishlist</a>
-                            <a href="{{ route('mypuzzles') }}">My Puzzles</a>
+                            <a href="{{ route('my_puzzles') }}">My Puzzles</a>
                         </div>
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Settings</p>
@@ -824,11 +1153,8 @@
                     </div>
 
                     <div class="dropdown-actions">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit">Logout</button>
-                        </form>
-                        <button id="dark-mode-toggle" type="button">Theme</button>
+                        <button type="button" class="logout-trigger">Logout</button>
+                        <button id="dark-mode-toggle" type="button" style="display:none;">Theme</button>
                     </div>
                 @else
                     <div class="dropdown-guest">
@@ -836,13 +1162,14 @@
                         <a href="{{ route('register') }}">Register</a>
                     </div>
                     <div class="dropdown-actions">
-                        <button id="dark-mode-toggle" type="button">Theme</button>
+                        <button id="dark-mode-toggle" type="button" style="display:none;">Theme</button>
                     </div>
                 @endauth
             </div>
         </div>
+
         <div class="basket-wrapper">
-            <a href="{{ route('basket.index') }}" 
+            <a href="{{ route('basket.index') }}"
                class="nav-icon basket-icon"
                alt="basket">
             </a>
@@ -905,22 +1232,125 @@
     </div>
 </nav>
 
+<!-- Mobile Account Modal -->
+<div class="mobile-account-overlay" id="mobile-account-overlay">
+    <div class="mobile-account-box">
+        <div class="mobile-account-header">
+            @auth
+                <span>Hello, {{ auth()->user()->firstName }}</span>
+            @else
+                <span>Account</span>
+            @endauth
+            <button class="mobile-account-close" id="mobile-account-close" aria-label="Close">&times;</button>
+        </div>
+
+        @auth
+            <div class="mobile-account-items">
+                <a href="{{ route('dashboard') }}" class="mobile-account-btn">Dashboard</a>
+                <button type="button" class="mobile-account-btn danger logout-trigger">Logout</button>
+                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
+            </div>
+        @else
+            <div class="mobile-account-items">
+                <a href="{{ route('login') }}" class="mobile-account-btn">Login</a>
+                <a href="{{ route('register') }}" class="mobile-account-btn">Register</a>
+                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
+            </div>
+        @endauth
+    </div>
+</div>
+
+{{-- LOGOUT CONFIRMATION MODAL --}}
+@auth
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+        <button class="modal-close" id="logoutModalClose" aria-label="Close">&times;</button>
+        <h2>Confirm Logout</h2>
+        <p class="modal-message" id="logoutModalMessage"></p>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <div class="modal-actions">
+                <button type="submit" class="modal-confirm-btn">Yes, Log Me Out</button>
+                <button type="button" class="modal-cancel-btn" id="logoutModalCancel">Stay Logged In</button>
+            </div>
+        </form>
+    </div>
+</div>
+@endauth
+
 <script>
-    // Dark mode toggle
+    // Dark mode toggle (desktop)
     const toggleBtn = document.getElementById("dark-mode-toggle");
     const body = document.body;
 
+    const themeToggleInput = document.getElementById('theme-toggle');
+
     if (localStorage.getItem("theme") === "dark") {
         body.classList.add("dark-mode");
+        document.documentElement.classList.add("dark-mode");
+        if (themeToggleInput) themeToggleInput.checked = true;
     }
 
-    toggleBtn.addEventListener("click", () => {
-        body.classList.toggle("dark-mode");
-        localStorage.setItem(
-            "theme",
-            body.classList.contains("dark-mode") ? "dark" : "light",
-        );
-    });
+    function setTheme(isDark) {
+        body.classList.toggle("dark-mode", isDark);
+        document.documentElement.classList.toggle("dark-mode", isDark);
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+        if (themeToggleInput) themeToggleInput.checked = isDark;
+    }
+
+    if (themeToggleInput) {
+        themeToggleInput.addEventListener('change', () => {
+            setTheme(themeToggleInput.checked);
+        });
+    }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
+            setTheme(!body.classList.contains("dark-mode"));
+        });
+    }
+
+    // Mobile theme toggle (inside modal)
+    const mobileThemeToggle = document.getElementById('mobile-theme-bar');
+    if (mobileThemeToggle) {
+        mobileThemeToggle.addEventListener('click', () => {
+            setTheme(!body.classList.contains("dark-mode"));
+        });
+    }
+
+    function openAccountModal() {
+        mobileAccountOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAccountModal() {
+        mobileAccountOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Mobile account modal
+    const mobileAccountOverlay = document.getElementById('mobile-account-overlay');
+    const mobileAccountClose = document.getElementById('mobile-account-close');
+    const accountIcon = document.querySelector('.account-wrapper .nav-icon');
+
+    if (accountIcon && mobileAccountOverlay) {
+        accountIcon.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                e.preventDefault();
+                openAccountModal();
+            }
+        });
+    }
+
+    if (mobileAccountClose) {
+        mobileAccountClose.addEventListener('click', () => closeAccountModal());
+    }
+
+    if (mobileAccountOverlay) {
+        mobileAccountOverlay.addEventListener('click', (e) => {
+            if (e.target === mobileAccountOverlay) closeAccountModal();
+        });
+    }
 
     // Account dropdown
     const accountWrapper = document.querySelector('.account-wrapper');
@@ -929,10 +1359,12 @@
     if (accountWrapper && accountDropdown) {
         let closeTimer;
         accountWrapper.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 900) return;
             clearTimeout(closeTimer);
             accountDropdown.classList.add('open');
         });
         accountWrapper.addEventListener('mouseleave', () => {
+            if (window.innerWidth <= 900) return;
             closeTimer = setTimeout(() => accountDropdown.classList.remove('open'), 50);
         });
     }
@@ -944,10 +1376,12 @@
     if (basketWrapper && basketDropdown) {
         let basketCloseTimer;
         basketWrapper.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 900) return;
             clearTimeout(basketCloseTimer);
             basketDropdown.classList.add('open');
         });
         basketWrapper.addEventListener('mouseleave', () => {
+            if (window.innerWidth <= 900) return;
             basketCloseTimer = setTimeout(() => basketDropdown.classList.remove('open'), 50);
         });
     }
@@ -983,7 +1417,7 @@
         if (e.key === "Escape") closeSidebar();
     });
 
-    // ── Live search dropdown ──────────────────────────────────────────────
+    // Live search dropdown
     const searchInput    = document.getElementById('search-input');
     const searchDropdown = document.getElementById('search-dropdown');
     const searchForm     = document.getElementById('search-form');
@@ -1086,4 +1520,48 @@
             closeDropdown();
         }
     });
+
+    // Logout confirmation modal
+    (function () {
+        var logoutModal    = document.getElementById('logoutModal');
+        if (!logoutModal) return;
+
+        var confirmClose   = document.getElementById('logoutModalClose');
+        var confirmCancel  = document.getElementById('logoutModalCancel');
+        var messageEl      = document.getElementById('logoutModalMessage');
+
+        var logoutMessages = [
+            "Are you sure you want to leave? Your puzzles will miss you!",
+            "Logging out already? We were just getting started!",
+            "Your brain deserves a break... but are you sure?",
+            "Leaving so soon? The puzzles won't solve themselves!",
+            "Are you absolutely sure? There's always one more puzzle to solve.",
+            "We'll keep your spot warm. Ready to log out?",
+        ];
+
+        function openLogoutModal() {
+            messageEl.textContent = logoutMessages[Math.floor(Math.random() * logoutMessages.length)];
+            logoutModal.classList.add('active');
+        }
+
+        function closeLogoutModal() {
+            logoutModal.classList.remove('active');
+        }
+
+        document.querySelectorAll('.logout-trigger').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                // Close mobile account modal if open
+                var mobileOverlay = document.getElementById('mobile-account-overlay');
+                if (mobileOverlay) mobileOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                openLogoutModal();
+            });
+        });
+
+        confirmClose.addEventListener('click', closeLogoutModal);
+        confirmCancel.addEventListener('click', closeLogoutModal);
+        logoutModal.addEventListener('click', function (e) {
+            if (e.target === logoutModal) closeLogoutModal();
+        });
+    })();
 </script>

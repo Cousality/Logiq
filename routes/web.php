@@ -10,10 +10,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminPromotionController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\AddressController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -51,14 +53,17 @@ Route::get('/product/{productSlug}', [ProductController::class, 'index'])->name(
 
 Route::get('/your_orders', [OrderController::class, 'index'])->name('dashboard.orders');
 Route::patch('/your_orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel')->middleware('auth');
+Route::patch('/your_orders/{order}/return', [OrderController::class, 'returnOrder'])->name('orders.return')->middleware('auth');
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
-});
+})->name('password.request');
 
-Route::post('/send-reset-link', function () {
-    return back()->with('message', 'A password reset link has been sent to your email.');
-})->name('password.email');
+Route::post('/send-reset-link', [AuthController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 
 Route::get('/about_us', function () {
     return view('Frontend.text.about_us');
@@ -82,13 +87,7 @@ Route::get('/FAQs', function () {
 
 //Dashboard Routes
 
-Route::get('/your_address', function () {
-    return view('Frontend.dashboard.your_address');
-})->name('yourAddress');
 
-Route::get('/my_puzzles', function () {
-    return view('Frontend.dashboard.my_puzzles');
-})->name('mypuzzles');
 
 // Auth Pages
 Route::middleware(['auth'])->group(function () {
@@ -99,6 +98,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout/store', [CheckoutController::class, 'store'])->name('checkout.store');
 
+    //Address Routes
+    Route::get('/your_address', [AddressController::class, 'index'])->name('yourAddress');
+    Route::post('/your_address', [AddressController::class, 'store'])->name('address.store');
+    Route::put('/your_address/{address}', [AddressController::class, 'update'])->name('address.update');
+    Route::delete('/your_address/{address}', [AddressController::class, 'destroy'])->name('address.destroy');
+
     //Login & Security Routes
     Route::get('/login_security', [ProfileController::class, 'index'])->name('loginSecurity');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -108,6 +113,17 @@ Route::middleware(['auth'])->group(function () {
         return view('Frontend.dashboard');
     })->name('dashboard');
 
+    //Review Routes
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/my_puzzles', [ReviewController::class, 'myPuzzles'])->name('my_puzzles');
+    Route::put('/my_puzzles/{review}', [ReviewController::class, 'updateReview'])->name('review.update');
+    Route::delete('/my_puzzles/{review}', [ReviewController::class, 'deleteReview'])->name('review.delete');
+});
+
+Route::middleware(['auth', IsAdmin::class])->group(function () {
+    Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
+    Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
+    Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
     //Basket Routes
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
     Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
@@ -132,15 +148,25 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/admin_customer_service', [ContactController::class, 'adminIndex'])->name('admin.customer_service');
     Route::post('/admin/tickets/{supportNum}/resolve', [ContactController::class, 'resolve'])->name('admin.tickets.resolve');
 
-    Route::resource('admin/inventory', AdminProductController::class)->names('admin.products');
+    Route::get('/order_management', [AdminOrderController::class, 'index'])->name('admin.orders.index');
+    Route::patch('/order_management/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+
+    Route::resource('admin/inventory', AdminProductController::class)->names('admin.products')->parameters(['inventory' => 'product']);
 
     Route::resource('admin/promotions', AdminPromotionController::class)->names('admin.promotions');
 
     Route::get('/inventory_management', function () {
         return view('Frontend.dashboard.inventory_management');
     })->name('inventory_management');
+
+    Route::get('/stock_analysis', [AdminProductController::class, 'stockAnalysis'])->name('stock_analysis');
+
+    Route::get('/review_moderation', [ReviewController::class, 'reviewModeration'])->name('review_moderation');
+    Route::delete('/review_moderation/{review}', [ReviewController::class, 'adminDeleteReview'])->name('review_moderation.delete');
 });
 
 Route::fallback(function () {
     return view('errors.404');
 });
+
+Route::get('/checkout/paypal', [CheckoutController::class, 'paypal'])->name('checkout.paypal');

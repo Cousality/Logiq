@@ -13,7 +13,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -27,7 +27,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1300px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -38,6 +38,7 @@
             display: flex;
             flex-direction: column;
             gap: 40px;
+            min-width: 0;
         }
 
         .settings-card {
@@ -128,6 +129,7 @@
             border: 2px solid var(--text);
             transition: 0.2s;
             font-family: inherit;
+            white-space: nowrap;
         }
 
         .btn-make-admin {
@@ -259,6 +261,10 @@
                 flex-direction: column;
             }
 
+            .dashboard-content {
+                width: 100%;
+            }
+
             .search-wrapper {
                 flex-direction: column;
             }
@@ -286,6 +292,8 @@
                 position: relative;
                 border: none;
                 border-bottom: 1px solid var(--text);
+                overflow-wrap: break-word;
+                word-break: break-word;
             }
 
             .user-table td::before {
@@ -301,7 +309,7 @@
 
             .action-cell {
                 justify-content: flex-end;
-                width: 100%;
+                padding-left: 10px;
             }
         }
     </style>

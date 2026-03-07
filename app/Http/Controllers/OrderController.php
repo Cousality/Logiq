@@ -41,6 +41,35 @@ class OrderController extends Controller
         $order->orderStatus = 'cancelled';
         $order->save();
 
+        foreach ($order->orderItems as $item) {
+            if ($item->product) {
+                $item->product->increment('productQuantity', $item->quantity);
+            }
+        }
+
         return back()->with('success', 'Your order has been cancelled.');
+    }
+
+    /* Return an order */
+    public function returnOrder(Request $request, Order $order)
+    {
+        if ($order->userID !== Auth::id()) {
+            abort(403);
+        }
+
+        if (!in_array($order->orderStatus, ['shipped', 'delivered'])) {
+            return back()->with('error', 'This order cannot be returned.');
+        }
+
+        $order->orderStatus = 'returned';
+        $order->save();
+
+        foreach ($order->orderItems as $item) {
+            if ($item->product) {
+                $item->product->increment('productQuantity', $item->quantity);
+            }
+        }
+
+        return back()->with('success', 'Your order has been returned.');
     }
 }

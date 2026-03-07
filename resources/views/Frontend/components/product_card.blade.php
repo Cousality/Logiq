@@ -217,10 +217,55 @@
         .difficulty-badge.hard {
             background: #a63232;
         }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .card-description {
+                display: none;
+            }
+
+            .card-image-container {
+                height: 140px;
+            }
+
+            .card-content {
+                padding: 0.75rem;
+            }
+
+            .card-actions {
+                padding: 0.75rem;
+                padding-top: 0;
+                gap: 0.5rem;
+            }
+
+            .card-title {
+                font-size: 0.85rem;
+            }
+
+            .card-price {
+                font-size: 0.85rem;
+                margin-top: 0.2rem;
+            }
+
+            .btn-style {
+                padding: 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
     </style>
     <div class="product-card" data-category="{{ $product->productCategory }}"
         data-difficulty="{{ $product->productDifficulty }}" data-price="{{ $product->productPrice }}"
         data-rating="{{ $product->reviews_count > 0 ? round($product->reviews_avg_rating) : 0 }}">
+
+        @if($product->productQuantity <= 0)
+            <div class="out-of-stock-overlay">
+                <span>Out of Stock</span>
+            </div>
+        @endif
 
         <div class="difficulty-badge {{ strtolower($product->productDifficulty) }}">
             {{ strtoupper($product->productDifficulty) }}
@@ -262,8 +307,8 @@
             <form action="{{ route('basket.add') }}" method="POST" class="w-full">
                 @csrf
                 <input type="hidden" name="productID" value="{{ $product->productID }}">
-                <button type="submit" class="btn-style btn-primary">
-                    ADD TO BASKET
+                <button type="submit" class="btn-style btn-primary" @if($product->productQuantity <= 0) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
+                    {{ $product->productQuantity <= 0 ? 'OUT OF STOCK' : 'ADD TO BASKET' }}
                 </button>
             </form>
             <div class= "btn-wishlist">

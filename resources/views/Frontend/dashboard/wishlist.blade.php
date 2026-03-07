@@ -13,7 +13,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -27,7 +27,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -35,6 +35,7 @@
 
         .wishlist-container {
             flex: 1;
+            min-width: 0;
         }
 
         /* GRID */
@@ -152,7 +153,18 @@
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
             .dashboard-layout { flex-direction: column; padding: 20px 5%; }
-            .wishlist-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .wishlist-container { width: 100%; }
+            .wishlist-grid { grid-template-columns: 1fr; }
+            .wishlist-card { display: flex; flex-direction: row; }
+            .product-image {
+                width: 120px;
+                min-width: 120px;
+                height: auto;
+                border-bottom: none;
+                border-right: 2px solid var(--text);
+            }
+            .product-info { padding: 1rem; }
+            .product-name { font-size: 1.1rem; }
         }
 
         /* REMOVE MODAL */

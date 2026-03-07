@@ -11,7 +11,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -21,34 +21,32 @@
             margin-bottom: 1rem;
         }
 
-        .dashboard-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
         .admin-btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--text);
-            color: var(--white);
-            text-decoration: none;
-            font-weight: bold;
-            transition: transform 0.2s;
-            padding: 20px;
-            margin-top: 15px;
+            padding: 0.8rem 0.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--bg-secondary);
+            color: var(--text);
+            border: 2px solid var(--text);
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+
         }
 
         .admin-btn:hover {
-            transform: translateY(-3px);
+            background-color: var(--red-pastel-1);
+            border-color: var(--red-pastel-1);
+            color: var(--white);
+            transform: translateY(-2px);
         }
 
         .dashboard-containers {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            max-width: 1300px;
+            max-width: 1800px;
             margin: 0 auto;
             gap: 30px;
-            padding: 50px 10% 0px;
+            padding: 50px 5% 0px;
         }
 
         .dashboard-card {
@@ -118,13 +116,12 @@
             <section id="adminView">
                 <header class="dashboard-header">
                     <h1 class="dashboard-title"> Hello, Admin</h1>
-                    <p>Welcome to your dashboard.</p>
-                    <button type="button" class="admin-btn" onclick="toggleDashboard(this)">User Dashboard</button>
+                        <button type="button" class="admin-btn" onclick="toggleDashboard()">User Dashboard</button>
                 </header>
 
                 <div class="dashboard-containers">
                     <div class="dashboard-card">
-                        <a href="#" class="card-link-wrapper">
+                        <a href="{{ route('admin.orders.index') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Order Management</h3>
                             <h3 class="card-description">View, check and process customer orders.</h3>
                         </a>
@@ -145,7 +142,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="#" class="card-link-wrapper">
+                        <a href="{{ route('review_moderation') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Review Moderation</h3>
                             <h3 class="card-description">View current reviews and delete inappropriate reviews.</h3>
                         </a>
@@ -170,8 +167,7 @@
             <section id="userView" style="display:none">
                 <header class="dashboard-header">
                     <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
-                    <p>Welcome to your dashboard.</p>
-                    <button type="button" class="admin-btn" onclick="toggleDashboard(this)">Admin Dashboard</button>
+                    <button type="button" class="admin-btn" onclick="toggleDashboard()">Admin Dashboard</button>
                 </header>
 
                 <div class="dashboard-containers">

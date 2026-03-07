@@ -14,7 +14,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -28,7 +28,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -66,7 +66,7 @@
         .filter-button:hover,
         .filter-button.active {
             background: var(--text);
-            color: var(--text-light);
+            color: var(--white);
         }
 
         /* ORDER CARD */
@@ -113,12 +113,13 @@
             border: 2px solid var(--text);
         }
 
-        .order-status.pending    { background: #fff3cd; }
-        .order-status.delivered  { background: #d4edda; }
-        .order-status.processing { background: #fce5ad; }
-        .order-status.shipped    { background: #d1ecf1; }
-        .order-status.cancelled  { background: #e2e3e5; }
-
+        .order-status.pending    { color: #c17f24; border-color: #c17f24; background: #fff8e1; }
+        .order-status.delivered  { color: #4a7c59; border-color: #4a7c59; background: #f0fdf4; }
+        .order-status.processing { color: #2563eb; border-color: #2563eb; background: #eff6ff; }
+        .order-status.shipped    { color: #7c3aed; border-color: #7c3aed; background: #f5f3ff; }
+        .order-status.cancelled  { color: #a63232; border-color: #a63232; background: #fef2f2; }
+        .order-status.returned   { color: #5f5f5f; border-color: #5f5f5f; background: #d6d6d6; }
+        
         /* ORDER ITEMS */
         .order-items {
             display: flex;
@@ -197,7 +198,7 @@
 
         .action-button.primary:hover {
             background: var(--red-pastel-2);
-            color: var(--text-light);
+            color: var(--white-static);
         }
 
         /* MOBILE */
@@ -472,6 +473,35 @@
         .cancel-modal-actions .action-button {
             flex: 1;
         }
+
+        /* RETURN ORDER MODAL */
+        .return-modal-box {
+            max-width: 460px;
+            text-align: center;
+        }
+
+        .return-modal-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .return-message {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .return-modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .return-modal-actions .action-button {
+            flex: 1;
+        }
     </style>
 </head>
 
@@ -491,6 +521,8 @@
             <div class="orders-filter">
                 <a class="filter-button {{ !request('status') || request('status') == 'all' ? 'active' : '' }}"
                     href="{{ route('dashboard.orders') }}">All</a>
+                <a class="filter-button {{ request('status') == 'pending' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'pending']) }}">Pending</a>
                 <a class="filter-button {{ request('status') == 'processing' ? 'active' : '' }}"
                     href="{{ route('dashboard.orders', ['status' => 'processing']) }}">Processing</a>
                 <a class="filter-button {{ request('status') == 'shipped' ? 'active' : '' }}"
@@ -499,8 +531,8 @@
                     href="{{ route('dashboard.orders', ['status' => 'delivered']) }}">Delivered</a>
                 <a class="filter-button {{ request('status') == 'cancelled' ? 'active' : '' }}"
                     href="{{ route('dashboard.orders', ['status' => 'cancelled']) }}">Cancelled</a>
-                <a class="filter-button {{ request('status') == 'exchanges' ? 'active' : '' }}"
-                    href="{{ route('dashboard.orders', ['status' => 'exchanges']) }}">Exchanges</a>
+                <a class="filter-button {{ request('status') == 'returned' ? 'active' : '' }}"
+                    href="{{ route('dashboard.orders', ['status' => 'returned']) }}">Returns</a>
             </div>
 
             @php
@@ -568,7 +600,7 @@
                     </div>
 
                     <div class="order-actions">
-                        @if ($order->orderStatus != 'cancelled' && $order->orderStatus != 'delivered')
+                        @if (!in_array($order->orderStatus, ['cancelled', 'delivered', 'returned']))
                             <button class="action-button primary"
                                 data-id="{{ $order->orderID }}"
                                 data-status="{{ $order->orderStatus }}"
@@ -578,8 +610,11 @@
                         <button class="action-button"
                             data-order-id="{{ $order->orderID }}"
                             onclick="openDetailsModal(this)">View Details</button>
-                        @if ($order->orderStatus == 'delivered')
-                            <button class="action-button">Request Exchange</button>
+                        @if (in_array($order->orderStatus, ['shipped', 'delivered']))
+                            <button class="action-button"
+                                data-order-id="{{ $order->orderID }}"
+                                data-return-url="{{ route('orders.return', $order->orderID) }}"
+                                onclick="openReturnModal(this)">Return Order</button>
                         @endif
                         @if ($order->orderStatus == 'pending' || $order->orderStatus == 'processing')
                             <button class="action-button"
@@ -643,6 +678,23 @@
                 <span class="details-summary-count" id="detailsItemCount"></span>
                 <span class="details-total">Total &mdash; £<span id="detailsTotal"></span></span>
             </div>
+        </div>
+    </div>
+
+    {{-- RETURN ORDER MODAL --}}
+    <div class="modal-overlay" id="returnModal">
+        <div class="modal-box return-modal-box">
+            <button class="modal-close" onclick="closeReturnModal()">&times;</button>
+            <h2>Return Order?</h2>
+            <p class="return-message" id="returnMessage"></p>
+            <form id="returnForm" method="POST">
+                @csrf
+                @method('PATCH')
+                <div class="return-modal-actions">
+                    <button type="button" class="action-button primary" onclick="closeReturnModal()">Keep My Order</button>
+                    <button type="submit" class="action-button">Yes, Return It</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -763,6 +815,30 @@
 
         document.getElementById('cancelModal').addEventListener('click', function(e) {
             if (e.target === this) closeCancelModal();
+        });
+
+        const returnMessages = [
+            "This puzzle thought it had found its forever home. Are you sure you want to return it?",
+            "Your order is already on an adventure. Are you really sending it back?",
+            "Returns happen, but are you absolutely sure about this one?",
+            "We'll take it back, no hard feelings. But are you sure?",
+            "This puzzle was just getting comfortable. Really want to return it?",
+            "Once returned, it'll be back on the shelf. Sure about this?",
+        ];
+
+        function openReturnModal(btn) {
+            document.getElementById('returnForm').action = btn.dataset.returnUrl;
+            document.getElementById('returnMessage').textContent =
+                returnMessages[Math.floor(Math.random() * returnMessages.length)];
+            document.getElementById('returnModal').classList.add('active');
+        }
+
+        function closeReturnModal() {
+            document.getElementById('returnModal').classList.remove('active');
+        }
+
+        document.getElementById('returnModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReturnModal();
         });
     </script>
 </body>

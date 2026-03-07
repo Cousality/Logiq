@@ -76,13 +76,41 @@
         font-weight: bold;
     }
 
+    .mobile-back-nav {
+        display: none;
+    }
+
+    .mobile-back-nav .btn-secondary {
+        background: transparent;
+        color: var(--text);
+        padding: 10px 15px;
+        text-decoration: none;
+        border: 2px solid var(--text);
+        display: inline-block;
+        transition: 0.2s;
+    }
+
+    .mobile-back-nav .btn-secondary:hover {
+        background: var(--text);
+        color: var(--white);
+        transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
         .dashboard-sidebar {
-            width: 100%;
-            margin-bottom: 20px;
+            display: none;
+        }
+
+        .mobile-back-nav {
+            display: block;
+            margin-bottom: 16px;
         }
     }
 </style>
+
+<div class="mobile-back-nav">
+    <a href="{{ route('dashboard') }}" class="btn-secondary">&larr; Back to Dashboard</a>
+</div>
 
 <aside class="dashboard-sidebar">
     <div class="sidebar-user-section">
@@ -95,8 +123,8 @@
             <h3 class="sidebar-section-title">Users</h3>
             <ul style="list-style: none; padding: 0; margin: 0; width: 100%;">
                 <li class="sidebar-menu-item">
-                    <a href="#"
-                        class="sidebar-menu-link">
+                    <a href="{{ route('admin.orders.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
                         Order Management
                     </a>
                 </li>
@@ -125,9 +153,9 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="#"
-                        class="sidebar-menu-link">
-                        Analytics & Reports
+                    <a href="{{ route('review_moderation') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('review_moderation') ? 'active' : '' }}">
+                        Review Moderation
                     </a>
                 </li>
             </ul>

@@ -25,7 +25,7 @@
         }
 
         .faq-container {
-            max-width: 900px;
+            max-width: 768px;
             width: 100%;
         }
 

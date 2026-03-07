@@ -13,7 +13,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -26,7 +26,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1200px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -34,6 +34,7 @@
 
         .dashboard-content {
             flex: 1;
+            min-width: 0;
         }
 
         .service-container {
@@ -72,6 +73,10 @@
 
             .dashboard-layout {
                 flex-direction: column;
+            }
+
+            .dashboard-content {
+                width: 100%;
             }
         }
     </style>

@@ -43,8 +43,7 @@ class CheckoutController extends Controller
             'payment_method' => 'required|in:card,paypal',
             'card_name' => 'required|string|max:255',
             'card_number' => 'required|string',
-            'expiry_month' => 'required|string',
-            'expiry_year' => 'required|string',
+            'expiry' => 'required|string',
             'cvv' => 'required|string',
             'agree_terms' => 'accepted',
         ]);
@@ -62,6 +61,12 @@ class CheckoutController extends Controller
 
             if ($items->isEmpty()) {
                 abort(400, 'Basket is empty');
+            }
+
+            foreach ($items as $item) {
+                if ($item->product && $item->quantity > $item->product->productQuantity) {
+                    abort(400, 'Not enough stock for ' . $item->product->productName . '. Only ' . $item->product->productQuantity . ' available.');
+                }
             }
 
             $subtotal = $items->sum(function ($item) {

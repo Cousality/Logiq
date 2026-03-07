@@ -26,11 +26,11 @@ INSERT INTO products (productName, productSlug, productCategory, productDifficul
     ('Chess Board Game', 'chess-board-game', 'BoardGames','hard', 6.99, 'A timeless two-player strategy game centred on planning, tactics and outthinking your opponent.', '/Images/chess.png', 5, 'active'),
     ('Checkers Board Game', 'checkers-board-game', 'BoardGames','hard', 7.99, 'A simple, tactical board game where players jump and capture pieces to dominate the board.', '/Images/checkers.png', 5, 'active'),
 
-    ('Wooden Burr Puzzle', 'wooden-burr-puzzle', 'HandheldBrainTeasers', 'hard', 8.99, 'A wooden 3D interlocking puzzle that challenges players to assemble the pieces in the right order.', '/Images/burr_puzzle.png', 5, 'active'),
-    ('Soma Cube', 'soma-cube', 'HandheldBrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
-    ('Snake Twist Puzzle', 'snake-twist-puzzle', 'HandheldBrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
-    ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'HandheldBrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
-    ('Metal Disentanglement Puzzle', 'metal-disentanglement-puzzle', 'HandheldBrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
+    ('Wooden Burr Puzzle', 'wooden-burr-puzzle', 'BrainTeasers', 'hard', 8.99, 'A wooden 3D interlocking puzzle that challenges players to assemble the pieces in the right order.', '/Images/burr_puzzle.png', 5, 'active'),
+    ('Soma Cube', 'soma-cube', 'BrainTeasers','medium', 4.99, 'A seven-piece puzzle that can be built into a cube and many other geometric shapes.', '/Images/soma_cube.png', 5, 'active'),
+    ('Snake Twist Puzzle', 'snake-twist-puzzle', 'BrainTeasers','easy', 3.99, 'A flexible linked puzzle that twists and folds into different models and 3D shapes.', '/Images/snake_twist.png', 5, 'active'),
+    ('Labyrinth Ball Maze', 'labyrinth-ball-maze', 'BrainTeasers','medium', 5.99, 'A handheld maze where players carefully guide a small ball through ramps and obstacles with steady control.', '/Images/labyrinth_ballMaze.png', 5, 'active'),
+    ('Metal Separation Puzzle', 'metal-separation-puzzle', 'BrainTeasers','hard', 6.99, 'A challenging mental brain teaser requiring logic and careful movement to separate intertwined pieces.', '/Images/metal_disentanglement.png', 5, 'active');
 
 -- ============================================================
 -- SAMPLE USERS (password = "password")
@@ -171,7 +171,173 @@ INSERT INTO reviews (userID, productID, rating, reviewComment) VALUES
     (3, 25, 4.0, 'Good quality metal. Takes proper logical thinking and patience. Very satisfying.'),
     (6, 25, 5.0, 'One of the best brain teasers I have tried. Looks simple, absolutely is not.');
 
+-- ============================================================
+-- ADDRESSES
+-- One default address per user (userID 1–7)
+-- addressID 1=Admin User, 2=John Smith, 3=Sarah Jones,
+--           4=Mike Brown, 5=Emma Wilson, 6=James Taylor, 7=Lucy Anderson
+-- ============================================================
+INSERT INTO addresses (userID, recipientFirstName, recipientLastName, phone, addressLine1, addressLine2, city, postCode, isDefault) VALUES
+    (1, 'Admin', 'User',     '07700900000', '1 Puzzle Lane',      'Suite 10',    'London',     'EC1A 1BB', TRUE),
+    (2, 'John',  'Smith',    '07700900001', '12 Baker Street',    NULL,          'London',     'NW1 6XE', TRUE),
+    (3, 'Sarah', 'Jones',    '07700900002', '5 Victoria Road',    'Flat 3',      'Manchester', 'M1 2AB',  TRUE),
+    (4, 'Mike',  'Brown',    '07700900003', '8 Castle Terrace',   NULL,          'Edinburgh',  'EH1 2DP', TRUE),
+    (5, 'Emma',  'Wilson',   '07700900004', '22 Queen Street',    'Apartment 1', 'Bristol',    'BS1 4NT', TRUE),
+    (6, 'James', 'Taylor',   '07700900005', '3 Park Lane',        NULL,          'Birmingham', 'B1 1BB',  TRUE),
+    (7, 'Lucy',  'Anderson', '07700900006', '17 Harbour View',    'Floor 2',     'Liverpool',  'L1 8JQ',  TRUE);
+
+-- ============================================================
+-- ORDERS
+-- orderStatus options: cart | pending | processing | shipped | delivered | cancelled | returned
+-- userID 2=John Smith,  3=Sarah Jones,  4=Mike Brown,
+--        5=Emma Wilson, 6=James Taylor, 7=Lucy Anderson
+-- addressID 1=Admin User, 2=John Smith, 3=Sarah Jones,
+--           4=Mike Brown, 5=Emma Wilson, 6=James Taylor, 7=Lucy Anderson
+-- ============================================================
+INSERT INTO orders (userID, orderDate, orderStatus, totalAmount, addressID) VALUES
+    -- Admin User: ten orders covering all statuses
+    (1, '2025-11-20 09:15:00', 'delivered',   26.48, 1),  -- orderID 1
+    (1, '2025-12-05 14:30:00', 'delivered',   22.97, 1),  -- orderID 2
+    (1, '2025-12-22 11:00:00', 'returned',    17.98, 1),  -- orderID 3
+    (1, '2026-01-08 16:45:00', 'cancelled',   15.98, 1),  -- orderID 4
+    (1, '2026-01-18 10:20:00', 'delivered',   31.47, 1),  -- orderID 5
+    (1, '2026-02-02 08:00:00', 'shipped',     20.98, 1),  -- orderID 6
+    (1, '2026-02-14 13:10:00', 'returned',    14.98, 1),  -- orderID 7
+    (1, '2026-02-25 17:30:00', 'processing',  23.97, 1),  -- orderID 8
+    (1, '2026-03-01 09:50:00', 'pending',     12.98, 1),  -- orderID 9
+    (1, '2026-03-05 11:15:00', 'shipped',     19.48, 1),  -- orderID 10
+
+    -- John Smith: two orders
+    (2, '2026-01-05 10:23:00', 'delivered',  26.48, 2),  -- orderID 11
+    (2, '2026-02-14 14:05:00', 'shipped',    14.98, 2),  -- orderID 12
+
+    -- Sarah Jones: two orders
+    (3, '2026-01-12 09:00:00', 'delivered',  23.48, 3),  -- orderID 13
+    (3, '2026-02-20 11:30:00', 'processing', 15.97, 3),  -- orderID 14
+
+    -- Mike Brown: two orders
+    (4, '2025-12-28 16:45:00', 'delivered',  26.48, 4),  -- orderID 15
+    (4, '2026-02-25 08:15:00', 'pending',    14.98, 4),  -- orderID 16
+
+    -- Emma Wilson: two orders
+    (5, '2026-01-19 13:55:00', 'delivered',  27.96, 5),  -- orderID 17
+    (5, '2026-02-28 17:00:00', 'shipped',    14.49, 5),  -- orderID 18
+
+    -- James Taylor: two orders
+    (6, '2025-12-15 12:00:00', 'delivered',  19.97, 6),  -- orderID 19
+    (6, '2026-01-30 10:10:00', 'cancelled',  15.99, 6),  -- orderID 20
+
+    -- Lucy Anderson: two orders
+    (7, '2026-01-08 15:20:00', 'delivered',  25.97, 7),  -- orderID 21
+    (7, '2026-02-22 09:45:00', 'processing', 11.98, 7);  -- orderID 22
+
+-- ============================================================
+-- ORDER ITEMS
+-- priceAtTime reflects the product price at time of purchase
+-- ============================================================
+INSERT INTO order_items (orderID, productID, quantity, priceAtTime) VALUES
+    -- Order 1: Admin (delivered) — 3x3 Rubik's Cube, Eiffel Tower Jigsaw, Scrabble
+    (1,  1, 1,  7.99),
+    (1,  6, 1,  9.99),
+    (1, 13, 1,  8.50),
+
+    -- Order 2: Admin (delivered) — Pyraminx, Speedcube, Soma Cube
+    (2,  4, 1,  5.99),
+    (2,  5, 1,  7.99),
+    (2, 22, 1,  8.99),
+
+    -- Order 3: Admin (returned) — Big Ben Jigsaw, 80 Nonogram Puzzles
+    (3,  8, 1,  8.99),
+    (3, 15, 1,  8.99),
+
+    -- Order 4: Admin (cancelled) — 100 Sudoku Puzzles, Ludo
+    (4, 11, 1,  9.99),
+    (4, 17, 1,  5.99),
+
+    -- Order 5: Admin (delivered) — 5x5 Rubik's Cube, Chess, Wooden Burr Puzzle
+    (5,  3, 1,  9.99),
+    (5, 19, 1, 12.49),
+    (5, 21, 1,  8.99),
+
+    -- Order 6: Admin (shipped) — Monopoly, London Eye Jigsaw, Labyrinth Ball Maze
+    (6, 18, 1,  8.99),
+    (6,  7, 1,  5.99),
+    (6, 24, 1,  6.00),
+
+    -- Order 7: Admin (returned) — 2x2 Rubik's Cube, Metal Separation Puzzle
+    (7,  2, 1,  7.99),
+    (7, 25, 1,  6.99),
+
+    -- Order 8: Admin (processing) — Cluedo, 40 Crossword Puzzles, Checkers
+    (8, 16, 1,  7.50),
+    (8, 12, 1,  7.48),
+    (8, 20, 1,  8.99),
+
+    -- Order 9: Admin (pending) — Snake Twist Puzzle, Sphinx & Pyramid Jigsaw
+    (9, 23, 1,  6.99),
+    (9, 10, 1,  5.99),
+
+    -- Order 10: Admin (shipped) — Statue of Liberty Jigsaw, Scrabble, 20 Word Search Puzzles
+    (10,  9, 1,  5.99),
+    (10, 13, 1,  7.50),
+    (10, 14, 1,  5.99),
+
+    -- Order 11: John Smith (delivered) — 3x3 Rubik's Cube, Eiffel Tower Jigsaw, Scrabble
+    (11,  1, 1,  7.99),
+    (11,  6, 1,  9.99),
+    (11, 13, 1,  8.50),
+
+    -- Order 12: John Smith (shipped) — 100 Sudoku Puzzles, Soma Cube
+    (12, 11, 1,  9.99),
+    (12, 22, 1,  4.99),
+
+    -- Order 13: Sarah Jones (delivered) — 2x2 Rubik's Cube, Speedcube, 80 Nonogram Puzzles
+    (13,  2, 1,  6.50),
+    (13,  5, 1,  7.99),
+    (13, 15, 1,  8.99),
+
+    -- Order 14: Sarah Jones (processing) — 500 Piece London Eye Jigsaw, Snake Twist Puzzle x2
+    (14,  7, 1,  7.99),
+    (14, 23, 2,  3.99),
+
+    -- Order 15: Mike Brown (delivered) — 5x5 Rubik's Cube, Cluedo, Wooden Burr Puzzle
+    (15,  3, 1,  9.99),
+    (15, 16, 1,  7.50),
+    (15, 21, 1,  8.99),
+
+    -- Order 16: Mike Brown (pending) — Monopoly, Labyrinth Ball Maze
+    (16, 18, 1,  8.99),
+    (16, 24, 1,  5.99),
+
+    -- Order 17: Emma Wilson (delivered) — Pyraminx, Big Ben Jigsaw, Chess, 20 Word Search Puzzles
+    (17,  4, 1,  5.99),
+    (17,  8, 1,  8.99),
+    (17, 19, 1,  6.99),
+    (17, 14, 1,  5.99),
+
+    -- Order 18: Emma Wilson (shipped) — 40 Crossword Puzzles, Metal Separation Puzzle
+    (18, 12, 1,  7.50),
+    (18, 25, 1,  6.99),
+
+    -- Order 19: James Taylor (delivered) — Statue of Liberty Jigsaw, Sphinx & Pyramid Jigsaw, Checkers
+    (19,  9, 1,  5.99),
+    (19, 10, 1,  5.99),
+    (19, 20, 1,  7.99),
+
+    -- Order 20: James Taylor (cancelled) — Ludo, 1000 Piece Eiffel Tower Jigsaw
+    (20, 17, 1,  6.00),
+    (20,  6, 1,  9.99),
+
+    -- Order 21: Lucy Anderson (delivered) — Speedcube, 80 Nonogram Puzzles, Wooden Burr Puzzle
+    (21,  5, 1,  7.99),
+    (21, 15, 1,  8.99),
+    (21, 21, 1,  8.99),
+
+    -- Order 22: Lucy Anderson (processing) — 3x3 Rubik's Cube, Snake Twist Puzzle
+    (22,  1, 1,  7.99),
+    (22, 23, 1,  3.99);
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES 
-    ('WELCOME10','percentage',10.00,'2026-03-01','2026-03-31');
+    ('WELCOME10','percentage',10.00);

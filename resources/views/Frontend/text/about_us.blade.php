@@ -52,7 +52,7 @@
         .about-section p {
             font-size: 1.2rem;
             line-height: 1.8;
-            max-width: 900px;
+            max-width: 768px;
             margin: 0 auto;
         }
 
@@ -150,7 +150,8 @@
             border: 2px solid var(--text);
             padding: 2rem;
             position: relative;
-            transition: all 0.3s;
+            box-shadow: 0px 0px 0px var(--red-pastel-1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             min-height: 280px;
@@ -161,7 +162,7 @@
 
         .team-card:hover {
             transform: translateY(-5px);
-            box-shadow: 8px 8px 0 var(--red-pastel-1);
+            box-shadow: 6px 6px 0px var(--red-pastel-1);
         }
 
         .team-card::before {

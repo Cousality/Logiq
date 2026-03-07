@@ -12,7 +12,7 @@
             padding: 4rem 5%;
             background: linear-gradient(135deg,
                     var(--bg-primary) 60%,
-                    var(--red-pastel-1) 60%);
+                    var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -26,7 +26,7 @@
         .dashboard-layout {
             display: flex;
             gap: 30px;
-            max-width: 1300px;
+            max-width: 1800px;
             margin: 0 auto;
             padding: 50px 5%;
             align-items: flex-start;
@@ -136,6 +136,7 @@
 
             .dashboard-layout {
                 flex-direction: column;
+                align-items: stretch;
             }
 
             .stats-container {

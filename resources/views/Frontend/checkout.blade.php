@@ -1,488 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Checkout - LOGIQ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
+<meta charset="UTF-8">
+<title>Checkout - LOGIQ</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        .checkout-wrapper {
-            max-width: 1200px;
-            margin: 30px auto 60px;
-            padding: 0 20px 40px;
-            display: flex;
-            gap: 24px;
-        }
+<link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 
-        .checkout-main {
-            flex: 2;
-            background: #fff;
-            border-radius: 16px;
-            padding: 24px 24px 32px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
+<style>
 
-        .checkout-summary {
-            flex: 1;
-            background: #fff;
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-            align-self: flex-start;
-        }
+.checkout-header {
+    padding: 4rem 5%;
+    background: linear-gradient(135deg,
+        var(--bg-primary) 60%,
+        var(--red-pastel-static) 60%);
+    border-bottom: 2px solid var(--text);
+}
 
-        .checkout-title {
-            font-family: "Inria Serif";
-            font-size: 32px;
-            margin: 0 0 4px;
-            color: #310E0E;
-        }
+.header-title {
+    font-size: 4rem;
+    letter-spacing: -3px;
+    margin-bottom: 1rem;
+}
 
-        .checkout-subtitle {
-            margin: 0 0 20px;
-            color: #666;
-            font-size: 14px;
-        }
+.checkout-wrapper{
+    max-width:1200px;
+    margin:30px auto 60px;
+    padding:0 20px 40px;
+    display:flex;
+    gap:24px;
+}
 
-        .checkout-steps {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            color: #999;
-        }
+.checkout-main{
+    flex: 2;
+    padding: 3rem 5%;
+    background: var(--white);
+    border: 2px solid var(--text);
+}
 
-        .step-pill {
-            padding: 6px 12px;
-            border-radius: 999px;
-            border: 1px solid #e0e0e0;
-        }
+.checkout-summary{
+    background: var(--bg-secondary);
+    border: 2px solid var(--text);
+    padding: 2rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+}
 
-        .step-pill.active {
-            border-color: #310E0E;
-            background: #310E0E;
-            color: #fff;
-        }
+.checkout-title{
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 0.5rem;
+}
 
-        .section {
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #f2f2f2;
-        }
+.section {
+    margin-bottom:24px;
+    padding-bottom:15px;
+    border-bottom:1px solid var(--text);
+}
 
-        .section:last-of-type {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
+form .section:last-of-type {
+    border-bottom:none;
+}
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 12px;
-        }
+.section-title{
+    font-size:18px;
+    font-weight:600;
+    color: var(--text);
+    margin-bottom:12px;
+}
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #310E0E;
-            margin: 0;
-        }
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px 16px;
+}
 
-        .section-note {
-            font-size: 13px;
-            color: #888;
-        }
+.paypal-btn{
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--text);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px 16px;
-        }
+.paypal-btn:hover {
+    background: var(--text);
+    color: var(--bg-primary);
+}
 
-        .form-row-full {
-            grid-column: 1 / -1;
-        }
+.divider{
+    text-align:center;
+    font-size:11px;
+    letter-spacing:.12em;
+    color: var(--text);
+    margin:12px 0;
+}
 
-        label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 4px;
-            color: #444;
-        }
+.terms-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    text-transform: uppercase;
+    margin-top:12px;
+}
 
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        select {
-            width: 100%;
-            padding: 10px 11px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            outline: none;
-            box-sizing: border-box;
-        }
+.terms-row input[type="checkbox"]{
+    width:16px;
+    height:16px;
+    margin:0;
+    cursor:pointer;
+}
 
-        input:focus,
-        select:focus {
-            border-color: #310E0E;
-            box-shadow: 0 0 0 1px rgba(49, 14, 14, 0.15);
-        }
+.primary-btn {
+    width: 100%;
+    padding: 1.2rem;
+    margin-top: 20px;
+    background: var(--text);
+    color: var(--white);
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+}
 
-        .radio-group {
-            display: flex;
-            gap: 16px;
-            margin-top: 4px;
-            font-size: 14px;
-        }
+.primary-btn:hover {
+    background: var(--red-pastel-1);
+    transform: translateY(-2px);
+}
 
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+.summary-title{
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
 
-        .terms-row {
-            margin-top: 14px;
-            font-size: 13px;
-            color: #555;
-            display: flex;
-            gap: 8px;
-            align-items: flex-start;
-        }
+.summary-item {
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-bottom:0.6rem;
+}
 
-        .terms-row input {
-            margin-top: 2px;
-        }
+.price {
+    padding-left: 6px;
+}
 
-        .primary-btn {
-            width: 100%;
-            border: none;
-            border-radius: 999px;
-            background: #310E0E;
-            color: #fff;
-            padding: 13px 18px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 18px;
-            transition: background .15s ease, transform .05s ease;
-        }
+.summary-row {
+    display:flex;
+    justify-content:space-between;
+    font-size:14px;
+    margin-top: 0.2rem;
+    font-weight: bold;
+}
 
-        .primary-btn:hover {
-            background: #4A1F1F;
-        }
+.summary-row:first-of-type {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid var(--text);
+    margin-top: 1rem;
+    padding-top:10px;
+}
 
-        .primary-btn:active {
-            transform: translateY(1px);
-        }
+.summary-row.total {
+    font-weight: bold;
+    font-size: 1.2rem;     
+}
 
-        .summary-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0 0 16px;
-            color: #310E0E;
-        }
 
-        .summary-items {
-            max-height: 260px;
-            overflow-y: auto;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 12px;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .summary-item-name {
-            color: #333;
-        }
-
-        .summary-item-meta {
-            font-size: 12px;
-            color: #777;
-        }
-
-        .summary-totals {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 4px;
-        }
-
-        .summary-row.total {
-            margin-top: 6px;
-            font-weight: 700;
-            font-size: 15px;
-            color: #310E0E;
-        }
-
-        .summary-note {
-            font-size: 12px;
-            color: #888;
-            margin-top: 6px;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 13px;
-            color: #fff;
-            text-decoration: underline;
-        }
-
-        .back-link:hover {
-            color: #f3d7d7;
-        }
-
-        @media (max-width: 900px) {
-            .checkout-wrapper {
-                flex-direction: column;
-            }
-
-            .checkout-main,
-            .checkout-summary {
-                width: 100%;
-            }
-        }
-    </style>
+@media(max-width:768px){
+    .checkout-wrapper{flex-direction:column;}
+    .checkout-summary{position:static;}
+}
+</style>
 </head>
 
 <body>
-    @include('Frontend.components.nav')
 
-    <div class="checkout-wrapper">
+@include('Frontend.components.nav')
 
-        {{-- LEFT: MAIN FORM --}}
-        <section class="checkout-main">
-            <h1 class="checkout-title">Checkout</h1>
-            <p class="checkout-subtitle">Review your details and confirm your order.</p>
+<header class="checkout-header">
+    <h1 class="header-title">CHECKOUT</h1> 
+    <p>Review and Confirm your Order.</p>  
+</header>
 
-            <div class="checkout-steps">
-                <div class="step-pill">1. Basket</div>
-                <div class="step-pill active">2. Details &amp; Payment</div>
-                <div class="step-pill">3. Confirmation</div>
-            </div>
+<div class="checkout-wrapper">
 
-            <form action="{{ route('checkout.store') }}" method="POST">
-                @csrf
+<!-- LEFT SIDE -->
+<section class="checkout-main">
 
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Delivery details</h2>
-                        <span class="section-note">We only use this to deliver your puzzles.</span>
-                    </div>
+<div class="section">
+    <h3 class="section-title">Payment Method</h3>
+    
+    <!-- PAYPAL BUTTON -->
+     <a href="{{ route('checkout.paypal') }}" class="paypal-btn">Continue with PayPal</a>
+     <div class="divider">OR PAY WITH CARD</div>
+</div>
 
-                    <div class="form-grid">
-                        <div class="form-row-full">
-                            <label for="full_name">Full name</label>
-                            <input id="full_name" name="full_name" type="text"
-                                value="{{ old('full_name', auth()->user()->name ?? '') }}" required>
-                        </div>
+<form action="{{ route('checkout.store') }}" method="POST">
+@csrf
 
-                        <div class="form-row-full">
-                            <label for="email">Email address</label>
-                            <input id="email" name="email" type="email"
-                                value="{{ old('email', auth()->user()->email ?? '') }}" required>
-                        </div>
+<input type="hidden" name="payment_method" value="card">
 
-                        <div class="form-row-full">
-                            <label for="address_line1">Address line 1</label>
-                            <input id="address_line1" name="address_line1" type="text"
-                                value="{{ old('address_line1') }}" required>
-                        </div>
+<!-- DELIVERY -->
+<div class="section">
+<h3 class="section-title">Delivery Details</h3>
 
-                        <div class="form-row-full">
-                            <label for="address_line2">Address line 2 (optional)</label>
-                            <input id="address_line2" name="address_line2" type="text"
-                                value="{{ old('address_line2') }}">
-                        </div>
-
-                        <div>
-                            <label for="city">Town / City</label>
-                            <input id="city" name="city" type="text" value="{{ old('city') }}" required>
-                        </div>
-
-                        <div>
-                            <label for="postcode">Postcode</label>
-                            <input id="postcode" name="postcode" type="text" value="{{ old('postcode') }}" required>
-                        </div>
-
-                        <div>
-                            <label for="country">Country</label>
-                            <select id="country" name="country" required>
-                                <option value="">Select country</option>
-                                <option value="UK" {{ old('country') == 'UK' ? 'selected' : '' }}>United Kingdom
-                                </option>
-                                <option value="IE" {{ old('country') == 'IE' ? 'selected' : '' }}>Ireland</option>
-                                <option value="EU" {{ old('country') == 'EU' ? 'selected' : '' }}>Europe (EU)
-                                </option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label for="phone">Phone number (optional)</label>
-                            <input id="phone" name="phone" type="tel" value="{{ old('phone') }}">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Payment</h2>
-                        <span class="section-note">Dummy payment – no real money will be taken.</span>
-                    </div>
-
-                    <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="payment_method" value="card"
-                                {{ old('payment_method', 'card') == 'card' ? 'checked' : '' }}>
-                            <span>Card</span>
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="payment_method" value="paypal"
-                                {{ old('payment_method') == 'paypal' ? 'checked' : '' }}>
-                            <span>PayPal</span>
-                        </label>
-                    </div>
-
-                    <div class="form-grid" style="margin-top: 14px;">
-                        <div class="form-row-full">
-                            <label for="card_name">Name on card</label>
-                            <input id="card_name" name="card_name" type="text" value="{{ old('card_name') }}"
-                                required>
-                        </div>
-
-                        <div class="form-row-full">
-                            <label for="card_number">Card number</label>
-                            <input id="card_number" name="card_number" type="text" maxlength="19"
-                                placeholder="4242 4242 4242 4242" value="{{ old('card_number') }}" required>
-                        </div>
-
-                        <div>
-                            <label for="expiry_month">Expiry month</label>
-                            <input id="expiry_month" name="expiry_month" type="text" maxlength="2"
-                                placeholder="MM" value="{{ old('expiry_month') }}" required>
-                        </div>
-
-                        <div>
-                            <label for="expiry_year">Expiry year</label>
-                            <input id="expiry_year" name="expiry_year" type="text" maxlength="2"
-                                placeholder="YY" value="{{ old('expiry_year') }}" required>
-                        </div>
-
-                        <div>
-                            <label for="cvv">CVV</label>
-                            <input id="cvv" name="cvv" type="text" maxlength="4" placeholder="123"
-                                value="{{ old('cvv') }}" required>
-                        </div>
-
-                        <div></div>
-                    </div>
-
-                    <p class="summary-note" style="margin-top:10px;">
-                        Ahh money money money money money - Mr Krabs.
-                    </p>
-                </div>
-
-                <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-title">Review &amp; confirm</h2>
-                    </div>
-
-                    <div class="terms-row">
-                        <input id="agree_terms" name="agree_terms" type="checkbox" value="1" required>
-                        <label for="agree_terms">
-                            I confirm that my details are correct and I agree to the
-                            <a href="{{ route('terms') }}" target="_blank">Terms &amp; Conditions</a>.
-                        </label>
-                    </div>
-
-                    <button type="submit" class="primary-btn">
-                        Place order
-                    </button>
-
-                    <a href="{{ route('basket.index') }}" class="back-link">
-                        &larr; Back to basket
-                    </a>
-                </div>
-            </form>
-        </section>
-
-        {{-- RIGHT: ORDER SUMMARY --}}
-        <aside class="checkout-summary">
-            <h2 class="summary-title">Order summary</h2>
-
-            <div class="summary-items">
-                @forelse(($cartItems ?? []) as $item)
-                    <div class="summary-item">
-                        <div>
-                            <div class="summary-item-name">
-                                {{ $item->product->productName ?? 'Product' }}
-                            </div>
-                            <div class="summary-item-meta">
-                                Qty: {{ $item->quantity ?? 1 }}
-                            </div>
-                        </div>
-                        <div>
-                            £{{ number_format($item->priceAtTime ?? ($item->product->productPrice ?? 0), 2) }}
-                        </div>
-                    </div>
-                @empty
-                    <p style="font-size: 13px; color:#777;">Your basket is empty :(.</p>
-                @endforelse
-            </div>
-
-            @php
-                $subtotal = $subtotal ?? 0;
-                $shipping = $shipping ?? 0;
-                $total = $total ?? $subtotal + $shipping;
-            @endphp
-
-            <div class="summary-totals">
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>£{{ number_format($subtotal, 2) }}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span>
-                        @if ($shipping == 0)
-                            Free
-                        @else
-                            £{{ number_format($shipping, 2) }}
-                        @endif
-                    </span>
-                </div>
-                <div class="summary-row total">
-                    <span>Total</span>
-                    <span>£{{ number_format($total, 2) }}</span>
-                </div>
-            </div>
-
-            <p class="summary-note">
-                Orders are usually dispatched within 1–2 working days.
-            </p>
-        </aside>
+    <div class="form-group">
+        <label>Full name</label>
+        <input name="full_name" 
+        value="{{ old('full_name', trim((auth()->user()->firstName ?? '').' '.(auth()->user()->lastName ?? ''))) }}" required>
     </div>
 
-    @include('Frontend.components.footer')
-</body>
+    <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" value="{{ old('email', auth()->user()->email ?? '') }}" required>
+    </div>
 
+    <div class="form-group">
+        <label>Address Line 1</label>
+        <input name="address_line1" required>
+    </div>
+
+    <div class="form-group">
+        <label>Address Line 2 (Optional)</label>
+        <input name="address_line2">
+    </div>
+
+    <div class="form-grid">
+    <div class="form-group">
+        <label>City</label>
+        <input name="city" required>
+    </div>
+
+    <div class="form-group">
+        <label>Postcode</label>
+        <input name="postcode" required>
+    </div>
+
+    <div class="form-group">
+        <label>Country</label>
+        <select name="country" required>
+            <option value="">Select Country</option>
+            <option>UK</option>
+            <option>Ireland</option>
+            <option>Europe</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Phone (optional)</label>
+        <input type="tel" name="phone">
+    </div>
+</div>
+</div>
+
+<!-- PAYMENT -->
+<div class="section">
+<h3 class="section-title">Card Details</h3>
+
+    <div class="form-group">
+        <label>Name on card</label>
+        <input type="text" name="card_name" autocomplete="cc-name" required>
+    </div>
+
+    <div class="form-group">
+        <label>Card number</label>
+        <input id="card_number" name="card_number" maxlength="19"
+               placeholder="4242 4242 4242 4242" autocomplete="cc-number" required>
+    </div>
+
+    <div class="form-grid">
+    <div class="form-group">
+        <label>Expiry (MM/YY)</label>
+        <input id="expiry" name="expiry" maxlength="5"
+               placeholder="MM/YY" autocomplete="cc-exp" required>
+    </div>
+
+    <div class="form-group">
+        <label>CVV</label>
+        <input id="cvv" name="cvv" maxlength="4"
+               placeholder="123" autocomplete="cc-csc" required>
+    </div>
+</div>
+</div>
+
+<!-- CONFIRM -->
+<div class="section">
+<h3 class="section-title">Review and Confirm</h3>
+
+<div class="terms-row">
+    <input id="agree_terms" name="agree_terms" type="checkbox" required>
+    <label for="agree_terms">
+        I agree to the <a href="{{ route('terms') }}">Terms & Conditions</a>
+    </label>
+</div>
+
+<button type="submit" class="primary-btn">Place order</button>
+</div>
+
+</form>
+</section>
+
+<!-- RIGHT SIDE -->
+<aside class="checkout-summary">
+<h2 class="summary-title">Your Order</h2>
+
+@foreach(($cartItems ?? []) as $item)
+<div class="summary-item">
+    <span>{{ $item->product->productName ?? 'Product' }} × {{ $item->quantity }}</span>
+    <span class="price">£{{ number_format($item->priceAtTime * $item->quantity, 2) }}</span>
+</div>
+@endforeach
+
+<div class="summary-totals">
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>£{{ number_format($subtotal, 2) }}</span>
+    </div>
+   
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span>
+             @if ($shipping == 0)
+               Free
+            @else
+               £{{ number_format($shipping, 2) }}
+            @endif
+        </span>
+    </div>
+    
+    <div class="summary-row total">
+        <span>Total</span>
+        <span>£{{ number_format($total ?? 0,2) }}</span>
+    </div>
+</div>
+</aside>
+
+</div>
+
+@include('Frontend.components.footer')
+
+<script>
+const card = document.getElementById('card_number');
+const expiry = document.getElementById('expiry');
+const cvv = document.getElementById('cvv');
+
+/* CARD NUMBER */
+card.addEventListener('input',()=>{
+    let v = card.value.replace(/\D/g,'').substring(0,16);
+    card.value = v.replace(/(.{4})/g,'$1 ').trim();
+});
+
+/* EXPIRY */
+expiry.addEventListener('input',()=>{
+    let v = expiry.value.replace(/\D/g,'').substring(0,4);
+    if(v.length > 2) expiry.value = v.slice(0,2)+'/'+v.slice(2);
+    else expiry.value = v;
+});
+
+/* CVV */
+cvv.addEventListener('input',()=>{
+    cvv.value = cvv.value.replace(/\D/g,'').substring(0,4);
+});
+</script>
+
+</body>
 </html>
