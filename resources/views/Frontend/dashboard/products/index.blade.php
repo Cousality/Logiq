@@ -415,7 +415,11 @@
             <div class="dashboard-content">
 
                 @if (session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success flash-dismiss">{{ session('success') }}</div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger flash-dismiss">{{ session('error') }}</div>
                 @endif
 
                 <section class="settings-card">
@@ -536,6 +540,15 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.flash-dismiss').forEach(function (el) {
+            setTimeout(function () {
+                el.style.opacity = '0';
+                setTimeout(function () { el.remove(); }, 500);
+            }, 2000);
+        });
+    </script>
 
     <script>
         (function () {

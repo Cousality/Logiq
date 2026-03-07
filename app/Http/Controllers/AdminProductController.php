@@ -124,6 +124,11 @@ class AdminProductController extends Controller
             abort(403);
         }
 
+        if ($product->orderItems()->exists()) {
+            return redirect()->route('admin.products.index')
+                ->with('error', 'Cannot delete this product because it has existing orders.');
+        }
+
         if ($product->productImage) {
             Storage::disk('public')->delete($product->productImage);
         }
