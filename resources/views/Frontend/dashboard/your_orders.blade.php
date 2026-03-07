@@ -622,6 +622,16 @@
                                 data-cancel-url="{{ route('orders.cancel', $order->orderID) }}"
                                 onclick="openCancelModal(this)">Cancel Order</button>
                         @endif
+
+                        @if ($order->orderStatus == 'cancelled')
+                            <form method="POST" action="{{ route('orders.destroy', $order->orderID) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="action-button" style="color: #a63232; border-color: #a63232;">
+                                    Delete Order
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             @empty
@@ -841,6 +851,57 @@
             if (e.target === this) closeReturnModal();
         });
     </script>
+
+    @if(session('success'))
+    <div id="toast-backdrop" style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 9998;
+        opacity: 1;
+        transition: opacity 0.6s ease;
+    "></div>
+
+    <div id="toast-notification" style="
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 3rem 4rem;
+        border: 3px solid var(--text);
+        background: var(--bg-primary);
+        color: var(--text);
+        font-weight: bold;
+        font-size: 1.3rem;
+        text-align: center;
+        z-index: 9999;
+        box-shadow: 10px 10px 0px var(--text);
+        opacity: 1;
+        transition: opacity 0.6s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        max-width: 550px;
+        width: 90%;
+        line-height: 2;
+    ">
+        <div style="font-size: 3.5rem; margin-bottom: 1rem;">✓</div>
+        <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">Success!</div>
+        <div style="font-size: 1rem; opacity: 0.8; text-transform: none; letter-spacing: 0;">{{ session('success') }}</div>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            const toast = document.getElementById('toast-notification');
+            const backdrop = document.getElementById('toast-backdrop');
+            toast.style.opacity = '0';
+            backdrop.style.opacity = '0';
+            setTimeout(function() {
+                toast.remove();
+                backdrop.remove();
+            }, 600);
+        }, 4000);
+    </script>
+    @endif
 </body>
 
 </html>
