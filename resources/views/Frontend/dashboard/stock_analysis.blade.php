@@ -218,7 +218,7 @@
         @media (max-width: 900px) {
             .dashboard-title { font-size: 2.5rem; }
             .dashboard-header { background: var(--bg-primary); }
-            .dashboard-layout { flex-direction: column; }
+            .dashboard-layout { flex-direction: column; align-items: stretch; }
             .management-container { padding: 1rem; }
             .stats-table, .stats-table tbody, .stats-table tr, .stats-table td {
                 display: block; width: 100%;
