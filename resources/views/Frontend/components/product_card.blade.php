@@ -19,10 +19,7 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .product-card:hover {
-            transform: translate(-4px, -4px);
-            box-shadow: 6px 6px 0px var(--text);
-        }
+       
 
         .card-link-wrapper {
             text-decoration: none;
@@ -327,5 +324,26 @@
 <script>
     document.querySelectorAll('.card-stars-wrap .stars-fg[data-pct]').forEach(function (el) {
         el.style.width = el.dataset.pct + '%';
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.product-card').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            card.style.boxShadow = '6px 6px 0px var(--text)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
+            card.style.boxShadow = '0px 0px 0px var(--text)';
+        });
     });
 </script>
