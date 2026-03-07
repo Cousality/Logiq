@@ -72,4 +72,21 @@ class OrderController extends Controller
 
         return back()->with('success', 'Your order has been returned.');
     }
+
+    /* Delete a cancelled order */
+    public function destroy(Order $order)
+    {
+        if ($order->userID !== Auth::id()) {
+            abort(403);
+        }
+
+        if ($order->orderStatus !== 'cancelled') {
+            return back()->with('error', 'Only cancelled orders can be deleted.');
+        }
+
+        $order->orderItems()->delete();
+        $order->delete();
+
+        return back()->with('success', 'Your order has been deleted.');
+    }
 }
