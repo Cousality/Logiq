@@ -108,4 +108,11 @@ CREATE TABLE wishlists (
     INDEX idx_product_wishlist (productID)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+CREATE TABLE promotions (
+    promotionID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    promotionCode VARCHAR(50) NOT NULL UNIQUE,
+    discountType ENUM('percentage', 'fixed') NOT NULL,
+    discountValue DECIMAL(10, 2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;

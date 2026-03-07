@@ -147,14 +147,8 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
-                    <a href="{{ route('stock_analysis') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('stock_analysis') ? 'active' : '' }}">
-                        Stock Analysis
-                    </a>
-                </li>
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('promotions') }}"
-                        class="sidebar-menu-link {{ request()->routeIs('promotions') ? 'active' : '' }}">
+                    <a href="{{ route('admin.promotions.index') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('admin.promotions.*') ? 'active' : '' }}">
                         Promotions
                     </a>
                 </li>
