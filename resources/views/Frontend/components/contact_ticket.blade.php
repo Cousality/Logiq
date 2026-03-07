@@ -12,84 +12,70 @@
         align-items: center;
         margin-bottom: 15px;
         padding-bottom: 10px;
-        border-bottom: 1px solid #e0e0e0;
+        border-bottom: 1px solid var(--text);
     }
 
     .ticket-info {
         display: flex;
         gap: 15px;
         align-items: center;
+        flex-wrap: wrap;
     }
 
     .ticket-number {
         font-weight: bold;
         font-size: 18px;
-        color: rgba(49, 14, 14, 1);
+        color: var(--text);
     }
 
     .ticket-category {
-        padding: 5px 12px;
-        border-radius: 15px;
+        padding: 4px 12px;
         font-size: 13px;
-        font-weight: 500;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: 1px solid currentColor;
     }
 
-    .category-delivery {
-        background: #e3f2fd;
-        color: #1976d2;
-    }
-
-    .category-refund {
-        background: #fff3e0;
-        color: #f57c00;
-    }
-
-    .category-account {
-        background: #f3e5f5;
-        color: #7b1fa2;
-    }
-
-    .category-payment {
-        background: #ffebee;
-        color: #c62828;
-    }
-
-    .category-other {
-        background: #e0e0e0;
-        color: #424242;
-    }
+    .category-delivery { color: #1976d2; border-color: #1976d2; }
+    .category-refund   { color: #f57c00; border-color: #f57c00; }
+    .category-account  { color: #7b1fa2; border-color: #7b1fa2; }
+    .category-payment  { color: #c62828; border-color: #c62828; }
+    .category-other    { color: #424242; border-color: #424242; }
 
     .ticket-date {
-        color: #666;
-        font-size: 14px;
+        color: var(--text);
+        font-size: 13px;
+        opacity: 0.6;
     }
 
-    .ticket-user {
-        margin-bottom: 15px;
-        font-size: 15px;
-        color: #333;
+    .ticket-customer {
+        margin-bottom: 12px;
+        font-size: 14px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
-    .ticket-email {
-        color: #666;
-        font-size: 14px;
+    .customer-badge {
+        padding: 3px 10px;
+        font-size: 0.72rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: 1px solid currentColor;
     }
+
+    .badge-registered { color: #4a7c59; border-color: #4a7c59; }
+    .badge-guest      { color: #888;    border-color: #888; }
 
     .ticket-description {
         margin-bottom: 15px;
-    }
-
-    .ticket-description strong {
-        display: block;
-        margin-bottom: 8px;
-        color: rgba(49, 14, 14, 1);
+        line-height: 1.6;
     }
 
     .ticket-description p {
-        margin: 0;
+        margin: 0 0 6px 0;
         color: var(--text);
-        line-height: 1.6;
-        white-space: pre-wrap;
     }
 
     .ticket-actions {
@@ -97,41 +83,53 @@
         gap: 10px;
     }
 
-    .btn-view,
     .btn-resolve {
         padding: 8px 16px;
         border: none;
         cursor: pointer;
         font-size: 14px;
-        transition: all 0.3s;
-    }
-
-    .btn-view {
-        background: rgba(49, 14, 14, 1);
-        color: white;
-    }
-
-    .btn-view:hover {
-        background: rgba(49, 14, 14, 0.9);
-    }
-
-    .btn-resolve {
+        font-family: inherit;
+        font-weight: bold;
+        transition: all 0.2s;
         background: var(--red-pastel-1);
         color: var(--white);
-        border-color: var(--red-pastel-1);
     }
 
     .btn-resolve:hover {
         transform: translateY(-2px);
+        opacity: 0.9;
     }
 </style>
 
-
 <div class="ticket-card">
+    <div class="ticket-header">
+        <div class="ticket-info">
+            <span class="ticket-number">#{{ $ticket->supportNum }}</span>
+            <span class="ticket-category category-{{ strtolower($ticket->problemCategory) }}">
+                {{ $ticket->problemCategory }}
+            </span>
+        </div>
+        <span class="ticket-date">{{ \Carbon\Carbon::parse($ticket->created_at)->format('d M Y, H:i') }}</span>
+    </div>
+
+    <div class="ticket-customer">
+        <strong>{{ $ticket->firstName ? $ticket->firstName . ' ' . $ticket->lastName : ($ticket->name ?? 'Guest') }}</strong>
+        <span style="opacity:0.6;">{{ $ticket->userEmail ?? $ticket->email ?? 'No email provided' }}</span>
+        @if($ticket->userID)
+            <span class="customer-badge badge-registered">Registered Customer</span>
+        @else
+            <span class="customer-badge badge-guest">Guest</span>
+        @endif
+    </div>
+
+    @if(isset($ticket->orderNumber) && $ticket->orderNumber)
+        <div style="margin-bottom: 10px; font-size: 14px;">
+            <strong>Order #:</strong> {{ $ticket->orderNumber }}
+        </div>
+    @endif
+
     <div class="ticket-description">
-        <p>Description: {{ $ticket->problemDescription }}</p>
-        <p>Category: {{ $ticket->problemCategory }}</p>
-        <p>Date: {{ $ticket->created_at }}</p>
+        <p>{{ $ticket->problemDescription }}</p>
     </div>
 
     <div class="ticket-actions">
