@@ -39,13 +39,31 @@ class AdminOrderController extends Controller
         ]);
 
         $newStatus = $request->orderStatus;
+        $oldStatus = $order->orderStatus;
 
-        if ($order->orderStatus === $newStatus) {
+        if ($oldStatus === $newStatus) {
             return back()->with('error', 'Order is already ' . $newStatus . '.');
         }
 
+        $stockReleased = in_array($oldStatus, ['cancelled', 'returned']);
+        $stockShouldRelease = in_array($newStatus, ['cancelled', 'returned']);
+
         $order->orderStatus = $newStatus;
         $order->save();
+
+        if (!$stockReleased && $stockShouldRelease) {
+            foreach ($order->orderItems as $item) {
+                if ($item->product) {
+                    $item->product->increment('productQuantity', $item->quantity);
+                }
+            }
+        } elseif ($stockReleased && !$stockShouldRelease) {
+            foreach ($order->orderItems as $item) {
+                if ($item->product) {
+                    $item->product->decrement('productQuantity', $item->quantity);
+                }
+            }
+        }
 
         return back()->with('success', 'Order #' . $order->orderID . ' updated to ' . ucfirst($newStatus) . '.');
     }

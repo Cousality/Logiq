@@ -63,6 +63,12 @@ class CheckoutController extends Controller
                 abort(400, 'Basket is empty');
             }
 
+            foreach ($items as $item) {
+                if ($item->product && $item->quantity > $item->product->productQuantity) {
+                    abort(400, 'Not enough stock for ' . $item->product->productName . '. Only ' . $item->product->productQuantity . ' available.');
+                }
+            }
+
             $subtotal = $items->sum(function ($item) {
                 return $item->product->productPrice * $item->quantity;
             });
