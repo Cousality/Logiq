@@ -116,7 +116,7 @@
             <section id="adminView">
                 <header class="dashboard-header">
                     <h1 class="dashboard-title"> Hello, Admin</h1>
-                        <button type="button" class="admin-btn" onclick="toggleDashboard()">User Dashboard</button>
+                    <button type="button" class="admin-btn" onclick="toggleDashboard()">User Dashboard</button>
                 </header>
 
                 <div class="dashboard-containers">
@@ -156,7 +156,7 @@
                     </div>
 
                     <div class="dashboard-card">
-                        <a href="/promotions" class="card-link-wrapper">
+                        <a href="{{ route('admin.promotions') }}" class="card-link-wrapper">
                             <h3 class= "card-title">Promotions</h3>
                             <h3 class="card-description">Manage Promotions & Discounts.</h3>
                         </a>

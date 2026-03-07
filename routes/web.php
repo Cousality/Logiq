@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminPromotionsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\CheckoutController;
@@ -10,11 +14,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\AddressController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -86,8 +87,6 @@ Route::get('/FAQs', function () {
 
 //Dashboard Routes
 
-
-
 // Auth Pages
 Route::middleware(['auth'])->group(function () {
     Route::get('/customer_service', [ContactController::class, 'index'])->name('customer_service');
@@ -152,10 +151,6 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::resource('admin/inventory', AdminProductController::class)->names('admin.products')->parameters(['inventory' => 'product']);
 
-    Route::get('/promotions', function () {
-        return view('Frontend.dashboard.promotions');
-    })->name('promotions');
-
     Route::get('/inventory_management', function () {
         return view('Frontend.dashboard.inventory_management');
     })->name('inventory_management');
@@ -164,6 +159,8 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
 
     Route::get('/review_moderation', [ReviewController::class, 'reviewModeration'])->name('review_moderation');
     Route::delete('/review_moderation/{review}', [ReviewController::class, 'adminDeleteReview'])->name('review_moderation.delete');
+
+    Route::resource('admin/promotions', AdminPromotionsController::class)->names('admin.promotions');
 });
 
 Route::fallback(function () {
