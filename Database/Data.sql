@@ -340,4 +340,4 @@ INSERT INTO order_items (orderID, productID, quantity, priceAtTime) VALUES
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES 
-    ('WELCOME10','percentage',10.00,'2026-03-01','2026-03-31');
+    ('WELCOME10','percentage',10.00);
