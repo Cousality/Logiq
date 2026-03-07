@@ -16,17 +16,20 @@ class ContactController extends Controller
     public function adminIndex()
     {
         $tickets = DB::table('contact')
-            ->join('users', 'contact.userID', '=', 'users.userID')
+            ->leftJoin('users', 'contact.userID', '=', 'users.userID')
             ->select(
                 'contact.supportNum',
                 'contact.userID',
+                'contact.name',
+                'contact.email',
+                'contact.orderNumber',
                 'contact.problemCategory',
                 'contact.problemDescription',
                 'contact.created_at',
                 'contact.updated_at',
                 'users.firstName',
                 'users.lastName',
-                'users.email'
+                'users.email as userEmail'
             )
             ->orderBy('contact.created_at', 'desc')
             ->get();
@@ -48,9 +51,11 @@ class ContactController extends Controller
     public function add(Request $request)
     {
         $validated = $request->validate([
-            'orderNumber' => 'nullable|integer',
+            'orderNumber' => 'nullable|string|max:50',
             'issueCategory' => 'required|in:delivery,refund,account,payment,other',
             'message' => 'required|string|max:5000',
+            'name' => 'nullable|string|max:100',
+            'email' => 'nullable|email|max:150',
         ]);
 
         $categoryMap = [
@@ -64,13 +69,16 @@ class ContactController extends Controller
         try {
             DB::table('contact')->insert([
                 'userID' => Auth::id(),
+                'name'   => Auth::check() ? Auth::user()->firstName . ' ' . Auth::user()->lastName : $request->name,
+                'email'   => Auth::check() ? Auth::user()->email : $request->email,
+                'orderNumber'  => $request->orderNumber,
                 'problemCategory' => $categoryMap[$validated['issueCategory']],
                 'problemDescription' => $validated['message'],
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            return redirect()->back()->with('success', 'Your support ticket has been submitted successfully.');
+            return redirect()->route('ticket.submitted');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'There was an error submitting your request. Please try again.');
         }
