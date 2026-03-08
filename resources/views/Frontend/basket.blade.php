@@ -273,7 +273,6 @@
             background: var(--red-pastel-1);
         }
 
-
         /* EMPTY BASKET */
         .empty-basket {
             text-align: center;
@@ -374,7 +373,9 @@
             <!-- BASKET ITEMS -->
             <div class="basket-items">
                 @foreach ($basketItems as $item)
-                    @include('Frontend.components.basket_card', ['item' => $item])
+                    <div class="basket-item" data-id="{{ $item->orderItemID }}" data-price="{{ $item->product->productPrice }}">
+                        @include('Frontend.components.basket_card', ['item' => $item])
+                    </div>
                 @endforeach
             </div>
 
@@ -384,32 +385,27 @@
 
                 <div class="summary-row">
                     <span>Items</span>
-                    <span
-                        id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
+                    <span id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
                 </div>
 
                 <div class="summary-row">
                     <span>Total</span>
-                    <span
-                        id="grand-total">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
+                    <span id="grand-total">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
                 </div>
 
                 <form action="{{ route('checkout.index') }}" method="GET">
-                    <button type="submit" class="checkout-btn">
-                        Proceed to Checkout
-                    </button>
+                    <button type="submit" class="checkout-btn">Proceed to Checkout</button>
                 </form>
 
-                <a href="{{ route('store.index') }}" class="continue-shopping">
-                    Continue Shopping
-                </a>
+                <a href="{{ route('store.index') }}" class="continue-shopping">Continue Shopping</a>
 
                 <div class="promo-section">
                     <strong>Have a promo code?</strong>
                     <div class="promo-input">
                         <input type="text" id="promo-code" placeholder="Enter code" />
-                        <button onclick="applyPromo()">Apply</button>
+                        <button type="button" onclick="applyPromo()">Apply</button>
                     </div>
+                    <p id="promo-message" style="margin-top:0.5rem;color:red;"></p>
                 </div>
             </div>
         </div>
@@ -425,7 +421,6 @@
 
     <script>
         function changeQuantity(itemId, change) {
-
             const qtyDisplay = document.getElementById(`qty-${itemId}`);
             let currentQty = parseInt(qtyDisplay.textContent);
             let newQty = currentQty + change;
@@ -436,42 +431,32 @@
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             fetch(`/basket/${itemId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': token
-                    },
-                    body: JSON.stringify({
-                        quantity: newQty
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ quantity: newQty })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    qtyDisplay.textContent = newQty;
 
-                    if (data.success) {
+                    const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
+                    const price = parseFloat(item.dataset.price);
+                    const itemTotal = (price * newQty).toFixed(2);
+                    document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
 
-                        // Update quantity on screen
-                        qtyDisplay.textContent = newQty;
+                    const badge = document.getElementById('basket-count');
+                    if (badge && data.basketCount > 0) badge.textContent = data.basketCount;
 
-                        // Update item total
-                        const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
-                        const price = parseFloat(item.dataset.price);
-                        const itemTotal = (price * newQty).toFixed(2);
-                        document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
-
-                        // Update badge
-                        const badge = document.getElementById('basket-count');
-                        if (badge && data.basketCount > 0) {
-                            badge.textContent = data.basketCount;
-                        }
-
-                        updateSummaryDisplay();
-                    }
-                })
-                .catch(error => console.error(error));
+                    updateSummaryDisplay();
+                }
+            })
+            .catch(error => console.error(error));
         }
 
-        // Update order summary display (client-side calculation)
         function updateSummaryDisplay() {
             const items = document.querySelectorAll('.basket-item');
             let subtotal = 0;
@@ -490,7 +475,6 @@
             document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
             document.getElementById('grand-total').textContent = `£${total.toFixed(2)}`;
 
-            // Update header count
             const subtitle = document.querySelector('.basket-subtitle');
             if (subtitle) {
                 subtitle.textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''} ready for checkout`;
@@ -498,8 +482,62 @@
         }
 
         function applyPromo() {
-            const promoCode = document.getElementById('promo-code').value.trim();
-            alert(`Promo code "${promoCode}" applied! (This is a demo, no actual discount will be applied)`);
+            const code = document.getElementById('promo-code').value.trim();
+            if (!code) return;
+
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/basket/apply-promo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const promoMessage = document.getElementById('promo-message');
+                if (!data.success) {
+                    promoMessage.textContent = data.message;
+                    updateSummaryDisplay(); // reset totals
+                    return;
+                }
+
+                promoMessage.textContent = `Promo applied: ${data.code}`;
+                applyDiscount(data.type, data.value);
+            })
+            .catch(err => console.error(err));
+        }
+
+        function applyDiscount(type, value) {
+            const items = document.querySelectorAll('.basket-item');
+            let subtotal = 0;
+
+            items.forEach(item => {
+                const price = parseFloat(item.dataset.price);
+                const qty = parseInt(document.getElementById(`qty-${item.dataset.id}`).textContent);
+                subtotal += price * qty;
+            });
+
+            let discount = 0;
+            if (type === 'percentage') discount = subtotal * (value / 100);
+            if (type === 'fixed') discount = value;
+
+            const total = subtotal - discount;
+
+            document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
+            document.getElementById('grand-total').textContent = `£${total.toFixed(2)}`;
+
+            let discountEl = document.getElementById('discount');
+            if (!discountEl) {
+                discountEl = document.createElement('div');
+                discountEl.id = 'discount';
+                discountEl.style.fontWeight = 'bold';
+                discountEl.style.marginBottom = '0.5rem';
+                document.querySelector('.order-summary').insertBefore(discountEl, document.getElementById('grand-total'));
+            }
+            discountEl.textContent = `Discount: £${discount.toFixed(2)}`;
         }
     </script>
 </body>
