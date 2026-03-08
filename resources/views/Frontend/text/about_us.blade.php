@@ -416,7 +416,7 @@
                 <div class="team-card">
                     <div class="team-name">Iman Abbas El Ber</div>
                     <div class="team-id">ID: 240090339</div>
-                    <div class="team-bio"></div>
+                    <div class="team-bio">Frontend Developer</div>
                 </div>
 
                 <div class="team-card">
