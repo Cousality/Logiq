@@ -48,6 +48,17 @@
         .signup a:hover {
             text-decoration: underline;
         }
+
+        .status-message {
+            background-color: #2d6a4f;
+            color: #ffffff;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 2px solid #1b4332;
+        }
     </style>
 </head>
 
@@ -66,6 +77,10 @@
 
                 @if (session('message'))
                     <div class="success-message">{{ session('message') }}</div>
+                @endif
+
+                @if(session('status'))
+                    <div class="status-message">✓{{ session('status') }}</div>
                 @endif
 
                 @if ($errors->has('credentials'))

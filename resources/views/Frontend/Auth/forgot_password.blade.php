@@ -20,9 +20,20 @@
                 <p>Enter your email address to receive a password reset link.</p>
             </div>
 
-                @if (session('message'))
-                    <p class="success-message">{{ session('message') }}</p>
-                @endif
+            @if(session('message'))
+                <div class="alert alert-success">{{ session('message') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    @foreach($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('password.email') }}">
+                @csrf
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" placeholder="Enter your email" required>
