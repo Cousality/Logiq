@@ -8,17 +8,6 @@
     <title>Forgot Password - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
-    <style>
-        .success-message {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -31,12 +20,9 @@
                 <p>Enter your email address to receive a password reset link.</p>
             </div>
 
-               @if (session('message'))
-    <p class="success-message">{{ session('message') }}</p>
-@endif
-
-            <form method="POST" action="{{ route('password.email') }}">
-                @csrf
+                @if (session('message'))
+                    <p class="success-message">{{ session('message') }}</p>
+                @endif
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" placeholder="Enter your email" required>

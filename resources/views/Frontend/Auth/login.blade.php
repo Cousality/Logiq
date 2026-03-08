@@ -31,14 +31,22 @@
             border: 1px solid var(--text);
         }
 
-        .success-message {
-            background-color: #90EE90;
-            color: var(--text);
-            padding: 0.75rem;
-            margin-bottom: 1.5rem;
-            font-weight: bold;
+        .signup {
             text-align: center;
-            border: 1px solid var(--text);
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--text);
+            padding-top: 1.5rem;
+        }
+
+        .signup a {
+            color: var(--red-pastel-1);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -56,8 +64,8 @@
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
 
-                @if (session('message') || session('status'))
-                    <div class="success-message">{{ session('message') ?? session('status') }}</div>
+                @if (session('message'))
+                    <div class="success-message">{{ session('message') }}</div>
                 @endif
 
                 @if ($errors->has('credentials'))
