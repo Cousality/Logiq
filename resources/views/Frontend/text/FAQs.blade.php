@@ -139,8 +139,8 @@
         }
 
         .form-section button:hover {
-            background: var(--red-pastel-2);
-            border-color: var(--red-pastel-2);
+            background: var(--red-pastel-1);
+            border-color: var(--red-pastel-1);
             transform: translateY(-3px);
         }
     </style>

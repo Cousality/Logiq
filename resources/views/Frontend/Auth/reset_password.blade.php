@@ -56,7 +56,7 @@
 
         .btn-login:hover {
             transform: translateY(-3px);
-            background-color: var(--red-pastel-2);
+            background-color: var(--red-pastel-1);
         }
 
         .error-message {

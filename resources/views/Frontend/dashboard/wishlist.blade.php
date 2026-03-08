@@ -111,8 +111,8 @@
         }
 
         .add-to-basket:hover {
-            background: var(--red-pastel-2);
-            border-color: var(--red-pastel-2);
+            background: var(--red-pastel-1);
+            border-color: var(--red-pastel-1);
         }
 
         .remove-from-wishlist {
