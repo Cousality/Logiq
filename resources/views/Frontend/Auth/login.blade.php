@@ -56,8 +56,8 @@
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
 
-                @if (session('message'))
-                    <div class="success-message">{{ session('message') }}</div>
+                @if (session('message') || session('status'))
+                    <div class="success-message">{{ session('message') ?? session('status') }}</div>
                 @endif
 
                 @if ($errors->has('credentials'))
