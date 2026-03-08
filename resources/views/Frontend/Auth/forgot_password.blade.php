@@ -20,12 +20,9 @@
                 <p>Enter your email address to receive a password reset link.</p>
             </div>
 
-            @if (session('message'))
-                <div class="alert alert-success">{{ session('message') }}</div>
-            @endif
-
-            <form method="POST" action="{{ url('/send-reset-link') }}">
-                @csrf
+               @if (session('success'))
+    <p class="success-message">{{ session('success') }}</p>
+@endif
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="email" placeholder="Enter your email" required>

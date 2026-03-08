@@ -18,6 +18,9 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\AddressController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,7 @@ Route::delete('/your_orders/{order}/delete', [OrderController::class, 'destroy']
 
 Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
+})->name('password.request');
 })->name('password.request');
 
 Route::post('/send-reset-link', [AuthController::class, 'sendResetLink'])->name('password.email');
