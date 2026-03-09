@@ -154,7 +154,7 @@
         }
     </script>
 </head>
-
+@include('partials.ChatWidget')
 <body>
 
     {{-- NAVBAR --}}

@@ -303,7 +303,7 @@
     </style>
 
 </head>
-
+@include('partials.ChatWidget')
 <body>
     @include('Frontend.components.nav')
     <main>

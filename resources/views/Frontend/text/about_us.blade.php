@@ -283,7 +283,7 @@
         }
     </style>
 </head>
-
+@include('partials.ChatWidget')
 <body>
 
     {{-- NAVBAR --}}
