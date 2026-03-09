@@ -61,7 +61,7 @@
         padding: 0.65rem 1rem;
         text-decoration: none;
         color: var(--text);
-        border-bottom: 1px solid rgba(0,0,0,0.06);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         transition: background 0.15s ease;
     }
 
@@ -251,7 +251,7 @@
         transition: transform 0.2s ease;
     }
 
-    .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
+    .theme-toggle-input:checked+.theme-toggle-label .theme-toggle-thumb {
         transform: translate(24px, -50%);
     }
 
@@ -333,9 +333,22 @@
         height: 14px;
     }
 
+    /* Book MArk ############################################################################ */
     .dropdown-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         padding: 1rem 1.4rem 0.9rem;
         border-bottom: 2px solid var(--text);
+    }
+
+    .dropdown-user-info {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        /* Prevents long names from blowing out the layout */
+        flex: 1;
+        padding-right: 15px;
     }
 
     .dropdown-greeting {
@@ -353,6 +366,39 @@
         font-weight: 900;
         letter-spacing: -0.5px;
         text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .dropdown-stats {
+        display: flex;
+        gap: 0.85rem;
+        flex-shrink: 0;
+    }
+
+    .dropdown-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dropdown-stat-value {
+        font-size: 0.9rem;
+        font-weight: 900;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .dropdown-stat-label {
+        font-size: 0.55rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.6;
+        margin-top: 2px;
     }
 
     /* Wide multi-column body */
@@ -852,13 +898,13 @@
         color: var(--red-pastel-1);
     }
 
-    .mobile-account-items > * {
+    .mobile-account-items>* {
         display: block;
         margin: 0;
         border-bottom: 1px solid var(--bg-secondary);
     }
 
-    .mobile-account-items > *:last-child {
+    .mobile-account-items>*:last-child {
         border-bottom: none;
     }
 
@@ -1025,37 +1071,49 @@
         <li>
             <a href="{{ route('store.index') }}">
                 All Products
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
         <li>
             <a href="{{ route('store.index') }}?category=Twist">
                 Twist Puzzles
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
         <li>
             <a href="{{ route('store.index') }}?category=Jigsaw">
                 Jigsaws
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
         <li>
             <a href="{{ route('store.index') }}?category=Word%26Number">
                 Word &amp; Number
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
         <li>
             <a href="{{ route('store.index') }}?category=BoardGames">
                 Board Games
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
         <li>
             <a href="{{ route('store.index') }}?category=HandheldBrainTeasers">
                 Handheld Brain Teasers
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </a>
         </li>
     </ul>
@@ -1073,15 +1131,8 @@
     <div class="search-container" id="search-wrapper">
         <span class="search-icon">⌕</span>
         <form action="{{ route('search') }}" method="GET" id="search-form">
-            <input
-                type="text"
-                name="query"
-                id="search-input"
-                class="search-input"
-                placeholder="Search puzzles..."
-                autocomplete="off"
-                required
-            />
+            <input type="text" name="query" id="search-input" class="search-input" placeholder="Search puzzles..."
+                autocomplete="off" required />
             <button type="submit" style="opacity: 0; width: 0; height: 0; position: absolute;"></button>
         </form>
         <div class="search-dropdown" id="search-dropdown"></div>
@@ -1120,12 +1171,29 @@
             @else
                 <a href="{{ route('login') }}" class="nav-icon login-icon" alt="login"></a>
             @endauth
-
+            {{-- Book Mark ################################################################################################################################################## --}}
             <div class="account-dropdown">
                 @auth
                     <div class="dropdown-header">
-                        <span class="dropdown-greeting">Hello,</span>
-                        <span class="dropdown-name">{{ auth()->user()->firstName }}</span>
+                        <div class="dropdown-user-info">
+                            <span class="dropdown-greeting">Hello,</span>
+                            <span class="dropdown-name">{{ auth()->user()->firstName }}</span>
+                        </div>
+
+                        <div class="dropdown-stats">
+                            <div class="dropdown-stat" title="Current Streak">
+                                <span class="dropdown-stat-value"> {{ auth()->user()->current_streak ?? 0 }}</span>
+                                <span class="dropdown-stat-label">Streak</span>
+                            </div>
+                            <div class="dropdown-stat" title="Highest Streak">
+                                <span class="dropdown-stat-value"> {{ auth()->user()->max_streak ?? 0 }}</span>
+                                <span class="dropdown-stat-label">Best</span>
+                            </div>
+                            <div class="dropdown-stat" title="Puzzles Solved">
+                                <span class="dropdown-stat-value"> {{ auth()->user()->total_solved ?? 0 }}</span>
+                                <span class="dropdown-stat-label">Solved</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="dropdown-columns">
@@ -1142,7 +1210,7 @@
                             <a href="{{ route('yourAddress') }}">Your Address</a>
                             <a href="{{ route('customer_service') }}">Customer Service</a>
                         </div>
-                        @if(auth()->user()->admin == 1)
+                        @if (auth()->user()->admin == 1)
                             <div class="dropdown-col">
                                 <p class="dropdown-col-title">Admin</p>
                                 <a href="{{ route('userManagement') }}">User Management</a>
@@ -1169,12 +1237,10 @@
         </div>
 
         <div class="basket-wrapper">
-            <a href="{{ route('basket.index') }}"
-               class="nav-icon basket-icon"
-               alt="basket">
+            <a href="{{ route('basket.index') }}" class="nav-icon basket-icon" alt="basket">
             </a>
 
-            @if(($basketCount ?? 0) > 0)
+            @if (($basketCount ?? 0) > 0)
                 <span class="basket-badge" id="basket-count">
                     {{ $basketCount }}
                 </span>
@@ -1183,23 +1249,26 @@
             <div class="basket-dropdown">
                 <div class="dropdown-header">
                     <span class="dropdown-greeting">Your Basket</span>
-                    <span class="dropdown-name">{{ $basketCount ?? 0 }} Item{{ ($basketCount ?? 0) != 1 ? 's' : '' }}</span>
+                    <span class="dropdown-name">{{ $basketCount ?? 0 }}
+                        Item{{ ($basketCount ?? 0) != 1 ? 's' : '' }}</span>
                 </div>
 
-                @if(($basketCount ?? 0) > 0)
+                @if (($basketCount ?? 0) > 0)
                     <div class="basket-preview-items">
-                        @foreach($basketPreviewItems ?? [] as $item)
+                        @foreach ($basketPreviewItems ?? [] as $item)
                             <div class="basket-preview-item">
                                 <div class="basket-preview-img">
-                                    @if(!empty($item->product->productImage))
-                                        <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
+                                    @if (!empty($item->product->productImage))
+                                        <img src="{{ $item->product->productImage }}"
+                                            alt="{{ $item->product->productName }}">
                                     @endif
                                 </div>
                                 <div class="basket-preview-info">
                                     <span class="basket-preview-name">{{ $item->product->productName }}</span>
                                     <span class="basket-preview-qty">Qty: {{ $item->quantity }}</span>
                                 </div>
-                                <span class="basket-preview-price">£{{ number_format($item->product->productPrice * $item->quantity, 2) }}</span>
+                                <span
+                                    class="basket-preview-price">£{{ number_format($item->product->productPrice * $item->quantity, 2) }}</span>
                             </div>
                         @endforeach
                     </div>
@@ -1216,7 +1285,7 @@
 
                 <div class="dropdown-actions">
                     <a href="{{ route('basket.index') }}">View Basket</a>
-                    @if(($basketCount ?? 0) > 0)
+                    @if (($basketCount ?? 0) > 0)
                         <a href="{{ route('checkout.index') }}">Checkout</a>
                     @endif
                 </div>
@@ -1262,20 +1331,20 @@
 
 {{-- LOGOUT CONFIRMATION MODAL --}}
 @auth
-<div class="modal-overlay" id="logoutModal">
-    <div class="modal-box">
-        <button class="modal-close" id="logoutModalClose" aria-label="Close">&times;</button>
-        <h2>Confirm Logout</h2>
-        <p class="modal-message" id="logoutModalMessage"></p>
-        <form action="{{ route('logout') }}" method="POST">
-            @csrf
-            <div class="modal-actions">
-                <button type="submit" class="modal-confirm-btn">Yes, Log Me Out</button>
-                <button type="button" class="modal-cancel-btn" id="logoutModalCancel">Stay Logged In</button>
-            </div>
-        </form>
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-box">
+            <button class="modal-close" id="logoutModalClose" aria-label="Close">&times;</button>
+            <h2>Confirm Logout</h2>
+            <p class="modal-message" id="logoutModalMessage"></p>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <div class="modal-actions">
+                    <button type="submit" class="modal-confirm-btn">Yes, Log Me Out</button>
+                    <button type="button" class="modal-cancel-btn" id="logoutModalCancel">Stay Logged In</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 @endauth
 
 <script>
@@ -1418,9 +1487,9 @@
     });
 
     // Live search dropdown
-    const searchInput    = document.getElementById('search-input');
+    const searchInput = document.getElementById('search-input');
     const searchDropdown = document.getElementById('search-dropdown');
-    const searchForm     = document.getElementById('search-form');
+    const searchForm = document.getElementById('search-form');
     const suggestionsUrl = "{{ route('search.suggestions') }}";
 
     let focusedIndex = -1;
@@ -1434,7 +1503,9 @@
         items.forEach(el => el.classList.remove('focused'));
         if (index >= 0 && index < items.length) {
             items[index].classList.add('focused');
-            items[index].scrollIntoView({ block: 'nearest' });
+            items[index].scrollIntoView({
+                block: 'nearest'
+            });
         }
         focusedIndex = index;
     }
@@ -1456,9 +1527,9 @@
             return `<div class="search-dropdown-empty">No results found</div>`;
         }
         const items = suggestions.map(s => {
-            const thumb = s.image
-                ? `<img class="search-dropdown-thumb" src="${s.image}" alt="${s.name}" />`
-                : `<div class="search-dropdown-thumb-placeholder"></div>`;
+            const thumb = s.image ?
+                `<img class="search-dropdown-thumb" src="${s.image}" alt="${s.name}" />` :
+                `<div class="search-dropdown-thumb-placeholder"></div>`;
             return `<a class="search-dropdown-item" href="/product/${s.slug}">
                 ${thumb}
                 <div class="search-dropdown-info">
@@ -1480,7 +1551,10 @@
         fetch(`${suggestionsUrl}?query=${encodeURIComponent(query)}`)
             .then(r => r.json())
             .then(data => {
-                if (searchInput.value.trim() === '') { closeDropdown(); return; }
+                if (searchInput.value.trim() === '') {
+                    closeDropdown();
+                    return;
+                }
                 openDropdown(buildDropdownHtml(data, query));
 
                 // "See all results" footer click
@@ -1507,7 +1581,10 @@
         } else if (e.key === 'Enter') {
             if (focusedIndex >= 0 && items[focusedIndex]) {
                 const href = items[focusedIndex].getAttribute('href');
-                if (href) { e.preventDefault(); window.location.href = href; }
+                if (href) {
+                    e.preventDefault();
+                    window.location.href = href;
+                }
             }
         } else if (e.key === 'Escape') {
             closeDropdown();
@@ -1522,13 +1599,13 @@
     });
 
     // Logout confirmation modal
-    (function () {
-        var logoutModal    = document.getElementById('logoutModal');
+    (function() {
+        var logoutModal = document.getElementById('logoutModal');
         if (!logoutModal) return;
 
-        var confirmClose   = document.getElementById('logoutModalClose');
-        var confirmCancel  = document.getElementById('logoutModalCancel');
-        var messageEl      = document.getElementById('logoutModalMessage');
+        var confirmClose = document.getElementById('logoutModalClose');
+        var confirmCancel = document.getElementById('logoutModalCancel');
+        var messageEl = document.getElementById('logoutModalMessage');
 
         var logoutMessages = [
             "Are you sure you want to leave? Your puzzles will miss you!",
@@ -1548,8 +1625,8 @@
             logoutModal.classList.remove('active');
         }
 
-        document.querySelectorAll('.logout-trigger').forEach(function (btn) {
-            btn.addEventListener('click', function () {
+        document.querySelectorAll('.logout-trigger').forEach(function(btn) {
+            btn.addEventListener('click', function() {
                 // Close mobile account modal if open
                 var mobileOverlay = document.getElementById('mobile-account-overlay');
                 if (mobileOverlay) mobileOverlay.classList.remove('active');
@@ -1560,7 +1637,7 @@
 
         confirmClose.addEventListener('click', closeLogoutModal);
         confirmCancel.addEventListener('click', closeLogoutModal);
-        logoutModal.addEventListener('click', function (e) {
+        logoutModal.addEventListener('click', function(e) {
             if (e.target === logoutModal) closeLogoutModal();
         });
     })();
