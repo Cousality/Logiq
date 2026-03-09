@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -183,3 +183,9 @@ Route::fallback(function () {
 });
 
 Route::get('/checkout/paypal', [CheckoutController::class, 'paypal'])->name('checkout.paypal');
+
+//Chatbot route
+Route::middleware(['web'])->group(function () {
+    Route::post('/chat/messages', [ChatController::class, 'send']);
+    Route::post('/chat/escalate', [ChatController::class, 'escalate']);
+});

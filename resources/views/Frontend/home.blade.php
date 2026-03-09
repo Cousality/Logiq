@@ -436,7 +436,7 @@
     </style>
 </head>
 <script src="{{ asset('js/quiz_celebrate.js') }}"></script>
-
+@include('partials/ChatWidget')
 <body>
     @include('Frontend.components.nav')
 

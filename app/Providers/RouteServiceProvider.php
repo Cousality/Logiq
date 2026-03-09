@@ -48,5 +48,15 @@ class RouteServiceProvider extends ServiceProvider
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
+        RateLimiter::for('chat', function (Request $request) {
+    $key = $request->user()
+        ? 'u:' . $request->user()->getAuthIdentifier()
+        : 'g:' . ($request->cookie('chat_guest_token') ?? $request->ip());
+
+    return [
+        Limit::perMinute(20)->by($key),
+        Limit::perDay(500)->by($key),
+    ];
+});
     }
 }

@@ -192,7 +192,7 @@ form .section:last-of-type {
 }
 </style>
 </head>
-
+@include('partials.ChatWidget')
 <body>
 
 @include('Frontend.components.nav')
