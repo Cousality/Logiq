@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use App\Models\Product;
-use App\Models\Promotion; // ADDED
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -27,6 +27,9 @@ class BasketController extends Controller
         return view('Frontend.basket', compact('basketItems'));
     }
 
+    /**
+     * Add product to basket
+     */
     public function add(Request $request)
     {
         $request->validate([
@@ -68,6 +71,9 @@ class BasketController extends Controller
         return redirect()->route('store.index');
     }
 
+    /**
+     * Update basket quantity
+     */
     public function update(Request $request, BasketItem $item)
     {
         $request->validate([
@@ -96,6 +102,9 @@ class BasketController extends Controller
         ]);
     }
 
+    /**
+     * Remove item from basket
+     */
     public function remove(BasketItem $item)
     {
         $item->delete();
@@ -128,12 +137,21 @@ class BasketController extends Controller
             ]);
         }
 
-        $promo = Promotion::where('promotionCode', $code)->first();
+        $promo = Promotion::where('promotionCode', $code)
+            ->where(function ($query) {
+                $query->whereNull('startDate')
+                      ->orWhere('startDate', '<=', now());
+            })
+            ->where(function ($query) {
+                $query->whereNull('endDate')
+                      ->orWhere('endDate', '>=', now());
+            })
+            ->first();
 
         if (!$promo) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid promo code.'
+                'message' => 'Invalid or expired promo code.'
             ]);
         }
 
