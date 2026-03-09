@@ -911,6 +911,35 @@
         .theme-toggle {
             display: none;
         }
+    
+    .theme-toggle {
+        display: flex;             
+        order: 4;                 
+        margin-left: auto;        
+        width: 52px;
+        height: 44px;
+}
+
+.theme-toggle-label {
+    width: 42px;
+    height: 22px;
+}
+    .theme-toggle-thumb {
+        width: 13px;
+        height: 13px;
+        left: 3px;
+}
+    .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
+        transform: translate(20px, -50%);
+}
+    .theme-toggle-icon {
+        width: 13px;
+        height: 13px;
+}
+    .theme-toggle-icon svg {
+        width: 13px;
+        height: 13px;
+}
     }
 </style>
 
