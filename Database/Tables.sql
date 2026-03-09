@@ -9,7 +9,7 @@ CREATE TABLE users (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE user_streak (
+CREATE TABLE user_streaks (
     userID INT(11) NOT NULL PRIMARY KEY,
     current_streak INT DEFAULT 0,
     max_streak INT DEFAULT 0,
