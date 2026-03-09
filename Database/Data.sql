@@ -341,3 +341,6 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES 
     ('WELCOME10','percentage',10.00);
+
+INSERT INTO user_streaks (userID, current_streak, max_streak, total_solved)
+    SELECT userID, 0, 0, 0 FROM users;

@@ -342,9 +342,17 @@
             z-index: 10;
         }
 
-        .rec-difficulty-badge.easy   { background: #4a7c59; }
-        .rec-difficulty-badge.medium { background: #c17f24; }
-        .rec-difficulty-badge.hard   { background: #a63232; }
+        .rec-difficulty-badge.easy {
+            background: #4a7c59;
+        }
+
+        .rec-difficulty-badge.medium {
+            background: #c17f24;
+        }
+
+        .rec-difficulty-badge.hard {
+            background: #a63232;
+        }
 
         /* MOBILE FIXES */
         @media (max-width: 768px) {
@@ -428,6 +436,7 @@
     </style>
 </head>
 <script src="{{ asset('js/quiz_celebrate.js') }}"></script>
+
 <body>
     @include('Frontend.components.nav')
 
@@ -465,7 +474,9 @@
 
         <div class="category-carousel">
             <button class="carousel-arrow" id="rec-prev">
-                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
             </button>
 
             <div class="category-grid" id="rec-grid">
@@ -495,7 +506,8 @@
                                 <div class="rec-rating">
                                     <span class="rec-stars-wrap">
                                         <span class="stars-bg">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-                                        <span class="stars-fg" style="width: <?= $starWidth ?>%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                        <span class="stars-fg"
+                                            style="width: <?= $starWidth ?>%">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
                                     </span>
                                     <span class="rec-review-count">({{ $product->reviews_count ?? 0 }})</span>
                                 </div>
@@ -508,69 +520,82 @@
             </div>
 
             <button class="carousel-arrow" id="rec-next">
-                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
             </button>
         </div>
     </section>
 
     <section class="categories-section">
-            <div class="section-header">
-                <h2>Shop By Category</h2>
-                <div class="divider"></div>
-            </div>
+        <div class="section-header">
+            <h2>Shop By Category</h2>
+            <div class="divider"></div>
+        </div>
 
-            <div class="category-carousel">
-                <button class="carousel-arrow" id="cat-prev">
-                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
+        <div class="category-carousel">
+            <button class="carousel-arrow" id="cat-prev">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            </button>
 
-                <div class="category-grid" id="category-grid">
-                    <div class="category-track" id="category-track">
+            <div class="category-grid" id="category-grid">
+                <div class="category-track" id="category-track">
 
                     <a href="{{ route('store.index') }}?category=Twist" class="category-card">
                         <div class="category-name">Twist</div>
-                        <div class="category-bio">Rubik's cubes, Pyraminx, Speedcubes and more. Challenge your dexterity and spatial reasoning with our range of twisty puzzles.</div>
+                        <div class="category-bio">Rubik's cubes, Pyraminx, Speedcubes and more. Challenge your dexterity
+                            and spatial reasoning with our range of twisty puzzles.</div>
                     </a>
 
                     <a href="{{ route('store.index') }}?category=Jigsaw" class="category-card">
                         <div class="category-name">Jigsaw</div>
-                        <div class="category-bio">From 100 to 1000 pieces, our jigsaw collection features iconic landmarks from around the world — perfect for solo or group sessions.</div>
+                        <div class="category-bio">From 100 to 1000 pieces, our jigsaw collection features iconic
+                            landmarks from around the world — perfect for solo or group sessions.</div>
                     </a>
 
                     <a href="{{ route('store.index') }}?category=Word%26Number" class="category-card">
                         <div class="category-name">Word&amp;Number</div>
-                        <div class="category-bio">Sudoku, crosswords, Scrabble, word searches and nonograms. Exercise your vocabulary and numerical logic in equal measure.</div>
+                        <div class="category-bio">Sudoku, crosswords, Scrabble, word searches and nonograms. Exercise
+                            your vocabulary and numerical logic in equal measure.</div>
                     </a>
 
                     <a href="{{ route('store.index') }}?category=BoardGames" class="category-card">
                         <div class="category-name">BoardGames</div>
-                        <div class="category-bio">Chess, Monopoly, Cluedo and more. Classic strategy and social games that bring people together around the table.</div>
+                        <div class="category-bio">Chess, Monopoly, Cluedo and more. Classic strategy and social games
+                            that bring people together around the table.</div>
                     </a>
 
                     <a href="{{ route('store.index') }}?category=HandheldBrainTeasers" class="category-card">
                         <div class="category-name">HandheldBrainTeasers</div>
-                        <div class="category-bio">Compact mechanical puzzles you can take anywhere. Wooden burr puzzles and interlocking challenges for the dedicated thinker.</div>
+                        <div class="category-bio">Compact mechanical puzzles you can take anywhere. Wooden burr puzzles
+                            and interlocking challenges for the dedicated thinker.</div>
                     </a>
 
-                    </div>
                 </div>
-
-                <button class="carousel-arrow" id="cat-next">
-                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
             </div>
-        </section>
+
+            <button class="carousel-arrow" id="cat-next">
+                <svg viewBox="0 0 24 24">
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            </button>
+        </div>
+    </section>
 
     @include('Frontend.components.footer')
     <script>
         function makeCarousel(trackId, cardSelector, prevId, nextId, step) {
-            const track    = document.getElementById(trackId);
-            const grid     = track.parentElement;
+            const track = document.getElementById(trackId);
+            const grid = track.parentElement;
             const originals = Array.from(track.querySelectorAll(cardSelector));
             if (originals.length === 0) return;
             const count = originals.length;
 
-            function isMobile() { return window.innerWidth <= 900; }
+            function isMobile() {
+                return window.innerWidth <= 900;
+            }
 
             // Only clone cards on desktop for infinite scroll
             if (!isMobile()) {
@@ -581,7 +606,9 @@
             let current = 0;
             let busy = false;
 
-            function cStep()  { return cards[1].offsetLeft - cards[0].offsetLeft; }
+            function cStep() {
+                return cards[1].offsetLeft - cards[0].offsetLeft;
+            }
 
             function setPos(index, animate) {
                 if (isMobile()) return;
@@ -595,9 +622,15 @@
                 if (isMobile()) {
                     const atEnd = grid.scrollLeft + grid.offsetWidth >= grid.scrollWidth - 10;
                     if (atEnd) {
-                        grid.scrollTo({ left: 0, behavior: 'smooth' });
+                        grid.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
+                        });
                     } else {
-                        grid.scrollBy({ left: grid.offsetWidth * 0.8, behavior: 'smooth' });
+                        grid.scrollBy({
+                            left: grid.offsetWidth * 0.8,
+                            behavior: 'smooth'
+                        });
                     }
                     return;
                 }
@@ -614,9 +647,15 @@
                 if (isMobile()) {
                     const atStart = grid.scrollLeft <= 10;
                     if (atStart) {
-                        grid.scrollTo({ left: grid.scrollWidth, behavior: 'smooth' });
+                        grid.scrollTo({
+                            left: grid.scrollWidth,
+                            behavior: 'smooth'
+                        });
                     } else {
-                        grid.scrollBy({ left: -(grid.offsetWidth * 0.8), behavior: 'smooth' });
+                        grid.scrollBy({
+                            left: -(grid.offsetWidth * 0.8),
+                            behavior: 'smooth'
+                        });
                     }
                     return;
                 }
@@ -626,19 +665,40 @@
                     setPos(current + count, false);
                     requestAnimationFrame(() => requestAnimationFrame(() => {
                         setPos(current - step, true);
-                        setTimeout(() => { busy = false; }, 450);
+                        setTimeout(() => {
+                            busy = false;
+                        }, 450);
                     }));
                 } else {
                     setPos(current - step, true);
-                    setTimeout(() => { busy = false; }, 450);
+                    setTimeout(() => {
+                        busy = false;
+                    }, 450);
                 }
             });
         }
 
-        makeCarousel('rec-track',      '.rec-card',      'rec-prev',  'rec-next',  2);
-        makeCarousel('category-track', '.category-card', 'cat-prev',  'cat-next',  2);
+        makeCarousel('rec-track', '.rec-card', 'rec-prev', 'rec-next', 2);
+        makeCarousel('category-track', '.category-card', 'cat-prev', 'cat-next', 2);
     </script>
     <script>
+        // Scope the storage key dynamically based on Laravel's auth state
+        const logiqUserId = "{{ auth()->check() ? auth()->id() : 'guest' }}";
+        const storageKey = `logiq_last_played_${logiqUserId}`;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const lastPlayed = localStorage.getItem(storageKey);
+            const today = new Date().toISOString().split('T')[0];
+
+            if (lastPlayed === today) {
+                const btns = document.querySelectorAll(".option-btn");
+                const feedback = document.getElementById("feedback");
+                btns.forEach(btn => btn.disabled = true);
+                feedback.textContent = "Attempt already recorded for today. Come back tomorrow.";
+                feedback.style.color = "var(--text)";
+            }
+        });
+
         document.querySelectorAll(".option-btn").forEach((button) => {
             button.addEventListener("click", function() {
                 const answer = this.getAttribute("data-value");
@@ -650,7 +710,6 @@
             const feedback = document.getElementById("feedback");
             const btns = document.querySelectorAll(".option-btn");
 
-            // Disable buttons
             btns.forEach((btn) => (btn.disabled = true));
             feedback.textContent = "Analyzing...";
             feedback.style.color = "var(--text)";
@@ -672,27 +731,28 @@
                     feedback.style.color = data.color;
                     feedback.textContent = data.message;
 
-                //  Celebration trigger 
+                    const today = new Date().toISOString().split('T')[0];
+                    localStorage.setItem(storageKey, today);
+
                     if (data.status === "success" && window.LogiqQuizCelebrate) {
                         window.LogiqQuizCelebrate.burst("daily-quiz", 4500);
-            }
+                    }
 
-                if (data.status === "error") {
-                    setTimeout(() => {
-                     btns.forEach((btn) => (btn.disabled = false));
-                    feedback.textContent = "";
-                }, 2000);
-        }
-        })
+                    if (data.status === "error") {
+                        feedback.textContent += " Come back tomorrow.";
+                    }
+                })
                 .catch((error) => {
                     console.error("Error:", error);
                     feedback.textContent = "System Error.";
+                    btns.forEach((btn) => (btn.disabled = false));
                 });
         }
     </script>
 
     <script>
-        const revealElements = document.querySelectorAll('.rec-card, .category-card, .section-header, .hero-text, .puzzle-card');
+        const revealElements = document.querySelectorAll(
+            '.rec-card, .category-card, .section-header, .hero-text, .puzzle-card');
 
         revealElements.forEach(function(el) {
             el.style.opacity = '0';
@@ -708,7 +768,9 @@
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.15 });
+        }, {
+            threshold: 0.15
+        });
 
         revealElements.forEach(function(el) {
             observer.observe(el);

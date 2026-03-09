@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Providers\DailyPuzzleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -39,6 +41,8 @@ class HomeController extends Controller
         $isCorrect = $this->puzzleService->checkAnswer($request->answer);
 
         if ($isCorrect) {
+            $this->updateUserStreak();
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Correct. Logic sound.',
@@ -46,10 +50,77 @@ class HomeController extends Controller
             ]);
         }
 
+        $this->breakUserStreak();
+
         return response()->json([
             'status' => 'error',
-            'message' => 'Incorrect. Recalculate.',
+            'message' => 'Incorrect. Streak broken.',
             'color' => '#4A2C2A',
+        ]);
+    }
+
+    private function breakUserStreak()
+    {
+        if (! Auth::check()) {
+            return;
+        }
+
+        $userId = Auth::id();
+        $streakData = DB::table('user_streak')->where('userID', $userId)->first();
+
+        // No attempts no streak to break
+        if (! $streakData) {
+            return;
+        }
+
+        // If they already correctly solved it today, ignore subsequent wrong clicks
+        if ($streakData->last_solved_date === now()->toDateString()) {
+            return;
+        }
+
+        // resetting current streak when failed
+        DB::table('user_streak')->where('userID', $userId)->update([
+            'current_streak' => 0,
+        ]);
+    }
+
+    private function updateUserStreak()
+    {
+        if (! Auth::check()) {
+            return;
+        }
+
+        $userId = Auth::id();
+        $today = now()->toDateString();
+        $yesterday = now()->subDay()->toDateString();
+
+        $streakData = DB::table('user_streak')->where('userID', $userId)->first();
+
+        if (! $streakData) {
+            DB::table('user_streak')->insert([
+                'userID' => $userId,
+                'current_streak' => 1,
+                'max_streak' => 1,
+                'last_solved_date' => $today,
+                'total_solved' => 1,
+            ]);
+
+            return;
+        }
+
+        if ($streakData->last_solved_date === $today) {
+            return;
+        }
+
+        $isConsecutive = ($streakData->last_solved_date === $yesterday);
+        $newStreak = $isConsecutive ? $streakData->current_streak + 1 : 1;
+        $newMax = max($newStreak, $streakData->max_streak);
+
+        DB::table('user_streak')->where('userID', $userId)->update([
+            'current_streak' => $newStreak,
+            'max_streak' => $newMax,
+            'last_solved_date' => $today,
+            'total_solved' => DB::raw('total_solved + 1'),
         ]);
     }
 }
