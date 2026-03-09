@@ -183,3 +183,8 @@ Route::fallback(function () {
 });
 
 Route::get('/checkout/paypal', [CheckoutController::class, 'paypal'])->name('checkout.paypal');
+
+
+Route::post('/basket/apply-promo', [BasketController::class, 'applyPromo'])
+    ->name('basket.applyPromo')
+    ->middleware('auth');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use App\Models\Product;
+use App\Models\Promotion; // ADDED
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -102,5 +103,45 @@ class BasketController extends Controller
         return redirect()
             ->route('basket.index')
             ->with('success', 'Item removed from basket.');
+    }
+
+    /**
+     * Apply Promo Code
+     */
+    public function applyPromo(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string'
+        ]);
+
+        $code = strtoupper(trim($request->code));
+
+        $basket = Basket::with('items.product')
+            ->where('userID', auth()->user()->userID)
+            ->where('orderStatus', 'cart')
+            ->first();
+
+        if (!$basket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Basket is empty.'
+            ]);
+        }
+
+        $promo = Promotion::where('promotionCode', $code)->first();
+
+        if (!$promo) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid promo code.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'code' => $promo->promotionCode,
+            'type' => $promo->discountType,
+            'value' => $promo->discountValue
+        ]);
     }
 }
