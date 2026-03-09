@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserStreak extends Model
 {
-    protected $table = 'user_streak';
+    protected $table = 'user_streaks';
 
     protected $primaryKey = 'userID';
 
