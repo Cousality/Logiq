@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AdminOrderController;
+use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\AdminPromotionController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -10,18 +15,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StoreController;
-use App\Http\Controllers\AdminOrderController;
-use App\Http\Controllers\AdminProductController;
-use App\Http\Controllers\AdminPromotionController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\AddressController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\ChatController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,7 +61,6 @@ Route::get('/forgot-password', function () {
     return view('Frontend.Auth.forgot_password');
 })->name('password.request');
 
-
 Route::post('/send-reset-link', [AuthController::class, 'sendResetLink'])->name('password.email');
 
 Route::get('/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('password.reset');
@@ -90,15 +87,11 @@ Route::get('/FAQs', function () {
     return view('Frontend.text.FAQs');
 });
 
-
-
 Route::post('/faq/submit', [ContactController::class, 'add'])->name('faq.submit');
 Route::get('/ticket-submitted', function () {
     return view('Frontend.dashboard.ticket_submitted');
 })->name('ticket.submitted');
 //Dashboard Routes
-
-
 
 // Auth Pages
 Route::middleware(['auth'])->group(function () {
@@ -146,10 +139,6 @@ Route::middleware(['auth', IsAdmin::class])->group(function () {
     Route::get('/user_management', [UserManagementController::class, 'index'])->name('userManagement');
     Route::patch('/user_management/{id}/make-admin', [UserManagementController::class, 'makeAdmin'])->name('users.makeAdmin');
     Route::delete('/admin/users/{user}', [UserManagementController::class, 'destroy'])->name('admin.users.destroy');
-    
-
-    //Review Routes
-    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 Route::middleware(['auth', IsAdmin::class])->group(function () {
