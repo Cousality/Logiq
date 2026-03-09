@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -26,6 +27,9 @@ class BasketController extends Controller
         return view('Frontend.basket', compact('basketItems'));
     }
 
+    /**
+     * Add product to basket
+     */
     public function add(Request $request)
     {
         $request->validate([
@@ -67,6 +71,9 @@ class BasketController extends Controller
         return redirect()->route('store.index');
     }
 
+    /**
+     * Update basket quantity
+     */
     public function update(Request $request, BasketItem $item)
     {
         $request->validate([
@@ -95,6 +102,9 @@ class BasketController extends Controller
         ]);
     }
 
+    /**
+     * Remove item from basket
+     */
     public function remove(BasketItem $item)
     {
         $item->delete();
@@ -102,5 +112,54 @@ class BasketController extends Controller
         return redirect()
             ->route('basket.index')
             ->with('success', 'Item removed from basket.');
+    }
+
+    /**
+     * Apply Promo Code
+     */
+    public function applyPromo(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string'
+        ]);
+
+        $code = strtoupper(trim($request->code));
+
+        $basket = Basket::with('items.product')
+            ->where('userID', auth()->user()->userID)
+            ->where('orderStatus', 'cart')
+            ->first();
+
+        if (!$basket) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Basket is empty.'
+            ]);
+        }
+
+        $promo = Promotion::where('promotionCode', $code)
+            ->where(function ($query) {
+                $query->whereNull('startDate')
+                      ->orWhere('startDate', '<=', now());
+            })
+            ->where(function ($query) {
+                $query->whereNull('endDate')
+                      ->orWhere('endDate', '>=', now());
+            })
+            ->first();
+
+        if (!$promo) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid or expired promo code.'
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'code' => $promo->promotionCode,
+            'type' => $promo->discountType,
+            'value' => $promo->discountValue
+        ]);
     }
 }
