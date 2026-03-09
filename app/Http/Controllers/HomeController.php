@@ -66,7 +66,7 @@ class HomeController extends Controller
         }
 
         $userId = Auth::id();
-        $streakData = DB::table('user_streak')->where('userID', $userId)->first();
+        $streakData = DB::table('user_streaks')->where('userID', $userId)->first();
 
         // No attempts no streak to break
         if (! $streakData) {
@@ -79,7 +79,7 @@ class HomeController extends Controller
         }
 
         // resetting current streak when failed
-        DB::table('user_streak')->where('userID', $userId)->update([
+        DB::table('user_streaks')->where('userID', $userId)->update([
             'current_streak' => 0,
         ]);
     }
@@ -94,10 +94,10 @@ class HomeController extends Controller
         $today = now()->toDateString();
         $yesterday = now()->subDay()->toDateString();
 
-        $streakData = DB::table('user_streak')->where('userID', $userId)->first();
+        $streakData = DB::table('user_streaks')->where('userID', $userId)->first();
 
         if (! $streakData) {
-            DB::table('user_streak')->insert([
+            DB::table('user_streaks')->insert([
                 'userID' => $userId,
                 'current_streak' => 1,
                 'max_streak' => 1,
@@ -116,7 +116,7 @@ class HomeController extends Controller
         $newStreak = $isConsecutive ? $streakData->current_streak + 1 : 1;
         $newMax = max($newStreak, $streakData->max_streak);
 
-        DB::table('user_streak')->where('userID', $userId)->update([
+        DB::table('user_streaks')->where('userID', $userId)->update([
             'current_streak' => $newStreak,
             'max_streak' => $newMax,
             'last_solved_date' => $today,

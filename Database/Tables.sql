@@ -16,7 +16,7 @@ CREATE TABLE user_streaks (
     last_solved_date DATE DEFAULT NULL,
     total_solved INT DEFAULT 0,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    CONSTRAINT fk_user_streak FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+    CONSTRAINT fk_user_streaks FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE contact (
