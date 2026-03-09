@@ -18,7 +18,9 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $primaryKey = 'userID';
+
     protected $keyType = 'int';
+
     public $incrementing = true;
 
     protected $fillable = [
@@ -51,8 +53,14 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
     ];
 
-public function getAuthIdentifierName()
-{
-    return 'userID';
-}
+    public function getAuthIdentifierName()
+    {
+        return 'userID';
+    }
+
+    public function streak()
+    {
+        // Assuming your User model primary key is 'userID'
+        return $this->hasOne(\App\Models\UserStreak::class, 'userID', 'userID');
+    }
 }

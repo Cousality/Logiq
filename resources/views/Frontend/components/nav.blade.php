@@ -1182,15 +1182,17 @@
 
                         <div class="dropdown-stats">
                             <div class="dropdown-stat" title="Current Streak">
-                                <span class="dropdown-stat-value"> {{ auth()->user()->current_streak ?? 0 }}</span>
+                                <span class="dropdown-stat-value">
+                                    {{ auth()->user()->streak?->current_streak ?? 0 }}</span>
                                 <span class="dropdown-stat-label">Streak</span>
                             </div>
                             <div class="dropdown-stat" title="Highest Streak">
-                                <span class="dropdown-stat-value"> {{ auth()->user()->max_streak ?? 0 }}</span>
+                                <span class="dropdown-stat-value"> {{ auth()->user()->streak?->max_streak ?? 0 }}</span>
                                 <span class="dropdown-stat-label">Best</span>
                             </div>
                             <div class="dropdown-stat" title="Puzzles Solved">
-                                <span class="dropdown-stat-value"> {{ auth()->user()->total_solved ?? 0 }}</span>
+                                <span class="dropdown-stat-value">
+                                    {{ auth()->user()->streak?->total_solved ?? 0 }}</span>
                                 <span class="dropdown-stat-label">Solved</span>
                             </div>
                         </div>
