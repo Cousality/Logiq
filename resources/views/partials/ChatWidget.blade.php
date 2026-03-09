@@ -232,6 +232,39 @@
       return;
     }
 
+    if (!resp.ok) {
+  const txt = await resp.text().catch(() => '');
+
+  // Conversation deleted/reset in DB -> wipe local storage and start fresh
+  if (
+    resp.status === 404 &&
+    (txt.includes('No query results for model') || txt.includes('ChatConversation'))
+  ) {
+    localStorage.removeItem('logiq_chat_conversation_id');
+    conversationId = null;
+  }
+
+  addMsg('assistant', 'Sorry — something went wrong. Please try again.');
+  return;
+}
+
+  if (resp.status === 401) {
+  addMsg('assistant', 'Please sign in again, then retry.');
+  return;
+}
+if (resp.status === 419) {
+  addMsg('assistant', 'Session expired. Refresh the page and try again.');
+  return;
+}
+if ([500,502,503,504].includes(resp.status)) {
+  addMsg('assistant', 'Service is temporarily unavailable. Please try again shortly.');
+  return;
+}
+if ([500,502,503,504].includes(resp.status)) {
+  addMsg('assistant', 'Service is temporarily unavailable. Please try again shortly.');
+  return;
+}
+
     const data2 = await retry.json();
     conversationId = data2.conversation_id;
     localStorage.setItem('logiq_chat_conversation_id', String(conversationId));
