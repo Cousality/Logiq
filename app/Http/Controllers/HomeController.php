@@ -50,10 +50,37 @@ class HomeController extends Controller
             ]);
         }
 
+        $this->breakUserStreak();
+
         return response()->json([
             'status' => 'error',
-            'message' => 'Incorrect. Recalculate.',
+            'message' => 'Incorrect. Streak broken.',
             'color' => '#4A2C2A',
+        ]);
+    }
+
+    private function breakUserStreak()
+    {
+        if (! Auth::check()) {
+            return;
+        }
+
+        $userId = Auth::id();
+        $streakData = DB::table('user_streak')->where('userID', $userId)->first();
+
+        // No attempts no streak to break
+        if (! $streakData) {
+            return;
+        }
+
+        // If they already correctly solved it today, ignore subsequent wrong clicks
+        if ($streakData->last_solved_date === now()->toDateString()) {
+            return;
+        }
+
+        // resetting current streak when failed
+        DB::table('user_streak')->where('userID', $userId)->update([
+            'current_streak' => 0,
         ]);
     }
 
