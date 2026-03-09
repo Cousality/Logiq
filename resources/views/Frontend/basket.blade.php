@@ -14,15 +14,15 @@
 @include('Frontend.components.nav')
 
 <header class="basket-header">
-<h1 class="basket-title">YOUR BASKET.</h1>
+    <h1 class="basket-title">YOUR BASKET.</h1>
 
-@if (!empty($basketItems) && count($basketItems) > 0)
-<p class="basket-subtitle">
-{{ $basketItems->sum('quantity') }} item{{ $basketItems->sum('quantity') !== 1 ? 's' : '' }} ready for checkout
-</p>
-@else
-<p class="basket-subtitle">Your basket is empty</p>
-@endif
+    @if (!empty($basketItems) && count($basketItems) > 0)
+        <p class="basket-subtitle">
+            {{ $basketItems->sum('quantity') }} item{{ $basketItems->sum('quantity') !== 1 ? 's' : '' }} ready for checkout
+        </p>
+    @else
+        <p class="basket-subtitle">Your basket is empty</p>
+    @endif
 </header>
 
 @if (!empty($basketItems) && count($basketItems) > 0)
@@ -32,12 +32,8 @@
 <div class="basket-items">
 @foreach ($basketItems as $item)
 
-<div class="basket-item"
-data-id="{{ $item->orderItemID }}"
-data-price="{{ $item->product->productPrice }}">
-
+<div class="basket-item" data-id="{{ $item->orderItemID }}" data-price="{{ $item->product->productPrice }}">
 @include('Frontend.components.basket_card', ['item' => $item])
-
 </div>
 
 @endforeach
@@ -49,16 +45,17 @@ data-price="{{ $item->product->productPrice }}">
 
 <div class="summary-row">
 <span>Items</span>
-<span id="subtotal">
-£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}
-</span>
+<span id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity),2) }}</span>
+</div>
+
+<div id="discount-row" class="summary-row" style="display:none;">
+<span>Discount</span>
+<span id="discount-value">£0.00</span>
 </div>
 
 <div class="summary-row">
 <span>Total</span>
-<span id="grand-total">
-£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}
-</span>
+<span id="grand-total">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity),2) }}</span>
 </div>
 
 <form action="{{ route('checkout.index') }}" method="GET">
@@ -70,7 +67,6 @@ Continue Shopping
 </a>
 
 <div class="promo-section">
-
 <strong>Have a promo code?</strong>
 
 <div class="promo-input">
@@ -78,7 +74,7 @@ Continue Shopping
 <button type="button" onclick="applyPromo()">Apply</button>
 </div>
 
-<p id="promo-message" style="margin-top:0.5rem;color:red;"></p>
+<p id="promo-message" style="margin-top:8px;color:red;"></p>
 
 </div>
 
@@ -91,7 +87,11 @@ Continue Shopping
 <div class="empty-basket">
 <h2>Your Basket is Empty.</h2>
 <p>Time to add some brain-bending puzzles!</p>
-<a href="{{ route('store.index') }}" class="cta-button">Browse Store</a>
+
+<a href="{{ route('store.index') }}" class="cta-button">
+Browse Store
+</a>
+
 </div>
 
 @endif
@@ -100,8 +100,11 @@ Continue Shopping
 
 <script>
 
+let activePromo = null;
+
 function changeQuantity(itemId, change)
 {
+
 const qtyDisplay = document.getElementById(`qty-${itemId}`);
 let currentQty = parseInt(qtyDisplay.textContent);
 let newQty = currentQty + change;
@@ -111,7 +114,7 @@ if(newQty > 99) newQty = 99;
 
 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-fetch(`/basket/${itemId}`, {
+fetch(`/basket/${itemId}`,{
 method:'PUT',
 headers:{
 'Content-Type':'application/json',
@@ -119,70 +122,92 @@ headers:{
 },
 body:JSON.stringify({quantity:newQty})
 })
-.then(response => response.json())
-.then(data => {
+.then(res=>res.json())
+.then(data=>{
 
 if(data.success)
 {
 
-qtyDisplay.textContent = newQty;
+qtyDisplay.textContent=newQty;
 
-const item = document.querySelector(`.basket-item[data-id="${itemId}"]`);
-const price = parseFloat(item.dataset.price);
+const item=document.querySelector(`.basket-item[data-id="${itemId}"]`);
+const price=parseFloat(item.dataset.price);
 
-const itemTotal = (price * newQty).toFixed(2);
+document.getElementById(`total-${itemId}`).textContent=
+`£${(price*newQty).toFixed(2)}`;
 
-document.getElementById(`total-${itemId}`).textContent = `£${itemTotal}`;
-
-const badge = document.getElementById('basket-count');
-
-if(badge && data.basketCount > 0)
-badge.textContent = data.basketCount;
-
-updateSummaryDisplay();
+updateSummary();
 
 }
-
-})
-.catch(error => console.error(error));
-}
-
-function updateSummaryDisplay()
-{
-const items = document.querySelectorAll('.basket-item');
-
-let subtotal = 0;
-let itemCount = 0;
-
-items.forEach(item => {
-
-const itemId = item.dataset.id;
-const price = parseFloat(item.dataset.price);
-
-const qty = parseInt(document.getElementById(`qty-${itemId}`).textContent);
-
-subtotal += price * qty;
-itemCount += qty;
 
 });
 
-document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
-document.getElementById('grand-total').textContent = `£${subtotal.toFixed(2)}`;
+}
 
-const subtitle = document.querySelector('.basket-subtitle');
+function updateSummary()
+{
 
+const items=document.querySelectorAll('.basket-item');
+
+let subtotal=0;
+let itemCount=0;
+
+items.forEach(item=>{
+
+const id=item.dataset.id;
+const price=parseFloat(item.dataset.price);
+const qty=parseInt(document.getElementById(`qty-${id}`).textContent);
+
+subtotal+=price*qty;
+itemCount+=qty;
+
+});
+
+let discount=0;
+
+if(activePromo)
+{
+
+if(activePromo.type==='percentage')
+discount=subtotal*(activePromo.value/100);
+
+if(activePromo.type==='fixed')
+discount=activePromo.value;
+
+}
+
+const total=subtotal-discount;
+
+document.getElementById('subtotal').textContent=`£${subtotal.toFixed(2)}`;
+document.getElementById('grand-total').textContent=`£${total.toFixed(2)}`;
+
+if(discount>0)
+{
+
+document.getElementById('discount-row').style.display='flex';
+document.getElementById('discount-value').textContent=`-£${discount.toFixed(2)}`;
+
+}
+else
+{
+
+document.getElementById('discount-row').style.display='none';
+
+}
+
+const subtitle=document.querySelector('.basket-subtitle');
 if(subtitle)
-subtitle.textContent = `${itemCount} item${itemCount!==1?'s':''} ready for checkout`;
+subtitle.textContent=`${itemCount} item${itemCount!==1?'s':''} ready for checkout`;
+
 }
 
 function applyPromo()
 {
 
-const code = document.getElementById('promo-code').value.trim();
-
+const code=document.getElementById('promo-code').value.trim();
 if(!code) return;
 
-const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+const token=document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 fetch('/basket/apply-promo',{
 method:'POST',
@@ -192,80 +217,30 @@ headers:{
 },
 body:JSON.stringify({code:code})
 })
+.then(res=>res.json())
+.then(data=>{
 
-.then(res => res.json())
-
-.then(data => {
-
-const promoMessage = document.getElementById('promo-message');
+const message=document.getElementById('promo-message');
 
 if(!data.success)
 {
-promoMessage.textContent = data.message;
-updateSummaryDisplay();
+
+message.textContent=data.message;
+activePromo=null;
+updateSummary();
 return;
+
 }
 
-promoMessage.textContent = `Promo applied: ${data.code}`;
+message.style.color='green';
+message.textContent=`Promo applied: ${data.code}`;
 
-applyDiscount(data.type,data.value);
+activePromo=data;
+
+updateSummary();
 
 })
-
-.catch(err => console.error(err));
-
-}
-
-function applyDiscount(type,value)
-{
-
-const items = document.querySelectorAll('.basket-item');
-
-let subtotal = 0;
-
-items.forEach(item => {
-
-const price = parseFloat(item.dataset.price);
-const qty = parseInt(document.getElementById(`qty-${item.dataset.id}`).textContent);
-
-subtotal += price * qty;
-
-});
-
-let discount = 0;
-
-if(type === 'percentage')
-discount = subtotal * (value/100);
-
-if(type === 'fixed')
-discount = value;
-
-const total = subtotal - discount;
-
-document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
-document.getElementById('grand-total').textContent = `£${total.toFixed(2)}`;
-
-let discountRow = document.getElementById('discount-row');
-
-if(!discountRow)
-{
-
-discountRow = document.createElement('div');
-discountRow.className = 'summary-row';
-discountRow.id = 'discount-row';
-
-discountRow.innerHTML = `
-<span>Discount</span>
-<span id="discount-value"></span>
-`;
-
-const summaryRows = document.querySelectorAll('.summary-row');
-
-summaryRows[summaryRows.length-1].before(discountRow);
-
-}
-
-document.getElementById('discount-value').textContent = `-£${discount.toFixed(2)}`;
+.catch(err=>console.log(err));
 
 }
 
