@@ -3,15 +3,14 @@
 
 <style>
 :root{
-  --chat-primary: var(--primary, #111);         
-  --chat-bg: var(--bg-primary, #fff);            
-  --chat-text: var(--text, #111);             
-  --chat-border: var(--border, #ddd);           
-  --chat-muted: var(--bg-secondary, #f3f4f6);    
+  --chat-primary: var(--primary, #111);
+  --chat-bg: var(--bg-primary, #fff);
+  --chat-text: var(--text, #111);
+  --chat-border: var(--border, #ddd);
+  --chat-muted: var(--bg-secondary, #f3f4f6);
   --chat-shadow: 0 8px 30px rgba(0,0,0,.15);
 }
 
-/* Floating button */
 #chat-widget-button{
   position:fixed;
   right:18px;
@@ -47,10 +46,7 @@
   mask-size: contain;
 }
 
-
-#chat-widget-button:hover{
-  transform: translateY(-1px);
-}
+#chat-widget-button:hover{ transform: translateY(-1px); }
 #chat-widget-button:focus{
   outline: 2px solid color-mix(in srgb, var(--chat-primary) 60%, transparent);
   outline-offset: 3px;
@@ -97,9 +93,9 @@
   height:400px;
   overflow:auto;
   padding:12px;
-  gap:10px;
   display:flex;
   flex-direction:column;
+  gap:10px;
 }
 
 .chat-msg{
@@ -151,112 +147,170 @@
 </style>
 
 <script>
-(() => {
-  const root = document.getElementById('chat-widget-root');
-  root.innerHTML = `
-    <button id="chat-widget-button" aria-label="Open chat">
-    <span class="chat-widget-icon" aria-hidden="true"></span>
-    </button>
-    <div id="chat-widget-panel" role="dialog" aria-modal="true" aria-label="Support chat">
-      <div id="chat-widget-header">
-        <span>LOGIQ Support</span>
-        <button id="chat-widget-close" aria-label="Close chat">✕</button>
-      </div>
-      <div id="chat-widget-messages"></div>
-      <div id="chat-widget-input">
-        <input id="chat-widget-text" placeholder="Ask about orders, returns, products..." />
-        <button id="chat-widget-send">Send</button>
-      </div>
-    </div>
-  `;
+(function () {
+  var root = document.getElementById('chat-widget-root');
 
-  const btn = document.getElementById('chat-widget-button');
-  const panel = document.getElementById('chat-widget-panel');
-  const close = document.getElementById('chat-widget-close');
-  const messagesEl = document.getElementById('chat-widget-messages');
-  const textEl = document.getElementById('chat-widget-text');
-  const sendEl = document.getElementById('chat-widget-send');
+  root.innerHTML = ''
+    + '<button id="chat-widget-button" aria-label="Open chat">'
+    + '  <span class="chat-widget-icon" aria-hidden="true"></span>'
+    + '</button>'
+    + '<div id="chat-widget-panel" role="dialog" aria-modal="true" aria-label="Support chat">'
+    + '  <div id="chat-widget-header">'
+    + '    <span>LOGIQ Support</span>'
+    + '    <button id="chat-widget-close" aria-label="Close chat">✕</button>'
+    + '  </div>'
+    + '  <div id="chat-widget-messages"></div>'
+    + '  <div id="chat-widget-input">'
+    + '    <input id="chat-widget-text" placeholder="Ask about orders, returns, products..." />'
+    + '    <button id="chat-widget-send">Send</button>'
+    + '  </div>'
+    + '</div>';
 
-  let conversationId = localStorage.getItem('logiq_chat_conversation_id');
+  var btn = document.getElementById('chat-widget-button');
+  var panel = document.getElementById('chat-widget-panel');
+  var closeBtn = document.getElementById('chat-widget-close');
+  var messagesEl = document.getElementById('chat-widget-messages');
+  var textEl = document.getElementById('chat-widget-text');
+  var sendEl = document.getElementById('chat-widget-send');
+
+  var conversationId = localStorage.getItem('logiq_chat_conversation_id');
 
   function addMsg(role, text) {
-    const div = document.createElement('div');
-    div.className = `chat-msg ${role === 'user' ? 'chat-user' : 'chat-ai'}`;
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + (role === 'user' ? 'chat-user' : 'chat-ai');
     div.textContent = text;
     messagesEl.appendChild(div);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
+  function getCsrf() {
+    var tag = document.querySelector('meta[name="csrf-token"]');
+    return tag ? tag.getAttribute('content') : '';
+  }
+
+  async function doPost(messageText, convId) {
+    var csrf = getCsrf();
+
+    try {
+      var resp = await fetch('/chat/messages', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-TOKEN': csrf
+        },
+        body: JSON.stringify({
+          conversation_id: convId ? Number(convId) : null,
+          message: messageText
+        })
+      });
+
+      if (resp.ok) {
+        return { ok: true, data: await resp.json() };
+      }
+
+      var txt = await resp.text().catch(function () { return ''; });
+      return { ok: false, status: resp.status, text: txt };
+
+    } catch (e) {
+      return { ok: false, status: 0, text: '' };
+    }
+  }
+
   async function send() {
-    const msg = textEl.value.trim();
+    var msg = (textEl.value || '').trim();
     if (!msg) return;
+
     textEl.value = '';
     addMsg('user', msg);
 
-    const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    // Try normal request
+    var r = await doPost(msg, conversationId);
 
-    const resp = await fetch('/chat/messages', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-CSRF-TOKEN': csrf
-     },
-    body: JSON.stringify({
-        conversation_id: conversationId ? Number(conversationId) : null,
-        message: msg
-     })
-});
+    // Handle common errors (self-heal where possible)
+    if (!r.ok) {
 
-        
-    if (!resp.ok) {
-  const txt = await resp.text().catch(() => '');
+      // Network / server down
+      if (r.status === 0) {
+        addMsg('assistant', 'Network error. Check your connection and try again.');
+        return;
+      }
 
-  // If conversation ownership changed (guest -> logged in), reset and retry once
-  if (resp.status === 422 && txt.includes('Invalid conversation')) {
-    localStorage.removeItem('logiq_chat_conversation_id');
-    conversationId = null;
+      // Not logged in / session issues
+      if (r.status === 401) {
+        addMsg('assistant', 'Please sign in again, then retry.');
+        return;
+      }
+      if (r.status === 419) {
+        addMsg('assistant', 'Session expired. Refresh the page and try again.');
+        return;
+      }
 
-    // retry once
-    const retry = await fetch('/api/chat/messages', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-      body: JSON.stringify({ conversation_id: null, message: msg })
-    });
+      // Rate limit
+      if (r.status === 429) {
+        addMsg('assistant', 'Too many messages. Please wait a moment and try again.');
+        return;
+      }
 
-    if (!retry.ok) {
-      const t2 = await retry.text().catch(() => '');
-      addMsg('assistant', `Error ${retry.status}: ${t2.slice(0, 300)}`);
+      // Server errors
+      if (r.status === 500 || r.status === 502 || r.status === 503 || r.status === 504) {
+        addMsg('assistant', 'Service is temporarily unavailable. Please try again shortly.');
+        return;
+      }
+
+      // Invalid conversation (ownership changed etc.) -> clear and retry once
+      if (r.status === 422 && r.text && r.text.indexOf('Invalid conversation') !== -1) {
+        localStorage.removeItem('logiq_chat_conversation_id');
+        conversationId = null;
+
+        var retry = await doPost(msg, null);
+        if (retry.ok) {
+          conversationId = retry.data.conversation_id;
+          localStorage.setItem('logiq_chat_conversation_id', String(conversationId));
+          addMsg('assistant', retry.data.assistant_message || '');
+          return;
+        }
+
+        addMsg('assistant', 'Sorry — something went wrong. Please try again.');
+        return;
+      }
+
+      // Conversation missing (DB reset) -> clear stored id
+      if (r.status === 404 && r.text &&
+          (r.text.indexOf('No query results for model') !== -1 || r.text.indexOf('ChatConversation') !== -1)) {
+        localStorage.removeItem('logiq_chat_conversation_id');
+        conversationId = null;
+        addMsg('assistant', 'Chat was reset. Please try again.');
+        return;
+      }
+
+      // Everything else
+      addMsg('assistant', 'Sorry — something went wrong. Please try again.');
       return;
     }
 
-    const data2 = await retry.json();
-    conversationId = data2.conversation_id;
-    localStorage.setItem('logiq_chat_conversation_id', String(conversationId));
-    addMsg('assistant', data2.assistant_message || '');
-    return;
-  }
-
-  addMsg('assistant', `Error ${resp.status}: ${txt.slice(0, 300)}`);
-  return;
-}
-
-    const data = await resp.json();
+    var data = r.data;
     conversationId = data.conversation_id;
     localStorage.setItem('logiq_chat_conversation_id', String(conversationId));
 
     addMsg('assistant', data.assistant_message || '');
+
     if (data.ticket && data.ticket.ticket_id) {
-      addMsg('assistant', `Ticket created: #${data.ticket.ticket_id}`);
+      addMsg('assistant', 'Ticket created: #' + data.ticket.ticket_id);
+    }
+    if (data.ticket && data.ticket.ticket_number) {
+      addMsg('assistant', 'Ticket created: #' + data.ticket.ticket_number);
     }
   }
 
-  btn.onclick = () => panel.style.display = 'block';
-  close.onclick = () => panel.style.display = 'none';
+  btn.onclick = function () { panel.style.display = 'block'; };
+  closeBtn.onclick = function () { panel.style.display = 'none'; };
   sendEl.onclick = send;
-  textEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') send(); });
+
+  textEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') send();
+  });
 
   addMsg('assistant', 'Hi — how can I help?');
 })();
