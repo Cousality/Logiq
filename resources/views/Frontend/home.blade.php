@@ -682,8 +682,12 @@
         makeCarousel('category-track', '.category-card', 'cat-prev', 'cat-next', 2);
     </script>
     <script>
+        // Scope the storage key dynamically based on Laravel's auth state
+        const logiqUserId = "{{ auth()->check() ? auth()->id() : 'guest' }}";
+        const storageKey = `logiq_last_played_${logiqUserId}`;
+
         document.addEventListener("DOMContentLoaded", () => {
-            const lastPlayed = localStorage.getItem('logiq_last_played');
+            const lastPlayed = localStorage.getItem(storageKey);
             const today = new Date().toISOString().split('T')[0];
 
             if (lastPlayed === today) {
@@ -728,7 +732,7 @@
                     feedback.textContent = data.message;
 
                     const today = new Date().toISOString().split('T')[0];
-                    localStorage.setItem('logiq_last_played', today);
+                    localStorage.setItem(storageKey, today);
 
                     if (data.status === "success" && window.LogiqQuizCelebrate) {
                         window.LogiqQuizCelebrate.burst("daily-quiz", 4500);
