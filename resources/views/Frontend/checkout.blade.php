@@ -336,7 +336,14 @@ form .section:last-of-type {
         <span>Subtotal</span>
         <span>£{{ number_format($subtotal, 2) }}</span>
     </div>
-   
+
+    @if(!empty($promo) && $discount > 0)
+    <div class="summary-row" style="color: green;">
+        <span>Discount ({{ $promo['code'] }})</span>
+        <span>-£{{ number_format($discount, 2) }}</span>
+    </div>
+    @endif
+
     <div class="summary-row">
         <span>Shipping</span>
         <span>
@@ -347,7 +354,7 @@ form .section:last-of-type {
             @endif
         </span>
     </div>
-    
+
     <div class="summary-row total">
         <span>Total</span>
         <span>£{{ number_format($total ?? 0,2) }}</span>

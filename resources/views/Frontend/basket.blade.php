@@ -388,10 +388,37 @@
                         id="subtotal">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
                 </div>
 
+                <div class="summary-row" id="discount-row" style="{{ $appliedPromo ? '' : 'display:none;' }}">
+                    <span>Discount (<span id="promo-label">{{ $appliedPromo['code'] ?? '' }}</span>)</span>
+                    <span id="discount-amount" style="color: green;">
+                        @if($appliedPromo)
+                            @php
+                                $sub = $basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity);
+                                $disc = $appliedPromo['type'] === 'percentage'
+                                    ? $sub * ($appliedPromo['value'] / 100)
+                                    : min($appliedPromo['value'], $sub);
+                            @endphp
+                            -£{{ number_format($disc, 2) }}
+                        @else
+                            -£0.00
+                        @endif
+                    </span>
+                </div>
+
                 <div class="summary-row">
                     <span>Total</span>
-                    <span
-                        id="grand-total">£{{ number_format($basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity), 2) }}</span>
+                    <span id="grand-total">
+                        @php
+                            $sub = $basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity);
+                            $disc = 0;
+                            if ($appliedPromo) {
+                                $disc = $appliedPromo['type'] === 'percentage'
+                                    ? $sub * ($appliedPromo['value'] / 100)
+                                    : min($appliedPromo['value'], $sub);
+                            }
+                        @endphp
+                        £{{ number_format($sub - $disc, 2) }}
+                    </span>
                 </div>
 
                 <form action="{{ route('checkout.index') }}" method="GET">
@@ -406,9 +433,16 @@
 
                 <div class="promo-section">
                     <strong>Have a promo code?</strong>
-                    <div class="promo-input">
+                    <div class="promo-input" id="promo-input-section" style="{{ $appliedPromo ? 'display:none;' : '' }}">
                         <input type="text" id="promo-code" placeholder="Enter code" />
                         <button onclick="applyPromo()">Apply</button>
+                    </div>
+                    <p id="promo-error" style="display:none; color:red; margin-top:0.5rem; font-size:0.85rem;"></p>
+                    <div id="promo-applied" style="{{ $appliedPromo ? 'display:flex;' : 'display:none;' }} align-items:center; gap:0.75rem; margin-top:0.75rem;">
+                        <span style="font-size:0.9rem; color:green; font-weight:bold;">
+                            ✓ <span id="promo-applied-code">{{ $appliedPromo['code'] ?? '' }}</span> applied
+                        </span>
+                        <button onclick="removePromo()" style="background:none; border:none; cursor:pointer; font-family:inherit; font-size:0.85rem; text-decoration:underline; color:var(--text); padding:0; margin-left:0.5rem;">Remove</button>
                     </div>
                 </div>
             </div>
@@ -471,6 +505,18 @@
                 .catch(error => console.error(error));
         }
 
+        // Track applied promo client-side
+        let appliedPromo = @json($appliedPromo ?? null);
+
+        function calculateDiscount(subtotal) {
+            if (!appliedPromo) return 0;
+            if (appliedPromo.type === 'percentage') {
+                return subtotal * (appliedPromo.value / 100);
+            } else {
+                return Math.min(appliedPromo.value, subtotal);
+            }
+        }
+
         // Update order summary display (client-side calculation)
         function updateSummaryDisplay() {
             const items = document.querySelectorAll('.basket-item');
@@ -485,12 +531,15 @@
                 itemCount += qty;
             });
 
-            const total = subtotal;
-
             document.getElementById('subtotal').textContent = `£${subtotal.toFixed(2)}`;
-            document.getElementById('grand-total').textContent = `£${total.toFixed(2)}`;
 
-            // Update header count
+            const discount = calculateDiscount(subtotal);
+            if (appliedPromo) {
+                document.getElementById('discount-amount').textContent = `-£${discount.toFixed(2)}`;
+            }
+
+            document.getElementById('grand-total').textContent = `£${(subtotal - discount).toFixed(2)}`;
+
             const subtitle = document.querySelector('.basket-subtitle');
             if (subtitle) {
                 subtitle.textContent = `${itemCount} item${itemCount !== 1 ? 's' : ''} ready for checkout`;
@@ -499,7 +548,62 @@
 
         function applyPromo() {
             const promoCode = document.getElementById('promo-code').value.trim();
-            alert(`Promo code "${promoCode}" applied! (This is a demo, no actual discount will be applied)`);
+            if (!promoCode) return;
+
+            const errorEl = document.getElementById('promo-error');
+            errorEl.style.display = 'none';
+
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('{{ route("basket.promo.apply") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify({ code: promoCode })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    appliedPromo = { code: data.code, type: data.type, value: data.value };
+
+                    document.getElementById('promo-label').textContent = data.code;
+                    document.getElementById('promo-applied-code').textContent = data.code;
+                    document.getElementById('discount-row').style.display = 'flex';
+                    document.getElementById('promo-applied').style.display = 'flex';
+                    document.getElementById('promo-input-section').style.display = 'none';
+
+                    updateSummaryDisplay();
+                } else {
+                    errorEl.textContent = data.message;
+                    errorEl.style.display = 'block';
+                }
+            })
+            .catch(() => {
+                errorEl.textContent = 'Something went wrong. Please try again.';
+                errorEl.style.display = 'block';
+            });
+        }
+
+        function removePromo() {
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('{{ route("basket.promo.clear") }}', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': token }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    appliedPromo = null;
+                    document.getElementById('discount-row').style.display = 'none';
+                    document.getElementById('promo-applied').style.display = 'none';
+                    document.getElementById('promo-input-section').style.display = 'flex';
+                    document.getElementById('promo-code').value = '';
+                    updateSummaryDisplay();
+                }
+            });
         }
     </script>
 </body>

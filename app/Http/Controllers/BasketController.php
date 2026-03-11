@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -22,8 +23,40 @@ class BasketController extends Controller
             ->first();
 
         $basketItems = $basket ? $basket->items : collect();
+        $appliedPromo = session('promo');
 
-        return view('Frontend.basket', compact('basketItems'));
+        return view('Frontend.basket', compact('basketItems', 'appliedPromo'));
+    }
+
+    public function applyPromo(Request $request)
+    {
+        $request->validate(['code' => 'required|string|max:50']);
+
+        $promotion = Promotion::where('promotionCode', strtoupper(trim($request->code)))->first();
+
+        if (!$promotion) {
+            return response()->json(['success' => false, 'message' => 'Invalid promo code.']);
+        }
+
+        session(['promo' => [
+            'id'    => $promotion->promotionID,
+            'code'  => $promotion->promotionCode,
+            'type'  => $promotion->discountType,
+            'value' => (float) $promotion->discountValue,
+        ]]);
+
+        return response()->json([
+            'success' => true,
+            'code'    => $promotion->promotionCode,
+            'type'    => $promotion->discountType,
+            'value'   => (float) $promotion->discountValue,
+        ]);
+    }
+
+    public function clearPromo()
+    {
+        session()->forget('promo');
+        return response()->json(['success' => true]);
     }
 
     public function add(Request $request)
