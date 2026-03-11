@@ -133,3 +133,43 @@ CREATE TABLE promotions (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `chat_conversations` (
+  `conversationID` bigint(20) UNSIGNED NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `guest_token` char(64) DEFAULT NULL,
+  `channel` varchar(20) NOT NULL DEFAULT 'web',
+  `last_activity_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `chat_messages` (
+  `messageID` bigint(20) UNSIGNED NOT NULL,
+  `conversationID` bigint(20) UNSIGNED NOT NULL,
+  `role` enum('system','user','assistant','tool') NOT NULL,
+  `content` longtext DEFAULT NULL,
+  `tool_name` varchar(120) DEFAULT NULL,
+  `tool_payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`tool_payload`)),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `support_tickets` (
+  `ticketID` bigint(20) UNSIGNED NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `guest_token` char(64) DEFAULT NULL,
+  `conversationID` bigint(20) UNSIGNED DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'open',
+  `subject` varchar(120) NOT NULL,
+  `summary` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
