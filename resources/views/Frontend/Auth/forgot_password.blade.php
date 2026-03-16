@@ -8,6 +8,20 @@
     <title>Forgot Password - LOGIQ</title>
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}" />
+ 
+<style>
+    .status-message {
+        background-color: #2d6a4f;
+        color: #ffffff;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-align: center;
+        border: 2px solid #1b4332;
+    }
+
+</style>
 </head>
 
 <body>
@@ -21,7 +35,7 @@
             </div>
 
             @if(session('message'))
-                <div class="alert alert-success">{{ session('message') }}</div>
+                <div class="status-message">{{ session('message') }}</div>
             @endif
 
             @if($errors->any())
