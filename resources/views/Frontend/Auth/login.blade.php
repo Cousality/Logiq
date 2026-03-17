@@ -98,7 +98,7 @@
                     <a href="/forgot-password" class="forgot">Forgot Password?</a>
                     <label>Password</label>
                     <div class="password-wrapper">
-                        <input type="password" name="password" id="password" placeholder="••••••••" required>
+                        <input type="password" name="password" id="password" placeholder="••••••••" opacity="0.5" required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('password')">Show</button>
                     </div>
