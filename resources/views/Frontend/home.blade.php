@@ -567,8 +567,8 @@
                             that bring people together around the table.</div>
                     </a>
 
-                    <a href="{{ route('store.index') }}?category=HandheldBrainTeasers" class="category-card">
-                        <div class="category-name">HandheldBrainTeasers</div>
+                    <a href="{{ route('store.index') }}?category=BrainTeasers" class="category-card">
+                        <div class="category-name">BrainTeasers</div>
                         <div class="category-bio">Compact mechanical puzzles you can take anywhere. Wooden burr puzzles
                             and interlocking challenges for the dedicated thinker.</div>
                     </a>
