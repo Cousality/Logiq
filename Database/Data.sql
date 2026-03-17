@@ -344,3 +344,47 @@ INSERT INTO promotions (promotionCode,discountType,discountValue) VALUES
 
 INSERT INTO user_streaks (userID, current_streak, max_streak, total_solved)
     SELECT userID, 0, 0, 0 FROM users;
+
+INSERT INTO `support_tickets` (`ticketID`, `userID`, `guest_token`, `conversationID`, `status`, `subject`, `summary`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, NULL, 'open', 'Customer requested human help for Order #3', 'Customer asked to track their order and requested help from a human agent regarding Order #3, which is currently pending. Order items: 100 Piece Statue of Liberty Puzzle x1, 100 Sudoku Puzzles x1, 500 Piece Big Ben Jigsaw Puzzle x4, 80 Nonogram Puzzles x4. Total $87.90.', '2026-03-09 19:50:00', '2026-03-09 19:50:00'),
+(2, 1, NULL, NULL, 'open', 'Customer requested human support', 'Customer asked to speak to a human agent.', '2026-03-09 20:12:43', '2026-03-09 20:12:43');
+
+ALTER TABLE `chat_conversations`
+  ADD PRIMARY KEY (`conversationID`),
+  ADD KEY `idx_chat_conversations_user_created` (`userID`,`created_at`),
+  ADD KEY `idx_chat_conversations_guest_token` (`guest_token`),
+  ADD KEY `idx_chat_conversations_last_activity` (`last_activity_at`);
+  ALTER TABLE `chat_conversations`
+  MODIFY `conversationID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  ALTER TABLE `chat_conversations`
+  ADD CONSTRAINT `fk_chat_conversations_users_userID` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+
+  ALTER TABLE `chat_messages`
+  ADD PRIMARY KEY (`messageID`),
+  ADD KEY `idx_chat_messages_conversation_created` (`conversationID`,`created_at`);
+  ALTER TABLE `chat_messages`
+  MODIFY `messageID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  ALTER TABLE `chat_messages`
+  ADD CONSTRAINT `fk_chat_messages_chat_conversations` FOREIGN KEY (`conversationID`) REFERENCES `chat_conversations` (`conversationID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+  ALTER TABLE `support_tickets`
+  ADD PRIMARY KEY (`ticketID`),
+  ADD KEY `idx_support_tickets_status_created` (`status`,`created_at`),
+  ADD KEY `idx_support_tickets_guest_token` (`guest_token`),
+  ADD KEY `idx_support_tickets_user` (`userID`),
+  ADD KEY `idx_support_tickets_conversation` (`conversationID`);
+  ALTER TABLE `support_tickets`
+  MODIFY `ticketID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  ALTER TABLE `support_tickets`
+  ADD CONSTRAINT `fk_support_tickets_chat_conversations` FOREIGN KEY (`conversationID`) REFERENCES `chat_conversations` (`conversationID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_support_tickets_users_userID` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+
+  ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+  ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+

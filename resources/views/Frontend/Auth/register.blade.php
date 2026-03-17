@@ -66,7 +66,7 @@
                 <div class="form-group">
                     <label>Password</label>
                     <div class="password-wrapper">
-                        <input type="password" name="password" id="password" placeholder="••••••••" required>
+                        <input type="password" name="password" id="password" placeholder="------" opacity="0.01" required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('password')">Show</button>
                     </div>
@@ -79,7 +79,7 @@
                     <label>Confirm Password</label>
                     <div class="password-wrapper">
                         <input type="password" name="password_confirmation" id="password_confirmation"
-                            placeholder="••••••••" required>
+                            placeholder="------" opacity="0.01"  required>
                         <button type="button" class="password-toggle"
                             onclick="togglePassword('password_confirmation')">Show</button>
                     </div>

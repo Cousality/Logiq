@@ -21,7 +21,7 @@ class WishlistController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()->route('store.index')->with('info', 'Product is already in your wishlist.');
+            return redirect()->back()->with('info', 'Product is already in your wishlist.');
         }
 
         Wishlist::create([
@@ -29,7 +29,7 @@ class WishlistController extends Controller
             'productID' => $request->productID,
         ]);
 
-        return redirect()->route('store.index')->with('success', 'Product added to wishlist.');
+        return redirect()->back()->with('success', 'Product added to wishlist.');
     }
 
     /* Remove product from wishlist */

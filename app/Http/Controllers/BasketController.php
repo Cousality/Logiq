@@ -64,7 +64,7 @@ class BasketController extends Controller
         $item->priceAtTime = $product->productPrice;
         $item->save();
 
-        return redirect()->route('store.index');
+        return redirect()->back()->with('success', 'Item added to basket!');
     }
 
     public function update(Request $request, BasketItem $item)

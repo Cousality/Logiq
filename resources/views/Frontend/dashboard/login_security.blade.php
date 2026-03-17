@@ -125,6 +125,17 @@
                 gap: 0;
             }
         }
+
+        .status-message {
+            background-color: #2d6a4f;
+            color: #ffffff;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            border: 2px solid #1b4332;
+        }
     </style>
 </head>
 
@@ -141,9 +152,8 @@
         @include('Frontend.components.dashboard_sidebar')
         <main class="settings-container">
         @if (session('success'))
-            <div
-                style="padding: 1rem; background: #d4edda; color: #155724; border: 2px solid #c3e6cb; margin-bottom: 1rem;">
-                {{ session('success') }}
+            <div class="status-message">
+                ✓ {{ session('success') }}
             </div>
         @else
             @if ($errors->any())
