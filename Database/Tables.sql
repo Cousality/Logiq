@@ -22,6 +22,9 @@ CREATE TABLE user_streaks (
 CREATE TABLE contact (
     supportNum INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     userID INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    orderNumber VARCHAR(50),
     problemCategory ENUM('Delivery','Refund','Account','Payment','Other') NOT NULL,
     problemDescription TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

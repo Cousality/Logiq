@@ -153,6 +153,12 @@
                     </a>
                 </li>
                 <li class="sidebar-menu-item">
+                    <a href="{{ route('stock_analysis') }}"
+                        class="sidebar-menu-link {{ request()->routeIs('stock_analysis') ? 'active' : '' }}">
+                        Stock Analysis
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
                     <a href="{{ route('review_moderation') }}"
                         class="sidebar-menu-link {{ request()->routeIs('review_moderation') ? 'active' : '' }}">
                         Review Moderation
