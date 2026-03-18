@@ -265,10 +265,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Country</label>
+                            <label>Region</label>
                             <select name="country" required>
-                                <option value="">Select Country</option>
-                                <option>UK</option>
+                                <option value="">Select Region</option>
+                                <option>United Kingdom</option>
                                 <option>Ireland</option>
                                 <option>Europe</option>
                             </select>
