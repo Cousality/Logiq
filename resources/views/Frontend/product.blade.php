@@ -112,6 +112,55 @@
             border-bottom: 2px solid var(--text);
         }
 
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--text);
+            width: fit-content;
+        }
+
+        .quantity-selector button {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--bg-secondary);
+            border: none;
+            border-right: 2px solid var(--text);
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-family: inherit;
+            transition: background 0.15s;
+            line-height: 1;
+        }
+
+        .quantity-selector button:last-child {
+            border-right: none;
+            border-left: 2px solid var(--text);
+        }
+
+        .quantity-selector button:hover {
+            background: var(--red-pastel-1);
+            color: var(--white);
+        }
+
+        .quantity-selector input[type="number"] {
+            width: 3.5rem;
+            height: 2.5rem;
+            text-align: center;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            background: var(--bg-primary);
+            color: var(--text);
+            -moz-appearance: textfield;
+        }
+
+        .quantity-selector input[type="number"]::-webkit-outer-spin-button,
+        .quantity-selector input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
         .add-to-basket,
         .add-to-wishlist {
             width: 100%;
@@ -580,6 +629,12 @@
                         @csrf
                         <input type="hidden" name="productID" value="{{ $product->productID }}">
 
+                        <div class="quantity-selector" style="margin-bottom: 0.75rem;">
+                            <button type="button" id="qty-minus" aria-label="Decrease quantity">−</button>
+                            <input type="number" name="quantity" id="qty-input" value="1" min="1" max="{{ $product->productQuantity }}" readonly>
+                            <button type="button" id="qty-plus" aria-label="Increase quantity">+</button>
+                        </div>
+
                         <button type="submit" class="add-to-basket">
                             Add to Basket
                         </button>
@@ -947,6 +1002,23 @@
 
     })();
     </script>
+
+<script>
+    (function () {
+        var input = document.getElementById('qty-input');
+        var max   = parseInt(input.max, 10);
+
+        document.getElementById('qty-minus').addEventListener('click', function () {
+            var v = parseInt(input.value, 10);
+            if (v > 1) input.value = v - 1;
+        });
+
+        document.getElementById('qty-plus').addEventListener('click', function () {
+            var v = parseInt(input.value, 10);
+            if (v < max) input.value = v + 1;
+        });
+    })();
+</script>
 
 @if(session('success'))
 <div id="toast-backdrop" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;opacity:1;transition:opacity 0.6s ease;"></div>
