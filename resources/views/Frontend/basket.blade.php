@@ -394,9 +394,12 @@
                         @if($appliedPromo)
                             @php
                                 $sub = $basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity);
-                                $disc = $appliedPromo['type'] === 'percentage'
-                                    ? $sub * ($appliedPromo['value'] / 100)
-                                    : min($appliedPromo['value'], $sub);
+                                $minimum = $appliedPromo['type'] === 'fixed' ? $appliedPromo['value'] * 3 : 0;
+                                $disc = ($appliedPromo['type'] === 'percentage' || $sub >= $minimum)
+                                    ? ($appliedPromo['type'] === 'percentage'
+                                        ? $sub * ($appliedPromo['value'] / 100)
+                                        : min($appliedPromo['value'], $sub))
+                                    : 0;
                             @endphp
                             -£{{ number_format($disc, 2) }}
                         @else
@@ -412,9 +415,12 @@
                             $sub = $basketItems->sum(fn($item) => $item->product->productPrice * $item->quantity);
                             $disc = 0;
                             if ($appliedPromo) {
-                                $disc = $appliedPromo['type'] === 'percentage'
-                                    ? $sub * ($appliedPromo['value'] / 100)
-                                    : min($appliedPromo['value'], $sub);
+                                $minimum = $appliedPromo['type'] === 'fixed' ? $appliedPromo['value'] * 3 : 0;
+                                $disc = ($appliedPromo['type'] === 'percentage' || $sub >= $minimum)
+                                    ? ($appliedPromo['type'] === 'percentage'
+                                        ? $sub * ($appliedPromo['value'] / 100)
+                                        : min($appliedPromo['value'], $sub))
+                                    : 0;
                             }
                         @endphp
                         £{{ number_format($sub - $disc, 2) }}
@@ -513,6 +519,8 @@
             if (appliedPromo.type === 'percentage') {
                 return subtotal * (appliedPromo.value / 100);
             } else {
+                const minimum = appliedPromo.value * 3;
+                if (subtotal < minimum) return 0;
                 return Math.min(appliedPromo.value, subtotal);
             }
         }

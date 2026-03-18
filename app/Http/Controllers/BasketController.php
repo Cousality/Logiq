@@ -38,6 +38,27 @@ class BasketController extends Controller
             return response()->json(['success' => false, 'message' => 'Invalid promo code.']);
         }
 
+        if ($promotion->discountType === 'fixed') {
+            $user = auth()->user();
+            $basket = Basket::with(['items.product'])
+                ->where('userID', $user->userID)
+                ->where('orderStatus', 'cart')
+                ->first();
+
+            $subtotal = $basket
+                ? $basket->items->sum(fn($item) => $item->product->productPrice * $item->quantity)
+                : 0;
+
+            $minimum = (float) $promotion->discountValue * 3;
+
+            if ($subtotal < $minimum) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You need at least £' . number_format($minimum, 2) . ' in your basket to use this code.',
+                ]);
+            }
+        }
+
         session(['promo' => [
             'id'    => $promotion->promotionID,
             'code'  => $promotion->promotionCode,
