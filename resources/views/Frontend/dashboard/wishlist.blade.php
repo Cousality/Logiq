@@ -58,6 +58,12 @@
             box-shadow: 6px 6px 0px var(--text);
         }
 
+        .wishlist-card-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
         .product-image {
             width: 100%;
             height: 180px;

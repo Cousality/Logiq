@@ -1,15 +1,19 @@
 @foreach ($wishlistItems as $item)
     <div class="wishlist-card">
-        <div class="product-image">
-            @if (!empty($item->product->productImage))
-                <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
-            @else
-                <span>Empty</span>
-            @endif
-        </div>
+        <a href="{{ route('product.index', $item->product->productSlug) }}" class="wishlist-card-link">
+            <div class="product-image">
+                @if (!empty($item->product->productImage))
+                    <img src="{{ $item->product->productImage }}" alt="{{ $item->product->productName }}">
+                @else
+                    <span>Empty</span>
+                @endif
+            </div>
+        </a>
 
         <div class="product-info">
-            <div class="product-name">{{ $item->product->productName }}</div>
+            <a href="{{ route('product.index', $item->product->productSlug) }}" class="wishlist-card-link">
+                <div class="product-name">{{ $item->product->productName }}</div>
+            </a>
             <div class="product-price">£{{ number_format($item->product->productPrice, 2) }}</div>
 
             <form action="{{ route('basket.add') }}" method="POST">
