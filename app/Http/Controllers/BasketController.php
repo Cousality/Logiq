@@ -56,6 +56,9 @@ class BasketController extends Controller
         $newQuantity = ($item->exists ? $item->quantity : 0) + $quantity;
 
         if ($newQuantity > $product->productQuantity) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Not enough stock available. Only ' . $product->productQuantity . ' left.'], 422);
+            }
             return redirect()->route('store.index')
                 ->with('error', 'Not enough stock available. Only ' . $product->productQuantity . ' left.');
         }
@@ -64,6 +67,9 @@ class BasketController extends Controller
         $item->priceAtTime = $product->productPrice;
         $item->save();
 
+        if ($request->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Item added to basket!']);
+        }
         return redirect()->back()->with('success', 'Item added to basket!');
     }
 

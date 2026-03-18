@@ -16,6 +16,61 @@ document.addEventListener("DOMContentLoaded", function () {
     var closeBtn   = document.getElementById('removeWishlistClose');
     var messageEl  = document.getElementById('removeWishlistMessage');
 
+    // ── Toast ────────────────────────────────────────────────────────────────
+    function showToast(message, isError) {
+        var existing = document.getElementById('wishlist-page-toast');
+        if (existing) existing.remove();
+        var existingBd = document.getElementById('wishlist-page-backdrop');
+        if (existingBd) existingBd.remove();
+
+        var backdrop = document.createElement('div');
+        backdrop.id = 'wishlist-page-backdrop';
+        backdrop.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9998;opacity:1;transition:opacity 0.6s ease;';
+        document.body.appendChild(backdrop);
+
+        var toast = document.createElement('div');
+        toast.id = 'wishlist-page-toast';
+        toast.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);padding:3rem 4rem;border:3px solid var(--text);background:var(--bg-primary);color:var(--text);font-weight:bold;font-size:1.3rem;text-align:center;z-index:9999;box-shadow:10px 10px 0px var(--text);opacity:1;transition:opacity 0.6s ease;text-transform:uppercase;letter-spacing:2px;max-width:550px;width:90%;line-height:2;';
+        toast.innerHTML = '<div style="font-size:3.5rem;margin-bottom:1rem;">' + (isError ? '✕' : '✓') + '</div>'
+            + '<div style="font-size:1.5rem;margin-bottom:0.5rem;">' + (isError ? 'Error' : 'Success!') + '</div>'
+            + '<div style="font-size:1rem;opacity:0.8;text-transform:none;letter-spacing:0;">' + message + '</div>';
+        document.body.appendChild(toast);
+
+        setTimeout(function () {
+            toast.style.opacity = '0';
+            backdrop.style.opacity = '0';
+            setTimeout(function () { toast.remove(); backdrop.remove(); }, 600);
+        }, 4000);
+    }
+
+    // ── Add to Basket (AJAX) ─────────────────────────────────────────────────
+    var token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+    document.querySelectorAll('.wishlist-card form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var productID = form.querySelector('input[name="productID"]').value;
+
+            fetch('/basket/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ productID: productID, quantity: 1 }),
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                showToast(data.message, !data.success);
+            })
+            .catch(function () {
+                showToast('Something went wrong. Please try again.', true);
+            });
+        });
+    });
+
+    // ── Remove from Wishlist ─────────────────────────────────────────────────
     function openRemoveModal(productId, card) {
         pendingProductId = productId;
         pendingCard      = card;
@@ -30,8 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function removeFromWishlist(productId, card) {
-        const token = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
         fetch("/wishlist/remove", {
             method: "POST",
             headers: {
@@ -44,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
         card.remove();
     }
 
-    // Wire up remove buttons
     document.querySelectorAll(".remove-from-wishlist").forEach(function (button) {
         button.addEventListener("click", function () {
             const productId = this.getAttribute("data-product-id");
