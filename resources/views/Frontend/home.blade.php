@@ -133,6 +133,8 @@
             overflow: hidden;
             flex: 1;
             padding-top: 14px;
+            padding-bottom: 10px;
+            padding-left:10px;
             margin-top: -14px;
         }
 
@@ -162,7 +164,7 @@
 
         .category-card:hover,
         .rec-card:hover {
-            transform: translateY(-5px);
+            transform: translate(-4px, -4px);
             box-shadow: 6px 6px 0px var(--red-pastel-1);
         }
 
@@ -172,7 +174,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 6px;
+            width: 3px;
             height: 100%;
             background: var(--red-pastel-1);
         }
@@ -358,7 +360,7 @@
         @media (max-width: 768px) {
             .hero {
                 grid-template-columns: 1fr;
-                background: var(--red-pastel-1);
+                background: var(--red-pastel-static);
                 min-height: unset;
                 padding: 0 0 2.5rem;
                 gap: 0;
@@ -755,6 +757,12 @@
             '.rec-card, .category-card, .section-header, .hero-text, .puzzle-card');
 
         revealElements.forEach(function(el) {
+            if (el.classList.contains('rec-card') || el.classList.contains('category-card')) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(80px)';
+                return;
+            }
+
             el.style.opacity = '0';
             el.style.transform = 'translateY(80px)';
             el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
