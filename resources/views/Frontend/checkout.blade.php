@@ -231,11 +231,15 @@
                     <h3 class="section-title">Delivery Details</h3>
 
                     <div class="form-group">
-                        <label>Full name</label>
-                        <input name="full_name"
-                            value="{{ old('full_name', trim((auth()->user()->firstName ?? '') . ' ' . (auth()->user()->lastName ?? ''))) }}"
-                            required>
-                    </div>
+    <label>Full name</label>
+    <input 
+        name="full_name"
+        value="{{ old('full_name', trim((auth()->user()->firstName ?? '') . ' ' . (auth()->user()->lastName ?? ''))) }}"
+        required
+        oninput="this.value = this.value.replace(/[^a-zA-Z\s'-]/g, '')"
+        placeholder="Enter your full name"
+    >
+</div>
 
                     <div class="form-group">
                         <label>Email</label>
