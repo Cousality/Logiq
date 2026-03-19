@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('password.update') }}">
+            <form method="POST" action="{{ route('password.update') }}" onsubmit="return validateForm()">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
                 <input type="hidden" name="email" value="{{ $email }}">
@@ -42,6 +42,9 @@
                     <input type="password" name="password_confirmation" placeholder="Confirm new password" required>
                 </div>
 
+                <!-- Password match message -->
+                <p id="matchMessage" style="margin-top: 10px;"></p>
+
                 <button type="submit" class="btn">Reset Password</button>
 
                 <div class="auth-footer-link">
@@ -50,6 +53,39 @@
             </form>
         </div>
     </main>
+
+    <!-- Password match script -->
+    <script>
+        const password = document.querySelector('input[name="password"]');
+        const confirmPassword = document.querySelector('input[name="password_confirmation"]');
+        const message = document.getElementById('matchMessage');
+
+        function checkPasswords() {
+            if (confirmPassword.value === "") {
+                message.textContent = "";
+                return;
+            }
+
+            if (password.value === confirmPassword.value) {
+                message.textContent = "Passwords match ✅";
+                message.style.color = "green";
+            } else {
+                message.textContent = "Passwords do not match ❌";
+                message.style.color = "red";
+            }
+        }
+
+        function validateForm() {
+            if (password.value !== confirmPassword.value) {
+                alert("Passwords do not match!");
+                return false;
+            }
+            return true;
+        }
+
+        password.addEventListener("input", checkPasswords);
+        confirmPassword.addEventListener("input", checkPasswords);
+    </script>
 </body>
 
 </html>
