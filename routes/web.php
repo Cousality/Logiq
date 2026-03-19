@@ -178,3 +178,5 @@ Route::middleware(['web'])->group(function () {
     Route::post('/chat/messages', [ChatController::class, 'send']);
     Route::post('/chat/escalate', [ChatController::class, 'escalate']);
 });
+
+
