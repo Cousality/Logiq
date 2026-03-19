@@ -108,6 +108,7 @@
     </style>
 </head>
 @include('partials.ChatWidget')
+
 <body>
     @include('Frontend.components.nav')
 
@@ -279,6 +280,36 @@
     </div>
 
     @include('Frontend.components.footer')
-</body>
 
+    <!-- ✅ ADDED VALIDATION SCRIPT ONLY -->
+    <script>
+        const firstNames = document.querySelectorAll('input[name="recipientFirstName"]');
+        const lastNames = document.querySelectorAll('input[name="recipientLastName"]');
+        const cities = document.querySelectorAll('input[name="city"]');
+        const phones = document.querySelectorAll('input[name="phone"]');
+
+        function allowLettersOnly(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s'-]/g, '');
+        }
+
+        firstNames.forEach(input => {
+            input.addEventListener('input', () => allowLettersOnly(input));
+        });
+
+        lastNames.forEach(input => {
+            input.addEventListener('input', () => allowLettersOnly(input));
+        });
+
+        cities.forEach(input => {
+            input.addEventListener('input', () => allowLettersOnly(input));
+        });
+
+        phones.forEach(input => {
+            input.addEventListener('input', () => {
+                input.value = input.value.replace(/\D/g, '');
+            });
+        });
+    </script>
+
+</body>
 </html>
