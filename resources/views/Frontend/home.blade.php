@@ -757,15 +757,9 @@
             '.rec-card, .category-card, .section-header, .hero-text, .puzzle-card');
 
         revealElements.forEach(function(el) {
-            if (el.classList.contains('rec-card') || el.classList.contains('category-card')) {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(80px)';
-                return;
-            }
-
             el.style.opacity = '0';
             el.style.transform = 'translateY(80px)';
-            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease';
         });
 
         const observer = new IntersectionObserver(function(entries) {
@@ -774,6 +768,10 @@
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
                     observer.unobserve(entry.target);
+                    
+                    setTimeout(function() {
+                        entry.target.style.transition = '';
+                    }, 800);
                 }
             });
         }, {
