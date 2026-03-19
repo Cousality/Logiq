@@ -979,7 +979,7 @@
         border-bottom: none;
     }
 
-    /* Mobile Fixes for Nav */
+    /* Mobile Responsiveness for Navbar */
     @media (max-width: 768px) {
         nav {
             flex-wrap: wrap;
