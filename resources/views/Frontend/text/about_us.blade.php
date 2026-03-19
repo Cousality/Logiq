@@ -404,7 +404,7 @@
                 <div class="team-card">
                     <div class="team-name">Abderrahmane Laoubi</div>
                     <div class="team-id">ID: 230159972</div>
-                    <div class="team-bio"></div>
+                    <div class="team-bio">Full-stack Developer</div>
                 </div>
 
                 <div class="team-card">
