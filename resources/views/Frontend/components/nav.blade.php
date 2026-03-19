@@ -424,6 +424,10 @@
         padding-top: 0.8rem;
     }
 
+    .dropdown-col + .dropdown-admin-wrapper {
+        margin-left: -1px;
+    }
+
     .dropdown-admin-wrapper > .dropdown-col-title {
         border-bottom: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
         margin-bottom: 0;
