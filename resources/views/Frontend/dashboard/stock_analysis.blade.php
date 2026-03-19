@@ -285,7 +285,7 @@
                                         <td data-label="Status"
                                             @if($stat->productQuantity <= 5)
                                                 style="background: #fce4e4; color: #a63232; font-weight: bold;"
-                                            @elseif($stat->productQuantity > 30)
+                                            @elseif($stat->productQuantity >= $stat->total_sold + 10)
                                                 style="background: #fff3e0; color: #e65100; font-weight: bold;"
                                             @else
                                                 style="background: #e4f5e9; color: #2e7d32; font-weight: bold;"
@@ -293,7 +293,7 @@
                                         >
                                             @if($stat->productQuantity <= 5)
                                                 Low Stock
-                                            @elseif($stat->productQuantity > 30)
+                                            @elseif($stat->productQuantity >= $stat->total_sold + 10)
                                                 Over Stock
                                             @else
                                                 Normal
@@ -342,8 +342,8 @@
                         @endif
                     @else
                         <div class="empty-stats">
-                            <h3>No products yet</h3>
-                            <p>Products will appear here once they are added.</p>
+                            <h3>No stock issues</h3>
+                            <p>All products are at normal stock levels.</p>
                         </div>
                     @endif
                 </div>
