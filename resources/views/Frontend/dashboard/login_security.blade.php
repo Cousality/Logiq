@@ -63,7 +63,6 @@
             padding-bottom: 0.5rem;
         }
 
-
         .grid-2-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -249,6 +248,20 @@
 
     @include('Frontend.components.footer')
     <script src="{{ asset('js/togglePassword.js') }}"></script>
+
+   
+    <script>
+        const firstName = document.getElementById('first_name');
+        const lastName = document.getElementById('last_name');
+
+        function allowLettersOnly(input) {
+            input.value = input.value.replace(/[^a-zA-Z\s'-]/g, '');
+        }
+
+        firstName.addEventListener('input', () => allowLettersOnly(firstName));
+        lastName.addEventListener('input', () => allowLettersOnly(lastName));
+    </script>
+
 </body>
 
 </html>
