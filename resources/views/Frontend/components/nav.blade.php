@@ -405,12 +405,74 @@
     .dropdown-columns {
         display: flex;
         border-bottom: 2px solid var(--text);
+        flex-wrap: wrap;
+    }
+
+    .account-dropdown.admin-wide {
+        width: fit-content;
+    }
+
+    .account-dropdown.admin-wide .dropdown-columns {
+        flex-wrap: nowrap;
+    }
+
+    .admin-col-left {
+        border-left: 2px solid var(--text);
+    }
+
+    .admin-col-right {
+        border-left: none;
+    }
+
+    .dropdown-admin-wrapper {
+        border-left: 2px solid var(--text);
+        display: flex;
+        flex-direction: column;
+        flex: 2;
+        padding-top: 0.8rem;
+    }
+
+    .dropdown-admin-wrapper > .dropdown-col-title {
+        border-bottom: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+        margin-bottom: 0;
+    }
+
+    .admin-links-grid {
+        display: flex;
+        flex: 1;
+    }
+
+    .admin-links-col {
+        flex: 0 0 auto;
+        padding: 0.3rem 0 1rem;
+        white-space: nowrap;
+    }
+
+    .admin-links-col:first-child {
+        border-right: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+    }
+
+    .admin-links-col a {
+        display: block;
+        padding: 0.4rem 1.2rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.15s;
+    }
+
+    .admin-links-col a:hover {
+        background: var(--bg-secondary);
     }
 
     .dropdown-col {
         flex: 1;
         padding: 0.8rem 0 1rem;
-        border-right: 1px solid var(--bg-secondary);
+        border-right: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+        white-space: nowrap;
     }
 
     .dropdown-col:last-child {
@@ -424,7 +486,7 @@
         text-transform: uppercase;
         opacity: 0.5;
         padding: 0.2rem 1.2rem 0.6rem;
-        border-bottom: 1px solid var(--bg-secondary);
+        border-bottom: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
         margin-bottom: 0.3rem;
     }
 
@@ -1273,7 +1335,7 @@
                 <a href="{{ route('login') }}" class="nav-icon login-icon" alt="login"></a>
             @endauth
             {{-- Book Mark ################################################################################################################################################## --}}
-            <div class="account-dropdown">
+            <div class="account-dropdown @auth @if(auth()->user()->admin == 1) admin-wide @endif @endauth">
                 @auth
                     <div class="dropdown-header">
                         <div class="dropdown-user-info">
@@ -1302,23 +1364,32 @@
                     <div class="dropdown-columns">
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Your Account</p>
-                            <a href="{{ route('dashboard') }}">Dashboard</a>
                             <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                             <a href="{{ route('wishlist.index') }}">My Wishlist</a>
                             <a href="{{ route('my_puzzles') }}">My Puzzles</a>
+                            <a href="{{ route('customer_service') }}">Customer Service</a>
                         </div>
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Settings</p>
                             <a href="{{ route('loginSecurity') }}">Login &amp; Security</a>
                             <a href="{{ route('yourAddress') }}">Your Address</a>
-                            <a href="{{ route('customer_service') }}">Customer Service</a>
                         </div>
                         @if (auth()->user()->admin == 1)
-                            <div class="dropdown-col">
+                            <div class="dropdown-admin-wrapper">
                                 <p class="dropdown-col-title">Admin</p>
-                                <a href="{{ route('userManagement') }}">User Management</a>
-                                <a href="{{ route('admin.products.index') }}">Inventory</a>
-                                <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
+                                <div class="admin-links-grid">
+                                    <div class="admin-links-col">
+                                        <a href="{{ route('admin.orders.index') }}">Orders</a>
+                                        <a href="{{ route('userManagement') }}">Users</a>
+                                        <a href="{{ route('admin.products.index') }}">Inventory</a>
+                                        <a href="{{ route('admin.promotions.index') }}">Promotions</a>
+                                    </div>
+                                    <div class="admin-links-col">
+                                        <a href="{{ route('stock_analysis') }}">Stock Analysis</a>
+                                        <a href="{{ route('review_moderation') }}">Reviews</a>
+                                        <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
+                                    </div>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -1431,13 +1502,11 @@
             <div class="mobile-account-items">
                 <a href="{{ route('dashboard') }}" class="mobile-account-btn">Dashboard</a>
                 <button type="button" class="mobile-account-btn danger logout-trigger">Logout</button>
-                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
             </div>
         @else
             <div class="mobile-account-items">
                 <a href="{{ route('login') }}" class="mobile-account-btn">Login</a>
                 <a href="{{ route('register') }}" class="mobile-account-btn">Register</a>
-                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
             </div>
         @endauth
     </div>
