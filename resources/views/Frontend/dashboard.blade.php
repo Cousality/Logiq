@@ -21,23 +21,37 @@
             margin-bottom: 1rem;
         }
 
-        .admin-btn {
-            padding: 0.8rem 0.8rem;
-            font-size: 1rem;
-            font-weight: 600;
-            background: var(--bg-secondary);
-            color: var(--text);
+        .dashboard-tabs {
+            display: inline-flex;
             border: 2px solid var(--text);
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-
         }
 
-        .admin-btn:hover {
-            background-color: var(--red-pastel-1);
-            border-color: var(--red-pastel-1);
-            color: var(--white);
-            transform: translateY(-2px);
+        .dashboard-tab {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .dashboard-tab.active {
+            background: var(--text);
+            color: var(--bg-primary);
+            cursor: default;
+        }
+
+        .dashboard-tab:not(.active) {
+            background: var(--bg-secondary);
+            color: var(--text);
+        }
+
+        .dashboard-tab:not(.active):hover {
+            background: var(--text);
+            color: var(--bg-primary);
         }
 
         .dashboard-containers {
@@ -116,7 +130,10 @@
             <section id="adminView">
                 <header class="dashboard-header">
                     <h1 class="dashboard-title"> Hello, Admin</h1>
-                        <button type="button" class="admin-btn" onclick="toggleDashboard()">User Dashboard</button>
+                        <div class="dashboard-tabs">
+                            <button type="button" class="dashboard-tab active" disabled>Admin</button>
+                            <button type="button" class="dashboard-tab" onclick="switchDashboard('user')">User</button>
+                        </div>
                 </header>
 
                 <div class="dashboard-containers">
@@ -167,7 +184,10 @@
             <section id="userView" style="display:none">
                 <header class="dashboard-header">
                     <h1 class="dashboard-title"> Hello, {{ auth()->check() ? auth()->user()->firstName : 'User' }}</h1>
-                    <button type="button" class="admin-btn" onclick="toggleDashboard()">Admin Dashboard</button>
+                    <div class="dashboard-tabs">
+                        <button type="button" class="dashboard-tab" onclick="switchDashboard('admin')">Admin</button>
+                        <button type="button" class="dashboard-tab active" disabled>User</button>
+                    </div>
                 </header>
 
                 <div class="dashboard-containers">
@@ -270,14 +290,17 @@
     @include('Frontend.components.footer')
 
     <script>
-        function toggleDashboard() {
+        function switchDashboard(view) {
             const adminView = document.getElementById('adminView');
             const userView = document.getElementById('userView');
 
-            const showingAdmin = adminView.style.display !== 'none';
-
-            adminView.style.display = showingAdmin ? 'none' : 'block';
-            userView.style.display = showingAdmin ? 'block' : 'none';
+            if (view === 'admin') {
+                adminView.style.display = 'block';
+                userView.style.display = 'none';
+            } else {
+                adminView.style.display = 'none';
+                userView.style.display = 'block';
+            }
         }
     </script>
 
