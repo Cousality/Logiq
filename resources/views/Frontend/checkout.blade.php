@@ -379,12 +379,36 @@
         });
 
         /* EXPIRY */
-        expiry.addEventListener('input', () => {
-            let v = expiry.value.replace(/\D/g, '').substring(0, 4);
-            if (v.length > 2) expiry.value = v.slice(0, 2) + '/' + v.slice(2);
-            else expiry.value = v;
-        });
+      
+expiry.addEventListener('input', () => {
+    // Remove all non-digit characters
+    let v = expiry.value.replace(/\D/g, '').substring(0, 4);
 
+    // Format as MM/YY as the user types
+    if (v.length > 2) {
+        expiry.value = v.slice(0, 2) + '/' + v.slice(2);
+    } else {
+        expiry.value = v;
+    }
+});
+
+// Validate on blur (user leaves the field)
+expiry.addEventListener('blur', () => {
+    let parts = expiry.value.split('/');
+    if (parts.length === 2) {
+        let month = parseInt(parts[0], 10);
+        let year = parseInt(parts[1], 10);
+
+        // Clamp month between 01 and 12
+        if (month < 1) month = 1;
+        if (month > 12) month = 12;
+
+        // Clamp year to 26+
+        if (year < 26) year = 26;
+
+        expiry.value = (month < 10 ? '0' + month : month) + '/' + (year < 10 ? '0' + year : year);
+    }
+});
         /* CVV */
         cvv.addEventListener('input', () => {
             cvv.value = cvv.value.replace(/\D/g, '').substring(0, 4);
