@@ -12,9 +12,7 @@
     <style>
         .checkout-header {
             padding: 4rem 5%;
-            background: linear-gradient(135deg,
-                    var(--bg-primary) 60%,
-                    var(--red-pastel-static) 60%);
+            background: linear-gradient(135deg, var(--bg-primary) 60%, var(--red-pastel-static) 60%);
             border-bottom: 2px solid var(--text);
         }
 
@@ -185,7 +183,6 @@
             font-size: 1.2rem;
         }
 
-
         @media(max-width:768px) {
             .checkout-wrapper {
                 flex-direction: column;
@@ -197,6 +194,7 @@
         }
     </style>
 </head>
+
 @include('partials.ChatWidget')
 
 <body>
@@ -231,15 +229,11 @@
                     <h3 class="section-title">Delivery Details</h3>
 
                     <div class="form-group">
-    <label>Full name</label>
-    <input 
-        name="full_name"
-        value="{{ old('full_name', trim((auth()->user()->firstName ?? '') . ' ' . (auth()->user()->lastName ?? ''))) }}"
-        required
-        oninput="this.value = this.value.replace(/[^a-zA-Z\s'-]/g, '')"
-        placeholder="Enter your full name"
-    >
-</div>
+                        <label>Full name</label>
+                        <input name="full_name"
+                            value="{{ old('full_name', trim((auth()->user()->firstName ?? '') . ' ' . (auth()->user()->lastName ?? ''))) }}"
+                            required>
+                    </div>
 
                     <div class="form-group">
                         <label>Email</label>
@@ -303,8 +297,8 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label>Expiry (MM/YY)</label>
-                            <input id="expiry" name="expiry" maxlength="5" placeholder="MM/YY"
-                                autocomplete="cc-exp" required>
+                            <input id="expiry" name="expiry" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp"
+                                required>
                         </div>
 
                         <div class="form-group">
@@ -376,44 +370,58 @@
         const expiry = document.getElementById('expiry');
         const cvv = document.getElementById('cvv');
 
-        /* CARD NUMBER */
+        const fullName = document.querySelector('input[name="full_name"]');
+        const cardName = document.querySelector('input[name="card_name"]');
+        const phone = document.querySelector('input[name="phone"]');
+        const city = document.querySelector('input[name="city"]');
+
+        /* FULL NAME & CARD NAME: letters, spaces, hyphens, apostrophes only */
+        function allowLettersOnly(e) {
+            e.value = e.value.replace(/[^a-zA-Z\s'-]/g, '');
+        }
+        fullName.addEventListener('input', () => allowLettersOnly(fullName));
+        cardName.addEventListener('input', () => allowLettersOnly(cardName));
+
+        /* PHONE: numbers only */
+        phone.addEventListener('input', () => {
+            phone.value = phone.value.replace(/\D/g, '');
+        });
+
+        /* CITY: letters, spaces, hyphens, apostrophes only */
+        city.addEventListener('input', () => allowLettersOnly(city));
+
+        /* CARD NUMBER: format as 4242 4242 4242 4242 */
         card.addEventListener('input', () => {
             let v = card.value.replace(/\D/g, '').substring(0, 16);
             card.value = v.replace(/(.{4})/g, '$1 ').trim();
         });
 
-        /* EXPIRY */
-      
-expiry.addEventListener('input', () => {
-    // Remove all non-digit characters
-    let v = expiry.value.replace(/\D/g, '').substring(0, 4);
+        /* EXPIRY: format MM/YY, clamp month 01–12, year ≥26 */
+        expiry.addEventListener('input', () => {
+            let v = expiry.value.replace(/\D/g, '').substring(0, 4);
+            if (v.length > 2) expiry.value = v.slice(0, 2) + '/' + v.slice(2);
+            else expiry.value = v;
+        });
 
-    // Format as MM/YY as the user types
-    if (v.length > 2) {
-        expiry.value = v.slice(0, 2) + '/' + v.slice(2);
-    } else {
-        expiry.value = v;
-    }
-});
+        // validate expiry on blur
+        expiry.addEventListener('blur', () => {
+            let parts = expiry.value.split('/');
+            if (parts.length === 2) {
+                let month = parseInt(parts[0], 10);
+                let year = parseInt(parts[1], 10);
 
-// Validate on blur (user leaves the field)
-expiry.addEventListener('blur', () => {
-    let parts = expiry.value.split('/');
-    if (parts.length === 2) {
-        let month = parseInt(parts[0], 10);
-        let year = parseInt(parts[1], 10);
+                // clamp month 01–12
+                if (month < 1) month = 1;
+                if (month > 12) month = 12;
 
-        // Clamp month between 01 and 12
-        if (month < 1) month = 1;
-        if (month > 12) month = 12;
+                // clamp year >=26
+                if (year < 26) year = 26;
 
-        // Clamp year to 26+
-        if (year < 26) year = 26;
+                expiry.value = (month < 10 ? '0' + month : month) + '/' + (year < 10 ? '0' + year : year);
+            }
+        });
 
-        expiry.value = (month < 10 ? '0' + month : month) + '/' + (year < 10 ? '0' + year : year);
-    }
-});
-        /* CVV */
+        /* CVV: only numbers, max 4 digits */
         cvv.addEventListener('input', () => {
             cvv.value = cvv.value.replace(/\D/g, '').substring(0, 4);
         });
