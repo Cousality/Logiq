@@ -24,11 +24,19 @@ class CheckoutController extends Controller
         });
 
         $shipping = 0;
-        $total = $subtotal + $shipping;
+        $promo = session('promo');
+        $discount = 0;
+        if ($promo) {
+            $discount = $promo['type'] === 'percentage'
+                ? $subtotal * ($promo['value'] / 100)
+                : min($promo['value'], $subtotal);
+            $discount = round($discount, 2);
+        }
+        $total = $subtotal - $discount + $shipping;
 
         $cartItems = $basketItems;
 
-        return view('Frontend.checkout', compact('cartItems', 'subtotal', 'shipping', 'total'));
+        return view('Frontend.checkout', compact('cartItems', 'subtotal', 'shipping', 'discount', 'promo', 'total'));
     }
 
     public function store(Request $request)
@@ -50,7 +58,9 @@ class CheckoutController extends Controller
 
         $user = auth()->user();
 
-        DB::transaction(function () use ($user) {
+        $promo = session('promo');
+
+        DB::transaction(function () use ($user, $promo) {
             $basket = Basket::with(['items.product'])
                 ->where('userID', $user->userID)
                 ->where('orderStatus', 'cart')
@@ -73,8 +83,16 @@ class CheckoutController extends Controller
                 return $item->product->productPrice * $item->quantity;
             });
 
+            $discount = 0;
+            if ($promo) {
+                $discount = $promo['type'] === 'percentage'
+                    ? $subtotal * ($promo['value'] / 100)
+                    : min($promo['value'], $subtotal);
+                $discount = round($discount, 2);
+            }
+
             $shipping = 0;
-            $total = $subtotal + $shipping;
+            $total = $subtotal - $discount + $shipping;
 
             $basket->totalAmount = $total;
             $basket->orderStatus = 'pending';
@@ -87,6 +105,8 @@ class CheckoutController extends Controller
                 }
             }
         });
+
+        session()->forget('promo');
 
         return redirect()
             ->route('dashboard.orders')

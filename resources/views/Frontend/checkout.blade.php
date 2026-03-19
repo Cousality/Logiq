@@ -337,6 +337,36 @@
                 </div>
             @endforeach
 
+<div class="summary-totals">
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>£{{ number_format($subtotal, 2) }}</span>
+    </div>
+
+    @if(!empty($promo) && $discount > 0)
+    <div class="summary-row" style="color: green;">
+        <span>Discount ({{ $promo['code'] }})</span>
+        <span>-£{{ number_format($discount, 2) }}</span>
+    </div>
+    @endif
+
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span>
+             @if ($shipping == 0)
+               Free
+            @else
+               £{{ number_format($shipping, 2) }}
+            @endif
+        </span>
+    </div>
+
+    <div class="summary-row total">
+        <span>Total</span>
+        <span>£{{ number_format($total ?? 0,2) }}</span>
+    </div>
+</div>
+</aside>
             <div class="summary-totals">
                 <div class="summary-row">
                     <span>Subtotal</span>
