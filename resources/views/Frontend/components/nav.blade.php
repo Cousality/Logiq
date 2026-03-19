@@ -416,14 +416,6 @@
         flex-wrap: nowrap;
     }
 
-    .admin-col-left {
-        border-left: 2px solid var(--text);
-    }
-
-    .admin-col-right {
-        border-left: none;
-    }
-
     .dropdown-admin-wrapper {
         border-left: 2px solid var(--text);
         display: flex;
@@ -1558,14 +1550,6 @@
 
     if (toggleBtn) {
         toggleBtn.addEventListener("click", () => {
-            setTheme(!body.classList.contains("dark-mode"));
-        });
-    }
-
-    // Mobile theme toggle (inside modal)
-    const mobileThemeToggle = document.getElementById('mobile-theme-bar');
-    if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('click', () => {
             setTheme(!body.classList.contains("dark-mode"));
         });
     }
