@@ -3,8 +3,11 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
@@ -250,6 +253,7 @@ class AuthControllerTest extends TestCase
 
         $this->assertGuest();
     }
+
     // -------------------------------------------------------------------------
     // Password Reset — Send Link
     // -------------------------------------------------------------------------
