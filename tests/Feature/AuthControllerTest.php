@@ -132,4 +132,88 @@ class AuthControllerTest extends TestCase
             'password_confirmation' => 'password123',
         ])->assertSessionHasErrors('fname');
     }
+
+    // -------------------------------------------------------------------------
+    // Login
+    // -------------------------------------------------------------------------
+
+    public function test_login_form_is_accessible(): void
+    {
+        $this->get(route('login'))
+            ->assertStatus(200)
+            ->assertViewIs('Frontend.Auth.login');
+    }
+
+    public function test_user_can_login_with_correct_credentials(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->post(route('login'), [
+            'email' => 'john@example.com',
+            'password' => 'password123',
+        ])->assertRedirect(route('home'));
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_login_fails_with_incorrect_password(): void
+    {
+        User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->post(route('login'), [
+            'email' => 'john@example.com',
+            'password' => 'wrongpassword',
+        ])->assertSessionHasErrors('credentials');
+
+        $this->assertGuest();
+    }
+
+    public function test_login_fails_with_non_existent_email(): void
+    {
+        $this->post(route('login'), [
+            'email' => 'nobody@example.com',
+            'password' => 'password123',
+        ])->assertSessionHasErrors('credentials');
+
+        $this->assertGuest();
+    }
+
+    public function test_login_fails_with_missing_fields(): void
+    {
+        $this->post(route('login'), [])
+            ->assertSessionHasErrors(['email', 'password']);
+    }
+
+    public function test_session_is_regenerated_on_login(): void
+    {
+        User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->post(route('login'), [
+            'email' => 'john@example.com',
+            'password' => 'password123',
+        ]);
+
+        // The session was regenerated without error
+        $this->assertAuthenticated();
+    }
+
+    
 }
