@@ -215,5 +215,39 @@ class AuthControllerTest extends TestCase
         $this->assertAuthenticated();
     }
 
-    
+    // -------------------------------------------------------------------------
+    // Logout
+    // -------------------------------------------------------------------------
+
+    public function test_authenticated_user_can_logout(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->actingAs($user)
+            ->post(route('logout'))
+            ->assertRedirect(route('home'));
+
+        $this->assertGuest();
+    }
+
+    public function test_session_is_invalidated_on_logout(): void
+    {
+        $user = User::create([
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'email' => 'jane@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->actingAs($user)->post(route('logout'));
+
+        $this->assertGuest();
+    }
 }
