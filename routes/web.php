@@ -126,6 +126,8 @@ Route::middleware(['auth'])->group(function () {
     //Basket Routes
     Route::get('/basket', [BasketController::class, 'index'])->name('basket.index');
     Route::post('/basket/add', [BasketController::class, 'add'])->name('basket.add');
+    Route::post('/basket/promo', [BasketController::class, 'applyPromo'])->name('basket.promo.apply');
+    Route::post('/basket/promo/clear', [BasketController::class, 'clearPromo'])->name('basket.promo.clear');
     Route::put('/basket/{item}', [BasketController::class, 'update'])->name('basket.update');
     Route::delete('/basket/{item}', [BasketController::class, 'remove'])->name('basket.remove');
 

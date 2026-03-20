@@ -141,7 +141,7 @@ class AdminProductController extends Controller
 
     public function stockAnalysis()
     {
-        $productStats = DB::table('products')
+        $allStats = DB::table('products')
             ->leftJoin('order_items', 'products.productID', '=', 'order_items.productID')
             ->leftJoin('orders', function ($join) {
                 $join->on('order_items.orderID', '=', 'orders.orderID')
@@ -161,12 +161,29 @@ class AdminProductController extends Controller
                 'products.productQuantity'
             )
             ->orderByDesc('total_sold')
-            ->paginate(20);
+            ->get()
+            ->filter(function ($stat) {
+                return $stat->productQuantity <= 5
+                    || $stat->productQuantity >= $stat->total_sold + 10;
+            });
+
+        $page = request()->input('page', 1);
+        $perPage = 20;
+        $productStats = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allStats->forPage($page, $perPage)->values(),
+            $allStats->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url()]
+        );
+
+        $filteredProductIDs = collect($productStats->items())->pluck('productID')->toArray();
 
         $productOrders = DB::table('order_items')
             ->join('orders', 'order_items.orderID', '=', 'orders.orderID')
             ->leftJoin('users', 'orders.userID', '=', 'users.userID')
             ->whereNotIn('orders.orderStatus', ['cancelled', 'cart'])
+            ->whereIn('order_items.productID', $filteredProductIDs)
             ->select(
                 'order_items.productID',
                 'orders.orderID',

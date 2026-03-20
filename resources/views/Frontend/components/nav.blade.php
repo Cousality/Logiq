@@ -405,12 +405,70 @@
     .dropdown-columns {
         display: flex;
         border-bottom: 2px solid var(--text);
+        flex-wrap: wrap;
+    }
+
+    .account-dropdown.admin-wide {
+        width: fit-content;
+    }
+
+    .account-dropdown.admin-wide .dropdown-columns {
+        flex-wrap: nowrap;
+    }
+
+    .dropdown-admin-wrapper {
+        border-left: 2px solid var(--text);
+        display: flex;
+        flex-direction: column;
+        flex: 2;
+        padding-top: 0.8rem;
+    }
+
+    .dropdown-col + .dropdown-admin-wrapper {
+        margin-left: -1px;
+    }
+
+    .dropdown-admin-wrapper > .dropdown-col-title {
+        border-bottom: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+        margin-bottom: 0;
+    }
+
+    .admin-links-grid {
+        display: flex;
+        flex: 1;
+    }
+
+    .admin-links-col {
+        flex: 0 0 auto;
+        padding: 0.3rem 0 1rem;
+        white-space: nowrap;
+    }
+
+    .admin-links-col:first-child {
+        border-right: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+    }
+
+    .admin-links-col a {
+        display: block;
+        padding: 0.4rem 1.2rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: background 0.15s;
+    }
+
+    .admin-links-col a:hover {
+        background: var(--bg-secondary);
     }
 
     .dropdown-col {
         flex: 1;
         padding: 0.8rem 0 1rem;
-        border-right: 1px solid var(--bg-secondary);
+        border-right: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
+        white-space: nowrap;
     }
 
     .dropdown-col:last-child {
@@ -424,7 +482,7 @@
         text-transform: uppercase;
         opacity: 0.5;
         padding: 0.2rem 1.2rem 0.6rem;
-        border-bottom: 1px solid var(--bg-secondary);
+        border-bottom: 1px solid color-mix(in srgb, var(--text) 25%, transparent);
         margin-bottom: 0.3rem;
     }
 
@@ -639,12 +697,12 @@
         border-right: 1px solid var(--bg-primary);
     }
 
-    /* Hamburger Button */
+    /* Hamburger Button — hidden on desktop, shown on mobile */
     .hamburger-btn {
         background: transparent;
         border: none;
         cursor: pointer;
-        display: flex;
+        display: none;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -661,6 +719,67 @@
         width: 24px;
         height: 2px;
         background: var(--text);
+    }
+
+    /* Desktop Category Banner */
+    .desktop-category-banner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        background: var(--bg-primary);
+        border-bottom: 1px solid var(--text);
+        padding: 0;
+        overflow-x: auto;
+    }
+
+    .desktop-category-banner a {
+        position: relative;
+        padding: 0.65rem 1.6rem;
+        text-decoration: none;
+        color: var(--text);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        white-space: nowrap;
+        transition: background 0.2s, color 0.2s;
+        border-right: 1px solid var(--bg-secondary);
+    }
+
+    .desktop-category-banner a:first-child {
+        border-left: 1px solid var(--bg-secondary);
+    }
+
+    .desktop-category-banner a:hover {
+        background: var(--text);
+        color: var(--bg-primary);
+    }
+
+    @media (max-width: 1100px) {
+        .desktop-category-banner a {
+            padding: 0.6rem 1rem;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .desktop-category-banner a {
+            padding: 0.55rem 0.65rem;
+            font-size: 0.66rem;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .desktop-category-banner {
+            display: none;
+        }
+
+        .hamburger-btn {
+            display: flex;
+        }
     }
 
     /* Sidebar Overlay */
@@ -691,10 +810,20 @@
         z-index: 999;
         transform: translateX(100%);
         transition: transform 0.3s ease;
-        display: flex;
+        display: none;
         flex-direction: column;
         overflow-y: auto;
         will-change: transform;
+    }
+
+    @media (max-width: 768px) {
+        .category-sidebar {
+            display: flex;
+        }
+
+        .sidebar-overlay {
+            display: block;
+        }
     }
 
     .category-sidebar.open {
@@ -908,7 +1037,7 @@
         border-bottom: none;
     }
 
-    /* Mobile Fixes for Nav */
+    /* Mobile Responsiveness for Navbar */
     @media (max-width: 768px) {
         nav {
             flex-wrap: wrap;
@@ -925,6 +1054,7 @@
         .nav-links {
             order: 2;
             margin-left: auto;
+            gap: 8px;
         }
 
         .search-container {
@@ -955,37 +1085,37 @@
         }
 
         .theme-toggle {
-            display: none;
+            display: flex;
+            order: -1;
+            width: 52px;
+            height: 44px;
+            margin-left: 0;
         }
-    
-    .theme-toggle {
-        display: flex;             
-        order: 4;                 
-        margin-left: auto;        
-        width: 52px;
-        height: 44px;
-}
 
-.theme-toggle-label {
-    width: 42px;
-    height: 22px;
-}
-    .theme-toggle-thumb {
-        width: 13px;
-        height: 13px;
-        left: 3px;
-}
-    .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
-        transform: translate(20px, -50%);
-}
-    .theme-toggle-icon {
-        width: 13px;
-        height: 13px;
-}
-    .theme-toggle-icon svg {
-        width: 13px;
-        height: 13px;
-}
+        .theme-toggle-label {
+            width: 42px;
+            height: 22px;
+        }
+
+        .theme-toggle-thumb {
+            width: 13px;
+            height: 13px;
+            left: 3px;
+        }
+
+        .theme-toggle-input:checked + .theme-toggle-label .theme-toggle-thumb {
+            transform: translate(20px, -50%);
+        }
+
+        .theme-toggle-icon {
+            width: 13px;
+            height: 13px;
+        }
+
+        .theme-toggle-icon svg {
+            width: 13px;
+            height: 13px;
+        }
     }
 
     /* LOGOUT CONFIRMATION MODAL */
@@ -1138,8 +1268,8 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('store.index') }}?category=HandheldBrainTeasers">
-                Handheld Brain Teasers
+            <a href="{{ route('store.index') }}?category=BrainTeasers">
+                Brain Teasers
                 <svg viewBox="0 0 24 24">
                     <polyline points="9 18 15 12 9 6" />
                 </svg>
@@ -1201,7 +1331,7 @@
                 <a href="{{ route('login') }}" class="nav-icon login-icon" alt="login"></a>
             @endauth
             {{-- Book Mark ################################################################################################################################################## --}}
-            <div class="account-dropdown">
+            <div class="account-dropdown @auth @if(auth()->user()->admin == 1) admin-wide @endif @endauth">
                 @auth
                     <div class="dropdown-header">
                         <div class="dropdown-user-info">
@@ -1230,23 +1360,32 @@
                     <div class="dropdown-columns">
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Your Account</p>
-                            <a href="{{ route('dashboard') }}">Dashboard</a>
                             <a href="{{ route('dashboard.orders') }}">Your Orders</a>
                             <a href="{{ route('wishlist.index') }}">My Wishlist</a>
                             <a href="{{ route('my_puzzles') }}">My Puzzles</a>
+                            <a href="{{ route('customer_service') }}">Customer Service</a>
                         </div>
                         <div class="dropdown-col">
                             <p class="dropdown-col-title">Settings</p>
                             <a href="{{ route('loginSecurity') }}">Login &amp; Security</a>
                             <a href="{{ route('yourAddress') }}">Your Address</a>
-                            <a href="{{ route('customer_service') }}">Customer Service</a>
                         </div>
                         @if (auth()->user()->admin == 1)
-                            <div class="dropdown-col">
+                            <div class="dropdown-admin-wrapper">
                                 <p class="dropdown-col-title">Admin</p>
-                                <a href="{{ route('userManagement') }}">User Management</a>
-                                <a href="{{ route('admin.products.index') }}">Inventory</a>
-                                <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
+                                <div class="admin-links-grid">
+                                    <div class="admin-links-col">
+                                        <a href="{{ route('admin.orders.index') }}">Orders</a>
+                                        <a href="{{ route('userManagement') }}">Users</a>
+                                        <a href="{{ route('admin.products.index') }}">Inventory</a>
+                                        <a href="{{ route('admin.promotions.index') }}">Promotions</a>
+                                    </div>
+                                    <div class="admin-links-col">
+                                        <a href="{{ route('stock_analysis') }}">Stock Analysis</a>
+                                        <a href="{{ route('review_moderation') }}">Reviews</a>
+                                        <a href="{{ route('admin.customer_service') }}">Support Tickets</a>
+                                    </div>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -1332,6 +1471,17 @@
     </div>
 </nav>
 
+<!-- Desktop Category Banner -->
+<div class="desktop-category-banner">
+    <a href="{{ route('home') }}">Home</a>
+    <a href="{{ route('store.index') }}">All Products</a>
+    <a href="{{ route('store.index') }}?category=Twist">Twist Puzzles</a>
+    <a href="{{ route('store.index') }}?category=Jigsaw">Jigsaws</a>
+    <a href="{{ route('store.index') }}?category=Word%26Number">Word &amp; Number</a>
+    <a href="{{ route('store.index') }}?category=BoardGames">Board Games</a>
+    <a href="{{ route('store.index') }}?category=BrainTeasers">Brain Teasers</a>
+</div>
+
 <!-- Mobile Account Modal -->
 <div class="mobile-account-overlay" id="mobile-account-overlay">
     <div class="mobile-account-box">
@@ -1348,13 +1498,11 @@
             <div class="mobile-account-items">
                 <a href="{{ route('dashboard') }}" class="mobile-account-btn">Dashboard</a>
                 <button type="button" class="mobile-account-btn danger logout-trigger">Logout</button>
-                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
             </div>
         @else
             <div class="mobile-account-items">
                 <a href="{{ route('login') }}" class="mobile-account-btn">Login</a>
                 <a href="{{ route('register') }}" class="mobile-account-btn">Register</a>
-                <button class="mobile-account-btn" id="mobile-theme-bar">Toggle Theme</button>
             </div>
         @endauth
     </div>
@@ -1406,14 +1554,6 @@
 
     if (toggleBtn) {
         toggleBtn.addEventListener("click", () => {
-            setTheme(!body.classList.contains("dark-mode"));
-        });
-    }
-
-    // Mobile theme toggle (inside modal)
-    const mobileThemeToggle = document.getElementById('mobile-theme-bar');
-    if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('click', () => {
             setTheme(!body.classList.contains("dark-mode"));
         });
     }
@@ -1506,12 +1646,16 @@
         document.body.style.overflow = "";
     }
 
-    hamburgerBtn.addEventListener("click", () => {
-        categorySidebar.classList.contains("open") ? closeSidebar() : openSidebar();
-    });
+    if (hamburgerBtn) {
+        hamburgerBtn.addEventListener("click", () => {
+            if (window.innerWidth <= 768) {
+                categorySidebar.classList.contains("open") ? closeSidebar() : openSidebar();
+            }
+        });
+    }
 
-    sidebarClose.addEventListener("click", closeSidebar);
-    sidebarOverlay.addEventListener("click", closeSidebar);
+    if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
+    if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeSidebar();

@@ -16,7 +16,11 @@
             justify-content: space-between;
             height: 100%;
             position: relative;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            box-shadow: 6px 6px 0px var(--text);
         }
 
        
@@ -329,21 +333,24 @@
 
 <script>
     document.querySelectorAll('.product-card').forEach(function(card) {
+        let ticking = false;
+        let rx = 0, ry = 0;
+
         card.addEventListener('mousemove', function(e) {
             const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -8;
-            const rotateY = ((x - centerX) / centerX) * 8;
-            card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            card.style.boxShadow = '6px 6px 0px var(--text)';
+            ry = ((e.clientX - rect.left) / rect.width - 0.5) * 10;
+            rx = ((e.clientY - rect.top) / rect.height - 0.5) * -10;
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(function() {
+                    card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+                    ticking = false;
+                });
+            }
         });
 
         card.addEventListener('mouseleave', function() {
-            card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)';
-            card.style.boxShadow = '0px 0px 0px var(--text)';
+            card.style.transform = '';
         });
     });
 </script>

@@ -370,7 +370,7 @@
             revealElements.forEach(function(el) {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(80px)';
-                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                el.style.transition = 'opacity 0.8s ease, transform 0.8s ease, box-shadow 0.3s ease';
             });
 
             const observer = new IntersectionObserver(function(entries) {
@@ -379,6 +379,10 @@
                         entry.target.style.opacity = '1';
                         entry.target.style.transform = 'translateY(0)';
                         observer.unobserve(entry.target);
+                        // Restore original transitions after reveal
+                        setTimeout(function() {
+                            entry.target.style.transition = '';
+                        }, 800);
                     }
                 });
             }, { threshold: 0.15 });

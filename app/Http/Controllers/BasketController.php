@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use App\Models\BasketItem;
 use App\Models\Product;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class BasketController extends Controller
@@ -22,8 +23,61 @@ class BasketController extends Controller
             ->first();
 
         $basketItems = $basket ? $basket->items : collect();
+        $appliedPromo = session('promo');
 
-        return view('Frontend.basket', compact('basketItems'));
+        return view('Frontend.basket', compact('basketItems', 'appliedPromo'));
+    }
+
+    public function applyPromo(Request $request)
+    {
+        $request->validate(['code' => 'required|string|max:50']);
+
+        $promotion = Promotion::where('promotionCode', strtoupper(trim($request->code)))->first();
+
+        if (!$promotion) {
+            return response()->json(['success' => false, 'message' => 'Invalid promo code.']);
+        }
+
+        if ($promotion->discountType === 'fixed') {
+            $user = auth()->user();
+            $basket = Basket::with(['items.product'])
+                ->where('userID', $user->userID)
+                ->where('orderStatus', 'cart')
+                ->first();
+
+            $subtotal = $basket
+                ? $basket->items->sum(fn($item) => $item->product->productPrice * $item->quantity)
+                : 0;
+
+            $minimum = (float) $promotion->discountValue * 3;
+
+            if ($subtotal < $minimum) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You need at least £' . number_format($minimum, 2) . ' in your basket to use this code.',
+                ]);
+            }
+        }
+
+        session(['promo' => [
+            'id'    => $promotion->promotionID,
+            'code'  => $promotion->promotionCode,
+            'type'  => $promotion->discountType,
+            'value' => (float) $promotion->discountValue,
+        ]]);
+
+        return response()->json([
+            'success' => true,
+            'code'    => $promotion->promotionCode,
+            'type'    => $promotion->discountType,
+            'value'   => (float) $promotion->discountValue,
+        ]);
+    }
+
+    public function clearPromo()
+    {
+        session()->forget('promo');
+        return response()->json(['success' => true]);
     }
 
     public function add(Request $request)
