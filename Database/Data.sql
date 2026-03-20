@@ -382,9 +382,5 @@ ALTER TABLE `chat_conversations`
   ADD CONSTRAINT `fk_support_tickets_users_userID` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 
-  ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-  ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 

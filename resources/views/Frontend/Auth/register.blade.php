@@ -39,7 +39,8 @@
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" placeholder="user@logiq.com" value="{{ old('email') }}" required>
+                    <input type="email" name="email" placeholder="user@logiq.com" value="{{ old('email') }}"
+                        required>
                     @error('email')
                         <div class="error">{{ $message }}</div>
                     @enderror
@@ -68,7 +69,8 @@
                     <div class="password-wrapper">
                         <input type="password" name="password" id="password" placeholder="------" opacity="0.01"
                             required>
-                        <button type="button" class="password-toggle" onclick="togglePassword('password')">Show</button>
+                        <button type="button" class="password-toggle"
+                            onclick="togglePassword('password')">Show</button>
                     </div>
                     @error('password')
                         <div class="error">{{ $message }}</div>
@@ -99,7 +101,7 @@
 
     <script src="{{ asset('js/togglePassword.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const password = document.getElementById("password");
             const confirmPassword = document.getElementById("password_confirmation");
             const form = document.querySelector("form");
@@ -117,21 +119,22 @@
             confirmPassword.onkeyup = validatePassword;
 
             // Form submit password check
-            form.addEventListener('submit', function (event) {
+            form.addEventListener('submit', function(event) {
                 if (password.value !== confirmPassword.value) {
                     event.preventDefault();
                     alert("Passwords do not match!");
                 }
             });
 
-            // --- NEW: Prevent numbers in first and last name ---
+            // Prevent numbers in first and last name 
             const nameInputs = document.querySelectorAll('input[name="fname"], input[name="lname"]');
             nameInputs.forEach(input => {
-                input.addEventListener('input', function () {
+                input.addEventListener('input', function() {
                     this.value = this.value.replace(/[^A-Za-z\s'-]/g, '');
                 });
             });
         });
     </script>
 </body>
+
 </html>

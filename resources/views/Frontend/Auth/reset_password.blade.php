@@ -19,9 +19,9 @@
                 <p>Enter your new password below.</p>
             </div>
 
-            @if($errors->any())
+            @if ($errors->any())
                 <div class="alert alert-danger">
-                    @foreach($errors->all() as $error)
+                    @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
                 </div>
@@ -67,10 +67,10 @@
             }
 
             if (password.value === confirmPassword.value) {
-                message.textContent = "Passwords match ✅";
+                message.textContent = "Passwords match";
                 message.style.color = "green";
             } else {
-                message.textContent = "Passwords do not match ❌";
+                message.textContent = "Passwords do not match";
                 message.style.color = "red";
             }
         }
