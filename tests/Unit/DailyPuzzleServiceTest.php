@@ -63,4 +63,16 @@ class DailyPuzzleServiceTest extends TestCase
         $this->assertSame($expectedSeed, $puzzle['seed']);
     }
 
-    
+    // ─── Random Seed ──────────────────────────────────────────────────────────
+
+    /** @test */
+    public function same_day_always_produces_same_puzzle(): void
+    {
+        $puzzleOne = $this->service->getDailyPuzzle();
+        $puzzleTwo = $this->service->getDailyPuzzle();
+
+        $this->assertSame($puzzleOne['debug_answer'], $puzzleTwo['debug_answer']);
+        $this->assertSame($puzzleOne['sequence_string'], $puzzleTwo['sequence_string']);
+        $this->assertSame($puzzleOne['seed'], $puzzleTwo['seed']);
+    }
+}
