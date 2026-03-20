@@ -250,4 +250,147 @@ class AuthControllerTest extends TestCase
 
         $this->assertGuest();
     }
+    // -------------------------------------------------------------------------
+    // Password Reset — Send Link
+    // -------------------------------------------------------------------------
+
+    public function test_send_reset_link_succeeds_for_existing_email(): void
+    {
+        Notification::fake();
+
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->post(route('password.email'), ['email' => 'john@example.com'])
+            ->assertSessionHas('message');
+
+        Notification::assertSentTo($user, ResetPassword::class);
+    }
+
+    public function test_send_reset_link_fails_for_non_existent_email(): void
+    {
+        $this->post(route('password.email'), ['email' => 'nobody@example.com'])
+            ->assertSessionHasErrors('email');
+    }
+
+    public function test_send_reset_link_fails_with_invalid_email(): void
+    {
+        $this->post(route('password.email'), ['email' => 'not-an-email'])
+            ->assertSessionHasErrors('email');
+    }
+
+    // -------------------------------------------------------------------------
+    // Password Reset — Show Form
+    // -------------------------------------------------------------------------
+
+    public function test_reset_password_form_is_accessible_with_valid_token(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+        $token = Password::createToken($user);
+
+        $this->get(route('password.reset', ['token' => $token, 'email' => $user->email]))
+            ->assertStatus(200)
+            ->assertViewIs('Frontend.Auth.reset_password')
+            ->assertViewHas('token', $token)
+            ->assertViewHas('email', $user->email);
+    }
+
+    // -------------------------------------------------------------------------
+    // Password Reset — Reset Password
+    // -------------------------------------------------------------------------
+
+    public function test_user_can_reset_password_with_valid_token(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+        $token = Password::createToken($user);
+
+        $this->post(route('password.update'), [
+            'token' => $token,
+            'email' => $user->email,
+            'password' => 'newpassword123',
+            'password_confirmation' => 'newpassword123',
+        ])->assertRedirect('/login')
+          ->assertSessionHas('status');
+
+        $this->assertTrue(Hash::check('newpassword123', $user->fresh()->password));
+    }
+
+    public function test_password_reset_fails_with_invalid_token(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+
+        $this->post(route('password.update'), [
+            'token' => 'invalid-token',
+            'email' => $user->email,
+            'password' => 'newpassword123',
+            'password_confirmation' => 'newpassword123',
+        ])->assertSessionHasErrors('email');
+    }
+
+    public function test_password_reset_fails_when_passwords_do_not_match(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+        $token = Password::createToken($user);
+
+        $this->post(route('password.update'), [
+            'token' => $token,
+            'email' => $user->email,
+            'password' => 'newpassword123',
+            'password_confirmation' => 'different456',
+        ])->assertSessionHasErrors('password');
+    }
+
+    public function test_password_reset_fails_with_short_password(): void
+    {
+        $user = User::create([
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'email' => 'john@example.com',
+            'password' => Hash::make('password123'),
+            'admin' => false,
+        ]);
+        $token = Password::createToken($user);
+
+        $this->post(route('password.update'), [
+            'token' => $token,
+            'email' => $user->email,
+            'password' => '123',
+            'password_confirmation' => '123',
+        ])->assertSessionHasErrors('password');
+    }
+
+    public function test_password_reset_fails_with_missing_fields(): void
+    {
+        $this->post(route('password.update'), [])
+            ->assertSessionHasErrors(['token', 'email', 'password']);
+    }
 }
