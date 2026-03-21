@@ -39,8 +39,8 @@ class ChatController extends Controller
         $conversation = ChatConversation::query()->findOrFail($data['conversation_id']);
 
         $this->assertOwnsConversation($request, $conversation);
-
-        $ticket = SupportTicket::create([
+    }
+        /* $ticket = SupportTicket::create([
             'userID' => $request->user()?->getAuthIdentifier(),
             'guest_token' => $request->user() ? null : $request->cookie('chat_guest_token'),
             'conversationID' => $conversation->conversationID,
@@ -51,7 +51,7 @@ class ChatController extends Controller
 
         return ['ticket_id' => $ticket->ticketID, 'status' => $ticket->status];
     }
-
+*/
     private function resolveConversation(Request $request, ?int $conversationID): ChatConversation
     {
         if ($conversationID) {

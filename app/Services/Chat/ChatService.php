@@ -98,7 +98,10 @@ class ChatService
                 "- For order questions, call tools.",
                 "- If user requests a human, create a support ticket.",
                 "- Keep responses concise.",
-            ]),
+                "- For stock/availability questions, call stock tools and report stock_qty." .
+                "- Never guess stock numbers." .
+                "- If creating a ticket for a guest and name/email missing, ask for them then call create_contact_ticket again."
+                ]),
         ]];
 
         $dbMsgs = ChatMessage::query()
@@ -164,7 +167,62 @@ class ChatService
                     ],
                 ],
             ],
+        
+                        [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'get_product_stock_by_id',
+                    'description' => 'Return current stock quantity and status for a productID.',
+                    'parameters' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'product_id' => ['type' => 'integer'],
+                    ],
+                    'required' => ['product_id'],
+                    'additionalProperties' => false,
+                    ],
+                ],
+                
+                [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'search_product_stock',
+                    'description' => 'Search products by product name and return stock quantity/status for top matches.',
+                    'parameters' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'query' => ['type' => 'string'],
+                    ],
+                    'required' => ['query'],
+                    'additionalProperties' => false,
+                    ],
+                ],
+                ],
+                [
+                'type' => 'function',
+                'function' => [
+                    'name' => 'create_contact_ticket',
+                    'description' => 'Create a support ticket in the contact table (admin support UI reads this). For guests, name+email are required.',
+                    'parameters' => [
+                    'type' => 'object',
+                    'properties' => [
+                        'problem_category' => [
+                        'type' => 'string',
+                        'enum' => ['Delivery','Refund','Account','Payment','Other']
+                        ],
+                        'problem_description' => ['type' => 'string'],
+                        'order_number' => ['type' => 'string'],
+                        'name' => ['type' => 'string'],
+                        'email' => ['type' => 'string'],
+                    ],
+                    'required' => ['problem_category', 'problem_description'],
+                    'additionalProperties' => false,
+                    ],
+                ],
+]
+                        ]
         ];
+
     }
 
     private function runTool(string $name, array $args, ChatConversation $conversation, ?Authenticatable $user): array
@@ -183,6 +241,16 @@ class ChatService
                 (string)($args['summary'] ?? 'User requested support.')
             ),
             default => ['error' => 'Unknown tool'],
+        
+            'get_product_stock_by_id' => $this->tools->getProductStockById((int)$args['product_id']),
+            'search_product_stock' => $this->tools->searchProductStock((string)$args['query']),
+            'create_contact_ticket' => $this->tools->createContactTicket($conversation, $user,
+        (string)$args['problem_category'],
+        (string)$args['problem_description'],
+        isset($args['order_number']) ? (string)$args['order_number'] : null,
+        isset($args['name']) ? (string)$args['name'] : null,
+        isset($args['email']) ? (string)$args['email'] : null
+),
         };
     }
 
