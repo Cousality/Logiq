@@ -62,6 +62,18 @@ The project was developed as a team-based software engineering exercise, with em
 * MySQL
 * Apache (or XAMPP)
 
+## Setup Instructions 
+
+1. Download composer 
+2. Download Xampp
+3. Start Apache and MySQL 
+4. In my SQL Copy and paste the .SQL table and contents 
+5. Clone repository 
+6. In the terminal Write Composer Install 
+7. In the terminal Write php artisan serve
+
+## Project Images 
+
 ## Usage
 
 The homepage presents the daily logic challenge. Users can browse additional puzzles using the search feature. Authenticated users can login to access personalised features and interact with personal dashboards and to check orders.
