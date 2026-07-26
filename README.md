@@ -92,14 +92,6 @@ The homepage presents the daily logic challenge. Users can browse additional puz
 * Simple, distraction-free UI
 * Scalable foundation for adding new puzzle types and user features
 
-
-## Future Enhancements
-
-* Difficulty tiers and puzzle categorisation
-* User progress tracking
-* Leaderboards and achievements
-* REST API for mobile clients
-
 ## Contributors
 
 Developed collaboratively as part of a group software engineering project. Full team list available on GitHub.
