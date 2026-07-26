@@ -73,6 +73,12 @@ The project was developed as a team-based software engineering exercise, with em
 7. In the terminal Write php artisan serve
 
 ## Project Images 
+<img width="1918" height="991" alt="image" src="https://github.com/user-attachments/assets/d40c0f49-d25e-40c8-b7fb-62bfa58e2aa2" />
+<img width="1918" height="1000" alt="image" src="https://github.com/user-attachments/assets/c1527e66-d08a-4f09-a2fd-a9b6c69cf28c" />
+
+<img width="1858" height="952" alt="image" src="https://github.com/user-attachments/assets/8e94d930-300c-45dc-9c33-0749e9f0afcb" />
+<img width="1918" height="1000" alt="image" src="https://github.com/user-attachments/assets/6d75ae82-3456-4bda-b469-7bc13b8e07e5" />
+
 
 ## Usage
 
